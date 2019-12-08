@@ -39,7 +39,7 @@ The `cortex` package provides a command-line interface:
 
 ```sh
 $ python -m cortex
-<br/>Usage: cortex [OPTIONS] COMMAND [ARGS]...
+Usage: cortex [OPTIONS] COMMAND [ARGS]...
 
 Options:
   --version        Show the version and exit.
