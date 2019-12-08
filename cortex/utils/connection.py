@@ -1,7 +1,14 @@
+from struct import pack, unpack, calcsize
 import socket
 
 class Connection:
     NOT_ALL_DATA_RECEIVED_ERROR  =   'Error! not all data received'
+    
+    SERIALIZATION_ENDIANITY      = '<'
+
+    SERIALIZATION_HEADER         = 'I'
+    SERIALIZATION_PAYLOAD        = '{0}B'
+    SERIALIZATION_FORMAT         = SERIALIZATION_ENDIANITY + SERIALIZATION_HEADER + SERIALIZATION_PAYLOAD
     
     def __init__(self, sock):
         self.sock = sock
@@ -32,7 +39,8 @@ class Connection:
         
     def send(self, data):
         self.sock.sendall(data)
-
+        
+        
     def receive(self, size):
         from_client = b''
         remaining_to_recive = size    
@@ -47,4 +55,25 @@ class Connection:
     
     def close(self):
         self.sock.close()
+        
+    def send_message(self, data):
+        message_size     = len(data)        
+        message =                                                       \
+            pack(Connection.SERIALIZATION_FORMAT.format(message_size),  \
+                 message_size,                                          \
+                 data)            
+        self.send(message)
+
+    
+    def receive_message(self):
+        header_size                             = calcsize(Connection.SERIALIZATION_HEADER)
+        data_header                             = self.sock.recv(header_size)
+        
+        if data_header is None:
+            raise RuntimeError(Connection.NOT_ALL_DATA_RECEIVED_ERROR)
+        
+        message_size                            = \
+            unpack(Connection.SERIALIZATION_HEADER, data_header)
+
+        return self.receive(message_size)
         
