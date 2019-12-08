@@ -1,15 +1,13 @@
 from pathlib import Path
-import http.server
 from _datetime import datetime
 from flask import Flask
-from functools import partial 
 
 app = Flask(__name__)
 
 class CDataConverter():
     @staticmethod
-    def getBytesFromString(str, encoding = 'utf-8'):
-        return bytes(str.encode(encoding))
+    def getBytesFromString(data, encoding = 'utf-8'):
+        return bytes(data.encode(encoding))
 
 class CThoughtsFileSystem():  
     @staticmethod

@@ -1,5 +1,6 @@
 import time
-from .thought import *
+from datetime import datetime
+from .thought import Thought
 from .utils import Connection
 import socket
 

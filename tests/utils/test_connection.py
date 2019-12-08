@@ -3,7 +3,7 @@ import time
 
 import pytest
 
-from Cortex.utils import Connection
+from cortex.utils import Connection
 
 
 _PORT = 1234

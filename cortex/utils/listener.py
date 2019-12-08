@@ -1,4 +1,3 @@
-import socket
 from .connection import *
 
 class Listener:

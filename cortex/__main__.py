@@ -4,11 +4,10 @@ import traceback
 
 import click
 
-import Cortex
+import cortex
 
 
 class Log:
-
     def __init__(self):
         self.quiet = False
         self.traceback = False
@@ -24,7 +23,7 @@ class Log:
 log = Log()
 
 @click.group()
-@click.version_option(Cortex.version)
+@click.version_option(cortex.version)
 @click.option('-q', '--quiet', is_flag=True)
 @click.option('-t', '--traceback', is_flag=True)
 def main(quiet=False, traceback=False):
@@ -39,7 +38,7 @@ def run_server(address, data_dir):
     """
     Starts a server to which thoughts can be uploaded to with `upload_thought`
     """
-    log(Cortex.run_server(address, data_dir))
+    log(cortex.run_server(address, data_dir))
 
 # upload_thought(address, user_id, thought)
 @main.command()
@@ -50,7 +49,7 @@ def upload_thought(address, user_id, thought):
     """
     Sends to the server user's thought
     """
-    log(Cortex.upload_thought(address, user_id, thought))
+    log(cortex.upload_thought(address, user_id, thought))
 
 # run_webserver(address, data_dir)
 @main.command()
@@ -60,12 +59,12 @@ def run_webserver(address, data_dir):
     """
     Starts a server to which shows users thoughts
     """
-    log(Cortex.run_webserver(address, data_dir))
+    log(cortex.run_webserver(address, data_dir))
 
 
 if __name__ == '__main__':
     try:
-        main(prog_name='Cortex', obj={})
+        main(prog_name='cortex', obj={})
     except Exception as error:
         log(f'ERROR: {error}')
         sys.exit(1)

@@ -1,9 +1,8 @@
 import datetime as dt
-import struct
 
 import pytest
 
-from Cortex import Thought
+from cortex import Thought
 
 
 user_id = 1
@@ -11,7 +10,7 @@ datetime = dt.datetime(2000, 1, 1, 12, 0)
 thought = "I'm hungry"
 
 import time
-from struct import *
+from struct import pack, calcsize
 
 DATETIME_FORMAT                 = '%Y-%m-%d_%H:%M:%S'
     

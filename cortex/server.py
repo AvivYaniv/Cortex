@@ -1,10 +1,6 @@
 from pathlib import Path, PurePath
-import time
-import socket
 from .thought import Thought
 from .utils import Listener
-from datetime import datetime
-from struct import *
 
 import threading
         

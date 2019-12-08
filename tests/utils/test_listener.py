@@ -3,7 +3,7 @@ import time
 
 import pytest
 
-from Cortex.utils import Listener
+from cortex.utils import Listener
 
 
 _PORT = 1234

@@ -5,7 +5,7 @@ The `Cortex` package provides a command-line interface:
 
 .. code:: bash
 
-    $ python -m Cortex
+    $ python -m cortex
     ...
 
 The top-level options include:
@@ -24,7 +24,7 @@ To see its version, run:
 
 .. code:: bash
 
-    $ python -m Cortex --version
+    $ python -m cortex --version
     Cortex, version 0.1.0
     ...
     
@@ -34,7 +34,7 @@ The CLI provides the `run-server` command:
 
 .. code:: bash
 
-	    $ python -m Cortex run-server '127.0.0.1:8000' 'data'
+	    $ python -m cortex run-server '127.0.0.1:8000' 'data'
     ...
 
 The CLI further provides the `run-webserver` command:
@@ -43,7 +43,7 @@ The CLI further provides the `run-webserver` command:
 
 .. code:: bash
 
-    $ python -m Cortex run-webserver '127.0.0.1:8000' 'data'
+    $ python -m cortex run-webserver '127.0.0.1:8000' 'data'
     ...
 
 The CLI further provides the `upload-thought` command:
@@ -52,5 +52,5 @@ The CLI further provides the `upload-thought` command:
 
 .. code:: bash
 
-    $ python -m Cortex run-webserver '127.0.0.1:8000' 123 'sabich'
+    $ python -m cortex run-webserver '127.0.0.1:8000' 123 'sabich'
     ...
