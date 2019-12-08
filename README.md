@@ -4,7 +4,7 @@
 # Cortex
 
 Package for brain-comuter-interface, enabels to upload and view users thoughts. 
-<br/>See [full documentation](https://advancedsystemdesignproject.readthedocs.io/en/latest/).
+<br/>See [full documentation](https://braincomputerinterface.readthedocs.io/en/latest/).
 
 ## Installation
 
