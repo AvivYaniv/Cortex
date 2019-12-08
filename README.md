@@ -11,7 +11,7 @@ Package for brain-comuter-interface, enabels to upload and view users thoughts.
 1. Clone the repository and enter it:
 
     ```sh
-    $ git clone git@github.com:aviv-yaniv/Cortex.git
+    $ git clone git@github.com:AvivYaniv/Cortex.git
     ...
     $ cd Cortex/
     ```
@@ -35,11 +35,11 @@ Package for brain-comuter-interface, enabels to upload and view users thoughts.
 
 ## Usage
 
-The `Cortex` package provides a command-line interface:
+The `cortex` package provides a command-line interface:
 
 ```sh
-$ python -m Cortex
-<br/>Usage: Cortex [OPTIONS] COMMAND [ARGS]...
+$ python -m cortex
+<br/>Usage: cortex [OPTIONS] COMMAND [ARGS]...
 
 Options:
   --version        Show the version and exit.
@@ -64,7 +64,7 @@ The CLI provides the `run-server` command:
 	<br/>Usage: run-server [address] [data_dir]
 
 ```sh
-$ python -m Cortex run-server '127.0.0.1:8000' 'data'
+$ python -m cortex run-server '127.0.0.1:8000' 'data'
 
 ```
 
@@ -73,7 +73,7 @@ The CLI further provides the `run-webserver` command:
 	<br/>Usage: run-webserver [address] [data_dir]
 
 ```sh
-$ python -m Cortex run-webserver '127.0.0.1:8000' 'data'
+$ python -m cortex run-webserver '127.0.0.1:8000' 'data'
 
 ```
 
@@ -82,6 +82,6 @@ The CLI further provides the `upload-thought` command:
 	<br/>Usage: upload-thought [address] [user_id] [thought]
 
 ```sh
-$ python -m Cortex run-webserver '127.0.0.1:8000' 123 'sabich'
+$ python -m cortex run-webserver '127.0.0.1:8000' 123 'sabich'
 
 ```

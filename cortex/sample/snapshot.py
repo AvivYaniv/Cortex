@@ -10,6 +10,8 @@ class Snapshot:
     ERROR_DATA_INCOMPLETE   = 'incomplete data'
 
     DATETIME_FORMAT         = 'YYYY-mm-dd_HH-MM-SS-fffff'
+    CONCISE_DATE_FORMAT     = '%d %B, %Y'
+    CONCISE_HOUR_FORMAT     = '%H:%M:%S.%f'
 
     SERIALIZATION_ENDIANITY = '<'
 
@@ -28,6 +30,9 @@ class Snapshot:
          
     def __repr__(self):
         return f'Snapshot(datetime={datetime.strftime(self.datetime, Snapshot.DATETIME_FORMAT)}, translation={self.translation}, rotation={self.rotation}, color_image={self.color_image}, depth_image={self.depth_image})'
+    
+    def __str__(self):
+        return f'Snapshot from {datetime.strftime(self.datetime, Snapshot.CONCISE_DATE_FORMAT)} at {datetime.strftime(self.datetime, Snapshot.CONCISE_HOUR_FORMAT)} on {self.translation} / {self.rotation} with a {self.color_image} and a {self.depth_image}'
     
     def get_current_serialization_format(self):
         if not hasattr(self, '_current_serialization_format'):
@@ -73,9 +78,7 @@ class Snapshot:
             (t_x, t_y, t_z), (r_x, r_y, r_z, r_w)
         
         color_image                                         =   ColorImage.deserialize(stream=stream)  
-        color_image.save_image(str(timestamp)+'_color.png')      
         depth_image                                         =   DepthImage.deserialize(stream=stream)
-        depth_image.save_image(str(timestamp)+'_depth.png') 
         
         trailer_size                                        =   calcsize(Snapshot.SERIALIZATION_TRAILER)
         data_trailer                                        =   stream.read(trailer_size)

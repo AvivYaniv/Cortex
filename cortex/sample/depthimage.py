@@ -14,6 +14,9 @@ class DepthImage(SnapshotImage):
     def __repr__(self):
         return f'<Image: depth {self.height}x{self.width}>'
     
+    def __str__(self):
+        return f'{self.height}x{self.width} depth image'
+    
     def _parse_image(self):
         matplotlib.use('Agg')
         W = np.mat(self.image)

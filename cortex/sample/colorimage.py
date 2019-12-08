@@ -12,6 +12,9 @@ class ColorImage(SnapshotImage):
     def __repr__(self):
         return f'<Image: color {self.height}x{self.width}>'
     
+    def __str__(self):
+        return f'{self.height}x{self.width} color image'
+    
     def _parse_image(self):
         if (0 != len(self.image) % self.pixel_elements_count):
             raise RuntimeError(SnapshotImage.ERROR_DATA_INCOMPLETE)

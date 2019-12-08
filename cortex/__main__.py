@@ -29,6 +29,15 @@ log = Log()
 def main(quiet=False, traceback=False):
     log.quiet = quiet
     log.traceback = traceback
+    
+# run_server(address, data_dir)
+@main.command()
+@click.argument('file', type=str)
+def read(file):
+    """
+    Reads a sample file
+    """
+    log(cortex.read(file))
 
 # run_server(address, data_dir)
 @main.command()
