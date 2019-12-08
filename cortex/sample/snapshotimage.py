@@ -27,6 +27,7 @@ class SnapshotImage:
         if not hasattr(self, '_current_serialization_format'):
             image_size          = self.width * self.height
             pixel_array_size    = image_size * calcsize(self.pixel_serialization_format) * self.pixel_elements_count
+            
             # height         :    uint32
             # width          :    uint32
             # data           :    [array]

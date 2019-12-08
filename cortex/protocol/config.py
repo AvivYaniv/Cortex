@@ -1,0 +1,2 @@
+class ConfigMessage:
+    pass

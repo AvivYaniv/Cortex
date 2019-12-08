@@ -9,7 +9,6 @@ class Reader:
     
     @staticmethod
     def Read(stream):
-        print('DEBUG in stream read')
         generator = Sample.deserialize(stream=stream)
         
         user_information = generator.__next__()
