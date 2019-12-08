@@ -61,7 +61,7 @@ non-zero code).
 
 The CLI provides the `run-server` command:
 	This command starts a server to which thoughts can be uploaded to with the `upload_thought` command
-	<br/>Usage: run-server [address] [data_dir]
+	<br/> Usage: run-server [address] [data_dir]
 
 ```sh
 $ python -m cortex run-server '127.0.0.1:8000' 'data'
@@ -70,7 +70,7 @@ $ python -m cortex run-server '127.0.0.1:8000' 'data'
 
 The CLI further provides the `run-webserver` command:
 	This command starts a server to which shows users thoughts
-	<br/>Usage: run-webserver [address] [data_dir]
+	<br/> Usage: run-webserver [address] [data_dir]
 
 ```sh
 $ python -m cortex run-webserver '127.0.0.1:8000' 'data'
@@ -79,7 +79,7 @@ $ python -m cortex run-webserver '127.0.0.1:8000' 'data'
 
 The CLI further provides the `upload-thought` command:
 	This command sends to the server user's thought
-	<br/>Usage: upload-thought [address] [user_id] [thought]
+	<br/> Usage: upload-thought [address] [user_id] [thought]
 
 ```sh
 $ python -m cortex run-webserver '127.0.0.1:8000' 123 'sabich'
