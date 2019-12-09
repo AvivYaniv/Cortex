@@ -1,32 +1,26 @@
 from pathlib import Path, PurePath
-from .thought import Thought
+
+from .utils import Connection
+
+from .protocol import HelloMessage, ConfigMessage, SnapshotMessage
+
+from .sample import Snapshot
+
 from .utils import Listener
 
 import threading
         
-class CConnectionReciver:
-    def __init__(self, connection):
-        self.connection = connection
-    
-    def recive_data(self, is_close_after, amount):
-        from_client = self.connection.receive(amount)
-        if is_close_after:         
-            self.connection.close()          
-        return from_client           
+SUPPORTED_FIELDS = ['datetime', 'translation', 'rotation', 'color_image', 'depth_image', 'user_feeling']
         
-class CHandler(threading.Thread):
+class Handler(threading.Thread):
     lock       = threading.Lock()
     def __init__(self, connection, data_dir):    
         super().__init__()
         self.connection = connection    
-        self.reciver    = CConnectionReciver(connection)
         self.data_dir   = data_dir
 
     def recive_thought_header(self):
-        return self.reciver.recive_data(False, Thought.HEADER_SIZE)
-        
-    def recive_thought_data(self, thought_size):
-        return self.reciver.recive_data(True, thought_size)
+        return self.connection.
     
     def write_append_file(self, file_path, data_line):        
         self.lock.acquire()
@@ -42,13 +36,13 @@ class CHandler(threading.Thread):
             self.lock.release()
         
     @staticmethod
-    def toSafeFileName(str):
-        return str.replace(":", "-")
+    def toSafeFileName(file_name):
+        return file_name.replace(":", "-")
         
     def write_user_thought(self, datetime_formatted, user_id_number, thought_data):
         # Creating path
         user_dir        = str(user_id_number)
-        thought_file    = CHandler.toSafeFileName(datetime_formatted) + '.txt'
+        thought_file    = Handler.toSafeFileName(datetime_formatted) + '.txt'
         
         thought_file_dir = PurePath(self.data_dir, user_dir)
         
@@ -60,45 +54,30 @@ class CHandler(threading.Thread):
         self.write_append_file(thought_file_path, thought_data)
     
     def run(self): # start invokes run  		
-        # Recive Cortex header from client
-        thought_header                                      = self.recive_thought_header()
+        # Receive hello message
+        hello_message = HelloMessage.deserialize(self.connection.receive_message())
+        # Send config message
+        config_message = ConfigMessage(*SUPPORTED_FIELDS) 
+        self.connection.send_message(config_message)
+        # Receive snapshot messeges
+        while True:
+            try:
+                snapshot_message = SnapshotMessage.deserialize(self.connection.receive_message())
+                # TODO HANDLE
+            except EOFError:            
+                break
 
-        # Parsing Cortex
-        (datetime_raw, user_id_number, thought_size)        = Thought.parse_thought_header(thought_header)
-
-        # Recive Cortex data from client
-        raw_thought_data                                    = self.recive_thought_data(thought_size)
-        
-        actual_thought_data_size                            = len(raw_thought_data)
-        
-        # If Cortex data dosen't match Cortex size 
-        if (actual_thought_data_size != thought_size):
-            raise RuntimeError(Thought.ERROR_DATA_INCOMPLETE)
-        
-        # Parse Cortex data
-        parsed_thought_data                                 = Thought.parse_thought_data(raw_thought_data)
-        
-        datetime_formatted                                  = datetime_raw.strftime(Thought.DATETIME_FORMAT)
-        
-        # Writing user Cortex to disk
-        self.write_user_thought(datetime_formatted, user_id_number, parsed_thought_data)
-
-
-def run_server(address, data_dir):
-    """Starts a server to which thoughts can be uploaded to with `upload_thought`"""  
+def run_server(address, data_dir='data'):
+    """Starts a server to which snapshots can be uploaded with `upload_sample`"""  
 	# Parse server address
     server_ip_str, server_port_str  = address.split(":")
     server_port_int                 = int(server_port_str)
     
-    listener = Listener(server_port_int, server_ip_str)
-    listener.start()
-	
-    while True:
-    	# Accept client		
-    	connection = listener.accept()  
-    	
-    	# Initialize client CHandler
-    	handler = CHandler(connection, data_dir)    
-    	
-    	# Handle client
-    	handler.start()
+    with Listener(server_port_int, server_ip_str) as listener:
+    	# Accept client        
+        connection = listener.accept()        
+        # Initialize client Handler
+        handler = Handler(connection, data_dir)        
+        # Handle client
+        handler.start()
+        

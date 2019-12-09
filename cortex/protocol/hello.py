@@ -57,14 +57,14 @@ class HelloMessage:
                  self.gender)
     
     @staticmethod
-    def deserialize(*, stream):
+    def deserialize(data):
         user_id, username_size                          = \
-            Serialization.deserialize(stream, HelloMessage.SERIALIZATION_HEADER)
+            Serialization.deserialize(data, HelloMessage.SERIALIZATION_HEADER)
         
         CURRENT_USER_PAYLOAD_FORMAT                     = HelloMessage.SERIALIZATION_PAYLOAD.format(username_size)
         
         username, birth_date, gender                    = \
-            Serialization.deserialize(stream, CURRENT_USER_PAYLOAD_FORMAT)
+            Serialization.deserialize(data, CURRENT_USER_PAYLOAD_FORMAT)
         
         return HelloMessage(user_id, username, datetime.fromtimestamp(birth_date), gender)
     

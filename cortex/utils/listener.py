@@ -1,4 +1,4 @@
-from .connection import *
+from .connection import Connection
 
 class Listener:
     DEFAULT_HOST    = '0.0.0.0'

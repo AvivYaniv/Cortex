@@ -48,18 +48,18 @@ class ConfigMessage:
         return pack(args_list)
     
     @staticmethod
-    def deserialize(*, stream):
+    def deserialize(data):
         fields_number                                       = \
-            Serialization.deserialize(stream, ConfigMessage.SERIALIZATION_HEADER)
+            Serialization.deserialize(data, ConfigMessage.SERIALIZATION_HEADER)
         
         fields = []
         
         for field_index in range(fields_number):
             field_size                                      = \
-                Serialization.deserialize(stream, ConfigMessage.SERIALIZATION_FIELD_HEADER)
+                Serialization.deserialize(data, ConfigMessage.SERIALIZATION_FIELD_HEADER)
             FIELD_PAYLOAD_FORMAT                            = ConfigMessage.SERIALIZATION_FIELD_PAYLOAD.format(field_size)
             field                                           = \
-                Serialization.deserialize(stream, FIELD_PAYLOAD_FORMAT)
+                Serialization.deserialize(data, FIELD_PAYLOAD_FORMAT)
             fields.append(field)
         
         return ConfigMessage(*fields)

@@ -70,7 +70,7 @@ class Connection:
         data_header                             = self.sock.recv(header_size)
         
         if data_header is None:
-            raise RuntimeError(Connection.NOT_ALL_DATA_RECEIVED_ERROR)
+            raise EOFError(Connection.NOT_ALL_DATA_RECEIVED_ERROR)
         
         message_size                            = \
             unpack(Connection.SERIALIZATION_HEADER, data_header)
