@@ -8,7 +8,7 @@ class DepthImage(SnapshotImage):
     PIXEL_SERIALIZATION_FORMAT = 'f'
     PIXEL_ELEMENTS_COUNT       = 1
     
-    def __init__(self, height, width, image):
+    def __init__(self, height=0, width=0, image=[]):
         super().__init__(height, width, image, DepthImage.PIXEL_SERIALIZATION_FORMAT, DepthImage.PIXEL_ELEMENTS_COUNT)
          
     def __repr__(self):

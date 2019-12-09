@@ -27,5 +27,6 @@ class Sample:
                 snapshot    = Snapshot.deserialize(stream=stream)
                 yield snapshot
             except EOFError:
+                stream.close()
                 break 
     

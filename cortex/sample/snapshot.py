@@ -65,29 +65,21 @@ class Snapshot:
     
     @staticmethod
     def deserialize(*, stream):
-        header_size                                         =   calcsize(Snapshot.SERIALIZATION_HEADER)
-        data_header                                         =   stream.read(header_size)
-        
-        if data_header is None:
-            raise EOFError()
-        
-        timestamp, t_x, t_y, t_z, r_x, r_y, r_z, r_w    =   \
-            unpack(Snapshot.SERIALIZATION_HEADER, data_header)
+        timestamp, t_x, t_y, t_z, r_x, r_y, r_z, r_w        =   \
+            Serialization.deserialize(stream, Snapshot.SERIALIZATION_HEADER, expect_eof=True)
         
         translation, rotation                               =   \
             (t_x, t_y, t_z), (r_x, r_y, r_z, r_w)
         
-        color_image                                         =   ColorImage.deserialize(stream=stream)  
+        color_image                                         =   ColorImage.deserialize(stream=stream)
+        # TODO DEBUG REMOVE
+        # color_image.save_image(str(timestamp)+'_color_image.png')  
         depth_image                                         =   DepthImage.deserialize(stream=stream)
+        # TODO DEBUG REMOVE
+        # depth_image.save_image(str(timestamp)+'_depth_image.png')
         
-        trailer_size                                        =   calcsize(Snapshot.SERIALIZATION_TRAILER)
-        data_trailer                                        =   stream.read(trailer_size)
-         
-        if data_trailer is None:
-            raise RuntimeError(Snapshot.ERROR_DATA_INCOMPLETE)
-         
         (hunger, thirst, exhaustion, happiness)             =   \
-            unpack(Snapshot.SERIALIZATION_ENDIANITY + Snapshot.SERIALIZATION_TRAILER, data_trailer)
+            Serialization.deserialize(stream, Snapshot.SERIALIZATION_TRAILER)
          
         user_feeling                                        =   \
             (hunger, thirst, exhaustion, happiness)

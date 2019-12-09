@@ -1,4 +1,7 @@
+from PIL import Image
 from struct import pack, unpack, calcsize
+
+from .serialization import Serialization
 
 class SnapshotImage:
     ERROR_DATA_INCOMPLETE        = 'incomplete data'
@@ -41,6 +44,13 @@ class SnapshotImage:
         return self._serialization_size
     
     def serialize(self):
+        # If image is empty
+        if not self.image:
+            return                                              \
+                pack(self.get_current_serialization_format(),   \
+                     self.height,                               \
+                     self.width)
+        # Image is non-empty
         return                                              \
             pack(self.get_current_serialization_format(),   \
                  self.height,                               \
@@ -49,27 +59,17 @@ class SnapshotImage:
     
     @staticmethod
     def deserialize(*, stream, pixel_serialization_format, pixel_elements_count):
-        header_size                             = calcsize(SnapshotImage.SERIALIZATION_HEADER)
-        data_header                             = stream.read(header_size)
+        width, height                               = \
+            Serialization.deserialize(stream, SnapshotImage.SERIALIZATION_HEADER)
         
-        if data_header is None:
-            raise RuntimeError(SnapshotImage.ERROR_DATA_INCOMPLETE)
+        image_size                                  = height * width
+        pixel_array_size                            = image_size * pixel_elements_count
         
-        width, height                           = \
-            unpack(SnapshotImage.SERIALIZATION_HEADER, data_header)
-
-        image_size                              = height * width
-        pixel_array_size                        = image_size * pixel_elements_count
-
-        SERIALIZATION_PAYLOAD_FORMAT            = (SnapshotImage.SERIALIZATION_ENDIANITY + '{0}' + pixel_serialization_format).format(pixel_array_size)
-        
-        payload_size                            = calcsize(SERIALIZATION_PAYLOAD_FORMAT)
-        data_payload                            = stream.read(payload_size) 
-        
-        if data_payload is None:
-            raise RuntimeError(SnapshotImage.ERROR_DATA_INCOMPLETE)
-        
-        image                                   = unpack(SERIALIZATION_PAYLOAD_FORMAT, data_payload)
+        image = []
+        if 0 != pixel_array_size:
+            SERIALIZATION_PAYLOAD_FORMAT            = ('{0}' + pixel_serialization_format).format(pixel_array_size)
+            image                                   = \
+                Serialization.deserialize(stream, SERIALIZATION_PAYLOAD_FORMAT)
         
         return SnapshotImage(height, width, image, pixel_serialization_format, pixel_elements_count)
     

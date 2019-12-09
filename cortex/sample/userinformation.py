@@ -2,6 +2,8 @@ import time
 from struct import pack, unpack, calcsize
 from datetime import datetime
 
+from .serialization import Serialization
+
 class UserInformation:
     ERROR_DATA_INCOMPLETE   = 'incomplete data'
 
@@ -51,31 +53,20 @@ class UserInformation:
         return                                              \
             pack(self.get_current_serialization_format(),   \
                  self.user_id,                              \
-                 username_size,                                 \
-                 self.username,                                 \
+                 username_size,                             \
+                 self.username,                             \
                  birth_date_as_number,                      \
                  self.gender)
     
     @staticmethod
     def deserialize(*, stream):
-        header_size                                    = calcsize(UserInformation.SERIALIZATION_HEADER)
-        data_header                                    = stream.read(header_size)
+        user_id, username_size                          = \
+            Serialization.deserialize(stream, UserInformation.SERIALIZATION_HEADER)
         
-        if data_header is None:
-            raise RuntimeError(UserInformation.ERROR_DATA_INCOMPLETE)
+        CURRENT_USER_PAYLOAD_FORMAT                     = UserInformation.SERIALIZATION_PAYLOAD.format(username_size)
         
-        user_id, username_size = \
-            unpack(UserInformation.SERIALIZATION_HEADER, data_header)
-        
-        CURRENT_USER_PAYLOAD_FORMAT                    = (UserInformation.SERIALIZATION_ENDIANITY + UserInformation.SERIALIZATION_PAYLOAD).format(username_size)
-        
-        payload_size                                   = calcsize(CURRENT_USER_PAYLOAD_FORMAT)
-        data_payload                                   = stream.read(payload_size)        
-        
-        if data_payload is None:
-            raise RuntimeError(UserInformation.ERROR_DATA_INCOMPLETE)
-        
-        username, birth_date, gender                   = unpack(CURRENT_USER_PAYLOAD_FORMAT, data_payload)
+        username, birth_date, gender                    = \
+            Serialization.deserialize(stream, CURRENT_USER_PAYLOAD_FORMAT)
         
         return UserInformation(user_id, username, datetime.fromtimestamp(birth_date), gender)
     

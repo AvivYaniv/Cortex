@@ -6,7 +6,7 @@ class ColorImage(SnapshotImage):
     PIXEL_SERIALIZATION_FORMAT = 'B'
     PIXEL_ELEMENTS_COUNT       = 3
     
-    def __init__(self, height, width, image):
+    def __init__(self, height=0, width=0, image=[]):
         super().__init__(height, width, image, ColorImage.PIXEL_SERIALIZATION_FORMAT, ColorImage.PIXEL_ELEMENTS_COUNT)
          
     def __repr__(self):
@@ -39,6 +39,7 @@ class ColorImage(SnapshotImage):
                                 pixel_serialization_format=ColorImage.PIXEL_SERIALIZATION_FORMAT,   \
                                 pixel_elements_count=ColorImage.PIXEL_ELEMENTS_COUNT)
         
+        # TODO: Due to bug in hardware these are swapped during serialization 
         image.height, image.width = image.width, image.height 
         
         image.__class__ = ColorImage        
