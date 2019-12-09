@@ -1,27 +1,35 @@
+from struct import pack, calcsize
+
+from ..utils import Serialization
+
 class ConfigMessage:
     SERIALIZATION_ENDIANITY = '<'
 
-    SERIALIZATION_HEADER    = 'I'
-    SERIALIZATION_FIELD     = 'I{0}s'
-    SERIALIZATION_FORMAT    = SERIALIZATION_ENDIANITY + SERIALIZATION_HEADER + SERIALIZATION_PAYLOAD
+    SERIALIZATION_HEADER        = 'I'
+    SERIALIZATION_FIELD_HEADER  = 'I'
+    SERIALIZATION_FIELD_PAYLOAD = '{0}s'
     
     def __init__(self, *args):
         self.fields_number  = len(args)
         self.fields         = args
          
     def __repr__(self):
-        return f'ConfigMessage(fields_number={self.fields_number}, fields={self.username}, birth_date={datetime.strftime(self.birth_date, UserInformation.DATETIME_FORMAT)}, gender={self.gender})'
+        return f'ConfigMessage(fields_number={self.fields_number}, fields={self.fields})'
     
+    def __str__(self):
+        return f'Fields={self.fields}'
     
     def get_current_serialization_format(self):
         if not hasattr(self, '_current_serialization_format'):        
-            username_size = len(self.username)
-            
-            # user_id        :    uint64
-            # username       :    uint32 + string of <username_size> length
-            # birth_date     :    uint32
-            # gender         :    char
-            self._current_serialization_format = UserInformation.SERIALIZATION_FORMAT.format(username_size)
+            # fields_number  :    uint32
+            # <list> :            
+            #     field_size :    uint32
+            #     field      :    char[]
+            self._current_serialization_format = ConfigMessage.SERIALIZATION_ENDIANITY + ConfigMessage.SERIALIZATION_HEADER
+            for field_index in range(self.fields_number):
+                field=self.fields[field_index]
+                self._current_serialization_format += ConfigMessage.SERIALIZATION_FIELD_HEADER
+                self._current_serialization_format += ConfigMessage.SERIALIZATION_FIELD_PAYLOAD.format(len(field))
         return self._current_serialization_format
     
     def get_serialization_size(self):
@@ -30,37 +38,30 @@ class ConfigMessage:
         return self._serialization_size
     
     def serialize(self):
-        username_size                   = len(self.username)
-        birth_date_as_number            = int(time.mktime(self.birth_date.timetuple()))
-       
-        return                                              \
-            pack(self.get_current_serialization_format(),   \
-                 self.user_id,                              \
-                 username_size,                                 \
-                 self.username,                                 \
-                 birth_date_as_number,                      \
-                 self.gender)
+        args_list = []
+        args_list.append(self.get_current_serialization_format())
+        args_list.append(self.fields_number)
+        for field_index in range(self.fields_number):
+            field=self.fields[field_index]
+            args_list.append(len(field))
+            args_list.append(field)
+        return pack(args_list)
     
     @staticmethod
     def deserialize(*, stream):
-        header_size                                    = calcsize(UserInformation.SERIALIZATION_HEADER)
-        data_header                                    = stream.read(header_size)
+        fields_number                                       = \
+            Serialization.deserialize(stream, ConfigMessage.SERIALIZATION_HEADER)
         
-        if data_header is None:
-            raise RuntimeError(UserInformation.ERROR_DATA_INCOMPLETE)
+        fields = []
         
-        user_id, username_size = \
-            unpack(UserInformation.SERIALIZATION_HEADER, data_header)
+        for field_index in range(fields_number):
+            field_size                                      = \
+                Serialization.deserialize(stream, ConfigMessage.SERIALIZATION_FIELD_HEADER)
+            FIELD_PAYLOAD_FORMAT                            = ConfigMessage.SERIALIZATION_FIELD_PAYLOAD.format(field_size)
+            field                                           = \
+                Serialization.deserialize(stream, FIELD_PAYLOAD_FORMAT)
+            fields.append(field)
         
-        CURRENT_USER_PAYLOAD_FORMAT                    = (UserInformation.SERIALIZATION_ENDIANITY + UserInformation.SERIALIZATION_PAYLOAD).format(username_size)
-        
-        payload_size                                   = calcsize(CURRENT_USER_PAYLOAD_FORMAT)
-        data_payload                                   = stream.read(payload_size)        
-        
-        if data_payload is None:
-            raise RuntimeError(UserInformation.ERROR_DATA_INCOMPLETE)
-        
-        username, birth_date, gender                   = unpack(CURRENT_USER_PAYLOAD_FORMAT, data_payload)
-        
-        return UserInformation(user_id, username, datetime.fromtimestamp(birth_date), gender)
+        return ConfigMessage(*fields)
+    
     

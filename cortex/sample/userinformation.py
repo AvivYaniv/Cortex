@@ -1,8 +1,8 @@
 import time
-from struct import pack, unpack, calcsize
+from struct import pack, calcsize
 from datetime import datetime
 
-from .serialization import Serialization
+from ..utils import Serialization
 
 class UserInformation:
     ERROR_DATA_INCOMPLETE   = 'incomplete data'

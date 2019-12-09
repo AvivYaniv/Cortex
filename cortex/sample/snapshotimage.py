@@ -1,7 +1,6 @@
-from PIL import Image
-from struct import pack, unpack, calcsize
+from struct import pack, calcsize
 
-from .serialization import Serialization
+from ..utils import Serialization
 
 class SnapshotImage:
     ERROR_DATA_INCOMPLETE        = 'incomplete data'

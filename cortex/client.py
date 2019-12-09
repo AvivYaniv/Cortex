@@ -12,7 +12,7 @@ def upload_thought(address, user_id, thought):
 	
 	thought_object                  = Thought(user_id, datetime.fromtimestamp(int(time.time())), thought)
 	
-	# Pack Cortex
+	# Pack thought
 	packed_thought = thought_object.serialize()
 	
 	# Connect and sent to server

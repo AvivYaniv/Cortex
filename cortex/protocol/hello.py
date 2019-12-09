@@ -1,10 +1,10 @@
 import time
-from struct import pack, unpack, calcsize
+from struct import pack, calcsize
 from datetime import datetime
 
-class HelloMessage:
-    ERROR_DATA_INCOMPLETE   = 'incomplete data'
+from ..utils import Serialization
 
+class HelloMessage:
     DATETIME_FORMAT         = '%Y-%m-%d_%H:%M:%S'
     CONCISE_DATE_FORMAT     = '%d %B, %Y'
 
@@ -58,24 +58,14 @@ class HelloMessage:
     
     @staticmethod
     def deserialize(*, stream):
-        header_size                                    = calcsize(HelloMessage.SERIALIZATION_HEADER)
-        data_header                                    = stream.read(header_size)
+        user_id, username_size                          = \
+            Serialization.deserialize(stream, HelloMessage.SERIALIZATION_HEADER)
         
-        if data_header is None:
-            raise RuntimeError(HelloMessage.ERROR_DATA_INCOMPLETE)
+        CURRENT_USER_PAYLOAD_FORMAT                     = HelloMessage.SERIALIZATION_PAYLOAD.format(username_size)
         
-        user_id, username_size = \
-            unpack(HelloMessage.SERIALIZATION_HEADER, data_header)
-        
-        CURRENT_USER_PAYLOAD_FORMAT                    = (HelloMessage.SERIALIZATION_ENDIANITY + HelloMessage.SERIALIZATION_PAYLOAD).format(username_size)
-        
-        payload_size                                   = calcsize(CURRENT_USER_PAYLOAD_FORMAT)
-        data_payload                                   = stream.read(payload_size)        
-        
-        if data_payload is None:
-            raise RuntimeError(HelloMessage.ERROR_DATA_INCOMPLETE)
-        
-        username, birth_date, gender                   = unpack(CURRENT_USER_PAYLOAD_FORMAT, data_payload)
+        username, birth_date, gender                    = \
+            Serialization.deserialize(stream, CURRENT_USER_PAYLOAD_FORMAT)
         
         return HelloMessage(user_id, username, datetime.fromtimestamp(birth_date), gender)
+    
     
