@@ -18,13 +18,13 @@ class Sample:
         return serialized
     
     @staticmethod
-    def deserialize(*, stream):
-        user_information    = UserInformation.deserialize(stream=stream)
+    def read(stream):
+        user_information    = UserInformation.read(stream=stream)
         yield user_information
         
         while True:
             try:
-                snapshot    = Snapshot.deserialize(stream=stream)
+                snapshot    = Snapshot.read(stream=stream)
                 yield snapshot
             except EOFError:
                 stream.close()

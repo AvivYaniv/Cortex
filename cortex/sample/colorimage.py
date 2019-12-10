@@ -32,9 +32,9 @@ class ColorImage(SnapshotImage):
         self._image_file.save(file_name)
 
     @staticmethod
-    def deserialize(*, stream):
+    def read(*, stream):
         image =                                                                                     \
-            SnapshotImage.deserialize(                                                              \
+            SnapshotImage.read(                                                                     \
                                 stream=stream,                                                      \
                                 pixel_serialization_format=ColorImage.PIXEL_SERIALIZATION_FORMAT,   \
                                 pixel_elements_count=ColorImage.PIXEL_ELEMENTS_COUNT)

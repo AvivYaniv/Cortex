@@ -13,15 +13,24 @@ class Serialization:
         return data[1:] 
     
     @staticmethod
-    def deserialize(stream, serialization_format, endianity = '<', expect_eof = False):
-        data_size                                           =   calcsize(endianity + serialization_format)
-        data                                                =   stream.read(data_size)
-        
-        if not data:
+    def deserialize(arr, serialization_format, offset, endianity = '<', expect_eof = False):
+        serialization_size   =   calcsize(endianity + serialization_format)        
+        if (len(arr) - offset) < serialization_size:
             if expect_eof:
                 raise EOFError()
             else:
                 raise RuntimeError(Serialization.ERROR_DATA_INCOMPLETE)
-         
-        return unpack(endianity + serialization_format, data)
+        serialized          =   arr[offset:serialization_size+offset]
+        return unpack(endianity + serialization_format, serialized)
+    
+    @staticmethod
+    def read(stream, serialization_format, endianity = '<', expect_eof = False):
+        serialization_size  =   calcsize(endianity + serialization_format)        
+        serialized          =   stream.read(serialization_size)            
+        if not serialized:
+            if expect_eof:
+                raise EOFError()
+            else:
+                raise RuntimeError(Serialization.ERROR_DATA_INCOMPLETE)
+        return unpack(endianity + serialization_format, serialized)
     

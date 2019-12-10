@@ -21,6 +21,6 @@ class SnapshotMessage:
         return self.snapshot.serialize()
     
     @staticmethod
-    def deserialize(data):
-        return Snapshot.deserialize(io.BytesIO(data))
+    def read(data):
+        return Snapshot.read(io.BytesIO(data))
     

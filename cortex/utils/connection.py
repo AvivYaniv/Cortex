@@ -7,7 +7,7 @@ class Connection:
     SERIALIZATION_ENDIANITY      = '<'
 
     SERIALIZATION_HEADER         = 'I'
-    SERIALIZATION_PAYLOAD        = '{0}B'
+    SERIALIZATION_PAYLOAD        = '{0}s'
     SERIALIZATION_FORMAT         = SERIALIZATION_ENDIANITY + SERIALIZATION_HEADER + SERIALIZATION_PAYLOAD
     
     def __init__(self, sock):
@@ -73,7 +73,7 @@ class Connection:
             raise EOFError(Connection.NOT_ALL_DATA_RECEIVED_ERROR)
         
         message_size                            = \
-            unpack(Connection.SERIALIZATION_HEADER, data_header)
+            unpack(Connection.SERIALIZATION_HEADER, data_header)[0]
 
         return self.receive(message_size)
         

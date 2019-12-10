@@ -20,9 +20,9 @@ class UserInformation:
     
     def __init__(self, user_id, username, birth_date, gender):
         self.user_id        = user_id
-        self.username       = username.decode('utf-8')
+        self.username       = username if isinstance(username, str) else username.decode('utf-8')
         self.birth_date     = birth_date
-        self.gender         = gender.decode('utf-8')
+        self.gender         = gender if isinstance(gender, str) else gender.decode('utf-8')
          
     def __repr__(self):
         return f'UserInformation(user_id={self.user_id}, username={self.username}, birth_date={datetime.strftime(self.birth_date, UserInformation.DATETIME_FORMAT)}, gender={self.gender})'
@@ -54,19 +54,19 @@ class UserInformation:
             pack(self.get_current_serialization_format(),   \
                  self.user_id,                              \
                  username_size,                             \
-                 self.username,                             \
+                 self.username.encode('utf-8'),             \
                  birth_date_as_number,                      \
-                 self.gender)
+                 self.gender.encode('utf-8'))
     
     @staticmethod
-    def deserialize(*, stream):
+    def read(stream):
         user_id, username_size                          = \
-            Serialization.deserialize(stream, UserInformation.SERIALIZATION_HEADER)
+            Serialization.read(stream, UserInformation.SERIALIZATION_HEADER)
         
         CURRENT_USER_PAYLOAD_FORMAT                     = UserInformation.SERIALIZATION_PAYLOAD.format(username_size)
         
         username, birth_date, gender                    = \
-            Serialization.deserialize(stream, CURRENT_USER_PAYLOAD_FORMAT)
+            Serialization.read(stream, CURRENT_USER_PAYLOAD_FORMAT)
         
         return UserInformation(user_id, username, datetime.fromtimestamp(birth_date), gender)
     

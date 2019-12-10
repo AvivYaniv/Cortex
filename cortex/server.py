@@ -18,9 +18,6 @@ class Handler(threading.Thread):
         super().__init__()
         self.connection = connection    
         self.data_dir   = data_dir
-
-    def recive_thought_header(self):
-        return self.connection.
     
     def write_append_file(self, file_path, data_line):        
         self.lock.acquire()
@@ -55,14 +52,17 @@ class Handler(threading.Thread):
     
     def run(self): # start invokes run  		
         # Receive hello message
-        hello_message = HelloMessage.deserialize(self.connection.receive_message())
+        hello_message = HelloMessage.read(self.connection.receive_message())
         # Send config message
         config_message = ConfigMessage(*SUPPORTED_FIELDS) 
-        self.connection.send_message(config_message)
+        self.connection.send_message(config_message.serialize())
         # Receive snapshot messeges
         while True:
             try:
-                snapshot_message = SnapshotMessage.deserialize(self.connection.receive_message())
+                try:
+                    snapshot_message = SnapshotMessage.read(self.connection.receive_message())
+                except Exception as e:
+                    print(str(e))                
                 # TODO HANDLE
             except EOFError:            
                 break
@@ -80,4 +80,4 @@ def run_server(address, data_dir='data'):
         handler = Handler(connection, data_dir)        
         # Handle client
         handler.start()
-        
+            

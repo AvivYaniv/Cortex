@@ -1,5 +1,6 @@
-from struct import pack, calcsize
 from datetime import datetime
+from struct import pack, calcsize
+import time
 
 from ..utils import Serialization
 
@@ -16,9 +17,7 @@ class Snapshot:
     SERIALIZATION_ENDIANITY = '<'
 
     SERIALIZATION_HEADER    = 'Qddddddd'
-    SERIALIZATION_BODY      = '{0}{1}'
     SERIALIZATION_TRAILER   = 'ffff'
-    SERIALIZATION_FORMAT    = SERIALIZATION_ENDIANITY + SERIALIZATION_HEADER + SERIALIZATION_BODY + SERIALIZATION_TRAILER
     
     def __init__(self, datetime, translation, rotation, color_image, depth_image, user_feeling):
         self.datetime       = datetime
@@ -54,32 +53,40 @@ class Snapshot:
         return self._serialization_size
     
     def serialize(self):
-        return                                              \
-            pack(self.get_current_serialization_format(),   \
-                 self.datetime,                             \
-                 self.translation,                          \
-                 self.rotation,                             \
-                 self.color_image.serialize(),              \
-                 self.depth_image.serialize(),              \
-                 self.user_feeling)
+        timestamp_as_number            = int(1000 * time.mktime(self.datetime.timetuple()))
+        
+        header =                                                                    \
+            pack(Snapshot.SERIALIZATION_ENDIANITY + Snapshot.SERIALIZATION_HEADER,  \
+                 timestamp_as_number,                                               \
+                 *self.translation,                                                 \
+                 *self.rotation)
+        
+        body =                                                                      \
+            self.color_image.serialize() + self.depth_image.serialize()    
+        
+        trailer =                                                                   \
+            pack(Snapshot.SERIALIZATION_ENDIANITY + Snapshot.SERIALIZATION_TRAILER, \
+                 *self.user_feeling)
+        
+        return header + body + trailer
     
     @staticmethod
-    def deserialize(*, stream):
+    def read(stream):
         timestamp, t_x, t_y, t_z, r_x, r_y, r_z, r_w        =   \
-            Serialization.deserialize(stream, Snapshot.SERIALIZATION_HEADER, expect_eof=True)
+            Serialization.read(stream, Snapshot.SERIALIZATION_HEADER, expect_eof=True)
         
         translation, rotation                               =   \
             (t_x, t_y, t_z), (r_x, r_y, r_z, r_w)
         
-        color_image                                         =   ColorImage.deserialize(stream=stream)
+        color_image                                         =   ColorImage.read(stream=stream)
         # TODO DEBUG REMOVE
         # color_image.save_image(str(timestamp)+'_color_image.png')  
-        depth_image                                         =   DepthImage.deserialize(stream=stream)
+        depth_image                                         =   DepthImage.read(stream=stream)
         # TODO DEBUG REMOVE
         # depth_image.save_image(str(timestamp)+'_depth_image.png')
         
         (hunger, thirst, exhaustion, happiness)             =   \
-            Serialization.deserialize(stream, Snapshot.SERIALIZATION_TRAILER)
+            Serialization.read(stream, Snapshot.SERIALIZATION_TRAILER)
          
         user_feeling                                        =   \
             (hunger, thirst, exhaustion, happiness)

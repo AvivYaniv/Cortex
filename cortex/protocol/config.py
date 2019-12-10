@@ -1,3 +1,5 @@
+import io
+
 from struct import pack, calcsize
 
 from ..utils import Serialization
@@ -42,25 +44,27 @@ class ConfigMessage:
         args_list.append(self.get_current_serialization_format())
         args_list.append(self.fields_number)
         for field_index in range(self.fields_number):
-            field=self.fields[field_index]
+            field=self.fields[field_index].encode('utf-8')
             args_list.append(len(field))
             args_list.append(field)
-        return pack(args_list)
+        return pack(*args_list)
     
     @staticmethod
-    def deserialize(data):
+    def read(data):
+        stream = io.BytesIO(data)
+        
         fields_number                                       = \
-            Serialization.deserialize(data, ConfigMessage.SERIALIZATION_HEADER)
+            Serialization.read(stream, ConfigMessage.SERIALIZATION_HEADER)[0]
         
         fields = []
         
         for field_index in range(fields_number):
             field_size                                      = \
-                Serialization.deserialize(data, ConfigMessage.SERIALIZATION_FIELD_HEADER)
+                Serialization.read(stream, ConfigMessage.SERIALIZATION_FIELD_HEADER)[0]
             FIELD_PAYLOAD_FORMAT                            = ConfigMessage.SERIALIZATION_FIELD_PAYLOAD.format(field_size)
             field                                           = \
-                Serialization.deserialize(data, FIELD_PAYLOAD_FORMAT)
-            fields.append(field)
+                Serialization.read(stream, FIELD_PAYLOAD_FORMAT)[0]
+            fields.append(field.decode('utf-8'))
         
         return ConfigMessage(*fields)
     

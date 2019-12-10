@@ -27,9 +27,9 @@ class DepthImage(SnapshotImage):
         plt.imsave(file_name, self._image_file, cmap='hot')
         
     @staticmethod
-    def deserialize(*, stream):
+    def read(*, stream):
         image =                                                                                     \
-            SnapshotImage.deserialize(                                                              \
+            SnapshotImage.read(                                                                     \
                                 stream=stream,                                                      \
                                 pixel_serialization_format=DepthImage.PIXEL_SERIALIZATION_FORMAT,   \
                                 pixel_elements_count=DepthImage.PIXEL_ELEMENTS_COUNT) 

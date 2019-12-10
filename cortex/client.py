@@ -22,7 +22,7 @@ def upload_sample(address, file):
 		connection.send_message(hello_message.serialize())
 			
 	def ReceiveConfigMessage(connection):
-		config_message = ConfigMessage.deserialize(connection.receive_message())
+		config_message = ConfigMessage.read(connection.receive_message())
 		return config_message
 			
 	def SendSnapshotMessage(connection, snapshot, fields):
@@ -33,12 +33,14 @@ def upload_sample(address, file):
 		with Connection.connect(server_ip_str, server_port_int) as connection:					
 			# Sending hello message
 			user_information = sample_reader.user_information
-			SendHelloMessage(connection, user_information)			
+			SendHelloMessage(connection, user_information)
 			# Receiving config message
 			config_message = ReceiveConfigMessage(connection)
 			fields = config_message.fields			
 			# Sending snapshot messages
 			for snapshot in sample_reader:
-				SendSnapshotMessage(connection, fields, snapshot)
-	
+				try:
+					SendSnapshotMessage(connection, snapshot, fields)
+				except Exception as e:
+					print(str(e))				
 	print(Messeges.DONE_MESSEGE)
