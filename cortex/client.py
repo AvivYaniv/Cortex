@@ -39,8 +39,5 @@ def upload_sample(address, file):
 			fields = config_message.fields			
 			# Sending snapshot messages
 			for snapshot in sample_reader:
-				try:
-					SendSnapshotMessage(connection, snapshot, fields)
-				except Exception as e:
-					print(str(e))				
+				SendSnapshotMessage(connection, snapshot, fields)				
 	print(Messeges.DONE_MESSEGE)

@@ -10,7 +10,7 @@ from .colorimage import ColorImage
 class Snapshot:
     ERROR_DATA_INCOMPLETE   = 'incomplete data'
 
-    DATETIME_FORMAT         = 'YYYY-mm-dd_HH-MM-SS-fffff'
+    DATETIME_FORMAT         = '%Y-%m-%d_%H-%M-%S-%f'
     CONCISE_DATE_FORMAT     = '%d %B, %Y'
     CONCISE_HOUR_FORMAT     = '%H:%M:%S.%f'
 
@@ -32,6 +32,9 @@ class Snapshot:
     
     def __str__(self):
         return f'Snapshot from {datetime.strftime(self.datetime, Snapshot.CONCISE_DATE_FORMAT)} at {datetime.strftime(self.datetime, Snapshot.CONCISE_HOUR_FORMAT)} on {self.translation} / {self.rotation} with a {self.color_image} and a {self.depth_image}'
+    
+    def getTimeStamp(self):
+        return datetime.strftime(self.datetime, Snapshot.DATETIME_FORMAT)
     
     def get_current_serialization_format(self):
         if not hasattr(self, '_current_serialization_format'):

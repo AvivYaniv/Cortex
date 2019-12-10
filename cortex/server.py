@@ -10,7 +10,35 @@ from .utils import Listener
 
 import threading
         
-SUPPORTED_FIELDS = ['datetime', 'translation', 'rotation', 'color_image', 'depth_image', 'user_feeling']
+SUPPORTED_FIELDS = ['datetime', 'translation', 'color_image']
+        
+class FilesHandler:
+    @staticmethod
+    def toSafePath(path_name):
+        return path_name.replace(':', '-').replace(' ', '_')
+    
+    @staticmethod
+    def write_file(lock, file_path, data_line, mode='a+'):        
+        lock.acquire()
+        try:
+            file_existed = Path(file_path).is_file()
+            with open(file_path, mode) as file:                             
+                if file_existed:
+                    file.write('\n')                
+                file.write(data_line)
+                file.flush()   
+                file.close()             
+        finally:            
+            lock.release()
+        
+    @staticmethod
+    def write_user_translation(lock, data_dir, user_id, datetime_formatted, translation):
+        user_dir                = str(user_id)
+        translation_file        = FilesHandler.toSafePath(datetime_formatted) + '.json'
+        translation_file_dir    = PurePath(data_dir, user_dir)
+        Path(translation_file_dir).mkdir(parents=True, exist_ok=True)
+        translation_file_path   = PurePath(translation_file_dir, translation_file)
+        FilesHandler.write_file(lock, translation_file_path, '"x": {0}, "y": {1}, "z": {2}'.format(*translation))
         
 class Handler(threading.Thread):
     lock       = threading.Lock()
@@ -18,37 +46,6 @@ class Handler(threading.Thread):
         super().__init__()
         self.connection = connection    
         self.data_dir   = data_dir
-    
-    def write_append_file(self, file_path, data_line):        
-        self.lock.acquire()
-        try:
-            file_existed = Path(file_path).is_file()
-            with open(file_path, "a+") as file:                             
-                if file_existed:
-                    file.write('\n')                
-                file.write(data_line)
-                file.flush()   
-                file.close()             
-        finally:            
-            self.lock.release()
-        
-    @staticmethod
-    def toSafeFileName(file_name):
-        return file_name.replace(":", "-")
-        
-    def write_user_thought(self, datetime_formatted, user_id_number, thought_data):
-        # Creating path
-        user_dir        = str(user_id_number)
-        thought_file    = Handler.toSafeFileName(datetime_formatted) + '.txt'
-        
-        thought_file_dir = PurePath(self.data_dir, user_dir)
-        
-        Path(thought_file_dir).mkdir(parents=True, exist_ok=True)
-        
-        thought_file_path = PurePath(thought_file_dir, thought_file)
-        
-        # Write user Cortex
-        self.write_append_file(thought_file_path, thought_data)
     
     def run(self): # start invokes run  		
         # Receive hello message
@@ -59,10 +56,13 @@ class Handler(threading.Thread):
         # Receive snapshot messeges
         while True:
             try:
-                try:
-                    snapshot_message = SnapshotMessage.read(self.connection.receive_message())
-                except Exception as e:
-                    print(str(e))                
+                snapshot_message = SnapshotMessage.read(self.connection.receive_message())                
+                FilesHandler.write_user_translation(                                    \
+                                                    self.lock,                          \
+                                                    self.data_dir,                      \
+                                                    hello_message.user_id,              \
+                                                    snapshot_message.getTimeStamp(),    \
+                                                    snapshot_message.translation)
                 # TODO HANDLE
             except EOFError:            
                 break

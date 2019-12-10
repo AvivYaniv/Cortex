@@ -69,7 +69,7 @@ class Connection:
         header_size                             = calcsize(Connection.SERIALIZATION_HEADER)
         data_header                             = self.sock.recv(header_size)
         
-        if data_header is None:
+        if data_header is None or 0 == len(data_header):
             raise EOFError(Connection.NOT_ALL_DATA_RECEIVED_ERROR)
         
         message_size                            = \
