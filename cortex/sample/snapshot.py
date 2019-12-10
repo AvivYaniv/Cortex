@@ -19,8 +19,9 @@ class Snapshot:
     SERIALIZATION_HEADER    = 'Qddddddd'
     SERIALIZATION_TRAILER   = 'ffff'
     
-    def __init__(self, datetime, translation, rotation, color_image, depth_image, user_feeling):
-        self.datetime       = datetime
+    def __init__(self, timestamp, translation, rotation, color_image, depth_image, user_feeling):
+        self.timestamp		= timestamp
+        self.datetime       = datetime.fromtimestamp(timestamp/1000.0)
         self.translation    = translation
         self.rotation       = rotation
         self.color_image    = color_image
@@ -56,11 +57,9 @@ class Snapshot:
         return self._serialization_size
     
     def serialize(self):
-        timestamp_as_number            = int(1000 * time.mktime(self.datetime.timetuple()))
-        
         header =                                                                    \
             pack(Snapshot.SERIALIZATION_ENDIANITY + Snapshot.SERIALIZATION_HEADER,  \
-                 timestamp_as_number,                                               \
+                 self.timestamp,                                               		\
                  *self.translation,                                                 \
                  *self.rotation)
         
@@ -94,5 +93,5 @@ class Snapshot:
         user_feeling                                        =   \
             (hunger, thirst, exhaustion, happiness)
         
-        return Snapshot(datetime.fromtimestamp(timestamp/1000.0), translation, rotation, color_image, depth_image, user_feeling)
+        return Snapshot(timestamp, translation, rotation, color_image, depth_image, user_feeling)
     
