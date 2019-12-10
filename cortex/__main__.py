@@ -30,7 +30,6 @@ def main(quiet=False, traceback=False):
     log.quiet = quiet
     log.traceback = traceback
     
-# run_server(address, data_dir)
 @main.command()
 @click.argument('file', type=str)
 def read(file):
@@ -38,27 +37,6 @@ def read(file):
     Reads a sample file
     """
     log(cortex.read(file))
-
-# run_server(address, data_dir)
-@main.command()
-@click.argument('address', type=str)
-@click.argument('data_dir', type=str)
-def run_server(address, data_dir):
-    """
-    Starts a server to which thoughts can be uploaded to with `upload_thought`
-    """
-    log(cortex.run_server(address, data_dir))
-
-# upload_thought(address, user_id, thought)
-@main.command()
-@click.argument('address', type=str)
-@click.argument('user_id', type=int)
-@click.argument('thought', type=str)
-def upload_thought(address, user_id, thought):
-    """
-    Sends to the server user's thought
-    """
-    log(cortex.upload_thought(address, user_id, thought))
 
 # run_webserver(address, data_dir)
 @main.command()
@@ -70,6 +48,23 @@ def run_webserver(address, data_dir):
     """
     log(cortex.run_webserver(address, data_dir))
 
+@main.command()
+@click.argument('address', type=str)
+@click.argument('data_dir', type=str)
+def server_run(address, data_dir):
+    """
+    Starts a server to which smaples can be uploaded to with `upload_sample`
+    """
+    log(cortex.run_server(address, data_dir))
+
+@main.command()
+@click.argument('address', type=str)
+@click.argument('file', type=str)
+def client_run(address, file):
+    """
+    Sends to the server user's sample file; user information & snapshots
+    """
+    log(cortex.upload_sample(address, file))
 
 if __name__ == '__main__':
     try:
