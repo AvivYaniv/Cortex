@@ -23,6 +23,7 @@ class Listener:
     def __exit__(self, exception, error, traceback):
         self.stop()
         if exception is not None:
+            print('DEBUG ' + str(exception))
             raise exception
         return True
         

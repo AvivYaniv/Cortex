@@ -61,7 +61,7 @@ class Snapshot:
             pack(Snapshot.SERIALIZATION_ENDIANITY + Snapshot.SERIALIZATION_HEADER,  \
                  self.timestamp,                                               		\
                  *self.translation,                                                 \
-                 *self.rotation)
+                 *self.rotation)    
         
         body =                                                                      \
             self.color_image.serialize() + self.depth_image.serialize()    
@@ -80,10 +80,11 @@ class Snapshot:
         translation, rotation                               =   \
             (t_x, t_y, t_z), (r_x, r_y, r_z, r_w)
         
-        color_image                                         =   ColorImage.read(stream=stream)
+        color_image                                         =   ColorImage.read(stream)
+        
         # TODO DEBUG REMOVE
         # color_image.save_image(str(timestamp)+'_color_image.png')  
-        depth_image                                         =   DepthImage.read(stream=stream)
+        depth_image                                         =   DepthImage.read(stream)
         # TODO DEBUG REMOVE
         # depth_image.save_image(str(timestamp)+'_depth_image.png')
         

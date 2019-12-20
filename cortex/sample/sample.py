@@ -18,13 +18,18 @@ class Sample:
         return serialized
     
     @staticmethod
+    def color_image_bug_fix(snapshot):
+        snapshot.color_image._fix_hardware_size_and_BGR() 
+        
+    @staticmethod
     def read(stream):
-        user_information    = UserInformation.read(stream=stream)
+        user_information    = UserInformation.read(stream)
         yield user_information
         
         while True:
             try:
-                snapshot    = Snapshot.read(stream=stream)
+                snapshot    = Snapshot.read(stream)
+                Sample.color_image_bug_fix(snapshot)
                 yield snapshot
             except EOFError:
                 stream.close()

@@ -2,6 +2,8 @@ from pathlib import Path, PurePath
 
 from .utils import Connection
 
+from .parsers import Parser
+
 from .protocol import HelloMessage, ConfigMessage, SnapshotMessage
 
 from .sample import Snapshot
@@ -16,80 +18,42 @@ class FilesHandler:
     @staticmethod
     def toSafePath(path_name):
         return path_name.replace(':', '-').replace(' ', '_')
-    
+            
     @staticmethod
-    def write_file(lock, file_path, data_line, mode='a+'):        
+    def save(lock, file_path, data, mode='a+'):
         lock.acquire()
         try:
-            file_existed = Path(file_path).is_file()
             with open(file_path, mode) as file:                             
-                if file_existed:
-                    file.write('\n')                
-                file.write(data_line)
-                file.flush()
+                file.write(data)
         finally:            
             lock.release()
-        
-    @staticmethod
-    def write_user_translation(lock, path, translation_formatted):
-        translation_file        = 'translation.json'
-        translation_file_path   = PurePath(path, translation_file)        
-        FilesHandler.write_file(lock, translation_file_path, translation_formatted)
-    
-    @staticmethod
-    def write_color_image(lock, path, color_image):
-        color_image_file        = 'color_image.jpg'
-        color_image_file_path   = str(PurePath(path, color_image_file))
-        lock.acquire()
-        try:
-            color_image.save_image(color_image_file_path)
-        finally:            
-            lock.release()
-    
-SUPPORTED_FIELDS = [ 'datetime', 'translation', 'color_image' ]
-    
-def parser(field):
-    def decorator(func):
-        @wraps(func)
-        def wrapped_function(*args, **kwargs):
-            return func(*args, **kwargs)
-        return wrapped_function
-    return decorator
-
-@parser('translation')
-def parse_translation(context):
-    translation_formatted = '{' + '"x": {0}, "y": {1}, "z": {2}'.format(*context.snapshot.translation) + '}'
-    FilesHandler.write_user_translation(                        \
-                                        context.lock,           \
-                                        context.path,           \
-                                        translation_formatted)
-    
-
-@parser('color_image')
-def parse_color_image(context):
-    FilesHandler.write_color_image(                             \
-                                    context.lock,               \
-                                    context.path,               \
-                                    context.snapshot.color_image) 
     
 class Handler(threading.Thread):
     lock       = threading.Lock()    
     def __init__(self, connection, data_dir):    
         super().__init__()
-        self.connection = connection    
-        self.data_dir   = data_dir
+        self.connection         = connection    
+        self.data_dir           = data_dir
+        self.parser             = Parser()
+        self.supported_fields   = self.parser.get_fields_names()
     
     def get_context(self, hello_message, snapshot_message):
         class Context:
             def __init__(self, lock, path, snapshot):
                 self.lock       = lock
-                self.path       = path
+                self.pure_path  = path
                 self.snapshot   = snapshot
+                Path(self.pure_path).mkdir(parents=True, exist_ok=True)
+            
+            def path(self, file_name):
+                return str(self.pure_path / Path(FilesHandler.toSafePath(file_name)))
+            
+            def save(self, file_name, data):
+                FilesHandler.save(self.lock, self.path(file_name), data)
+                
         lock        =   self.lock        
         user_dir    =   str(hello_message.user_id)        
-        pure_path   =   PurePath(self.data_dir, user_dir, FilesHandler.toSafePath(snapshot_message.getTimeStamp()))       
-        path        =   str(pure_path)
-        Path(pure_path).mkdir(parents=True, exist_ok=True)
+        path        =   PurePath(self.data_dir, user_dir, FilesHandler.toSafePath(snapshot_message.getTimeStamp()))       
         snapshot    =   snapshot_message
         return Context(lock, path, snapshot)
     
@@ -97,15 +61,15 @@ class Handler(threading.Thread):
         # Receive hello message        
         hello_message = HelloMessage.read(self.connection.receive_message())
         # Send config message
-        config_message = ConfigMessage(*SUPPORTED_FIELDS) 
+        config_message = ConfigMessage(*self.supported_fields) 
         self.connection.send_message(config_message.serialize())
         # Receive snapshot messeges
         while True:
             try:
                 snapshot_message    =   SnapshotMessage.read(self.connection.receive_message())
+                print(snapshot_message)
                 context             =   self.get_context(hello_message, snapshot_message)
-                parse_translation(context)
-                parse_color_image(context)
+                self.parser.parse(context, snapshot_message)
             except EOFError:            
                 break
 

@@ -9,8 +9,8 @@ class SnapshotImage:
 
     SERIALIZATION_HEADER         = 'II'
     
-    def __init__(self, height, width, image, pixel_serialization_format, pixel_elements_count):
-        self.image                                 = image
+    def __init__(self, width, height, data, pixel_serialization_format, pixel_elements_count):
+        self.data                                  = data
         self.width, self.height                    = width, height
         self.pixel_serialization_format            = pixel_serialization_format
         self.pixel_elements_count                  = pixel_elements_count
@@ -24,7 +24,7 @@ class SnapshotImage:
         self._save_file(file_name)
     
     def is_empty(self):
-        return not self.image or (0 == self.width) or (0 == self.height)
+        return not self.data or (0 == self.width) or (0 == self.height)
     
     def get_current_serialization_format(self):
         if not hasattr(self, '_current_serialization_format'):
@@ -49,28 +49,28 @@ class SnapshotImage:
         if self.is_empty():
             return                                              \
                 pack(self.get_current_serialization_format(),   \
-                     self.height,                               \
-                     self.width)
+                     self.width,                                \
+                     self.height)
         # Image is non-empty
         return                                              \
             pack(self.get_current_serialization_format(),   \
-                 self.height,                               \
                  self.width,                                \
-                 *self.image)
+                 self.height,                               \
+                 *self.data)
     
     @staticmethod
     def read(stream, pixel_serialization_format, pixel_elements_count):
         width, height                               = \
             Serialization.read(stream, SnapshotImage.SERIALIZATION_HEADER)
         
-        image_size                                  = height * width
+        image_size                                  = width * height
         pixel_array_size                            = image_size * pixel_elements_count
         
-        image = []
+        data = []
         if 0 != pixel_array_size:
             SERIALIZATION_PAYLOAD_FORMAT            = ('{0}' + pixel_serialization_format).format(pixel_array_size)
-            image                                   = \
+            data                                    = \
                 Serialization.read(stream, SERIALIZATION_PAYLOAD_FORMAT)
         
-        return SnapshotImage(height, width, image, pixel_serialization_format, pixel_elements_count)
+        return SnapshotImage(width, height, data, pixel_serialization_format, pixel_elements_count)
     

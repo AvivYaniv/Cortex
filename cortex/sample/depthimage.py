@@ -8,8 +8,8 @@ class DepthImage(SnapshotImage):
     PIXEL_SERIALIZATION_FORMAT = 'f'
     PIXEL_ELEMENTS_COUNT       = 1
     
-    def __init__(self, height=0, width=0, image=[]):
-        super().__init__(height, width, image, DepthImage.PIXEL_SERIALIZATION_FORMAT, DepthImage.PIXEL_ELEMENTS_COUNT)
+    def __init__(self, width=0, height=0, data=[]):
+        super().__init__(width, height, data, DepthImage.PIXEL_SERIALIZATION_FORMAT, DepthImage.PIXEL_ELEMENTS_COUNT)
          
     def __repr__(self):
         return f'<Image: depth {self.height}x{self.width}>'
@@ -19,7 +19,7 @@ class DepthImage(SnapshotImage):
     
     def _parse_image(self):
         matplotlib.use('Agg')
-        W = np.mat(self.image)
+        W = np.mat(self.data)
         W = W.reshape(self.width, self.height)
         self._image_file = W
         
@@ -27,7 +27,7 @@ class DepthImage(SnapshotImage):
         plt.imsave(file_name, self._image_file, cmap='hot')
         
     @staticmethod
-    def read(*, stream):
+    def read(stream):
         image =                                                                                     \
             SnapshotImage.read(                                                                     \
                                 stream=stream,                                                      \

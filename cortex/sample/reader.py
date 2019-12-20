@@ -8,7 +8,7 @@ class SampleStreamReader:
         self._read_user_information()
         
     def _read_user_information(self):
-        self.generator      = Sample.read(stream=self.stream)
+        self.generator      = Sample.read(self.stream)
         user_information    = next(self.generator)
         # Copy user_information fields
         for field in user_information.__dict__:
