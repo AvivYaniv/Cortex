@@ -1,5 +1,3 @@
-import gzip
-
 from cortex.protobuf import cortex_pb2 as protobuf
 
 from cortex.sample.snapshot import Snapshot
@@ -9,19 +7,18 @@ from cortex.utils import Serialization
 from cortex.sample.colorimage import ColorImage
 from cortex.sample.depthimage import DepthImage
 
-class ProtobufSampleReader:
+from cortex.sample.readers.file_reader import FileReaderBase
+
+class ProtobufSampleReader(FileReaderBase):
 	
 	version 			= 'v2'
 	
-	PROTOBUF_HEADER		=	'I'
+	PROTOBUF_HEADER		= 'I'
 	
 	GENDER_TABLE		= { 0 : 'm', 1 : 'f', 2 : 'o' }
 	
 	def __init__(self, file_path):
-		self.stream = gzip.open(file_path, 'rb')
-		
-	def close(self):
-		self.stream.close()
+		super().__init__(file_path)
 		
 	def read_protobuf_message(self):
 		message_size = Serialization.read(self.stream, ProtobufSampleReader.PROTOBUF_HEADER, expect_eof=True)[0]
