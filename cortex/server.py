@@ -67,7 +67,6 @@ class Handler(threading.Thread):
         while True:
             try:
                 snapshot_message    =   SnapshotMessage.read(self.connection.receive_message())
-                print(snapshot_message)
                 context             =   self.get_context(hello_message, snapshot_message)
                 self.parser.parse(context, snapshot_message)
             except EOFError:            
