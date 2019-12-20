@@ -27,6 +27,7 @@ packaging==19.2
 pathlib==1.0.1
 Pillow==6.2.1
 pluggy==0.13.0
+protobuf==3.11.1
 py==1.8.0
 pycodestyle==2.5.0
 pyflakes==2.1.1
