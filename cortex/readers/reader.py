@@ -1,5 +1,7 @@
 import os
 
+from cortex.readers.reader_versions import ReaderVersions
+
 from cortex.utils import DynamicModuleLoader
 
 class SampleStreamReader:
@@ -51,7 +53,7 @@ class SampleFileReader(SampleStreamReader):
         super().__init__(file_path, version)
 
 def read(file_path):
-    with SampleFileReader(file_path, version=ReaderVersions.FILE) as sample_reader:
+    with SampleFileReader(file_path, version=ReaderVersions.BINARY) as sample_reader:
         print(str(sample_reader.user_information))
         for snapshot in sample_reader:
             print(str(snapshot))

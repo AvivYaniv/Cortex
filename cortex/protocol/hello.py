@@ -20,7 +20,7 @@ class HelloMessage:
     def __init__(self, user_id, username, birth_date, gender):
         self.user_id        = user_id
         self.username       = username
-        self.birth_date     = datetime.fromtimestamp(birth_date)
+        self.birth_date     = birth_date if isinstance(birth_date, datetime) else datetime.fromtimestamp(birth_date)
         self.gender         = gender
          
     def __repr__(self):

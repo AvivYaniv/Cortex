@@ -4,7 +4,7 @@ from cortex.sample import Sample
 
 class RegularSampleReader(FileReaderBase):
 	
-	version = 'v1'
+	version = 'binary'
 	
 	def __init__(self, file_path):
 		super().__init__(file_path)

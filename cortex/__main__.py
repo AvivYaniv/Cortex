@@ -60,7 +60,8 @@ def server_run(address, data_dir):
 @main.command()
 @click.argument('address', type=str)
 @click.argument('file', type=str)
-def client_run(address, file):
+@click.argument('version', type=str)
+def client_run(address, file, version):
     """
     Sends to the server user's sample file; user information & snapshots
     """

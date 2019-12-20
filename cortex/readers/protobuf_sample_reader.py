@@ -11,7 +11,7 @@ from cortex.readers.file_reader import FileReaderBase
 
 class ProtobufSampleReader(FileReaderBase):
 	
-	version 			= 'v2'
+	version 			= 'protobuf'
 	
 	PROTOBUF_HEADER		= 'I'
 	
