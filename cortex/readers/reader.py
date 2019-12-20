@@ -1,24 +1,25 @@
-import io
+import os
 
-from ..utils import ReaderVersions
-
-from cortex.sample.readers.protobuf_sample_reader import ProtobufSampleReader
-from cortex.sample.readers.regular_sample_reader import RegularSampleReader
+from cortex.utils import DynamicModuleLoader
 
 class SampleStreamReader:
-    reader_drivers                    = \
-        {
-            ReaderVersions.FILE         : RegularSampleReader,
-            ReaderVersions.PROTOBUFF3   : ProtobufSampleReader,
-        }
+    LOOKUP_TOKEN        =   'reader'
+    NAME_IDENTIFIER     =   'version'
         
     def __init__(self, file_path, version): 
+        self._load_readers()
         reader_class        = self.find_reader_driver(version)
         self.reader         = reader_class(file_path)
         self._read_user_information()
+
+    def _load_readers(self):
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        imported_modules_names = DynamicModuleLoader.load_modules(dir_path)
+        _, self._sample_readers_drivers = \
+            DynamicModuleLoader.dynamic_lookup_to_dictionary(imported_modules_names, self.LOOKUP_TOKEN, self.NAME_IDENTIFIER)
         
     def find_reader_driver(self, version):
-        for reader_version, reader in self.reader_drivers.items():
+        for reader_version, reader in self._sample_readers_drivers.items():
             if reader_version == version:
                 return reader
         return ValueError(f'Invalid reader version: {version}')

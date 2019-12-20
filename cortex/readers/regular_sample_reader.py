@@ -1,4 +1,4 @@
-from cortex.sample.readers.file_reader import FileReaderBase
+from cortex.readers.file_reader import FileReaderBase
 
 from cortex.sample import Sample
 

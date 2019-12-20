@@ -1,6 +1,6 @@
 from .protocol import HelloMessage, ConfigMessage, SnapshotMessage
 
-from .sample import SampleFileReader
+from .readers import SampleFileReader
 
 from .utils import Connection
 

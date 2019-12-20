@@ -7,7 +7,7 @@ from cortex.utils import Serialization
 from cortex.sample.colorimage import ColorImage
 from cortex.sample.depthimage import DepthImage
 
-from cortex.sample.readers.file_reader import FileReaderBase
+from cortex.readers.file_reader import FileReaderBase
 
 class ProtobufSampleReader(FileReaderBase):
 	

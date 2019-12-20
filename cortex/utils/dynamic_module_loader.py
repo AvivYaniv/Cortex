@@ -26,34 +26,43 @@ class DynamicModuleLoader:
         return imported_modules_names
     
     @staticmethod
-    def dynamic_lookup(imported_modules_names, lookup_token):
+    def dynamic_lookup_to_lists(imported_modules_names, lookup_token, name_identifier=None):
         names = set()
-        loaded_functions = []
-        loaded_classes   = []
+        loaded_functions, loaded_classes = \
+            __class__.dynamic_lookup_to_dictionary(imported_modules_names, lookup_token, name_identifier)
+        names.update(loaded_functions.keys())
+        names.update(loaded_classes.keys())
+        return (names, loaded_functions.values(), loaded_classes.values())
+
+    @staticmethod
+    def dynamic_lookup_to_dictionary(imported_modules_names, lookup_token, name_identifier=None):
+        loaded_functions = {}
+        loaded_classes   = {}
         for submodule_name in imported_modules_names:
             submodule = sys.modules[submodule_name]
-            loaded_functions.extend(__class__._dynamic_functions_lookup(submodule, lookup_token, names))
-            loaded_classes.extend(__class__._dynamic_classess_lookup(submodule, lookup_token, names))
-        return (names, loaded_functions, loaded_classes)
+            __class__._dynamic_functions_lookup_to_dictionary(submodule, lookup_token, loaded_functions, name_identifier)
+            __class__._dynamic_classess_lookup_to_dictionary(submodule, lookup_token, loaded_classes, name_identifier)
+        return (loaded_functions, loaded_classes)
     
     @staticmethod
-    def _dynamic_functions_lookup(submodule, lookup_token, names):
-        loaded_functions = []
+    def _dynamic_functions_lookup_to_dictionary(submodule, lookup_token, loaded_functions, name_identifier=None):
         lookup_token = '_' + lookup_token
         functions_list = [(name, obj) for name,obj in inspect.getmembers(submodule) if inspect.isfunction(obj)]
         for name, obj in functions_list:
             if name.endswith(lookup_token):
-                loaded_functions.append(obj)
-                names.add(obj.field)  
-        return loaded_functions  
-    
+                identifier = name
+                if name_identifier and hasattr(obj, name_identifier):
+                    identifier = getattr(obj, name_identifier)
+                loaded_functions[identifier] = obj 
+        
     @staticmethod
-    def _dynamic_classess_lookup(submodule, lookup_token, names):
-        loaded_classes = []
+    def _dynamic_classess_lookup_to_dictionary(submodule, lookup_token, loaded_classes, name_identifier=None):
         lookup_token = lookup_token.capitalize()
         classes_list = [(name, obj) for name,obj in inspect.getmembers(submodule) if inspect.isclass(obj)]
         for name, obj in classes_list:
             if name.endswith(lookup_token):
-                loaded_classes.append(obj)
-                names.add(obj.field)  
-        return loaded_classes
+                identifier = name
+                if name_identifier and hasattr(obj, name_identifier):
+                    identifier = getattr(obj, name_identifier)
+                loaded_classes[identifier] = obj 
+        
