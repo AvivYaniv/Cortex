@@ -20,7 +20,7 @@ class HelloMessage:
     def __init__(self, user_id, username, birth_date, gender):
         self.user_id        = user_id
         self.username       = username
-        self.birth_date     = birth_date
+        self.birth_date     = datetime.fromtimestamp(birth_date)
         self.gender         = gender
          
     def __repr__(self):
@@ -69,6 +69,6 @@ class HelloMessage:
         username, birth_date, gender                    = \
             Serialization.read(stream, CURRENT_USER_PAYLOAD_FORMAT)
         
-        return HelloMessage(user_id, username, datetime.fromtimestamp(birth_date), gender)
+        return HelloMessage(user_id, username, birth_date, gender)
     
     

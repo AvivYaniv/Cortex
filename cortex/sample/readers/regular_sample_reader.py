@@ -10,6 +10,9 @@ class RegularSampleReader:
 		self.stream         = io.open(file_path, mode='rb')
 		self.generator      = Sample.read(self.stream)
 		
+	def close(self):
+		self.stream.close()
+		
 	def read_user_information(self):
 		return next(self.generator)
 	

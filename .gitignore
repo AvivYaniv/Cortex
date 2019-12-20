@@ -1,6 +1,7 @@
 .project
 .pydevproject
 sample.mind
+sample.mind.gz
 cortex/sample.mind
 main.py
 main_client.py

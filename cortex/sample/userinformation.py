@@ -16,7 +16,7 @@ class UserInformation:
     SERIALIZATION_PAYLOAD   = '{0}sIc'
     SERIALIZATION_FORMAT    = SERIALIZATION_ENDIANITY + SERIALIZATION_HEADER + SERIALIZATION_PAYLOAD
     
-    GENDER_TABLE            = { 'm' : 'male' , 'f' : 'female', 'o' : 'other' }
+    GENDER_TABLE            = { 'm' : 'male' , 'f' : 'female', 'o' : 'other'}
     
     def __init__(self, user_id, username, birth_date, gender):
         self.user_id        = user_id

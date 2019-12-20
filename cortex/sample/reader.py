@@ -36,7 +36,7 @@ class SampleStreamReader:
         return self
     
     def __exit__(self, exception, error, traceback):
-        self.stream.close()
+        self.reader.close()
         
     ### Iterator ###        
     def __iter__(self):
