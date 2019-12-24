@@ -26,6 +26,9 @@ class DepthImage(SnapshotImage):
     def _save_file(self, file_name):
         plt.imsave(file_name, self._image_file, cmap='hot')
         
+    def _fix_hardware_size(self):
+        self.width, self.height = self.height, self.width
+        
     @staticmethod
     def read(stream):
         image =                                                                                     \

@@ -62,9 +62,11 @@ class ProtobufSampleReader(FileReaderBase):
 
 		depth_image					=							\
 			DepthImage(											\
-				snapshot_protobuf.depth_image.height, 			\
-				snapshot_protobuf.depth_image.width,			\
+				snapshot_protobuf.depth_image.width, 			\
+				snapshot_protobuf.depth_image.height,			\
 				snapshot_protobuf.depth_image.data)
+		
+		depth_image._fix_hardware_size()
 		
 		user_feeling				=							\
 			(snapshot_protobuf.feelings.hunger, 				\

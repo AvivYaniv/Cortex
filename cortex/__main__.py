@@ -65,7 +65,7 @@ def client_run(address, file, version):
     """
     Sends to the server user's sample file; user information & snapshots
     """
-    log(cortex.upload_sample(address, file))
+    log(cortex.upload_sample(address, file, version))
 
 if __name__ == '__main__':
     try:
