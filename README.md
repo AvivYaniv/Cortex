@@ -88,11 +88,11 @@ $ python -m cortex client_run '127.0.0.1:8000' 'sample.mind' 'protobuf'
 
 ```
 
-## Advanced Programmer Personalization
+## Advanced Personalization for Programmers
 
 The `cortex` package provides the ability to further personalized handling of files and parsers.
 
-## Server Programmer Personalization
+## Server Personalization for Programmers
 
 ## Adding parsers
 
@@ -104,12 +104,11 @@ You can note the client that your parser works on specific field, so client woul
 Parser function:
 Parser function is used for parsing data that does not require a state.
 To note a parser function, end it with `_parser` suffix.
-i.e.
+<br/>i.e.
 ```
 def your_parser(context, snapshot):
     # Your code goes here
 my_parser.field = 'your_parser_field_name'
-
 
 ```
 
@@ -117,7 +116,7 @@ Parser class:
 Parser class is used for parsing data that requires a state.
 Parser object will be created once and then on each snapshot the parse function will be called.
 To note a parser class, end it with `Parser` suffix, and add `parse` function.
-i.e.
+<br/>i.e.
 ```
 class YourParser:
 
@@ -125,10 +124,9 @@ class YourParser:
 
     def parse(self, context, snapshot):
         # Your code goes here
-
 ```
 
-## Client Programmer Personalization
+## Client Personalization for Programmers
 
 ## Adding readers
 
@@ -146,7 +144,7 @@ Reader class must contain the following functions:
 The file will be opened, user information will be read and then the snapshots.
 
 To note a reader class, end it with `Reader` suffix.
-i.e.
+<br/>i.e.
 ```
 class YourReader:
 
@@ -160,5 +158,4 @@ class YourReader:
 		
 	def read_snapshot(self):
         # Your code goes here
-
 ```
