@@ -105,7 +105,7 @@ Parser function:
 Parser function is used for parsing data that does not require a state.
 To note a parser function, end it with `_parser` suffix.
 <br/>i.e.
-```
+```python
 def your_parser(context, snapshot):
     # Your code goes here
 my_parser.field = 'your_parser_field_name'
@@ -117,7 +117,7 @@ Parser class is used for parsing data that requires a state.
 Parser object will be created once and then on each snapshot the parse function will be called.
 To note a parser class, end it with `Parser` suffix, and add `parse` function.
 <br/>i.e.
-```
+```python
 class YourParser:
 
     field = 'your_parser_field_name'
@@ -145,7 +145,7 @@ The file will be opened, user information will be read and then the snapshots.
 
 To note a reader class, end it with `Reader` suffix.
 <br/>i.e.
-```
+```python
 class YourReader:
 
 	version = 'your_reader_name'
