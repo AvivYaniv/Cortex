@@ -148,14 +148,14 @@ To note a reader class, end it with `Reader` suffix.
 ```
 class YourReader:
 
-    version = 'your_reader_name'
-	
+	version = 'your_reader_name'
+
 	def __init__(self, file_path):
 		# Your code goes here
 
-    def read_user_information(self):
-        # Your code goes here
-		
+	def read_user_information(self):
+		# Your code goes here
+
 	def read_snapshot(self):
-        # Your code goes here
+		# Your code goes here
 ```
