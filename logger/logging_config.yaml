@@ -1,0 +1,65 @@
+version: 1
+disable_existing_loggers: False
+
+formatters:
+  simple:
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+   
+handlers:
+  console:
+   class: logging.StreamHandler
+   level: DEBUG
+   formatter: simple
+   stream: ext://sys.stdout
+   
+  client_log_handler:
+   class: logging.handlers.RotatingFileHandler
+   level: DEBUG
+   formatter: simple
+   filename: logs/client.log
+   maxBytes: 10485760
+   backupCount: 20
+   encoding: utf8
+
+  server_log_handler:
+   class: logging.handlers.RotatingFileHandler
+   level: DEBUG
+   formatter: simple
+   filename: logs/server.log
+   maxBytes: 10485760
+   backupCount: 20
+   encoding: utf8
+
+  info_file_handler:
+   class: logging.handlers.RotatingFileHandler
+   level: INFO
+   formatter: simple
+   filename: logs/info.log
+   maxBytes: 10485760
+   backupCount: 20
+   encoding: utf8
+
+  error_file_handler:
+   class: logging.handlers.RotatingFileHandler
+   level: ERROR
+   formatter: simple
+   filename: logs/errors.log
+   maxBytes: 10485760
+   backupCount: 20
+   encoding: utf8
+
+loggers:
+  cortex.client:
+   level: INFO
+   handlers: [console, error_file_handler, client_log_handler]
+   propagate: no
+
+  cortex.server:
+   level: INFO
+   handlers: [console, error_file_handler, server_log_handler]
+   propagate: no
+
+root:
+  level: INFO
+  handlers: [console, info_file_handler, error_file_handler]
+ 

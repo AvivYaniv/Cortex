@@ -6,7 +6,6 @@ import click
 
 import cortex
 
-
 class Log:
     def __init__(self):
         self.quiet = False

@@ -13,6 +13,14 @@ from .utils import Listener
 from functools import wraps
 import threading
 from builtins import staticmethod
+
+import logging
+from logger import LoggerLoader
+
+# Log loading
+logger                    = logging.getLogger(__name__)
+logger_loader             = LoggerLoader()
+logger_loader.load_log_config()
         
 class FilesHandler:
     @staticmethod
@@ -74,6 +82,8 @@ class Handler(threading.Thread):
 
 def run_server(address, data_dir='data'):
     """Starts a server to which snapshots can be uploaded with `upload_sample`"""  
+    logger.info("TODO UPDATE Processing data")
+    
 	# Parse server address
     server_ip_str, server_port_str  = address.split(":")
     server_port_int                 = int(server_port_str)

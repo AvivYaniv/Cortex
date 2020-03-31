@@ -5,9 +5,19 @@ from .readers import SampleFileReader
 from .utils import Connection
 
 from .utils import Messeges
+
+import logging
+from logger import LoggerLoader
+
+# Log loading
+logger					= logging.getLogger(__name__)
+logger_loader 			= LoggerLoader()
+logger_loader.load_log_config()
 	
 def upload_sample(address, file_path, version):
 	"""Sends to the server user's sample file"""
+	logger.info("TODO UPDATE Processing data")
+	
 	# Parse server address
 	server_ip_str, server_port_str  = address.split(":")
 	server_port_int                 = int(server_port_str)
