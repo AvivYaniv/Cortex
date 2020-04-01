@@ -1,6 +1,6 @@
-from .hello import HelloMessage
-from .config import ConfigMessage
-from .snapshot import SnapshotMessage
+from cortex.protocol.hello_message import HelloMessage
+from cortex.protocol.config_message import ConfigMessage
+from cortex.protocol.snapshot_message import SnapshotMessage
 
 from .native import *
 

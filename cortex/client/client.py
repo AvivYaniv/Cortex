@@ -17,9 +17,9 @@ logger_loader.load_log_config()
 # Message Classes	
 
 # TODO REFACTOR
-from cortex.protocol import HelloMessageProto 
+from cortex.protocol import HelloMessageProto, ConfigMessageProto
 hello_message_class    = HelloMessageProto # HelloMessageNative
-config_message_class   = ConfigMessageNative
+config_message_class   = ConfigMessageProto # ConfigMessageNative
 snapshot_message_class = SnapshotMessageNative
 	
 def upload_sample(address, file_path, version):

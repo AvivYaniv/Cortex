@@ -14,18 +14,20 @@ message User {
     Gender gender = 4;
 }
 
-message Hello {
+message HelloMessage {
     User user_data = 1;
 }
 
 message Field {
-	uint32 length = 1;
-	string name = 2;
+	string name = 1;
 }
 
-message Config {
-    uint32 number_of_fields = 1;
-    repeated Field fields = 2;
+message FieldsConfig {
+    repeated Field fields = 1;
+}
+
+message ConfigMessage {
+    FieldsConfig fields_config = 1;
 }
 
 message Snapshot {
@@ -35,6 +37,10 @@ message Snapshot {
     DepthImage depth_image = 4;
     Feelings feelings = 5;
 	uint32 message_size = 6;
+}
+
+message SnapshotMessage {
+	Snapshot snapshot = 1;
 }
 
 message Pose {

@@ -45,10 +45,10 @@ class Handler(threading.Thread):
         self.parser                 = Parser()
         self.supported_fields       = self.parser.get_fields_names()
         
-        from cortex.protocol import HelloMessageProto 
+        from cortex.protocol import HelloMessageProto, ConfigMessageProto
 
         self.hello_message_class    = HelloMessageProto # HelloMessageNative
-        self.config_message_class   = ConfigMessageNative
+        self.config_message_class   = ConfigMessageProto # ConfigMessageNative
         self.snapshot_message_class = SnapshotMessageNative
     
     def get_context(self, hello_message, snapshot_message):

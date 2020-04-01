@@ -2,7 +2,7 @@ import io
 
 from struct import pack, calcsize
 
-from ..config import ConfigMessage
+from cortex.protocol.config_message import ConfigMessage
 
 from cortex.utils.serialization import Serialization
 

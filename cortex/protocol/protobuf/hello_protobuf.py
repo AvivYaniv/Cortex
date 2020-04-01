@@ -3,7 +3,7 @@ import time
 
 from cortex.protobuf import protocol_proto
 
-from ..hello import HelloMessage
+from cortex.protocol.hello_message import HelloMessage
 
 from cortex.utils.serialization import Serialization
 
@@ -17,7 +17,7 @@ class HelloMessageProto(HelloMessage):
         }
 
     def serialize(self):
-        hello_message                      = protocol_proto.Hello()
+        hello_message                      = protocol_proto.HelloMessage()
         hello_message.user_data.user_id    = self.user_id   
         hello_message.user_data.username   = self.username  
         hello_message.user_data.birthday   = int(time.mktime(self.birth_date.timetuple()))
@@ -29,7 +29,7 @@ class HelloMessageProto(HelloMessage):
         stream = io.BytesIO(data)
         
         user_information_bytes         =     Serialization.read_tunnled_message(stream)
-        user_information_protobuf      =     protocol_proto.Hello()
+        user_information_protobuf      =     protocol_proto.HelloMessage()
         user_information_protobuf.ParseFromString(user_information_bytes)
         
         user_information                 =                          \

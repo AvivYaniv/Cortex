@@ -3,7 +3,7 @@ import time
 from struct import pack, calcsize
 from datetime import datetime
 
-from ..hello import HelloMessage
+from cortex.protocol.hello_message import HelloMessage
 
 from cortex.utils.serialization import Serialization
 

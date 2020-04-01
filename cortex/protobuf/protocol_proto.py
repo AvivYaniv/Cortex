@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='protocol.proto',
   package='cortex.protocol',
   syntax='proto3',
-  serialized_pb=_b('\n\x0eprotocol.proto\x12\x0f\x63ortex.protocol\"\x94\x01\n\x04User\x12\x0f\n\x07user_id\x18\x01 \x01(\x04\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x10\n\x08\x62irthday\x18\x03 \x01(\r\x12,\n\x06gender\x18\x04 \x01(\x0e\x32\x1c.cortex.protocol.User.Gender\")\n\x06Gender\x12\x08\n\x04MALE\x10\x00\x12\n\n\x06\x46\x45MALE\x10\x01\x12\t\n\x05OTHER\x10\x02\"1\n\x05Hello\x12(\n\tuser_data\x18\x01 \x01(\x0b\x32\x15.cortex.protocol.User\"%\n\x05\x46ield\x12\x0e\n\x06length\x18\x01 \x01(\r\x12\x0c\n\x04name\x18\x02 \x01(\t\"J\n\x06\x43onfig\x12\x18\n\x10number_of_fields\x18\x01 \x01(\r\x12&\n\x06\x66ields\x18\x02 \x03(\x0b\x32\x16.cortex.protocol.Field\"\xe8\x01\n\x08Snapshot\x12\x10\n\x08\x64\x61tetime\x18\x01 \x01(\x04\x12#\n\x04pose\x18\x02 \x01(\x0b\x32\x15.cortex.protocol.Pose\x12\x30\n\x0b\x63olor_image\x18\x03 \x01(\x0b\x32\x1b.cortex.protocol.ColorImage\x12\x30\n\x0b\x64\x65pth_image\x18\x04 \x01(\x0b\x32\x1b.cortex.protocol.DepthImage\x12+\n\x08\x66\x65\x65lings\x18\x05 \x01(\x0b\x32\x19.cortex.protocol.Feelings\x12\x14\n\x0cmessage_size\x18\x06 \x01(\r\"\xd8\x01\n\x04Pose\x12\x36\n\x0btranslation\x18\x01 \x01(\x0b\x32!.cortex.protocol.Pose.Translation\x12\x30\n\x08rotation\x18\x02 \x01(\x0b\x32\x1e.cortex.protocol.Pose.Rotation\x1a.\n\x0bTranslation\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x1a\x36\n\x08Rotation\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\t\n\x01w\x18\x04 \x01(\x01\"9\n\nColorImage\x12\r\n\x05width\x18\x01 \x01(\r\x12\x0e\n\x06height\x18\x02 \x01(\r\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\x0c\"9\n\nDepthImage\x12\r\n\x05width\x18\x01 \x01(\r\x12\x0e\n\x06height\x18\x02 \x01(\r\x12\x0c\n\x04\x64\x61ta\x18\x03 \x03(\x02\"Q\n\x08\x46\x65\x65lings\x12\x0e\n\x06hunger\x18\x01 \x01(\x02\x12\x0e\n\x06thirst\x18\x02 \x01(\x02\x12\x12\n\nexhaustion\x18\x03 \x01(\x02\x12\x11\n\thappiness\x18\x04 \x01(\x02\x62\x06proto3')
+  serialized_pb=_b('\n\x0eprotocol.proto\x12\x0f\x63ortex.protocol\"\x94\x01\n\x04User\x12\x0f\n\x07user_id\x18\x01 \x01(\x04\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x10\n\x08\x62irthday\x18\x03 \x01(\r\x12,\n\x06gender\x18\x04 \x01(\x0e\x32\x1c.cortex.protocol.User.Gender\")\n\x06Gender\x12\x08\n\x04MALE\x10\x00\x12\n\n\x06\x46\x45MALE\x10\x01\x12\t\n\x05OTHER\x10\x02\"8\n\x0cHelloMessage\x12(\n\tuser_data\x18\x01 \x01(\x0b\x32\x15.cortex.protocol.User\"\x15\n\x05\x46ield\x12\x0c\n\x04name\x18\x01 \x01(\t\"6\n\x0c\x46ieldsConfig\x12&\n\x06\x66ields\x18\x01 \x03(\x0b\x32\x16.cortex.protocol.Field\"E\n\rConfigMessage\x12\x34\n\rfields_config\x18\x01 \x01(\x0b\x32\x1d.cortex.protocol.FieldsConfig\"\xe8\x01\n\x08Snapshot\x12\x10\n\x08\x64\x61tetime\x18\x01 \x01(\x04\x12#\n\x04pose\x18\x02 \x01(\x0b\x32\x15.cortex.protocol.Pose\x12\x30\n\x0b\x63olor_image\x18\x03 \x01(\x0b\x32\x1b.cortex.protocol.ColorImage\x12\x30\n\x0b\x64\x65pth_image\x18\x04 \x01(\x0b\x32\x1b.cortex.protocol.DepthImage\x12+\n\x08\x66\x65\x65lings\x18\x05 \x01(\x0b\x32\x19.cortex.protocol.Feelings\x12\x14\n\x0cmessage_size\x18\x06 \x01(\r\">\n\x0fSnapshotMessage\x12+\n\x08snapshot\x18\x01 \x01(\x0b\x32\x19.cortex.protocol.Snapshot\"\xd8\x01\n\x04Pose\x12\x36\n\x0btranslation\x18\x01 \x01(\x0b\x32!.cortex.protocol.Pose.Translation\x12\x30\n\x08rotation\x18\x02 \x01(\x0b\x32\x1e.cortex.protocol.Pose.Rotation\x1a.\n\x0bTranslation\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x1a\x36\n\x08Rotation\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\t\n\x01w\x18\x04 \x01(\x01\"9\n\nColorImage\x12\r\n\x05width\x18\x01 \x01(\r\x12\x0e\n\x06height\x18\x02 \x01(\r\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\x0c\"9\n\nDepthImage\x12\r\n\x05width\x18\x01 \x01(\r\x12\x0e\n\x06height\x18\x02 \x01(\r\x12\x0c\n\x04\x64\x61ta\x18\x03 \x03(\x02\"Q\n\x08\x46\x65\x65lings\x12\x0e\n\x06hunger\x18\x01 \x01(\x02\x12\x0e\n\x06thirst\x18\x02 \x01(\x02\x12\x12\n\nexhaustion\x18\x03 \x01(\x02\x12\x11\n\thappiness\x18\x04 \x01(\x02\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -105,15 +105,15 @@ _USER = _descriptor.Descriptor(
 )
 
 
-_HELLO = _descriptor.Descriptor(
-  name='Hello',
-  full_name='cortex.protocol.Hello',
+_HELLOMESSAGE = _descriptor.Descriptor(
+  name='HelloMessage',
+  full_name='cortex.protocol.HelloMessage',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='user_data', full_name='cortex.protocol.Hello.user_data', index=0,
+      name='user_data', full_name='cortex.protocol.HelloMessage.user_data', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -132,7 +132,7 @@ _HELLO = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=186,
-  serialized_end=235,
+  serialized_end=242,
 )
 
 
@@ -144,15 +144,8 @@ _FIELD = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='length', full_name='cortex.protocol.Field.length', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='name', full_name='cortex.protocol.Field.name', index=1,
-      number=2, type=9, cpp_type=9, label=1,
+      name='name', full_name='cortex.protocol.Field.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -169,28 +162,21 @@ _FIELD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=237,
-  serialized_end=274,
+  serialized_start=244,
+  serialized_end=265,
 )
 
 
-_CONFIG = _descriptor.Descriptor(
-  name='Config',
-  full_name='cortex.protocol.Config',
+_FIELDSCONFIG = _descriptor.Descriptor(
+  name='FieldsConfig',
+  full_name='cortex.protocol.FieldsConfig',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='number_of_fields', full_name='cortex.protocol.Config.number_of_fields', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='fields', full_name='cortex.protocol.Config.fields', index=1,
-      number=2, type=11, cpp_type=10, label=3,
+      name='fields', full_name='cortex.protocol.FieldsConfig.fields', index=0,
+      number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -207,8 +193,39 @@ _CONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=276,
-  serialized_end=350,
+  serialized_start=267,
+  serialized_end=321,
+)
+
+
+_CONFIGMESSAGE = _descriptor.Descriptor(
+  name='ConfigMessage',
+  full_name='cortex.protocol.ConfigMessage',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fields_config', full_name='cortex.protocol.ConfigMessage.fields_config', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=323,
+  serialized_end=392,
 )
 
 
@@ -273,8 +290,39 @@ _SNAPSHOT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=353,
-  serialized_end=585,
+  serialized_start=395,
+  serialized_end=627,
+)
+
+
+_SNAPSHOTMESSAGE = _descriptor.Descriptor(
+  name='SnapshotMessage',
+  full_name='cortex.protocol.SnapshotMessage',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='snapshot', full_name='cortex.protocol.SnapshotMessage.snapshot', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=629,
+  serialized_end=691,
 )
 
 
@@ -318,8 +366,8 @@ _POSE_TRANSLATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=702,
-  serialized_end=748,
+  serialized_start=808,
+  serialized_end=854,
 )
 
 _POSE_ROTATION = _descriptor.Descriptor(
@@ -369,8 +417,8 @@ _POSE_ROTATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=750,
-  serialized_end=804,
+  serialized_start=856,
+  serialized_end=910,
 )
 
 _POSE = _descriptor.Descriptor(
@@ -406,8 +454,8 @@ _POSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=588,
-  serialized_end=804,
+  serialized_start=694,
+  serialized_end=910,
 )
 
 
@@ -451,8 +499,8 @@ _COLORIMAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=806,
-  serialized_end=863,
+  serialized_start=912,
+  serialized_end=969,
 )
 
 
@@ -496,8 +544,8 @@ _DEPTHIMAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=865,
-  serialized_end=922,
+  serialized_start=971,
+  serialized_end=1028,
 )
 
 
@@ -548,27 +596,31 @@ _FEELINGS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=924,
-  serialized_end=1005,
+  serialized_start=1030,
+  serialized_end=1111,
 )
 
 _USER.fields_by_name['gender'].enum_type = _USER_GENDER
 _USER_GENDER.containing_type = _USER
-_HELLO.fields_by_name['user_data'].message_type = _USER
-_CONFIG.fields_by_name['fields'].message_type = _FIELD
+_HELLOMESSAGE.fields_by_name['user_data'].message_type = _USER
+_FIELDSCONFIG.fields_by_name['fields'].message_type = _FIELD
+_CONFIGMESSAGE.fields_by_name['fields_config'].message_type = _FIELDSCONFIG
 _SNAPSHOT.fields_by_name['pose'].message_type = _POSE
 _SNAPSHOT.fields_by_name['color_image'].message_type = _COLORIMAGE
 _SNAPSHOT.fields_by_name['depth_image'].message_type = _DEPTHIMAGE
 _SNAPSHOT.fields_by_name['feelings'].message_type = _FEELINGS
+_SNAPSHOTMESSAGE.fields_by_name['snapshot'].message_type = _SNAPSHOT
 _POSE_TRANSLATION.containing_type = _POSE
 _POSE_ROTATION.containing_type = _POSE
 _POSE.fields_by_name['translation'].message_type = _POSE_TRANSLATION
 _POSE.fields_by_name['rotation'].message_type = _POSE_ROTATION
 DESCRIPTOR.message_types_by_name['User'] = _USER
-DESCRIPTOR.message_types_by_name['Hello'] = _HELLO
+DESCRIPTOR.message_types_by_name['HelloMessage'] = _HELLOMESSAGE
 DESCRIPTOR.message_types_by_name['Field'] = _FIELD
-DESCRIPTOR.message_types_by_name['Config'] = _CONFIG
+DESCRIPTOR.message_types_by_name['FieldsConfig'] = _FIELDSCONFIG
+DESCRIPTOR.message_types_by_name['ConfigMessage'] = _CONFIGMESSAGE
 DESCRIPTOR.message_types_by_name['Snapshot'] = _SNAPSHOT
+DESCRIPTOR.message_types_by_name['SnapshotMessage'] = _SNAPSHOTMESSAGE
 DESCRIPTOR.message_types_by_name['Pose'] = _POSE
 DESCRIPTOR.message_types_by_name['ColorImage'] = _COLORIMAGE
 DESCRIPTOR.message_types_by_name['DepthImage'] = _DEPTHIMAGE
@@ -581,12 +633,12 @@ User = _reflection.GeneratedProtocolMessageType('User', (_message.Message,), dic
   ))
 _sym_db.RegisterMessage(User)
 
-Hello = _reflection.GeneratedProtocolMessageType('Hello', (_message.Message,), dict(
-  DESCRIPTOR = _HELLO,
+HelloMessage = _reflection.GeneratedProtocolMessageType('HelloMessage', (_message.Message,), dict(
+  DESCRIPTOR = _HELLOMESSAGE,
   __module__ = 'protocol_pb2'
-  # @@protoc_insertion_point(class_scope:cortex.protocol.Hello)
+  # @@protoc_insertion_point(class_scope:cortex.protocol.HelloMessage)
   ))
-_sym_db.RegisterMessage(Hello)
+_sym_db.RegisterMessage(HelloMessage)
 
 Field = _reflection.GeneratedProtocolMessageType('Field', (_message.Message,), dict(
   DESCRIPTOR = _FIELD,
@@ -595,12 +647,19 @@ Field = _reflection.GeneratedProtocolMessageType('Field', (_message.Message,), d
   ))
 _sym_db.RegisterMessage(Field)
 
-Config = _reflection.GeneratedProtocolMessageType('Config', (_message.Message,), dict(
-  DESCRIPTOR = _CONFIG,
+FieldsConfig = _reflection.GeneratedProtocolMessageType('FieldsConfig', (_message.Message,), dict(
+  DESCRIPTOR = _FIELDSCONFIG,
   __module__ = 'protocol_pb2'
-  # @@protoc_insertion_point(class_scope:cortex.protocol.Config)
+  # @@protoc_insertion_point(class_scope:cortex.protocol.FieldsConfig)
   ))
-_sym_db.RegisterMessage(Config)
+_sym_db.RegisterMessage(FieldsConfig)
+
+ConfigMessage = _reflection.GeneratedProtocolMessageType('ConfigMessage', (_message.Message,), dict(
+  DESCRIPTOR = _CONFIGMESSAGE,
+  __module__ = 'protocol_pb2'
+  # @@protoc_insertion_point(class_scope:cortex.protocol.ConfigMessage)
+  ))
+_sym_db.RegisterMessage(ConfigMessage)
 
 Snapshot = _reflection.GeneratedProtocolMessageType('Snapshot', (_message.Message,), dict(
   DESCRIPTOR = _SNAPSHOT,
@@ -608,6 +667,13 @@ Snapshot = _reflection.GeneratedProtocolMessageType('Snapshot', (_message.Messag
   # @@protoc_insertion_point(class_scope:cortex.protocol.Snapshot)
   ))
 _sym_db.RegisterMessage(Snapshot)
+
+SnapshotMessage = _reflection.GeneratedProtocolMessageType('SnapshotMessage', (_message.Message,), dict(
+  DESCRIPTOR = _SNAPSHOTMESSAGE,
+  __module__ = 'protocol_pb2'
+  # @@protoc_insertion_point(class_scope:cortex.protocol.SnapshotMessage)
+  ))
+_sym_db.RegisterMessage(SnapshotMessage)
 
 Pose = _reflection.GeneratedProtocolMessageType('Pose', (_message.Message,), dict(
 

@@ -11,7 +11,7 @@ from cortex.entities import Snapshot
 from cortex.sample.depthimage import DepthImage
 from cortex.sample.colorimage import ColorImage
 
-from ..snapshot import SnapshotMessage
+from cortex.protocol.snapshot_message import SnapshotMessage
 
 class SnapshotMessageNative(SnapshotMessage):
     ERROR_DATA_INCOMPLETE   = 'incomplete data'
