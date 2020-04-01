@@ -45,7 +45,9 @@ class Handler(threading.Thread):
         self.parser                 = Parser()
         self.supported_fields       = self.parser.get_fields_names()
         
-        self.hello_message_class    = HelloMessageNative
+        from cortex.protocol import HelloMessageProto 
+
+        self.hello_message_class    = HelloMessageProto # HelloMessageNative
         self.config_message_class   = ConfigMessageNative
         self.snapshot_message_class = SnapshotMessageNative
     

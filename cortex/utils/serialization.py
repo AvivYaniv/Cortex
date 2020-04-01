@@ -1,7 +1,24 @@
 from struct import pack, unpack, calcsize
+from numpy.lib import stride_tricks
 
 class Serialization:
     ERROR_DATA_INCOMPLETE   = 'incomplete data'
+    
+    TUNNLE_MESSAGE_HEADER           = 'I'
+    TUNNLE_MESSAGE_PAYLOAD_FORMAT   = '{0}s'
+    TUNNLE_MESSAGE_FORMAT           = TUNNLE_MESSAGE_HEADER + TUNNLE_MESSAGE_PAYLOAD_FORMAT
+    
+    @staticmethod
+    def serialize_tunnled_message(data, endianity = '<'):
+        size = len(data)
+        return pack(endianity + Serialization.TUNNLE_MESSAGE_FORMAT.format(size),
+                    size,
+                    data)
+    
+    @staticmethod
+    def read_tunnled_message(stream, endianity = '<'):
+        message_size = Serialization.read(stream, Serialization.TUNNLE_MESSAGE_HEADER, endianity = '<', expect_eof=True)[0]
+        return stream.read(message_size)
     
     @staticmethod
     def remove_endianity(data):

@@ -1,4 +1,4 @@
-from cortex.protobuf import mind_proto as mind_proto
+from cortex.protobuf import mind_proto
 
 from cortex.sample.snapshot import Snapshot
 from cortex.sample.userinformation import UserInformation
@@ -20,12 +20,8 @@ class ProtobufSampleReader(FileReaderBase):
 	def __init__(self, file_path):
 		super().__init__(file_path)
 		
-	def read_protobuf_message(self):
-		message_size = Serialization.read(self.stream, ProtobufSampleReader.PROTOBUF_HEADER, expect_eof=True)[0]
-		return self.stream.read(message_size)
-		
 	def read_user_information(self):
-		user_information_bytes 		= 	self.read_protobuf_message()
+		user_information_bytes 		= 	Serialization.read_tunnled_message(self.stream)
 		user_information_protobuf 	= 	mind_proto.User()
 		user_information_protobuf.ParseFromString(user_information_bytes)
 		
@@ -39,7 +35,7 @@ class ProtobufSampleReader(FileReaderBase):
 		return user_information
 	
 	def read_snapshot(self):
-		snapshot_bytes 				= 	self.read_protobuf_message()
+		snapshot_bytes 				= 	Serialization.read_tunnled_message(self.stream)
 		snapshot_protobuf 			= 	mind_proto.Snapshot()
 		snapshot_protobuf.ParseFromString(snapshot_bytes)
 		

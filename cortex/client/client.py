@@ -15,7 +15,10 @@ logger_loader 			= LoggerLoader()
 logger_loader.load_log_config()
 
 # Message Classes	
-hello_message_class    = HelloMessageNative
+
+# TODO REFACTOR
+from cortex.protocol import HelloMessageProto 
+hello_message_class    = HelloMessageProto # HelloMessageNative
 config_message_class   = ConfigMessageNative
 snapshot_message_class = SnapshotMessageNative
 	

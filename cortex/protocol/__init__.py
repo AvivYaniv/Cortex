@@ -4,4 +4,6 @@ from .snapshot import SnapshotMessage
 
 from .native import *
 
+from .protobuf import *
+
 version = '0.1.0'
