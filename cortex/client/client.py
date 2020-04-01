@@ -1,4 +1,4 @@
-from cortex.protocol import HelloMessage, ConfigMessage, SnapshotMessage
+from cortex.protocol import HelloMessageNative, ConfigMessageNative, SnapshotMessageNative
 
 from cortex.readers import SampleFileReader
 
@@ -28,15 +28,15 @@ def upload_sample(address, file_path, version):
 			user_information.username, 		\
 			user_information.birth_date,	\
 			user_information.gender
-		hello_message = HelloMessage(*hello_message_params)
+		hello_message = HelloMessageNative(*hello_message_params)
 		connection.send_message(hello_message.serialize())
 			
 	def ReceiveConfigMessage(connection):
-		config_message = ConfigMessage.read(connection.receive_message())
+		config_message = ConfigMessageNative.read(connection.receive_message())
 		return config_message
 			
 	def SendSnapshotMessage(connection, snapshot, fields):
-		snapshot_message = SnapshotMessage(snapshot, fields)
+		snapshot_message = SnapshotMessageNative(snapshot, fields)
 		connection.send_message(snapshot_message.serialize())
 			
 	with SampleFileReader(file_path, version) as sample_reader:

@@ -20,11 +20,4 @@ class SnapshotMessage:
             snapshot.user_feeling = (0.0, 0.0, 0.0, 0.0)       
         # Setting values
         self.snapshot = snapshot
-        
-    def serialize(self):
-        return self.snapshot.serialize()
-    
-    @staticmethod
-    def read(data):
-        return Snapshot.read(io.BytesIO(data))
     

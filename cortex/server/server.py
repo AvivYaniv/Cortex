@@ -4,7 +4,7 @@ from cortex.utils import Connection
 
 from cortex.parsers import Parser
 
-from cortex.protocol import HelloMessage, ConfigMessage, SnapshotMessage
+from cortex.protocol import HelloMessageNative, ConfigMessageNative, SnapshotMessageNative
 
 from cortex.sample import Snapshot
 
@@ -67,14 +67,14 @@ class Handler(threading.Thread):
     
     def run(self): # start invokes run	
         # Receive hello message        
-        hello_message = HelloMessage.read(self.connection.receive_message())
+        hello_message = HelloMessageNative.read(self.connection.receive_message())
         # Send config message
-        config_message = ConfigMessage(*self.supported_fields) 
+        config_message = ConfigMessageNative(*self.supported_fields) 
         self.connection.send_message(config_message.serialize())
         # Receive snapshot messeges
         while True:
             try:
-                snapshot_message    =   SnapshotMessage.read(self.connection.receive_message())
+                snapshot_message    =   SnapshotMessageNative.read(self.connection.receive_message())
                 context             =   self.get_context(hello_message, snapshot_message)
                 self.parser.parse(context, snapshot_message)
             except EOFError:            
@@ -84,12 +84,12 @@ def run_server(address, data_dir='data'):
     """Starts a server to which snapshots can be uploaded with `upload_sample`"""  
     logger.info("TODO UPDATE Processing data")
     
-	# Parse server address
+    # Parse server address
     server_ip_str, server_port_str  = address.split(":")
     server_port_int                 = int(server_port_str)
     
     with Listener(server_port_int, server_ip_str) as listener:
-    	# Accept client        
+        # Accept client        
         connection = listener.accept()        
         # Initialize client Handler
         handler = Handler(connection, data_dir)        
