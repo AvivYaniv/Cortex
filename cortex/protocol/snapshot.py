@@ -1,9 +1,9 @@
 import io
 
-from ..sample import Snapshot
+from cortex.sample import Snapshot
 
-from ..sample import ColorImage
-from ..sample import DepthImage
+from cortex.sample import ColorImage
+from cortex.sample import DepthImage
 
 class SnapshotMessage:
     def __init__(self, snapshot, fields):

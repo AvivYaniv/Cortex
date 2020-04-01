@@ -2,10 +2,10 @@ import io
 
 from struct import pack, calcsize
 
-from ..utils import Serialization
+from cortex.utils.serialization import Serialization
 
 class ConfigMessage:
-    SERIALIZATION_ENDIANITY = '<'
+    SERIALIZATION_ENDIANITY     = '<'
 
     SERIALIZATION_HEADER        = 'I'
     SERIALIZATION_FIELD_HEADER  = 'I'

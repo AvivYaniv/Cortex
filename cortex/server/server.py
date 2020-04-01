@@ -1,21 +1,21 @@
 from pathlib import Path, PurePath
 
-from .utils import Connection
+from cortex.utils import Connection
 
-from .parsers import Parser
+from cortex.parsers import Parser
 
-from .protocol import HelloMessage, ConfigMessage, SnapshotMessage
+from cortex.protocol import HelloMessage, ConfigMessage, SnapshotMessage
 
-from .sample import Snapshot
+from cortex.sample import Snapshot
 
-from .utils import Listener
+from cortex.utils import Listener
 
 from functools import wraps
 import threading
 from builtins import staticmethod
 
 import logging
-from logger import LoggerLoader
+from cortex.logger import LoggerLoader
 
 # Log loading
 logger                    = logging.getLogger(__name__)

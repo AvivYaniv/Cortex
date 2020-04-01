@@ -2,7 +2,7 @@ import time
 from struct import pack, calcsize
 from datetime import datetime
 
-from ..utils import Serialization
+from cortex.utils.serialization import Serialization
 
 class UserInformation:
     ERROR_DATA_INCOMPLETE   = 'incomplete data'

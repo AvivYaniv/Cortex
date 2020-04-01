@@ -1,13 +1,13 @@
-from .protocol import HelloMessage, ConfigMessage, SnapshotMessage
+from cortex.protocol import HelloMessage, ConfigMessage, SnapshotMessage
 
-from .readers import SampleFileReader
+from cortex.readers import SampleFileReader
 
-from .utils import Connection
+from cortex.utils import Connection
 
-from .utils import Messeges
+from cortex.utils import Messeges
 
 import logging
-from logger import LoggerLoader
+from cortex.logger import LoggerLoader
 
 # Log loading
 logger					= logging.getLogger(__name__)

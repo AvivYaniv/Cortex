@@ -1,6 +1,6 @@
-from .client import upload_sample
+from cortex.client.client import upload_sample
 
-from .server import run_server
+from cortex.server.server import run_server
 
 from .web import run_webserver
 

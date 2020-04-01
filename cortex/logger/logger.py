@@ -1,7 +1,6 @@
 import yaml
 import os
 import logging.config
-import logging
 from builtins import staticmethod
 
 # Logging configuraition file
@@ -30,12 +29,11 @@ class LoggerLoader:
     
     @staticmethod    
     def read_log_config_to_dictionary(fpath=LOGGER_CONFIG_FILE_PATH):
-        filename, file_extension = os.path.splitext(fpath)    
+        _, file_extension = os.path.splitext(fpath)    
         dictionary = None    
         if file_extension not in CONFIG_FILE_READERS:
             print(ERROR_UNKNOWN_TYPE_CONFIGURATION_FILE_NOT_FOUND)
-            return dictionary
-        
+            return dictionary        
         if os.path.exists(fpath):
             with open(fpath, 'rt') as f:
                 try:

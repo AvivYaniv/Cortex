@@ -1,6 +1,6 @@
 from struct import pack, calcsize
 
-from ..utils import Serialization
+from cortex.utils.serialization import Serialization
 
 class SnapshotImage:
     ERROR_DATA_INCOMPLETE        = 'incomplete data'
