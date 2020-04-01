@@ -4,7 +4,7 @@ from cortex.utils import Connection
 
 from cortex.parsers import Parser
 
-from cortex.protocol import HelloMessageNative, ConfigMessageNative, SnapshotMessageNative
+from cortex.protocol import HelloMessageProto, ConfigMessageProto, SnapshotMessageProto
 
 from cortex.sample import Snapshot
 
@@ -45,11 +45,8 @@ class Handler(threading.Thread):
         self.parser                 = Parser()
         self.supported_fields       = self.parser.get_fields_names()
         
-        from cortex.protocol import HelloMessageProto, ConfigMessageProto
-
-        self.hello_message_class    = HelloMessageProto # HelloMessageNative
-        self.config_message_class   = ConfigMessageProto # ConfigMessageNative
-        self.snapshot_message_class = SnapshotMessageNative
+        self.hello_message_class, self.config_message_class, self.snapshot_message_class = \
+            HelloMessageProto, ConfigMessageProto, SnapshotMessageProto
     
     def get_context(self, hello_message, snapshot_message):
         class Context:

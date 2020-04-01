@@ -32,7 +32,7 @@ class SnapshotMessage:
             self.user_feeling = (0.0, 0.0, 0.0, 0.0)       
         else:
             self.user_feeling   = snapshot.user_feeling
-
+        
     def __repr__(self):
         return f'Snapshot(datetime={datetime.strftime(self.datetime, SnapshotMessage.DATETIME_FORMAT)}, translation={self.translation}, rotation={self.rotation}, color_image={self.color_image}, depth_image={self.depth_image})'
     

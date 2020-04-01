@@ -1,7 +1,8 @@
 from datetime import datetime
 
+from cortex.utils import TimeUtils
+
 class Snapshot:
-    DATETIME_FORMAT         = '%Y-%m-%d_%H-%M-%S-%f'
     
     def __init__(self, timestamp, translation, rotation, color_image, depth_image, user_feeling):
         self.timestamp      = timestamp
@@ -13,5 +14,5 @@ class Snapshot:
         self.user_feeling   = user_feeling
        
     def getTimeStamp(self):
-        return datetime.strftime(self.datetime, Snapshot.DATETIME_FORMAT)
+        return TimeUtils.get_time_stamp(self.datetime)
  

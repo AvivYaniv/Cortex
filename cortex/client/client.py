@@ -15,12 +15,9 @@ logger_loader 			= LoggerLoader()
 logger_loader.load_log_config()
 
 # Message Classes	
-
-# TODO REFACTOR
-from cortex.protocol import HelloMessageProto, ConfigMessageProto
-hello_message_class    = HelloMessageProto # HelloMessageNative
-config_message_class   = ConfigMessageProto # ConfigMessageNative
-snapshot_message_class = SnapshotMessageNative
+from cortex.protocol import HelloMessageProto, ConfigMessageProto, SnapshotMessageProto
+hello_message_class, config_message_class, snapshot_message_class = \
+	HelloMessageProto, ConfigMessageProto, SnapshotMessageProto
 	
 def upload_sample(address, file_path, version):
 	"""Sends to the server user's sample file"""
