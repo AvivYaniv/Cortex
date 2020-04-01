@@ -13,6 +13,11 @@ from cortex.logger import LoggerLoader
 logger					= logging.getLogger(__name__)
 logger_loader 			= LoggerLoader()
 logger_loader.load_log_config()
+
+# Message Classes	
+hello_message_class    = HelloMessageNative
+config_message_class   = ConfigMessageNative
+snapshot_message_class = SnapshotMessageNative
 	
 def upload_sample(address, file_path, version):
 	"""Sends to the server user's sample file"""
@@ -28,15 +33,15 @@ def upload_sample(address, file_path, version):
 			user_information.username, 		\
 			user_information.birth_date,	\
 			user_information.gender
-		hello_message = HelloMessageNative(*hello_message_params)
+		hello_message = hello_message_class(*hello_message_params)
 		connection.send_message(hello_message.serialize())
 			
 	def ReceiveConfigMessage(connection):
-		config_message = ConfigMessageNative.read(connection.receive_message())
+		config_message = config_message_class.read(connection.receive_message())
 		return config_message
 			
 	def SendSnapshotMessage(connection, snapshot, fields):
-		snapshot_message = SnapshotMessageNative(snapshot, fields)
+		snapshot_message = snapshot_message_class(snapshot, fields)
 		connection.send_message(snapshot_message.serialize())
 			
 	with SampleFileReader(file_path, version) as sample_reader:

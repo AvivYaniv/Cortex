@@ -40,10 +40,14 @@ class Handler(threading.Thread):
     lock       = threading.Lock()    
     def __init__(self, connection, data_dir):    
         super().__init__()
-        self.connection         = connection    
-        self.data_dir           = data_dir
-        self.parser             = Parser()
-        self.supported_fields   = self.parser.get_fields_names()
+        self.connection             = connection    
+        self.data_dir               = data_dir
+        self.parser                 = Parser()
+        self.supported_fields       = self.parser.get_fields_names()
+        
+        self.hello_message_class    = HelloMessageNative
+        self.config_message_class   = ConfigMessageNative
+        self.snapshot_message_class = SnapshotMessageNative
     
     def get_context(self, hello_message, snapshot_message):
         class Context:
@@ -67,14 +71,14 @@ class Handler(threading.Thread):
     
     def run(self): # start invokes run	
         # Receive hello message        
-        hello_message = HelloMessageNative.read(self.connection.receive_message())
+        hello_message = self.hello_message_class.read(self.connection.receive_message())
         # Send config message
-        config_message = ConfigMessageNative(*self.supported_fields) 
+        config_message = self.config_message_class(*self.supported_fields)
         self.connection.send_message(config_message.serialize())
         # Receive snapshot messeges
         while True:
             try:
-                snapshot_message    =   SnapshotMessageNative.read(self.connection.receive_message())
+                snapshot_message    =   self.snapshot_message_class.read(self.connection.receive_message())
                 context             =   self.get_context(hello_message, snapshot_message)
                 self.parser.parse(context, snapshot_message)
             except EOFError:            
