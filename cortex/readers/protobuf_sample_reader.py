@@ -1,4 +1,4 @@
-from cortex.protobuf import cortex_pb2 as protobuf
+from cortex.protobuf import mind_proto as mind_proto
 
 from cortex.sample.snapshot import Snapshot
 from cortex.sample.userinformation import UserInformation
@@ -26,7 +26,7 @@ class ProtobufSampleReader(FileReaderBase):
 		
 	def read_user_information(self):
 		user_information_bytes 		= 	self.read_protobuf_message()
-		user_information_protobuf 	= 	protobuf.User()
+		user_information_protobuf 	= 	mind_proto.User()
 		user_information_protobuf.ParseFromString(user_information_bytes)
 		
 		user_information 			=							\
@@ -40,7 +40,7 @@ class ProtobufSampleReader(FileReaderBase):
 	
 	def read_snapshot(self):
 		snapshot_bytes 				= 	self.read_protobuf_message()
-		snapshot_protobuf 			= 	protobuf.Snapshot()
+		snapshot_protobuf 			= 	mind_proto.Snapshot()
 		snapshot_protobuf.ParseFromString(snapshot_bytes)
 		
 		translation 				= 							\
