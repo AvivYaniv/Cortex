@@ -34,9 +34,6 @@ class Snapshot:
     def __str__(self):
         return f'Snapshot from {datetime.strftime(self.datetime, Snapshot.CONCISE_DATE_FORMAT)} at {datetime.strftime(self.datetime, Snapshot.CONCISE_HOUR_FORMAT)} on {self.translation} / {self.rotation} with a {self.color_image} and a {self.depth_image}'
     
-    def getTimeStamp(self):
-        return datetime.strftime(self.datetime, Snapshot.DATETIME_FORMAT)
-    
     def get_current_serialization_format(self):
         if not hasattr(self, '_current_serialization_format'):
             raw_color_image_format  = Serialization.remove_endianity(self.color_image.get_current_serialization_format())

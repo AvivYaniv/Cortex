@@ -54,5 +54,5 @@ def upload_sample(address, file_path, version):
 			fields = config_message.fields			
 			# Sending snapshot messages
 			for snapshot in sample_reader:
-				SendSnapshotMessage(connection, snapshot, fields)				
+				SendSnapshotMessage(connection, snapshot, fields)
 	print(Messeges.DONE_MESSEGE)
