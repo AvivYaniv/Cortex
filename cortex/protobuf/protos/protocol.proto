@@ -35,8 +35,7 @@ message Snapshot {
     Pose pose = 2;
     ColorImage color_image = 3;
     DepthImage depth_image = 4;
-    Feelings feelings = 5;
-	uint32 message_size = 6;
+    Feelings feelings = 5;	
 }
 
 message SnapshotMessage {

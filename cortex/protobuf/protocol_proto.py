@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='protocol.proto',
   package='cortex.protocol',
   syntax='proto3',
-  serialized_pb=_b('\n\x0eprotocol.proto\x12\x0f\x63ortex.protocol\"\x94\x01\n\x04User\x12\x0f\n\x07user_id\x18\x01 \x01(\x04\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x10\n\x08\x62irthday\x18\x03 \x01(\r\x12,\n\x06gender\x18\x04 \x01(\x0e\x32\x1c.cortex.protocol.User.Gender\")\n\x06Gender\x12\x08\n\x04MALE\x10\x00\x12\n\n\x06\x46\x45MALE\x10\x01\x12\t\n\x05OTHER\x10\x02\"8\n\x0cHelloMessage\x12(\n\tuser_data\x18\x01 \x01(\x0b\x32\x15.cortex.protocol.User\"\x15\n\x05\x46ield\x12\x0c\n\x04name\x18\x01 \x01(\t\"6\n\x0c\x46ieldsConfig\x12&\n\x06\x66ields\x18\x01 \x03(\x0b\x32\x16.cortex.protocol.Field\"E\n\rConfigMessage\x12\x34\n\rfields_config\x18\x01 \x01(\x0b\x32\x1d.cortex.protocol.FieldsConfig\"\xe8\x01\n\x08Snapshot\x12\x10\n\x08\x64\x61tetime\x18\x01 \x01(\x04\x12#\n\x04pose\x18\x02 \x01(\x0b\x32\x15.cortex.protocol.Pose\x12\x30\n\x0b\x63olor_image\x18\x03 \x01(\x0b\x32\x1b.cortex.protocol.ColorImage\x12\x30\n\x0b\x64\x65pth_image\x18\x04 \x01(\x0b\x32\x1b.cortex.protocol.DepthImage\x12+\n\x08\x66\x65\x65lings\x18\x05 \x01(\x0b\x32\x19.cortex.protocol.Feelings\x12\x14\n\x0cmessage_size\x18\x06 \x01(\r\">\n\x0fSnapshotMessage\x12+\n\x08snapshot\x18\x01 \x01(\x0b\x32\x19.cortex.protocol.Snapshot\"\xd8\x01\n\x04Pose\x12\x36\n\x0btranslation\x18\x01 \x01(\x0b\x32!.cortex.protocol.Pose.Translation\x12\x30\n\x08rotation\x18\x02 \x01(\x0b\x32\x1e.cortex.protocol.Pose.Rotation\x1a.\n\x0bTranslation\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x1a\x36\n\x08Rotation\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\t\n\x01w\x18\x04 \x01(\x01\"9\n\nColorImage\x12\r\n\x05width\x18\x01 \x01(\r\x12\x0e\n\x06height\x18\x02 \x01(\r\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\x0c\"9\n\nDepthImage\x12\r\n\x05width\x18\x01 \x01(\r\x12\x0e\n\x06height\x18\x02 \x01(\r\x12\x0c\n\x04\x64\x61ta\x18\x03 \x03(\x02\"Q\n\x08\x46\x65\x65lings\x12\x0e\n\x06hunger\x18\x01 \x01(\x02\x12\x0e\n\x06thirst\x18\x02 \x01(\x02\x12\x12\n\nexhaustion\x18\x03 \x01(\x02\x12\x11\n\thappiness\x18\x04 \x01(\x02\x62\x06proto3')
+  serialized_pb=_b('\n\x0eprotocol.proto\x12\x0f\x63ortex.protocol\"\x94\x01\n\x04User\x12\x0f\n\x07user_id\x18\x01 \x01(\x04\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x10\n\x08\x62irthday\x18\x03 \x01(\r\x12,\n\x06gender\x18\x04 \x01(\x0e\x32\x1c.cortex.protocol.User.Gender\")\n\x06Gender\x12\x08\n\x04MALE\x10\x00\x12\n\n\x06\x46\x45MALE\x10\x01\x12\t\n\x05OTHER\x10\x02\"8\n\x0cHelloMessage\x12(\n\tuser_data\x18\x01 \x01(\x0b\x32\x15.cortex.protocol.User\"\x15\n\x05\x46ield\x12\x0c\n\x04name\x18\x01 \x01(\t\"6\n\x0c\x46ieldsConfig\x12&\n\x06\x66ields\x18\x01 \x03(\x0b\x32\x16.cortex.protocol.Field\"E\n\rConfigMessage\x12\x34\n\rfields_config\x18\x01 \x01(\x0b\x32\x1d.cortex.protocol.FieldsConfig\"\xd2\x01\n\x08Snapshot\x12\x10\n\x08\x64\x61tetime\x18\x01 \x01(\x04\x12#\n\x04pose\x18\x02 \x01(\x0b\x32\x15.cortex.protocol.Pose\x12\x30\n\x0b\x63olor_image\x18\x03 \x01(\x0b\x32\x1b.cortex.protocol.ColorImage\x12\x30\n\x0b\x64\x65pth_image\x18\x04 \x01(\x0b\x32\x1b.cortex.protocol.DepthImage\x12+\n\x08\x66\x65\x65lings\x18\x05 \x01(\x0b\x32\x19.cortex.protocol.Feelings\">\n\x0fSnapshotMessage\x12+\n\x08snapshot\x18\x01 \x01(\x0b\x32\x19.cortex.protocol.Snapshot\"\xd8\x01\n\x04Pose\x12\x36\n\x0btranslation\x18\x01 \x01(\x0b\x32!.cortex.protocol.Pose.Translation\x12\x30\n\x08rotation\x18\x02 \x01(\x0b\x32\x1e.cortex.protocol.Pose.Rotation\x1a.\n\x0bTranslation\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x1a\x36\n\x08Rotation\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\t\n\x01w\x18\x04 \x01(\x01\"9\n\nColorImage\x12\r\n\x05width\x18\x01 \x01(\r\x12\x0e\n\x06height\x18\x02 \x01(\r\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\x0c\"9\n\nDepthImage\x12\r\n\x05width\x18\x01 \x01(\r\x12\x0e\n\x06height\x18\x02 \x01(\r\x12\x0c\n\x04\x64\x61ta\x18\x03 \x03(\x02\"Q\n\x08\x46\x65\x65lings\x12\x0e\n\x06hunger\x18\x01 \x01(\x02\x12\x0e\n\x06thirst\x18\x02 \x01(\x02\x12\x12\n\nexhaustion\x18\x03 \x01(\x02\x12\x11\n\thappiness\x18\x04 \x01(\x02\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -271,13 +271,6 @@ _SNAPSHOT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='message_size', full_name='cortex.protocol.Snapshot.message_size', index=5,
-      number=6, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -291,7 +284,7 @@ _SNAPSHOT = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=395,
-  serialized_end=627,
+  serialized_end=605,
 )
 
 
@@ -321,8 +314,8 @@ _SNAPSHOTMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=629,
-  serialized_end=691,
+  serialized_start=607,
+  serialized_end=669,
 )
 
 
@@ -366,8 +359,8 @@ _POSE_TRANSLATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=808,
-  serialized_end=854,
+  serialized_start=786,
+  serialized_end=832,
 )
 
 _POSE_ROTATION = _descriptor.Descriptor(
@@ -417,8 +410,8 @@ _POSE_ROTATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=856,
-  serialized_end=910,
+  serialized_start=834,
+  serialized_end=888,
 )
 
 _POSE = _descriptor.Descriptor(
@@ -454,8 +447,8 @@ _POSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=694,
-  serialized_end=910,
+  serialized_start=672,
+  serialized_end=888,
 )
 
 
@@ -499,8 +492,8 @@ _COLORIMAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=912,
-  serialized_end=969,
+  serialized_start=890,
+  serialized_end=947,
 )
 
 
@@ -544,8 +537,8 @@ _DEPTHIMAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=971,
-  serialized_end=1028,
+  serialized_start=949,
+  serialized_end=1006,
 )
 
 
@@ -596,8 +589,8 @@ _FEELINGS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1030,
-  serialized_end=1111,
+  serialized_start=1008,
+  serialized_end=1089,
 )
 
 _USER.fields_by_name['gender'].enum_type = _USER_GENDER

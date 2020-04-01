@@ -28,15 +28,15 @@ class HelloMessageProto(HelloMessage):
     def read(data):
         stream = io.BytesIO(data)
         
-        user_information_bytes         =     Serialization.read_tunnled_message(stream)
-        user_information_protobuf      =     protocol_proto.HelloMessage()
-        user_information_protobuf.ParseFromString(user_information_bytes)
+        hello_message_bytes         =     Serialization.read_tunnled_message(stream)
+        hello_message_protobuf      =     protocol_proto.HelloMessage()
+        hello_message_protobuf.ParseFromString(hello_message_bytes)
         
-        user_information                 =                          \
+        hello_message                 =                             \
             HelloMessage(                                           \
-                    user_information_protobuf.user_data.user_id,    
-                    user_information_protobuf.user_data.username, 
-                    user_information_protobuf.user_data.birthday, 
-                    protocol_proto._USER_GENDER.values_by_number[user_information_protobuf.user_data.gender].name.lower()[0])       
-        return user_information
+                    hello_message_protobuf.user_data.user_id,    
+                    hello_message_protobuf.user_data.username, 
+                    hello_message_protobuf.user_data.birthday, 
+                    protocol_proto._USER_GENDER.values_by_number[hello_message_protobuf.user_data.gender].name.lower()[0])       
+        return hello_message
         

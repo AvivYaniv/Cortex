@@ -10,20 +10,21 @@ from cortex.utils.serialization import Serialization
 class SnapshotMessageProto(SnapshotMessage):
     
     def serialize(self):
-        snapshot_message                      = protocol_proto.Snapshot()
-        snapshot_message.datetime    		  = int(time.mktime(self.datetime.timetuple()))
-        snapshot_message.user_data.username   = self.username  
-        snapshot_message.user_data.birthday   = 
-        snapshot_message.user_data.gender     = HelloMessageProto.GENDER_TABLE[self.gender].number
+        snapshot_message                      	= protocol_proto.SnapshotMessage()
+        snapshot_message.snapshot.datetime    	= int(time.mktime(self.datetime.timetuple()))
+        snapshot_message.snapshot.pose   		= self.pose        
+        snapshot_message.snapshot.color_image   = self.color_image
+        snapshot_message.snapshot.depth_image   = self.depth_image 
+        snapshot_message.snapshot.feelings   	= self.feelings 
         return Serialization.serialize_tunnled_message(snapshot_message.SerializeToString())
     
     @staticmethod
     def read(data):
         stream = io.BytesIO(data)
         
-        user_information_bytes         =     Serialization.read_tunnled_message(stream)
-        user_information_protobuf      =     protocol_proto.Hello()
-        user_information_protobuf.ParseFromString(user_information_bytes)
+        snapshot_message_bytes         =     Serialization.read_tunnled_message(stream)
+        snapshot_message_protobuf      =     protocol_proto.SnapshotMessage()
+        snapshot_message_protobuf.ParseFromString(snapshot_message_bytes)
         
         user_information                 =                          \
             HelloMessage(                                           \
