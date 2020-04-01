@@ -19,7 +19,7 @@ class HelloMessageNative(HelloMessage):
     SERIALIZATION_PAYLOAD   = '{0}sIc'
     SERIALIZATION_FORMAT    = SERIALIZATION_ENDIANITY + SERIALIZATION_HEADER + SERIALIZATION_PAYLOAD
     
-    GENDER_TABLE            = { 'm' : 'male' , 'f' : 'female', 'o' : 'other' }
+    GENDER_TABLE            = { 'm' : 'MALE' , 'f' : 'FEMALE', 'o' : 'OTHER' }
     
     def get_current_serialization_format(self):
         if not hasattr(self, '_current_serialization_format'):        

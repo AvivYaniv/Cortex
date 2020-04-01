@@ -34,7 +34,7 @@ class ProtobufSampleReader(FileReaderBase):
 							user_information_protobuf.user_id, 	\
 							user_information_protobuf.username, 
 							user_information_protobuf.birthday, 
-							ProtobufSampleReader.GENDER_TABLE[user_information_protobuf.gender])
+							mind_proto._USER_GENDER.values_by_number[user_information_protobuf.gender].name.lower()[0])
 		
 		return user_information
 	

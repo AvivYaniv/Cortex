@@ -19,8 +19,6 @@ class HelloMessageNative(HelloMessage):
     SERIALIZATION_PAYLOAD   = '{0}sIc'
     SERIALIZATION_FORMAT    = SERIALIZATION_ENDIANITY + SERIALIZATION_HEADER + SERIALIZATION_PAYLOAD
     
-    GENDER_TABLE            = { 'm' : 'male' , 'f' : 'female', 'o' : 'other' }
-    
     def get_current_serialization_format(self):
         if not hasattr(self, '_current_serialization_format'):        
             username_size = len(self.username)
@@ -62,5 +60,4 @@ class HelloMessageNative(HelloMessage):
             Serialization.read(stream, CURRENT_USER_PAYLOAD_FORMAT)
         
         return HelloMessage(user_id, username, birth_date, gender)
-    
-    
+        

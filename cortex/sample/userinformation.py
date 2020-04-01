@@ -5,6 +5,8 @@ from datetime import datetime
 from cortex.utils.serialization import Serialization
 
 class UserInformation:
+    ENCODING                = 'utf-8'
+    
     ERROR_DATA_INCOMPLETE   = 'incomplete data'
 
     DATETIME_FORMAT         = '%Y-%m-%d_%H:%M:%S'
@@ -16,13 +18,13 @@ class UserInformation:
     SERIALIZATION_PAYLOAD   = '{0}sIc'
     SERIALIZATION_FORMAT    = SERIALIZATION_ENDIANITY + SERIALIZATION_HEADER + SERIALIZATION_PAYLOAD
     
-    GENDER_TABLE            = { 'm' : 'male' , 'f' : 'female', 'o' : 'other'}
+    GENDER_TABLE            = { 'm' : 'male' , 'f' : 'female', 'o' : 'other' }
     
     def __init__(self, user_id, username, birth_date, gender):
         self.user_id        = user_id
-        self.username       = username if isinstance(username, str) else username.decode('utf-8')
+        self.username       = username if isinstance(username, str) else username.decode(UserInformation.ENCODING)
         self.birth_date     = birth_date
-        self.gender         = gender if isinstance(gender, str) else gender.decode('utf-8')
+        self.gender         = gender if isinstance(gender, str) else gender.decode(UserInformation.ENCODING)
          
     def __repr__(self):
         return f'UserInformation(user_id={self.user_id}, username={self.username}, birth_date={datetime.strftime(self.birth_date, UserInformation.DATETIME_FORMAT)}, gender={self.gender})'
@@ -50,13 +52,13 @@ class UserInformation:
         username_size                   = len(self.username)
         birth_date_as_number            = int(time.mktime(self.birth_date.timetuple()))
        
-        return                                              \
-            pack(self.get_current_serialization_format(),   \
-                 self.user_id,                              \
-                 username_size,                             \
-                 self.username.encode('utf-8'),             \
-                 birth_date_as_number,                      \
-                 self.gender.encode('utf-8'))
+        return                                                      \
+            pack(self.get_current_serialization_format(),           \
+                 self.user_id,                                      \
+                 username_size,                                     \
+                 self.username.encode(UserInformation.ENCODING),    \
+                 birth_date_as_number,                              \
+                 self.gender.encode(UserInformation.ENCODING))
     
     @staticmethod
     def read(stream):
