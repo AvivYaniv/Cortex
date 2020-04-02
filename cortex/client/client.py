@@ -1,23 +1,20 @@
-from cortex.protocol import HelloMessageNative, ConfigMessageNative, SnapshotMessageNative
-
 from cortex.readers import SampleFileReader
 
 from cortex.utils import Connection
 
 from cortex.utils import Messeges
 
+from cortex.protocol import MessagesTyeps, Protocol
+
 import logging
 from cortex.logger import LoggerLoader
 
-# Log loading
 logger					= logging.getLogger(__name__)
 logger_loader 			= LoggerLoader()
 logger_loader.load_log_config()
 
-# Message Classes	
-from cortex.protocol import HelloMessageProto, ConfigMessageProto, SnapshotMessageProto
-hello_message_class, config_message_class, snapshot_message_class = \
-	HelloMessageProto, ConfigMessageProto, SnapshotMessageProto
+# Setting default protocol	
+protocol = Protocol() 
 	
 def upload_sample(address, file_path, version):
 	"""Sends to the server user's sample file"""
@@ -33,15 +30,15 @@ def upload_sample(address, file_path, version):
 			user_information.username, 		\
 			user_information.birth_date,	\
 			user_information.gender
-		hello_message = hello_message_class(*hello_message_params)
+		hello_message = protocol.get_message(MessagesTyeps.HELLO_MESSAGE)(*hello_message_params)
 		connection.send_message(hello_message.serialize())
 			
 	def ReceiveConfigMessage(connection):
-		config_message = config_message_class.read(connection.receive_message())
+		config_message = protocol.get_message(MessagesTyeps.CONFIG_MESSAGE).read(connection.receive_message())
 		return config_message
 			
 	def SendSnapshotMessage(connection, snapshot, fields):
-		snapshot_message = snapshot_message_class(snapshot, fields)
+		snapshot_message = protocol.get_message(MessagesTyeps.SNAPSHOT_MESSAGE)(snapshot, fields)
 		connection.send_message(snapshot_message.serialize())
 			
 	with SampleFileReader(file_path, version) as sample_reader:
@@ -49,7 +46,7 @@ def upload_sample(address, file_path, version):
 			# Sending hello message
 			user_information = sample_reader.user_information
 			SendHelloMessage(connection, user_information)
-			# Receiving config message
+			# Receiving confing message
 			config_message = ReceiveConfigMessage(connection)
 			fields = config_message.fields			
 			# Sending snapshot messages

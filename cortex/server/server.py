@@ -4,7 +4,7 @@ from cortex.utils import Connection
 
 from cortex.parsers import Parser
 
-from cortex.protocol import HelloMessageProto, ConfigMessageProto, SnapshotMessageProto
+from cortex.protocol import MessagesTyeps, Protocol, snapshot_message
 
 from cortex.sample import Snapshot
 
@@ -44,9 +44,7 @@ class Handler(threading.Thread):
         self.data_dir               = data_dir
         self.parser                 = Parser()
         self.supported_fields       = self.parser.get_fields_names()
-        
-        self.hello_message_class, self.config_message_class, self.snapshot_message_class = \
-            HelloMessageProto, ConfigMessageProto, SnapshotMessageProto
+        self.protocol               = Protocol()
     
     def get_context(self, hello_message, snapshot_message):
         class Context:
@@ -70,15 +68,17 @@ class Handler(threading.Thread):
     
     def run(self): # start invokes run	
         # Receive hello message        
-        hello_message = self.hello_message_class.read(self.connection.receive_message())
+        hello_message_bytes = self.connection.receive_message()
+        hello_message       = self.protocol.get_message(MessagesTyeps.HELLO_MESSAGE).read(hello_message_bytes)
         # Send config message
-        config_message = self.config_message_class(*self.supported_fields)
+        config_message = self.protocol.get_message(MessagesTyeps.CONFIG_MESSAGE)(*self.supported_fields)
         self.connection.send_message(config_message.serialize())
-        # Receive snapshot messeges
+        # Receive snapshot messages
         while True:
             try:
-                snapshot_message    =   self.snapshot_message_class.read(self.connection.receive_message())
-                context             =   self.get_context(hello_message, snapshot_message)
+                snapshot_message_bytes  =   self.connection.receive_message()
+                snapshot_message        =   self.protocol.get_message(MessagesTyeps.SNAPSHOT_MESSAGE).read(snapshot_message_bytes)
+                context                 =   self.get_context(hello_message, snapshot_message)
                 self.parser.parse(context, snapshot_message)
             except EOFError:            
                 break
