@@ -49,11 +49,11 @@ class SampleStreamReader:
         return self.reader.read_snapshot()
 
 class SampleFileReader(SampleStreamReader):
-    def __init__(self, file_path, version):
+    def __init__(self, file_path, version=ReaderVersions.PROTOBUFF):
         super().__init__(file_path, version)
 
 def read(file_path):
-    with SampleFileReader(file_path, version=ReaderVersions.BINARY) as sample_reader:
+    with SampleFileReader(file_path, version=ReaderVersions.PROTOBUFF) as sample_reader:
         print(str(sample_reader.user_information))
         for snapshot in sample_reader:
             print(str(snapshot))

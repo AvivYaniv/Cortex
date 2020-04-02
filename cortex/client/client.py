@@ -9,6 +9,7 @@ from cortex.protocol import MessagesTyeps, Protocol
 import logging
 from cortex.logger import LoggerLoader
 
+# Log initialization
 logger					= logging.getLogger(__name__)
 logger_loader 			= LoggerLoader()
 logger_loader.load_log_config()
@@ -16,12 +17,12 @@ logger_loader.load_log_config()
 # Setting default protocol	
 protocol = Protocol() 
 	
-def upload_sample(address, file_path, version):
+def upload_sample(host='127.0.0.1', port='8000', file_path='sample.mind.gz'):
 	"""Sends to the server user's sample file"""
 	logger.info("TODO UPDATE Processing data")
 	
 	# Parse server address
-	server_ip_str, server_port_str  = address.split(":")
+	server_ip_str, server_port_str  = host, port
 	server_port_int                 = int(server_port_str)
 	
 	def SendHelloMessage(connection, user_information):
@@ -41,7 +42,7 @@ def upload_sample(address, file_path, version):
 		snapshot_message = protocol.get_message(MessagesTyeps.SNAPSHOT_MESSAGE)(snapshot, fields)
 		connection.send_message(snapshot_message.serialize())
 			
-	with SampleFileReader(file_path, version) as sample_reader:
+	with SampleFileReader(file_path) as sample_reader:
 		with Connection.connect(server_ip_str, server_port_int) as connection:					
 			# Sending hello message
 			user_information = sample_reader.user_information

@@ -2,7 +2,7 @@ import sys
 
 import click
 
-import cortex.client
+import cortex.server
 
 import logging
 from cortex.logger import LoggerLoader
@@ -20,16 +20,16 @@ def main():
 @main.command()
 @click.option('-h', '--host', default='127.0.0.1')
 @click.option('-p', '--port', default='8000')
-@click.argument('file', type=str)
-def upload_sample(host, port, file):
+@click.argument('data_dir', type=str)
+def run_server(host, port, data_dir):
     """
-    Sends to the server user's sample file; user information & snapshots
+    Starts a server to which smaples can be uploaded to with `upload_sample`
     """
-    cortex.client.upload_sample(host, port, file)
+    cortex.server.run_server(host, port, data_dir)
 
 if __name__ == '__main__':
     try:
-        main(prog_name='cortex.client', obj={})
+        main(prog_name='cortex.server', obj={})
     except Exception as error:
         logger.error(f'{error}')
         sys.exit(1)

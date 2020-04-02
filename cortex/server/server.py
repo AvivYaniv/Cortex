@@ -83,12 +83,12 @@ class Handler(threading.Thread):
             except EOFError:            
                 break
 
-def run_server(address, data_dir='data'):
+def run_server(host='127.0.0.1', port='8000', data_dir='data'):
     """Starts a server to which snapshots can be uploaded with `upload_sample`"""  
     logger.info("TODO UPDATE Processing data")
     
     # Parse server address
-    server_ip_str, server_port_str  = address.split(":")
+    server_ip_str, server_port_str  = host, port
     server_port_int                 = int(server_port_str)
     
     with Listener(server_port_int, server_ip_str) as listener:
