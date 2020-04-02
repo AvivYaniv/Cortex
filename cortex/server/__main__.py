@@ -23,7 +23,7 @@ def main():
 @click.argument('data_dir', type=str)
 def run_server(host, port, data_dir):
     """
-    Starts a server to which smaples can be uploaded to with `upload_sample`
+    Starts a server to which samples can be uploaded to with `upload_sample`
     """
     cortex.server.run_server(host, port, data_dir)
 

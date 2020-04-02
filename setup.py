@@ -7,6 +7,6 @@ setup(
     author = 'Aviv Yaniv',
     description = 'Brain machine interface with extreme flexibility and scalability',
     packages = find_packages(),
-    install_requires = ['click', 'flask'],
+    install_requires = ['click', 'flask', 'docker'],
     tests_require = ['pytest', 'pytest-cov'],
 )
