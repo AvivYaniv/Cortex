@@ -1,0 +1,56 @@
+# docker-compose version tag.
+version: "3"
+
+# Define docker-composes services
+services:
+  
+  # First container : server.
+  server:
+    # Path of Dockerfile
+    build: 
+      context: .
+
+    # The command to execute once the image is created.
+    # command: python ./code.py
+
+    # Container can access to the 'localhost' of the computer.
+    network_mode: host
+    
+    # Setting common volume, to share files among containers
+    volumes:
+      - ./:/usr/src/app
+    
+    # Define port so it would be accessible from outside the container
+    # [port on machine]:[port in the container]
+    ports:
+      - 8000:8000
+
+    # Defining environment variables      
+    environment:
+      RUN: SERVER
+
+  # Second container: client.
+  # We use the keyword 'client' for the server.
+  client:
+    build: 
+      context: .
+
+    # The command to execute once the image is created.
+    # The command to execute once the image is created.
+    # command: python ./code.py
+
+    # Container can access to the 'localhost' of the computer.
+    network_mode: host
+
+    # Setting common volume, to share files among containers
+    volumes:
+      - ./:/usr/src/app
+
+    # Defining environment variables
+    environment:
+      RUN: CLIENT
+
+    # Defining client won't start till other specified conatiners are ready
+    depends_on:
+      - server
+    

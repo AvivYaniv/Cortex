@@ -1,5 +1,7 @@
-from setuptools import setup, find_packages
 
+print("Setup is starting...")
+
+from setuptools import setup, find_packages
 
 setup(
     name = 'Cortex',

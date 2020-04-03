@@ -7,8 +7,5 @@ WORKDIR /usr/src/app
 # Inform Docker that the container is listening on the specified port at runtime.
 EXPOSE 8080
 
-# Copy the rest of the app's source code from the host to the image filesystem.
-# COPY . .
-
-# Running commad to start the server
-CMD [ "python", "cortex/hello.py" ]
+# Upon container execution; setupping requirments for project in docker container
+ENTRYPOINT "./scripts/run_container.sh"

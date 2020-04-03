@@ -1,0 +1,39 @@
+import sys
+
+import click
+
+import cortex.client
+
+from cortex.readers.reader_versions import ReaderVersions
+
+import logging
+from cortex.logger import LoggerLoader
+
+# Log initialization
+logger                    = logging.getLogger(__name__)
+logger_loader             = LoggerLoader()
+logger_loader.load_log_config()
+
+@click.group()
+@click.version_option(cortex.client.version)
+def main():
+    pass
+
+@main.command()
+@click.option('-h', '--host', default='127.0.0.1')
+@click.option('-p', '--port', default='8000')
+@click.argument('file', type=str)
+@click.option('-v', '--version', default=ReaderVersions.PROTOBUFF)
+def upload_sample(host, port, file):
+    """
+    Sends to the server user's sample file; user information & snapshots
+    """
+    cortex.client.upload_sample(host, port, file)
+
+if __name__ == '__main__':
+    try:
+        main(prog_name='cortex.client', obj={})
+    except Exception as error:
+        logger.error(f'{error}')
+        sys.exit(1)
+        

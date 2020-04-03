@@ -1,0 +1,178 @@
+Setup is starting...
+running install
+running bdist_egg
+running egg_info
+writing Cortex.egg-info/PKG-INFO
+writing dependency_links to Cortex.egg-info/dependency_links.txt
+writing requirements to Cortex.egg-info/requires.txt
+writing top-level names to Cortex.egg-info/top_level.txt
+reading manifest file 'Cortex.egg-info/SOURCES.txt'
+writing manifest file 'Cortex.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_py
+creating build/bdist.linux-x86_64/egg
+creating build/bdist.linux-x86_64/egg/cortex
+creating build/bdist.linux-x86_64/egg/cortex/api
+copying build/lib/cortex/api/__init__.py -> build/bdist.linux-x86_64/egg/cortex/api
+creating build/bdist.linux-x86_64/egg/cortex/cli
+copying build/lib/cortex/cli/__init__.py -> build/bdist.linux-x86_64/egg/cortex/cli
+creating build/bdist.linux-x86_64/egg/cortex/client
+copying build/lib/cortex/client/client.py -> build/bdist.linux-x86_64/egg/cortex/client
+copying build/lib/cortex/client/__init__.py -> build/bdist.linux-x86_64/egg/cortex/client
+copying build/lib/cortex/client/__main__.py -> build/bdist.linux-x86_64/egg/cortex/client
+creating build/bdist.linux-x86_64/egg/cortex/entities
+copying build/lib/cortex/entities/snapshot.py -> build/bdist.linux-x86_64/egg/cortex/entities
+copying build/lib/cortex/entities/__init__.py -> build/bdist.linux-x86_64/egg/cortex/entities
+creating build/bdist.linux-x86_64/egg/cortex/gui
+copying build/lib/cortex/gui/__init__.py -> build/bdist.linux-x86_64/egg/cortex/gui
+creating build/bdist.linux-x86_64/egg/cortex/logger
+copying build/lib/cortex/logger/logger.py -> build/bdist.linux-x86_64/egg/cortex/logger
+copying build/lib/cortex/logger/__init__.py -> build/bdist.linux-x86_64/egg/cortex/logger
+creating build/bdist.linux-x86_64/egg/cortex/parsers
+copying build/lib/cortex/parsers/color_image_parser.py -> build/bdist.linux-x86_64/egg/cortex/parsers
+copying build/lib/cortex/parsers/depth_image_parser.py -> build/bdist.linux-x86_64/egg/cortex/parsers
+copying build/lib/cortex/parsers/feelings_parser.py -> build/bdist.linux-x86_64/egg/cortex/parsers
+copying build/lib/cortex/parsers/parser.py -> build/bdist.linux-x86_64/egg/cortex/parsers
+copying build/lib/cortex/parsers/pose_parser.py -> build/bdist.linux-x86_64/egg/cortex/parsers
+copying build/lib/cortex/parsers/translation_parser.py -> build/bdist.linux-x86_64/egg/cortex/parsers
+copying build/lib/cortex/parsers/__init__.py -> build/bdist.linux-x86_64/egg/cortex/parsers
+creating build/bdist.linux-x86_64/egg/cortex/protocol
+copying build/lib/cortex/protocol/config_message.py -> build/bdist.linux-x86_64/egg/cortex/protocol
+copying build/lib/cortex/protocol/hello_message.py -> build/bdist.linux-x86_64/egg/cortex/protocol
+creating build/bdist.linux-x86_64/egg/cortex/protocol/native
+copying build/lib/cortex/protocol/native/config_native.py -> build/bdist.linux-x86_64/egg/cortex/protocol/native
+copying build/lib/cortex/protocol/native/hello_native.py -> build/bdist.linux-x86_64/egg/cortex/protocol/native
+copying build/lib/cortex/protocol/native/snapshot_native.py -> build/bdist.linux-x86_64/egg/cortex/protocol/native
+copying build/lib/cortex/protocol/native/__init__.py -> build/bdist.linux-x86_64/egg/cortex/protocol/native
+creating build/bdist.linux-x86_64/egg/cortex/protocol/protobuf
+copying build/lib/cortex/protocol/protobuf/config_protobuf.py -> build/bdist.linux-x86_64/egg/cortex/protocol/protobuf
+copying build/lib/cortex/protocol/protobuf/hello_protobuf.py -> build/bdist.linux-x86_64/egg/cortex/protocol/protobuf
+copying build/lib/cortex/protocol/protobuf/snapshot_protobuf.py -> build/bdist.linux-x86_64/egg/cortex/protocol/protobuf
+copying build/lib/cortex/protocol/protobuf/__init__.py -> build/bdist.linux-x86_64/egg/cortex/protocol/protobuf
+copying build/lib/cortex/protocol/protocol.py -> build/bdist.linux-x86_64/egg/cortex/protocol
+copying build/lib/cortex/protocol/snapshot_message.py -> build/bdist.linux-x86_64/egg/cortex/protocol
+copying build/lib/cortex/protocol/__init__.py -> build/bdist.linux-x86_64/egg/cortex/protocol
+creating build/bdist.linux-x86_64/egg/cortex/readers
+copying build/lib/cortex/readers/file_reader.py -> build/bdist.linux-x86_64/egg/cortex/readers
+copying build/lib/cortex/readers/protobuf_sample_reader.py -> build/bdist.linux-x86_64/egg/cortex/readers
+copying build/lib/cortex/readers/reader.py -> build/bdist.linux-x86_64/egg/cortex/readers
+copying build/lib/cortex/readers/reader_versions.py -> build/bdist.linux-x86_64/egg/cortex/readers
+copying build/lib/cortex/readers/regular_sample_reader.py -> build/bdist.linux-x86_64/egg/cortex/readers
+copying build/lib/cortex/readers/__init__.py -> build/bdist.linux-x86_64/egg/cortex/readers
+creating build/bdist.linux-x86_64/egg/cortex/sample
+copying build/lib/cortex/sample/colorimage.py -> build/bdist.linux-x86_64/egg/cortex/sample
+copying build/lib/cortex/sample/depthimage.py -> build/bdist.linux-x86_64/egg/cortex/sample
+copying build/lib/cortex/sample/sample.py -> build/bdist.linux-x86_64/egg/cortex/sample
+copying build/lib/cortex/sample/snapshot.py -> build/bdist.linux-x86_64/egg/cortex/sample
+copying build/lib/cortex/sample/snapshotimage.py -> build/bdist.linux-x86_64/egg/cortex/sample
+copying build/lib/cortex/sample/userinformation.py -> build/bdist.linux-x86_64/egg/cortex/sample
+copying build/lib/cortex/sample/__init__.py -> build/bdist.linux-x86_64/egg/cortex/sample
+creating build/bdist.linux-x86_64/egg/cortex/saver
+copying build/lib/cortex/saver/__init__.py -> build/bdist.linux-x86_64/egg/cortex/saver
+creating build/bdist.linux-x86_64/egg/cortex/server
+copying build/lib/cortex/server/server.py -> build/bdist.linux-x86_64/egg/cortex/server
+copying build/lib/cortex/server/__init__.py -> build/bdist.linux-x86_64/egg/cortex/server
+copying build/lib/cortex/server/__main__.py -> build/bdist.linux-x86_64/egg/cortex/server
+creating build/bdist.linux-x86_64/egg/cortex/utils
+copying build/lib/cortex/utils/connection.py -> build/bdist.linux-x86_64/egg/cortex/utils
+copying build/lib/cortex/utils/dynamic_module_loader.py -> build/bdist.linux-x86_64/egg/cortex/utils
+copying build/lib/cortex/utils/listener.py -> build/bdist.linux-x86_64/egg/cortex/utils
+copying build/lib/cortex/utils/messeges.py -> build/bdist.linux-x86_64/egg/cortex/utils
+copying build/lib/cortex/utils/serialization.py -> build/bdist.linux-x86_64/egg/cortex/utils
+copying build/lib/cortex/utils/time.py -> build/bdist.linux-x86_64/egg/cortex/utils
+copying build/lib/cortex/utils/__init__.py -> build/bdist.linux-x86_64/egg/cortex/utils
+copying build/lib/cortex/web.py -> build/bdist.linux-x86_64/egg/cortex
+copying build/lib/cortex/__init__.py -> build/bdist.linux-x86_64/egg/cortex
+byte-compiling build/bdist.linux-x86_64/egg/cortex/api/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/cli/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/client/client.py to client.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/client/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/client/__main__.py to __main__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/entities/snapshot.py to snapshot.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/entities/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/gui/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/logger/logger.py to logger.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/logger/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/parsers/color_image_parser.py to color_image_parser.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/parsers/depth_image_parser.py to depth_image_parser.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/parsers/feelings_parser.py to feelings_parser.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/parsers/parser.py to parser.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/parsers/pose_parser.py to pose_parser.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/parsers/translation_parser.py to translation_parser.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/parsers/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/config_message.py to config_message.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/hello_message.py to hello_message.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/native/config_native.py to config_native.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/native/hello_native.py to hello_native.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/native/snapshot_native.py to snapshot_native.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/native/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/protobuf/config_protobuf.py to config_protobuf.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/protobuf/hello_protobuf.py to hello_protobuf.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/protobuf/snapshot_protobuf.py to snapshot_protobuf.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/protobuf/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/protocol.py to protocol.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/snapshot_message.py to snapshot_message.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/protocol/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/readers/file_reader.py to file_reader.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/readers/protobuf_sample_reader.py to protobuf_sample_reader.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/readers/reader.py to reader.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/readers/reader_versions.py to reader_versions.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/readers/regular_sample_reader.py to regular_sample_reader.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/readers/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/sample/colorimage.py to colorimage.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/sample/depthimage.py to depthimage.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/sample/sample.py to sample.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/sample/snapshot.py to snapshot.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/sample/snapshotimage.py to snapshotimage.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/sample/userinformation.py to userinformation.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/sample/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/saver/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/server/server.py to server.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/server/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/server/__main__.py to __main__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/utils/connection.py to connection.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/utils/dynamic_module_loader.py to dynamic_module_loader.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/utils/listener.py to listener.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/utils/messeges.py to messeges.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/utils/serialization.py to serialization.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/utils/time.py to time.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/utils/__init__.py to __init__.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/web.py to web.cpython-38.pyc
+byte-compiling build/bdist.linux-x86_64/egg/cortex/__init__.py to __init__.cpython-38.pyc
+creating build/bdist.linux-x86_64/egg/EGG-INFO
+copying Cortex.egg-info/PKG-INFO -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying Cortex.egg-info/SOURCES.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying Cortex.egg-info/dependency_links.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying Cortex.egg-info/requires.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying Cortex.egg-info/top_level.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+creating 'dist/Cortex-0.1.0-py3.8.egg' and adding 'build/bdist.linux-x86_64/egg' to it
+removing 'build/bdist.linux-x86_64/egg' (and everything under it)
+Processing Cortex-0.1.0-py3.8.egg
+creating /usr/local/lib/python3.8/site-packages/Cortex-0.1.0-py3.8.egg
+Extracting Cortex-0.1.0-py3.8.egg to /usr/local/lib/python3.8/site-packages
+Adding Cortex 0.1.0 to easy-install.pth file
+
+Installed /usr/local/lib/python3.8/site-packages/Cortex-0.1.0-py3.8.egg
+Processing dependencies for Cortex==0.1.0
+Searching for docker
+Reading https://pypi.org/simple/docker/
+Downloading https://files.pythonhosted.org/packages/58/74/379a9d30b1620def158c40b88c43e01c1936a287ebb97afab0699c601c57/docker-4.2.0-py2.py3-none-any.whl#sha256=1c2ddb7a047b2599d1faec00889561316c674f7099427b9c51e8cb804114b553
+Best match: docker 4.2.0
+Processing docker-4.2.0-py2.py3-none-any.whl
+Installing docker-4.2.0-py2.py3-none-any.whl to /usr/local/lib/python3.8/site-packages
+Adding docker 4.2.0 to easy-install.pth file
+
+Installed /usr/local/lib/python3.8/site-packages/docker-4.2.0-py3.8.egg
+Searching for flask
+Reading https://pypi.org/simple/flask/
+Downloading https://files.pythonhosted.org/packages/9b/93/628509b8d5dc749656a9641f4caf13540e2cdec85276964ff8f43bbb1d3b/Flask-1.1.1-py2.py3-none-any.whl#sha256=45eb5a6fd193d6cf7e0cf5d8a5b31f83d5faae0293695626f539a823e93b13f6
+Best match: Flask 1.1.1
+Processing Flask-1.1.1-py2.py3-none-any.whl
+Installing Flask-1.1.1-py2.py3-none-any.whl to /usr/local/lib/python3.8/site-packages
+Adding Flask 1.1.1 to easy-install.pth file
+Installing flask script to /usr/local/bin
+
+Installed /usr/local/lib/python3.8/site-packages/Flask-1.1.1-py3.8.egg
+Searching for click
+Reading https://pypi.org/simple/click/
