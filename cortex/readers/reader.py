@@ -48,7 +48,7 @@ class SampleStreamReader:
     def __next__(self):
         return self.reader.read_snapshot()
 
-class SampleFileReader(SampleStreamReader):
+class SampleFileReader(SampleStreamReader, version=ReaderVersions.PROTOBUFF):
     def __init__(self, file_path, version=ReaderVersions.PROTOBUFF):
         super().__init__(file_path, version)
 
