@@ -13,20 +13,20 @@ UNKNOWN_COMMAND_TO_RUN_ERROR_MESSAGE    =   'Unknown command to run, environment
 RUNNING_COMMAND_INFO_MESSAGE            =   'Running command...'
 
 # Functions Section
-def run_client():
+def run_client_command():
     file_path    	= 	'sample.mind.gz'
     host, port 		= 	'127.0.0.1', '8000'
     upload_sample(host, port, file_path=file_path, version=ReaderVersions.PROTOBUFF)
 
-def run_server():
+def run_server_command():
     host, port 		= 	'127.0.0.1', '8000'
     run_server(host, port)
 
 # Variables Section
-RUN_FUNCTIONS_DICTIONARY =      \
-    {                           \
-        'SERVER' : run_server,  \
-        'CLIENT' : run_client   \
+RUN_FUNCTIONS_DICTIONARY =              \
+    {                                   \
+        'SERVER' : run_server_command,  \
+        'CLIENT' : run_client_command   \
     }
 
 if "__main__" == __name__:
