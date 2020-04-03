@@ -14,7 +14,7 @@ BOOTING_CONTAINER_INFO_MESSAGE                      =   'Booting container...'
 
 class ERROR_CODES:
     NO_ERROR                        =   0
-    NO_NO_CONTAINER_SPECIFIED       =   -1
+    NO_CONTAINER_SPECIFIED          =   -1
     CONTAINER_DIRECTORY_NOT_FOUND   =   -2
     CONTAINER_BOOT_FILE_NOT_FOUND   =   -3
 
@@ -29,7 +29,7 @@ if "__main__" == __name__:
     # Validating container has been specified
     if CONTAINER_NAME_ENVIRONMENT_VARIABLE not in os.environ:
         print(NO_CONTAINER_SPECIFIED_ERROR_MESSAGE)
-        sys.exit(ERROR_CODES.NO_NO_CONTAINER_SPECIFIED)
+        sys.exit(ERROR_CODES.NO_CONTAINER_SPECIFIED)
         
     # Fetching environment variable to determine which code to run
     container_name = os.environ[CONTAINER_NAME_ENVIRONMENT_VARIABLE]
