@@ -5,7 +5,7 @@ from builtins import staticmethod
 
 # Logging configuraition file
 LOGGER_CONFIG_FILE_TYPE = '.yaml'
-LOGGER_CONFIG_FILE_PATH = 'logger/logging_config.yaml'
+LOGGER_CONFIG_FILE_PATH = 'logging_config.yaml'
 
 # Messages
 INFO_LOADING_LOG_CONFIG                         = 'Loading log configuration...'

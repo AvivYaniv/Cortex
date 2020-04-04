@@ -57,10 +57,10 @@ class DynamicModuleLoader:
         
     @staticmethod
     def _dynamic_classess_lookup_to_dictionary(submodule, lookup_token, loaded_classes, name_identifier=None):
-        lookup_token = lookup_token.capitalize()
+        lookup_token = lookup_token.lower()
         classes_list = [(name, obj) for name,obj in inspect.getmembers(submodule) if inspect.isclass(obj)]
         for name, obj in classes_list:
-            if name.endswith(lookup_token):
+            if name.lower().endswith(lookup_token):
                 identifier = name
                 if name_identifier and hasattr(obj, name_identifier):
                     identifier = getattr(obj, name_identifier)

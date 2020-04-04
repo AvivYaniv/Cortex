@@ -11,7 +11,16 @@ handlers:
    level: DEBUG
    formatter: simple
    stream: ext://sys.stdout
-   
+  
+  message_queue_log_handler:
+   class: logging.handlers.RotatingFileHandler
+   level: DEBUG
+   formatter: simple
+   filename: logs/message_queue.log
+   maxBytes: 10485760
+   backupCount: 20
+   encoding: utf8
+
   client_log_handler:
    class: logging.handlers.RotatingFileHandler
    level: DEBUG
@@ -49,6 +58,11 @@ handlers:
    encoding: utf8
 
 loggers:
+  cortex.message_queue:
+   level: INFO
+   handlers: [console, error_file_handler, message_queue_log_handler]
+   propagate: no
+
   cortex.client:
    level: INFO
    handlers: [console, error_file_handler, client_log_handler]
