@@ -3,9 +3,11 @@ import os
 import logging.config
 from builtins import staticmethod
 
+from cortex.utils import get_project_file_path_by_caller
+
 # Logging configuraition file
 LOGGER_CONFIG_FILE_TYPE = '.yaml'
-LOGGER_CONFIG_FILE_PATH = 'logging_config.yaml'
+LOGGER_CONFIG_FILE_NAME = 'logging_config.yaml'
 
 # Messages
 INFO_LOADING_LOG_CONFIG                         = 'Loading log configuration...'
@@ -28,12 +30,13 @@ class LoggerLoader:
         self.__dict__ = self.__class__._shared_state
     
     @staticmethod    
-    def read_log_config_to_dictionary(fpath=LOGGER_CONFIG_FILE_PATH):
-        _, file_extension = os.path.splitext(fpath)    
+    def read_log_config_to_dictionary(fname=LOGGER_CONFIG_FILE_NAME):
+        _, file_extension = os.path.splitext(fname)    
         dictionary = None    
         if file_extension not in CONFIG_FILE_READERS:
             print(ERROR_UNKNOWN_TYPE_CONFIGURATION_FILE_NOT_FOUND)
-            return dictionary        
+            return dictionary     
+        fpath = get_project_file_path_by_caller(fname)   
         if os.path.exists(fpath):
             with open(fpath, 'rt') as f:
                 try:

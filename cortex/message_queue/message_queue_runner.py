@@ -1,5 +1,7 @@
 import os 
-from cortex.utils import DynamicModuleLoader, run_bash_scipt
+from cortex.utils import DynamicModuleLoader 
+from cortex.utils import run_bash_scipt
+from cortex.utils import get_project_file_path_by_caller
 
 import logging
 from cortex.logger import LoggerLoader
@@ -17,11 +19,12 @@ INSTALLING_MESSAGE_QUEUE_INFO_MESSAGE                           =   'Installing 
 # Error messages
 MESSAGE_QUEUE_TYPE_NOT_FOUND_ERROR_MESSAGE                      =   'Specified message queue class not found in directory'
 MESSAGE_QUEUE_INSTALL_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT    =   'Message queue install file {} dosen\'t exist'
+MESSAGE_QUEUE_INSTALLATION_FAILED_ERROR_MESSAGE                 =   'Message queue installation has failed'
 
 # Installation file
 MESSAGE_QUEUE_INSTALLATION_FILE_SUFFIX              =   '_install.sh'
 
-def load_message_queue(message_queue_type):
+def load_message_queue(message_queue_type, host='localhost'):
     LOOKUP_TOKEN        =   'MessageQueue'
     NAME_IDENTIFIER     =   'name'
     
@@ -30,13 +33,13 @@ def load_message_queue(message_queue_type):
     _, class_mqs = \
         DynamicModuleLoader.dynamic_lookup_to_dictionary(imported_modules_names, LOOKUP_TOKEN, NAME_IDENTIFIER)
     if message_queue_type not in class_mqs:
-        logger.critical(MESSAGE_QUEUE_TYPE_NOT_FOUND_ERROR_MESSAGE)
+        logger.error(MESSAGE_QUEUE_TYPE_NOT_FOUND_ERROR_MESSAGE)
         return None
     # Returning specified message queue object
-    return class_mqs[message_queue_type](logger)
+    return class_mqs[message_queue_type](logger, host)
 
 def get_message_install_file_path(message_queue_type):
-    return os.path.join(os.path.dirname(os.path.realpath(__file__)), message_queue_type + MESSAGE_QUEUE_INSTALLATION_FILE_SUFFIX)
+    return get_project_file_path_by_caller(message_queue_type, MESSAGE_QUEUE_INSTALLATION_FILE_SUFFIX)
 
 def install_message_queue(message_queue_type):
     # Installing message queue
@@ -44,15 +47,18 @@ def install_message_queue(message_queue_type):
     
     # If message queue install file dosen't exist
     if (not os.path.isfile(message_queue_install_file_path)):
-        print(MESSAGE_QUEUE_INSTALL_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT.format(message_queue_install_file_path))
+        logger.error(MESSAGE_QUEUE_INSTALL_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT.format(message_queue_install_file_path))
         return False
     
     # Installing message queue
-    print(INSTALLING_MESSAGE_QUEUE_INFO_MESSAGE)
-    return 0 == run_bash_scipt(message_queue_install_file_path)
+    logger.info(INSTALLING_MESSAGE_QUEUE_INFO_MESSAGE)
+    intallation_success = (0 == run_bash_scipt(message_queue_install_file_path)) 
+    if not intallation_success:
+        logger.error(MESSAGE_QUEUE_INSTALLATION_FAILED_ERROR_MESSAGE)
+    return intallation_success
 
-def run_message_queue(message_queue_type=RabbitMQMessageQueue.name):
-    message_queue = load_message_queue(message_queue_type)
+def run_message_queue(message_queue_type=RabbitMQMessageQueue.name, host='localhost'):
+    message_queue = load_message_queue(message_queue_type, host)
     # If message queue not found - exit
     if not message_queue:
         return
