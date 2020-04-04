@@ -1,5 +1,5 @@
-from .native import *
-from .protobuf import *
+from cortex.protocol.native import *
+from cortex.protocol.protobuf import *
 
 class MessagesTyeps:
     HELLO_MESSAGE       = 0
