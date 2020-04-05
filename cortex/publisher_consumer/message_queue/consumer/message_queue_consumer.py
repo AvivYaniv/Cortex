@@ -8,7 +8,7 @@ class MessageQueueConsumer(Consumer):
                  callback,
                  message_queue_context,
                  message_queue_type     =   RabbitMQMessageQueue.name,
-                 host                   =   'localhost'):
+                 host                   = 'localhost'):
         super(MessageQueueConsumer, self).__init__(callback)
         self.callback                    =   callback
         self.message_queue_context       =   message_queue_context

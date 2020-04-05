@@ -7,7 +7,7 @@ class MessageQueuePublisher(Publisher):
     def __init__(self, 
                  message_queue_context,
                  message_queue_type	= RabbitMQMessageQueue.name,
-                 host             	= 'localhost'):
+                 host               = 'localhost'):
         self.message_queue_context       =   message_queue_context
         self.message_queue_type          =   message_queue_type
         self.host                        =   host
