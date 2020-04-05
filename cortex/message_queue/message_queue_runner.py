@@ -3,6 +3,8 @@ from cortex.utils import DynamicModuleLoader
 from cortex.utils import run_bash_scipt
 from cortex.utils import get_project_file_path_by_caller
 
+from cortex.message_queue.rabbitmq_mq import RabbitMQMessageQueue
+
 import logging
 from cortex.logger import LoggerLoader
 from cortex.message_queue.rabbitmq_mq import RabbitMQMessageQueue
@@ -22,9 +24,9 @@ MESSAGE_QUEUE_INSTALL_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT    =   'Message que
 MESSAGE_QUEUE_INSTALLATION_FAILED_ERROR_MESSAGE                 =   'Message queue installation has failed'
 
 # Installation file
-MESSAGE_QUEUE_INSTALLATION_FILE_SUFFIX              =   '_install.sh'
+MESSAGE_QUEUE_INSTALLATION_FILE_SUFFIX              			=   '_install.sh'
 
-def load_message_queue(message_queue_type, host='localhost'):
+def load_message_queue(message_queue_type, callback, message_queue_context, host):
     LOOKUP_TOKEN        =   'MessageQueue'
     NAME_IDENTIFIER     =   'name'
     
@@ -36,7 +38,7 @@ def load_message_queue(message_queue_type, host='localhost'):
         logger.error(MESSAGE_QUEUE_TYPE_NOT_FOUND_ERROR_MESSAGE)
         return None
     # Returning specified message queue object
-    return class_mqs[message_queue_type](logger, host)
+    return class_mqs[message_queue_type](logger, callback, message_queue_context, host)
 
 def get_message_install_file_path(message_queue_type):
     return get_project_file_path_by_caller(message_queue_type, MESSAGE_QUEUE_INSTALLATION_FILE_SUFFIX)
@@ -57,8 +59,11 @@ def install_message_queue(message_queue_type):
         logger.error(MESSAGE_QUEUE_INSTALLATION_FAILED_ERROR_MESSAGE)
     return intallation_success
 
-def run_message_queue(message_queue_type=RabbitMQMessageQueue.name, host='localhost'):
-    message_queue = load_message_queue(message_queue_type, host)
+def run_message_queue(message_queue_context,
+					  callback				 =	 None, 
+					  message_queue_type     =   RabbitMQMessageQueue.name,
+					  host                   =   'localhost'):
+    message_queue = load_message_queue(callback, message_queue_context, message_queue_type, host)
     # If message queue not found - exit
     if not message_queue:
         return
@@ -66,5 +71,5 @@ def run_message_queue(message_queue_type=RabbitMQMessageQueue.name, host='localh
     else:
         # If message queue installed
         if install_message_queue(message_queue_type):
-            message_queue.run()
+            return message_queue.run()
     
