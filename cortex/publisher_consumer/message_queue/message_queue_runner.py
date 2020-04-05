@@ -3,11 +3,10 @@ from cortex.utils import DynamicModuleLoader
 from cortex.utils import run_bash_scipt
 from cortex.utils import get_project_file_path_by_caller
 
-from cortex.message_queue.rabbitmq_mq import RabbitMQMessageQueue
+from cortex.publisher_consumer.message_queue.rabbitmq_mq import RabbitMQMessageQueue
 
 import logging
 from cortex.logger import LoggerLoader
-from cortex.message_queue.rabbitmq_mq import RabbitMQMessageQueue
 
 # Log loading
 logger_loader             = LoggerLoader()

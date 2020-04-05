@@ -6,6 +6,14 @@ import sys
 
 class DynamicModuleLoader:
     @staticmethod
+    def get_callers_module_name():
+        frm         = inspect.stack()[2]
+        mod         = inspect.getmodule(frm[0])
+        mod_name    = mod.__name__
+        name        = mod_name[:mod_name.rfind('.')]
+        return name
+    
+    @staticmethod
     def load_modules(root): 
         imported_modules_names = []
         root = pathlib.Path(root).absolute()    
@@ -18,9 +26,8 @@ class DynamicModuleLoader:
                path.name.startswith('__')       or  \
                not path.suffix == '.py':    
                 continue    
-            submodule_name = f'cortex.{root.name}.{path.stem}'
-            print(f'{caller_file_name} importing {submodule_name}')
-            #importlib.import_module(f'{submodule_name}', package=root.name)
+            caller_module_name  = DynamicModuleLoader.get_callers_module_name()
+            submodule_name      = f'{caller_module_name}.{path.stem}'
             importlib.import_module(f'{submodule_name}', package=__package__)
             imported_modules_names.append(submodule_name)
         return imported_modules_names

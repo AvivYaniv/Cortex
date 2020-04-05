@@ -1,4 +1,4 @@
-from cortex.message_queue import MessageQueueConsumer, MessageQueueContext 
+from cortex.publisher_consumer.message_queue import MessageQueueConsumer, MessageQueueContext 
 
 def callback(message):
     print(" [x] Received %r" % message)

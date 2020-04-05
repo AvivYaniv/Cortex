@@ -1,7 +1,7 @@
-from .consumer import Consumer
-from cortex.message_queue.rabbitmq_mq import RabbitMQMessageQueue
+from cortex.publisher_consumer.consumer.consumer import Consumer
+from cortex.publisher_consumer.message_queue.rabbitmq_mq import RabbitMQMessageQueue
 
-from cortex.message_queue.message_queue_runner import run_message_queue 
+from cortex.publisher_consumer.message_queue.message_queue_runner import run_message_queue 
 
 class MessageQueueConsumer(Consumer):
     def __init__(self, 

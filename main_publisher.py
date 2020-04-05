@@ -1,4 +1,4 @@
-from cortex.message_queue import MessageQueuePublisher, MessageQueueContext 
+from cortex.publisher_consumer.message_queue import MessageQueuePublisher, MessageQueueContext 
 
 if "__main__" == __name__:
     message_queue_context =                 \

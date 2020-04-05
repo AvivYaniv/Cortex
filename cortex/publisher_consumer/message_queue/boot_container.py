@@ -1,4 +1,4 @@
-from cortex.message_queue.message_queue_runner import run_message_queue
+from cortex.publisher_consumer.message_queue.message_queue_runner import run_message_queue
 
 import os
 

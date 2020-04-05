@@ -58,7 +58,7 @@ handlers:
    encoding: utf8
 
 loggers:
-  cortex.message_queue:
+  cortex.publisher_consumer.message_queue:
    level: INFO
    handlers: [console, error_file_handler, message_queue_log_handler]
    propagate: no
