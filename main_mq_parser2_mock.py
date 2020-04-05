@@ -7,23 +7,24 @@ from cortex.publisher_consumer.message_queue import MessageQueueConsumer
 def get_filename(fpath):
     return Path(fpath).stem
 
-def get_parser_name(str):
-    return 'parser' + [s for s in str if s.isdigit()][0]
+def get_parser_number(str):
+    return [s for s in str if s.isdigit()][0]
 
 class Parser:
     def __init__(self):
-        self.parser_name = get_parser_name(get_filename(__file__))
+        self.parser_number     = get_parser_number(get_filename(__file__))
+        self.parser_name     = 'parser.' + self.parser_number
         
     # Generates parse callback with custom arguments - by this currying function 
     def generate_callback(self):
         def parse(message):
             print(f'{self.parser_name} Received {message}')
-            message = str(message).replace('Server', 'Parser')
-            # self.publish_function(message, routing_key=self.parser_name)
+            message = str(message).replace('Server', self.parser_name)
+            self.publish_function(message, routing_key=self.parser_name)
         return parse
     
     def run(self):
-        # self.register_publish()
+        self.register_publish()
         self.listen()
     
     def listen(self):

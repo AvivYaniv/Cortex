@@ -12,7 +12,6 @@ from cortex.utils import Listener
 
 from functools import wraps
 import threading
-from builtins import staticmethod
 
 import logging
 from cortex.logger import LoggerLoader

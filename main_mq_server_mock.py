@@ -12,8 +12,8 @@ if "__main__" == __name__:
     message_queue_publisher = MessageQueuePublisher(message_queue_context)
     publish_function        = message_queue_publisher.run()
     
-    publish_function(message='Server message 1', routing_key='snapshot')
-    publish_function(message='Server message 2', routing_key='snapshot')
+    for i in range(10):
+        publish_function(message=f'Server message {i}', routing_key='snapshot')
     
     print("Server sent message!")
     
