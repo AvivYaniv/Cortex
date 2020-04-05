@@ -8,4 +8,5 @@ main_client.py
 main_server.py
 data/
 data/*.*
+logs/
 *.pyc
