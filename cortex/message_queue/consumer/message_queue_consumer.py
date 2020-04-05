@@ -1,7 +1,7 @@
 from .consumer import Consumer
 from cortex.message_queue.rabbitmq_mq import RabbitMQMessageQueue
 
-from cortex.message_queue import run_message_queue 
+from cortex.message_queue.message_queue_runner import run_message_queue 
 
 class MessageQueueConsumer(Consumer):
     def __init__(self, 
@@ -16,7 +16,7 @@ class MessageQueueConsumer(Consumer):
         self.host                        =   host
         message_queue_context.set_reciver()
         
-    def consume(self):
+    def run(self):
         run_message_queue(message_queue_context	 =	 self.message_queue_context,
 						  callback				 =	 self.callback,
                           message_queue_type     =   self.message_queue_type,

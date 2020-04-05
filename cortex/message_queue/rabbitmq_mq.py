@@ -25,19 +25,14 @@ class RabbitMQMessageQueue:
             self.params     = pika.ConnectionParameters(self.host)
             self.connection = pika.BlockingConnection(self.params)
             self.channel    = self.connection.channel()
-            self.channel.exchange_declare(self.message_queue_context.exchange_name, exchange_type=self.message_queue_context.exchange_type)
+            if self.message_queue_context.exchange_name:
+                self.channel.exchange_declare(self.message_queue_context.exchange_name, exchange_type=self.message_queue_context.exchange_type)
             self.channel.queue_declare(
                     queue   =   self.message_queue_context.queue_name, 
                     durable =   True
                 )
-            # If no binding keys - registering to default
-            if not self.message_queue_context.binding_keys:
-                self.channel.queue_bind(
-                    exchange    =   self.message_queue_context.exchange_name, 
-                    queue       =   self.message_queue_context.queue_name
-                    )
-            # Else, binding keys have been specified, binding queue to them
-            else:
+            # If binding keys have been specified, binding queue to them
+            if self.message_queue_context.binding_keys:
                 for binding_key in self.message_queue_context.binding_keys:
                     self.channel.queue_bind(
                         exchange    =   self.message_queue_context.exchange_name, 
@@ -53,7 +48,8 @@ class RabbitMQMessageQueue:
             self.params     = pika.ConnectionParameters(self.host)
             self.connection = pika.BlockingConnection(self.params)
             self.channel    = self.connection.channel()
-            self.channel.exchange_declare(self.message_queue_context.exchange_name, exchange_type=self.message_queue_context.exchange_type)
+            if self.message_queue_context.exchange_name:
+                self.channel.exchange_declare(self.message_queue_context.exchange_name, exchange_type=self.message_queue_context.exchange_type)
         except Exception as ex:
             self.logger.error(ex.message)
             return False

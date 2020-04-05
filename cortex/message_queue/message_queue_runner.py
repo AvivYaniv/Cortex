@@ -26,7 +26,7 @@ MESSAGE_QUEUE_INSTALLATION_FAILED_ERROR_MESSAGE                 =   'Message que
 # Installation file
 MESSAGE_QUEUE_INSTALLATION_FILE_SUFFIX              			=   '_install.sh'
 
-def load_message_queue(message_queue_type, callback, message_queue_context, host):
+def load_message_queue(callback, message_queue_context, message_queue_type, host):
     LOOKUP_TOKEN        =   'MessageQueue'
     NAME_IDENTIFIER     =   'name'
     

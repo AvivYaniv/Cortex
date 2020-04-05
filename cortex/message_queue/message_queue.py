@@ -4,7 +4,11 @@ class MessageQueueRole:
 	RX	=	1
 
 class MessageQueueContext:
-	def __init__(self, exchange_type, exchange_name='', queue_name='', binding_keys=None):
+	def __init__(self, 
+				exchange_type	=	'direct', 
+				exchange_name	=	'', 
+				queue_name		=	'', 
+				binding_keys	=	None):
 		self.exchange_type  = exchange_type
 		self.exchange_name  = exchange_name
 		self.queue_name     = queue_name

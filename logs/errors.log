@@ -1,0 +1,2 @@
+2020-04-05 13:29:14,876 - cortex.message_queue.message_queue_runner - ERROR - Specified message queue class not found in directory
+2020-04-05 13:30:12,216 - cortex.message_queue.message_queue_runner - ERROR - Specified message queue class not found in directory

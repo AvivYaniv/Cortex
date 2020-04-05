@@ -1,7 +1,7 @@
-from .consumer import Consumer
+from .publisher import Publisher
 from cortex.message_queue.rabbitmq_mq import RabbitMQMessageQueue
 
-from cortex.message_queue import run_message_queue 
+from cortex.message_queue.message_queue_runner import run_message_queue 
 
 class MessageQueuePublisher(Publisher):
     def __init__(self, 
@@ -13,8 +13,8 @@ class MessageQueuePublisher(Publisher):
         self.host                        =   host
         message_queue_context.set_transmitter()
         
-    def publish(self, message):
-        run_message_queue(message_queue_context	 =	 self.message_queue_context,
-                          message_queue_type     =   self.message_queue_type,
-                          host                   =   self.host)
-	
+    def run(self):
+        return run_message_queue(message_queue_context  =   self.message_queue_context,
+                                 message_queue_type     =   self.message_queue_type,
+                                 host                   =   self.host)
+    
