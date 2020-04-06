@@ -15,11 +15,11 @@ import threading
 from builtins import staticmethod
 
 import logging
-from cortex.logger import LoggerLoader
+from cortex.logger import _LoggerLoader
 
 # Log loading
 logger                    = logging.getLogger(__name__)
-logger_loader             = LoggerLoader()
+logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
         
 class FilesHandler:

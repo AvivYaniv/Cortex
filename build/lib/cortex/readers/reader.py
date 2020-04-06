@@ -4,7 +4,7 @@ from cortex.readers.reader_versions import ReaderVersions
 
 from cortex.utils import DynamicModuleLoader
 
-class SampleStreamReader:
+class MindStreamReader:
     LOOKUP_TOKEN        =   'reader'
     NAME_IDENTIFIER     =   'version'
         
@@ -48,12 +48,12 @@ class SampleStreamReader:
     def __next__(self):
         return self.reader.read_snapshot()
 
-class SampleFileReader(SampleStreamReader):
+class MindFileReader(MindStreamReader):
     def __init__(self, file_path, version=ReaderVersions.PROTOBUFF):
         super().__init__(file_path, version)
 
 def read(file_path):
-    with SampleFileReader(file_path, version=ReaderVersions.PROTOBUFF) as sample_reader:
+    with MindFileReader(file_path, version=ReaderVersions.PROTOBUFF) as sample_reader:
         print(str(sample_reader.user_information))
         for snapshot in sample_reader:
             print(str(snapshot))

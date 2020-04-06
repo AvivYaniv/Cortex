@@ -7,11 +7,11 @@ import cortex.client
 from cortex.readers.reader_versions import ReaderVersions
 
 import logging
-from cortex.logger import LoggerLoader
+from cortex.logger import _LoggerLoader
 
 # Log initialization
 logger                    = logging.getLogger(__name__)
-logger_loader             = LoggerLoader()
+logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
 
 @click.group()

@@ -19,7 +19,7 @@ def yaml_file_to_dictionary_reader(f):
 
 CONFIG_FILE_READERS = { '.yaml' : yaml_file_to_dictionary_reader }
 
-class LoggerLoader:
+class _LoggerLoader:
     _shared_state = {}
     
     s_is_log_config_initialized = False
@@ -43,13 +43,13 @@ class LoggerLoader:
         return dictionary 
     
     def load_log_config(self, default_level=logging.INFO):
-        if not LoggerLoader.s_is_log_config_initialized:
+        if not _LoggerLoader.s_is_log_config_initialized:
             print(INFO_LOADING_LOG_CONFIG)
             config_dictionary = None
-            config_dictionary = LoggerLoader.read_log_config_to_dictionary()
+            config_dictionary = _LoggerLoader.read_log_config_to_dictionary()
             if config_dictionary:
                 logging.config.dictConfig(config_dictionary)
             else: 
                 logging.basicConfig(level=default_level)
-            LoggerLoader.s_is_log_config_initialized = True
+            _LoggerLoader.s_is_log_config_initialized = True
         

@@ -6,16 +6,17 @@ from cortex.utils import get_project_file_path_by_caller
 from cortex.publisher_consumer.message_queue.rabbitmq_mq import RabbitMQMessageQueue
 
 import logging
-from cortex.logger import LoggerLoader
+from cortex.logger import _LoggerLoader
 
 # Log loading
-logger_loader             = LoggerLoader()
+logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
 logger                    = logging.getLogger(__name__)
 
 # Messages Section
 # Info Messages
 INSTALLING_MESSAGE_QUEUE_INFO_MESSAGE                           =   'Installing message queue...'
+MESSAGE_QUEUE_INSTALLATION_COMPLETED_INFO_MESSAGE               =   'Message queue installation completed!'
 
 # Error messages
 MESSAGE_QUEUE_TYPE_NOT_FOUND_ERROR_MESSAGE                      =   'Specified message queue class not found in directory'
@@ -54,7 +55,9 @@ def install_message_queue(message_queue_type):
     # Installing message queue
     logger.info(INSTALLING_MESSAGE_QUEUE_INFO_MESSAGE)
     intallation_success = (0 == run_bash_scipt(message_queue_install_file_path)) 
-    if not intallation_success:
+    if intallation_success:
+        logger.info(MESSAGE_QUEUE_INSTALLATION_COMPLETED_INFO_MESSAGE)
+    else:
         logger.error(MESSAGE_QUEUE_INSTALLATION_FAILED_ERROR_MESSAGE)
     return intallation_success
 

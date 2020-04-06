@@ -11,7 +11,7 @@ def get_filename(fpath):
 def get_saver_number(str):
     return [s for s in str if s.isdigit()][0]
 
-class DataBaseMock:
+class _DataBaseMock:
     _shared_state = {}
      
     def __init__(self):    
@@ -46,7 +46,7 @@ class ListenThread(threading.Thread):
         
 class Saver:
     def __init__(self):
-        self.database           = DataBaseMock()
+        self.database           = _DataBaseMock()
         self.saver_number       = get_saver_number(get_filename(__file__))
         self.saver_name         = 'saver.' + self.saver_number
         self.saving_callback    = self.generate_callback()

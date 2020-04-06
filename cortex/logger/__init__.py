@@ -1,1 +1,1 @@
-from .logger import LoggerLoader
+from .logger import _LoggerLoader
