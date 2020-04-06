@@ -10,7 +10,6 @@ class MessageQueuePublisher(Publisher):
         self.message_queue_context       =   message_queue_context
         self.message_queue_type          =   message_queue_type
         self.host                        =   host
-        message_queue_context.set_transmitter()
         
     def run(self):
         return run_message_queue(message_queue_context  =   self.message_queue_context,

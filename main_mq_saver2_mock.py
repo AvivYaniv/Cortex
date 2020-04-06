@@ -2,14 +2,14 @@ from pathlib import Path
 
 import threading
 
-from cortex.publisher_consumer.message_queue import MessageQueueContext
 from cortex.publisher_consumer.message_queue import MessageQueueConsumer 
+from cortex.publisher_consumer.message_queue.context.message_queue_context_factory import MessageQueueContextFactory
 
 def get_filename(fpath):
     return Path(fpath).stem
 
-def get_saver_number(str):
-    return [s for s in str if s.isdigit()][0]
+def get_saver_number(s):
+    return [c for c in s if c.isdigit()][0]
 
 class _DataBaseMock:
     _shared_state = {}
@@ -26,22 +26,15 @@ class _DataBaseMock:
             self.lock.release()
   
 class ListenThread(threading.Thread):
-    # parser_name
-    # self.generate_callback()
     def __init__(self, parser_name, callback):
         threading.Thread.__init__(self)
         self.parser_name = parser_name
         self.callback    = callback        
     
     def run(self):
-        message_queue_context =                 \
-        MessageQueueContext(                    \
-            exchange_type  = 'fanout',          \
-            exchange_name  = self.parser_name,  \
-            queue_name     = 'saver',           \
-            binding_keys   = [ 'parser.*' ]     \
-            )    
-        message_queue_consumer = MessageQueueConsumer(self.callback, message_queue_context)
+        mq_context_factory      =   MessageQueueContextFactory()
+        message_queue_context   =   mq_context_factory.get_mq_context('saver', 'consumers', self.parser_name)
+        message_queue_consumer  =   MessageQueueConsumer(self.callback, message_queue_context)
         message_queue_consumer.run()
         
 class Saver:

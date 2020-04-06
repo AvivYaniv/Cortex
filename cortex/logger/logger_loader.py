@@ -10,8 +10,11 @@ LOGGER_CONFIG_FILE_NAME                         = 'logging_config.yaml'
 # Messages
 INFO_LOADING_LOG_CONFIG                         = 'Loading log configuration...'
 
-ERROR_UNKNOWN_TYPE_CONFIGURATION_FILE_NOT_FOUND = 'Error unknown type of logging Configuration. Using default configs'
-ERROR_PARSING_CONFIGURATION_FILE_NOT_FOUND      = 'Error in parsing logging Configuration. Using default configs'
+ERROR_UNKNOWN_TYPE_CONFIGURATION_FILE_NOT_FOUND = 'Error unknown file type of logging configuration. Using default configs'
+ERROR_PARSING_CONFIGURATION_FILE                = 'Error in parsing logging configuration. Using default configs'
+
+# Constants Section
+DEFAULT_LOGGING_LEVEL                           = logging.INFO
 
 class _LoggerLoader:
     _shared_state = {}
@@ -34,10 +37,11 @@ class _LoggerLoader:
                 try:
                     dictionary = dictionary_reader_driver(f) 
                 except:
-                    print(ERROR_PARSING_CONFIGURATION_FILE_NOT_FOUND)
+                    print(ERROR_PARSING_CONFIGURATION_FILE)
         return dictionary 
     
-    def load_log_config(self, default_level=logging.INFO):
+    def load_log_config(self, default_level=None):
+        default_level = default_level if default_level else DEFAULT_LOGGING_LEVEL
         if not _LoggerLoader.s_is_log_config_initialized:
             print(INFO_LOADING_LOG_CONFIG)
             config_dictionary = None

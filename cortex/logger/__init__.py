@@ -1,1 +1,1 @@
-from .logger import _LoggerLoader
+from cortex.logger.logger_loader import _LoggerLoader

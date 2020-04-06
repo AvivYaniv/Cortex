@@ -1,0 +1,57 @@
+# Message Queue configuration version tag.
+version: "1"
+
+# Default Header
+message_queue:
+    # Type
+    server:
+        # Category : Publishers
+        publishers:    
+            # Item
+            - snapshots:
+                # Context fields values
+                exchange_type   : 'fanout'
+                exchange_name   : 'raw'
+                queue_name      : ''
+                binding_keys    : 
+
+    # Type
+    parser:
+        # Category : Publishers
+        publishers:
+            # Item
+            - parsed_snapshot:
+                # Context fields values
+                exchange_type   : 'fanout'
+                exchange_name   : '<name>'
+                queue_name      : ''
+                binding_keys    : 
+        # Category : Consumers
+        consumers:   
+            # Item
+            - snapshots:
+                # Context fields values
+                exchange_type   : 'fanout'
+                exchange_name   : 'raw'
+                queue_name      : ''
+                binding_keys    : [ 'snapshot' ]
+                
+    # Type
+    saver:
+        # Category : Consumers
+        consumers:   
+            # Item
+            - parser.1:
+                # Context fields values
+                exchange_type   : 'fanout'
+                exchange_name   : 'parser.1'
+                queue_name      : 'saver'
+                binding_keys    : [ 'parser.*' ]
+            # Item
+            - parser.2:
+                # Context fields values
+                exchange_type   : 'fanout'
+                exchange_name   : 'parser.2'
+                queue_name      : 'saver'
+                binding_keys    : [ 'parser.*' ]
+                

@@ -1,14 +1,14 @@
 from pathlib import Path
 
-from cortex.publisher_consumer.message_queue import MessageQueueContext
 from cortex.publisher_consumer.message_queue import MessageQueuePublisher
 from cortex.publisher_consumer.message_queue import MessageQueueConsumer 
+from cortex.publisher_consumer.message_queue.context.message_queue_context_factory import MessageQueueContextFactory
 
 def get_filename(fpath):
     return Path(fpath).stem
 
-def get_parser_number(str):
-    return [s for s in str if s.isdigit()][0]
+def get_parser_number(s):
+    return [c for c in s if c.isdigit()][0]
 
 class Parser:
     def __init__(self):
@@ -28,24 +28,14 @@ class Parser:
         self.listen()
     
     def listen(self):
-        message_queue_context =             \
-        MessageQueueContext(                \
-            exchange_type  = 'fanout',      \
-            exchange_name  = 'raw',         \
-            queue_name     = '',            \
-            binding_keys   = [ 'snapshot' ] \
-            )    
-        message_queue_consumer = MessageQueueConsumer(self.generate_callback(), message_queue_context)
+        mq_context_factory      = MessageQueueContextFactory()
+        message_queue_context   = mq_context_factory.get_mq_context('parser', 'consumers', 'snapshots') 
+        message_queue_consumer  = MessageQueueConsumer(self.generate_callback(), message_queue_context)
         message_queue_consumer.run()
     
     def register_publish(self):
-        message_queue_context =                 \
-        MessageQueueContext(                    \
-            exchange_type  = 'fanout',          \
-            exchange_name  = self.parser_name,  \
-            queue_name     = '',                \
-            binding_keys   = None               \
-            )
+        mq_context_factory      = MessageQueueContextFactory()
+        message_queue_context   = mq_context_factory.get_mq_context('parser', 'publishers', 'parsed_snapshot', name=self.parser_name)
         message_queue_publisher = MessageQueuePublisher(message_queue_context)
         self.publish_function   = message_queue_publisher.run()
         
