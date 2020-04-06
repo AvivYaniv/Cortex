@@ -63,9 +63,10 @@ def install_message_queue(message_queue_type):
 
 def run_message_queue(message_queue_context,
 					  callback				 =	 None, 
-					  message_queue_type     =   RabbitMQMessageQueue.name,
-					  host                   =   'localhost'):
-    message_queue = load_message_queue(callback, message_queue_context, message_queue_type, host)
+					  message_queue_type     =   None,
+					  host                   =   None):
+    message_queue_type  = message_queue_type if message_queue_type else RabbitMQMessageQueue.name
+    message_queue       = load_message_queue(callback, message_queue_context, message_queue_type, host)
     # If message queue not found - exit
     if not message_queue:
         return

@@ -1,5 +1,7 @@
 import pika
 
+from cortex.publisher_consumer.message_queue.message_queue import MessageQueue
+
 # Messages
 RABBIT_MQ_DIRECTION_UNSPECIFIED_ERROR_MESSAGE       =   'RabbitMQ direction (reciver/transmitter) unspecified!'
 RABBIT_MQ_HAS_NOT_INITIALIZED_ERROR_MESSAGE         =   'RabbitMQ has not initialized'
@@ -9,7 +11,7 @@ RABBIT_MQ_HAS_INITIALIZED_INFO_MESSAGE              =   'RabbitMQ has initialize
         
 RABBIT_MQ_IS_RUNNING_INFO_MESSAGE                   =   'RabbitMQ ready & runs!'
 
-class RabbitMQMessageQueue:
+class RabbitMQMessageQueue(MessageQueue):
     
     name            = 'rabbitmq'
         
@@ -54,27 +56,9 @@ class RabbitMQMessageQueue:
             self.logger.error(ex.message)
             return False
         return True
-        
-    def _init_rabbit_mq(self):
-        if self.message_queue_context.is_reciver():
-            return self._init_reciver()
-        elif self.message_queue_context.is_transmitter():
-            return self._init_transmitter()
-        else:
-            self.logger.error(RABBIT_MQ_DIRECTION_UNSPECIFIED_ERROR_MESSAGE)
-            return False
-            
-    def __init__(self, logger, callback, message_queue_context, host='localhost'):
-        self.logger = logger
-        self.logger.info(RABBIT_MQ_INITIALIZING_INFO_MESSAGE)
-        self.callback                   = callback
-        self.message_queue_context      = message_queue_context
-        self.host                       = host
-        self.is_initialized             = self._init_rabbit_mq()
-        if self.is_initialized:
-            self.logger.info(RABBIT_MQ_HAS_INITIALIZED_INFO_MESSAGE)
-        else:
-            self.logger.error(RABBIT_MQ_HAS_NOT_INITIALIZED_ERROR_MESSAGE)
+           
+    def __init__(self, logger, callback, message_queue_context, host=None):
+        super(RabbitMQMessageQueue, self).__init__(logger, callback, message_queue_context, host=None)
     
     def _run_reciver(self):
         self.channel.basic_consume(
@@ -93,10 +77,3 @@ class RabbitMQMessageQueue:
     def _run_transmitter(self):
         return self._messege_queue_publish
     
-    def run(self):
-        if self.is_initialized:
-            if self.message_queue_context.is_reciver():
-                self._run_reciver()
-            elif self.message_queue_context.is_transmitter():
-                return self._run_transmitter()
-            

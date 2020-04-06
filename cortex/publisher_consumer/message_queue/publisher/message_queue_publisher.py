@@ -6,8 +6,8 @@ from cortex.publisher_consumer.message_queue.message_queue_runner import run_mes
 class MessageQueuePublisher(Publisher):
     def __init__(self, 
                  message_queue_context,
-                 message_queue_type	= RabbitMQMessageQueue.name,
-                 host               = 'localhost'):
+                 message_queue_type	= None,
+                 host               = None):
         self.message_queue_context       =   message_queue_context
         self.message_queue_type          =   message_queue_type
         self.host                        =   host

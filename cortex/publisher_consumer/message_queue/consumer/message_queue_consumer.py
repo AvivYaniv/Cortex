@@ -1,5 +1,4 @@
 from cortex.publisher_consumer.consumer.consumer import Consumer
-from cortex.publisher_consumer.message_queue.rabbitmq_mq import RabbitMQMessageQueue
 
 from cortex.publisher_consumer.message_queue.message_queue_runner import run_message_queue 
 
@@ -7,8 +6,8 @@ class MessageQueueConsumer(Consumer):
     def __init__(self, 
                  callback,
                  message_queue_context,
-                 message_queue_type     =   RabbitMQMessageQueue.name,
-                 host                   = 'localhost'):
+                 message_queue_type     =   None,
+                 host                   =   None):
         super(MessageQueueConsumer, self).__init__(callback)
         self.callback                    =   callback
         self.message_queue_context       =   message_queue_context

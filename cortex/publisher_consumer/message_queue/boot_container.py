@@ -18,7 +18,7 @@ def run_message_queue_command(message_queue_type, host):
             run_message_queue(message_queue_type=message_queue_type, host=host)
 
 if "__main__" == __name__:
-    host                = 'localhost'
+    host                = None
     message_queue_type  = None
     
     # Setting non-default message queue type if specified
