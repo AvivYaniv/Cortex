@@ -20,6 +20,11 @@ from cortex.logger import _LoggerLoader
 logger                    = logging.getLogger(__name__)
 logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
+
+# Constants Section
+DEFAULT_HOST            =    '127.0.0.1'
+DEFAULT_PORT            =    '8000'
+DEFAULT_DATA_DIR        =    'data'        
         
 class FilesHandler:
     @staticmethod
@@ -82,9 +87,14 @@ class Handler(threading.Thread):
             except EOFError:            
                 break
 
-def run_server(host='127.0.0.1', port='8000', data_dir='data'):
+def run_server(host='', port='', data_dir=''):
     """Starts a server to which snapshots can be uploaded with `upload_sample`"""  
     logger.info("TODO UPDATE Processing data")
+    
+    # Default parameter resolution
+    host         = host if host else DEFAULT_HOST
+    port         = port if port else DEFAULT_PORT
+    data_dir     = data_dir if data_dir else DEFAULT_DATA_DIR
     
     # Parse server address
     server_ip_str, server_port_str  = host, port

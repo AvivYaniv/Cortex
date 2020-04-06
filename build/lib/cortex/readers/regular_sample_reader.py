@@ -2,7 +2,7 @@ from cortex.readers.file_reader import FileReaderBase
 
 from cortex.sample import Sample
 
-class BinarySampleReader(FileReaderBase):
+class BinaryMindReader(FileReaderBase):
 	
 	version = 'binary'
 	

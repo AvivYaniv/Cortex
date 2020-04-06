@@ -2,15 +2,6 @@ import pika
 
 from cortex.publisher_consumer.message_queue.message_queue import MessageQueue
 
-# Messages
-RABBIT_MQ_DIRECTION_UNSPECIFIED_ERROR_MESSAGE       =   'RabbitMQ direction (reciver/transmitter) unspecified!'
-RABBIT_MQ_HAS_NOT_INITIALIZED_ERROR_MESSAGE         =   'RabbitMQ has not initialized'
-
-RABBIT_MQ_INITIALIZING_INFO_MESSAGE                 =   'RabbitMQ initializing...'
-RABBIT_MQ_HAS_INITIALIZED_INFO_MESSAGE              =   'RabbitMQ has initialized'
-        
-RABBIT_MQ_IS_RUNNING_INFO_MESSAGE                   =   'RabbitMQ ready & runs!'
-
 class RabbitMQMessageQueue(MessageQueue):
     
     name            = 'rabbitmq'

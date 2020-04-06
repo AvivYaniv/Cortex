@@ -1,5 +1,4 @@
 from cortex.publisher_consumer.publisher.publisher import Publisher
-from cortex.publisher_consumer.message_queue.rabbitmq_mq import RabbitMQMessageQueue
 
 from cortex.publisher_consumer.message_queue.message_queue_runner import run_message_queue 
 

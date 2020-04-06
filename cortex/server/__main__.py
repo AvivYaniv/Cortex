@@ -18,8 +18,8 @@ def main():
     pass
 
 @main.command()
-@click.option('-h', '--host', default='127.0.0.1')
-@click.option('-p', '--port', default='8000')
+@click.option('-h', '--host', default='')
+@click.option('-p', '--port', default='')
 @click.argument('data_dir', type=str)
 def run_server(host, port, data_dir):
     """

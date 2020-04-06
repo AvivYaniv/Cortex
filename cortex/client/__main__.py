@@ -4,8 +4,6 @@ import click
 
 import cortex.client
 
-from cortex.readers.reader_versions import ReaderVersions
-
 import logging
 from cortex.logger import _LoggerLoader
 
@@ -20,10 +18,10 @@ def main():
     pass
 
 @main.command()
-@click.option('-h', '--host', default='127.0.0.1')
-@click.option('-p', '--port', default='8000')
+@click.option('-h', '--host', default='')
+@click.option('-p', '--port', default='')
 @click.argument('file', type=str)
-@click.option('-v', '--version', default=ReaderVersions.PROTOBUFF)
+@click.option('-v', '--version', default='')
 def upload_sample(host, port, file):
     """
     Sends to the server user's sample file; user information & snapshots

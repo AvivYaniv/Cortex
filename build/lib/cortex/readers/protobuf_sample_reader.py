@@ -9,7 +9,7 @@ from cortex.sample.depthimage import DepthImage
 
 from cortex.readers.file_reader import FileReaderBase
 
-class ProtobufSampleReader(FileReaderBase):
+class ProtobufMindReader(FileReaderBase):
 	
 	version 			= 'protobuf'
 	

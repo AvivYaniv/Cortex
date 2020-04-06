@@ -16,12 +16,24 @@ logger					= logging.getLogger(__name__)
 logger_loader 			= _LoggerLoader()
 logger_loader.load_log_config()
 
+# Constants Section
+DEFAULT_HOST			=	'127.0.0.1'
+DEFAULT_PORT			=	'8000'
+DEFAULT_FILE_PATH		=	'sample.mind.gz'
+DEFAULT_FILE_VERSION	=	ReaderVersions.PROTOBUFF
+
 # Setting default protocol	
 protocol = Protocol() 
 	
-def upload_sample(host='127.0.0.1', port='8000', file_path='sample.mind.gz', version=ReaderVersions.PROTOBUFF):
+def upload_sample(host='', port='', file_path='', version=''):
 	"""Sends to the server user's sample file"""
 	logger.info("TODO UPDATE Processing data")
+	
+	# Default parameter resolution
+	host 		= host if host else DEFAULT_HOST
+	port 		= port if port else DEFAULT_PORT
+	file_path 	= file_path if file_path else DEFAULT_FILE_PATH
+	version 	= version if version else DEFAULT_FILE_VERSION
 	
 	# Parse server address
 	server_ip_str, server_port_str  = host, port
