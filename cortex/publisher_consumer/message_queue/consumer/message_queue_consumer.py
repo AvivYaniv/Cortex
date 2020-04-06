@@ -1,14 +1,12 @@
-from cortex.publisher_consumer.consumer.consumer import Consumer
 
 from cortex.publisher_consumer.message_queue.message_queue_runner import run_message_queue 
 
-class MessageQueueConsumer(Consumer):
+class MessageQueueConsumer:
     def __init__(self, 
                  callback,
                  message_queue_context,
-                 message_queue_type     =   None,
-                 host                   =   None):
-        super(MessageQueueConsumer, self).__init__(callback)
+                 message_queue_type =   None,
+                 host               =   None):
         self.callback                    =   callback
         self.message_queue_context       =   message_queue_context
         self.message_queue_type          =   message_queue_type

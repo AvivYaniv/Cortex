@@ -7,8 +7,8 @@ from cortex.publisher_consumer.message_queue.context.message_queue_context_loade
 
 import ast
 
-import logging
-from cortex.logger import _LoggerLoader
+import  logging
+from    cortex.logger import _LoggerLoader
 
 # Log initialization
 logger                    = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ TRANSMITTERS_CATEGORIES_NAMES           =   [ 'publishers' ]
 
 class MessageQueueContextFactory:
     def __init__(self, message_queue_type = None):
-        message_queue_type  = message_queue_type if message_queue_type else RabbitMQMessageQueue.name
+        message_queue_type              =   message_queue_type if message_queue_type else RabbitMQMessageQueue.name
         # Invoking the message queue context loader configuration loader
         message_queue_context_loader    =   _MessageQueueContextLoader(message_queue_type)
         # Setting message queue loaded context dictionary

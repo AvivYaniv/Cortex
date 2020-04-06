@@ -1,8 +1,7 @@
-from cortex.publisher_consumer.publisher.publisher import Publisher
 
 from cortex.publisher_consumer.message_queue.message_queue_runner import run_message_queue 
 
-class MessageQueuePublisher(Publisher):
+class MessageQueuePublisher:
     def __init__(self, 
                  message_queue_context,
                  message_queue_type	= None,
