@@ -1,4 +1,3 @@
-from cortex.publisher_consumer.consumer import Consumer
 from cortex.publisher_consumer.message_queue.consumer.message_queue_consumer import MessageQueueConsumer
 from cortex.publisher_consumer.message_queue.consumer.Message_queue_consumer_thread import MessageQueueConsumerThread
 
