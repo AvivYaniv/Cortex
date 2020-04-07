@@ -33,7 +33,7 @@ class RabbitMQMessageQueue(MessageQueue):
                         routing_key =   binding_key
                         )
         except Exception as ex:
-            self.logger.error(ex.message)
+            self.logger.error(ex)
         return True
     
     def _init_transmitter(self):

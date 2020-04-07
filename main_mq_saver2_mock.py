@@ -2,9 +2,8 @@ from pathlib import Path
 
 import threading
 
-from cortex.publisher_consumer.message_queue import MessageQueueConsumer 
-from cortex.publisher_consumer.message_queue.context.message_queue_context_factory import MessageQueueContextFactory
-
+from cortex.publisher_consumer.message_queue.consumer.Message_queue_consumer_thread import MessageQueueConsumerThread
+    
 def get_filename(fpath):
     return Path(fpath).stem
 
@@ -24,18 +23,6 @@ class _DataBaseMock:
             print(f'Commited : {data}')
         finally:            
             self.lock.release()
-  
-class ListenThread(threading.Thread):
-    def __init__(self, parser_name, callback):
-        threading.Thread.__init__(self)
-        self.parser_name = parser_name
-        self.callback    = callback        
-    
-    def run(self):
-        mq_context_factory      =   MessageQueueContextFactory()
-        message_queue_context   =   mq_context_factory.get_mq_context('saver', 'consumers', self.parser_name)
-        message_queue_consumer  =   MessageQueueConsumer(self.callback, message_queue_context)
-        message_queue_consumer.run()
         
 class Saver:
     def __init__(self):
@@ -59,13 +46,16 @@ class Saver:
         return save
     
     def run(self):
-        parser1_listener = self.create_listern_thread('parser.1')
-        parser2_listener = self.create_listern_thread('parser.2')
+        parser1_listener = self.create_listen_thread('parser.1')
+        parser2_listener = self.create_listen_thread('parser.2')
         parser1_listener.start()
         parser2_listener.start()
         
-    def create_listern_thread(self, parser_name):
-        return ListenThread(parser_name, self.saving_callback)
+    def create_listen_thread(self, parser_name):
+        return MessageQueueConsumerThread(callback      =   self.saving_callback, 
+                                          caller_type   =   'saver', 
+                                          category      =   'consumers', 
+                                          item          =   parser_name)
     
 if "__main__" == __name__:
     saver = Saver()
