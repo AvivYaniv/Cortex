@@ -9,7 +9,7 @@ from cortex.utils import Serialization
 class ConfigMessageProto(ConfigMessage):
     
     def serialize(self):
-        config_message                      = protocol_proto.ConfigMessage()
+        config_message          = protocol_proto.ConfigMessage()
         for field in self.fields:
             proto_field 		= config_message.fields_config.fields.add()
             proto_field.name 	= field            

@@ -18,6 +18,11 @@ class SnapshotImage:
     def __repr__(self):
         return f'SnapshotImage(height={self.height}, width={self.width})'
     
+    def clear(self):
+        self.width  =   0
+        self.height =   0
+        self.data   =   []
+    
     def save_image(self, file_name):
         if not hasattr(self, '_image_file'):
             self._parse_image()

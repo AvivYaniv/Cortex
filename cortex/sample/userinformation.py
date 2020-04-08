@@ -3,6 +3,7 @@ from struct import pack, calcsize
 from datetime import datetime
 
 from cortex.utils import Serialization
+from cortex.utils import TimeUtils
 
 from cortex.entities import UserInfo
 
@@ -10,9 +11,6 @@ class UserInformation:
     ENCODING                = 'utf-8'
     
     ERROR_DATA_INCOMPLETE   = 'incomplete data'
-
-    DATETIME_FORMAT         = '%Y-%m-%d_%H:%M:%S'
-    CONCISE_DATE_FORMAT     = '%d %B, %Y'
 
     SERIALIZATION_ENDIANITY = '<'
 
@@ -29,10 +27,10 @@ class UserInformation:
         self.gender         = gender if isinstance(gender, str) else gender.decode(UserInformation.ENCODING)
          
     def __repr__(self):
-        return f'UserInformation(user_id={self.user_id}, username={self.username}, birth_date={datetime.strftime(self.birth_date, UserInformation.DATETIME_FORMAT)}, gender={self.gender})'
+        return f'UserInformation(user_id={self.user_id}, username={self.username}, birth_date={datetime.strftime(self.birth_date, TimeUtils.DATETIME_FORMAT)}, gender={self.gender})'
     
     def __str__(self):
-        return f'user {self.user_id}: {self.username}, born {datetime.strftime(self.birth_date, UserInformation.CONCISE_DATE_FORMAT)} ({UserInformation.GENDER_TABLE[self.gender]})'
+        return f'user {self.user_id}: {self.username}, born {datetime.strftime(self.birth_date, TimeUtils.CONCISE_DATE_FORMAT)} ({UserInformation.GENDER_TABLE[self.gender]})'
     
     def get_current_serialization_format(self):
         if not hasattr(self, '_current_serialization_format'):        
@@ -67,6 +65,6 @@ class UserInformation:
             Serialization.read(stream, UserInformation.SERIALIZATION_HEADER)        
         CURRENT_USER_PAYLOAD_FORMAT                     = UserInformation.SERIALIZATION_PAYLOAD.format(username_size)
         username, birth_date, gender                    = \
-            Serialization.read(stream, CURRENT_USER_PAYLOAD_FORMAT)        
+            Serialization.read(stream, CURRENT_USER_PAYLOAD_FORMAT)
         return UserInfo(user_id, username, datetime.fromtimestamp(birth_date), gender)
     

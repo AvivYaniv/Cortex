@@ -19,7 +19,7 @@ class Connection:
     def __exit__(self, exception, error, traceback):
         self.close()
         if exception is not None:
-            print('DEBUG ' + str(exception))
+            print(str(exception))
             raise exception
         return True
     

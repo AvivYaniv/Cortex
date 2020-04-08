@@ -1,7 +1,7 @@
 from cortex.protobuf import mind_proto
 
-from cortex.sample.snapshot import Snapshot
-from cortex.sample.userinformation import UserInformation
+from cortex.entities import Snapshot
+from cortex.entities import UserInfo
 
 from cortex.utils import Serialization
 from cortex.sample.colorimage import ColorImage
@@ -26,7 +26,7 @@ class ProtobufMindReader(FileReaderBase):
 		user_information_protobuf.ParseFromString(user_information_bytes)
 		
 		user_information 			=							\
-			UserInformation(									\
+			UserInfo(											\
 							user_information_protobuf.user_id, 	\
 							user_information_protobuf.username, 
 							user_information_protobuf.birthday, 
@@ -35,7 +35,7 @@ class ProtobufMindReader(FileReaderBase):
 		return user_information
 	
 	def read_snapshot(self):
-		snapshot_bytes 				= 	Serialization.read_tunnled_message(self.stream)
+		snapshot_bytes 				= 	Serialization.read_tunnled_message(self.stream, expect_eof=True)
 		snapshot_protobuf 			= 	mind_proto.Snapshot()
 		snapshot_protobuf.ParseFromString(snapshot_bytes)
 		

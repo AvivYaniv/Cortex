@@ -18,12 +18,12 @@ class SnapshotMessageProto(SnapshotMessage):
     
     def serialize(self):
         snapshot_message                      	        = protocol_proto.SnapshotMessage()
-        snapshot_message.snapshot.datetime    	        = self.timestamp
+        snapshot_message.snapshot.datetime    	        = self.snapshot.timestamp
         
         translation                                     = protocol_proto.Pose.Translation()
-        translation.x, translation.y, translation.z     = self.translation
+        translation.x, translation.y, translation.z     = self.snapshot.pose.translation.get()
         rotation                                        = protocol_proto.Pose.Rotation()
-        rotation.x, rotation.y, rotation.z, rotation.w  = self.rotation
+        rotation.x, rotation.y, rotation.z, rotation.w  = self.snapshot.pose.rotation.get()
         
         pose                                            = protocol_proto.Pose()
         pose.rotation.CopyFrom(rotation)
@@ -32,18 +32,18 @@ class SnapshotMessageProto(SnapshotMessage):
         
         color_image                                     = protocol_proto.ColorImage()
         color_image.width, color_image.height, color_image.data =                   \
-            self.color_image.width, self.color_image.height, self.color_image.data
+            self.snapshot.color_image.width, self.snapshot.color_image.height, self.snapshot.color_image.data
         snapshot_message.snapshot.color_image.CopyFrom(color_image)
         
         depth_image                                     = protocol_proto.DepthImage()
         depth_image.width, depth_image.height =                                     \
-            self.depth_image.width, self.depth_image.height
-        depth_image.data.extend(self.depth_image.data)
+            self.snapshot.depth_image.width, self.snapshot.depth_image.height
+        depth_image.data.extend(self.snapshot.depth_image.data)
         snapshot_message.snapshot.depth_image.CopyFrom(depth_image) 
         
         feelings                                        = protocol_proto.Feelings()
         feelings.hunger, feelings.thirst, feelings.exhaustion, feelings.happiness = \
-            self.user_feeling
+            self.snapshot.user_feelings.get()
         snapshot_message.snapshot.feelings.CopyFrom(feelings)
          
         return Serialization.serialize_tunnled_message(snapshot_message.SerializeToString())

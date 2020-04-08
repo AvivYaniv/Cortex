@@ -25,8 +25,8 @@ class Parser:
             DynamicModuleLoader.dynamic_lookup_to_dictionary(imported_modules_names, self.LOOKUP_TOKEN, self.NAME_IDENTIFIER)
         self._set_parser_function(parser_type)
         
-    def parse(self, context, snapshot):        
-        return self._parser_function(context, snapshot)
+    def parse(self, saver, context, snapshot):        
+        return self._parser_function(saver, context, snapshot)
 
     def _set_parser_function(self, parser_type):
         self._parser_object     = None

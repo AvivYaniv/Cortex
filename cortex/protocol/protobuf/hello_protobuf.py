@@ -20,10 +20,10 @@ class HelloMessageProto(HelloMessage):
 
     def serialize(self):
         hello_message                      = protocol_proto.HelloMessage()
-        hello_message.user_data.user_id    = self.user_id   
-        hello_message.user_data.username   = self.username  
-        hello_message.user_data.birthday   = int(time.mktime(self.birth_date.timetuple()))
-        hello_message.user_data.gender     = HelloMessageProto.GENDER_TABLE[self.gender].number
+        hello_message.user_data.user_id    = self.user_info.user_id   
+        hello_message.user_data.username   = self.user_info.username  
+        hello_message.user_data.birthday   = self.user_info.birth_date
+        hello_message.user_data.gender     = HelloMessageProto.GENDER_TABLE[self.user_info.gender].number
         return Serialization.serialize_tunnled_message(hello_message.SerializeToString())
     
     @staticmethod

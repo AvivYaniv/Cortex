@@ -21,4 +21,6 @@ from cortex.utils.uuid import generate_uuid
 
 from cortex.utils.url import parse_url
 
+from cortex.utils.consts import ConstantPathes
+
 version = '0.1.0'

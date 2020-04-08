@@ -1,7 +1,7 @@
 import os
 import logging.config
 
-from cortex.utils import get_project_file_path_by_caller
+from cortex.utils.files.file_paths import get_project_file_path_by_caller
 from cortex.readers.dictionary import DictionayReaderDriver
 
 # Logging configuration file

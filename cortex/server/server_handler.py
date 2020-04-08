@@ -1,10 +1,10 @@
-from pathlib import Path, PurePath
-
 from cortex.publisher_consumer.messages import MessageQueueMessages, MessageQueueMessagesTyeps
 
-from cortex.protocol import ProtocolMessagesTyeps, Protocol, snapshot_message
+from cortex.protocol import ProtocolMessagesTyeps, Protocol
 from cortex.utils import _FileHandler
 from cortex.utils import generate_uuid
+
+from cortex.utils import ConstantPathes
 
 import threading
 
@@ -17,12 +17,14 @@ logger_loader               = _LoggerLoader()
 logger_loader.load_log_config()
 
 # Constants Section
-# Directories
-DEFAULT_USERS_DIR           = 'users'
-DEFAULT_SNAPSHOTS_DIR       = 'snapshots'
+SNAPSHOT_FILE_NAME          = 'snapshot'
 
 # Supported fields
-DEFAULT_SUPPORTED_FIELDS    = [ 'color_image', 'depth_image', 'user_feeling', 'translation' ]
+DEFAULT_SUPPORTED_FIELDS    = [ 'color_image', 'depth_image', 'user_feeling', 'translation', 'rotation' ]
+
+class UserContext:
+    def __init__(self, user_info):
+        self.user_info = user_info
 
 class ServerHandler(threading.Thread):        
     # Constructor Section
@@ -31,9 +33,6 @@ class ServerHandler(threading.Thread):
         self._is_valid_connection       = True
         # Network
         self.connection                 = connection    
-        # Files
-        self.users_dir                  = DEFAULT_USERS_DIR
-        self.snapshots_dir              = DEFAULT_SNAPSHOTS_DIR
         self.files_handler              = _FileHandler()
         # Protocol
         self.supported_fields           = DEFAULT_SUPPORTED_FIELDS
@@ -75,49 +74,71 @@ class ServerHandler(threading.Thread):
         except Exception as e:
             logger.error(f'error receiving snapshot_message of user {self.context.user_info.user_id}: {e}')
             self._is_valid_connection   = False
-            return None
+            return b''
         return snapshot_message_bytes
     # UUID Methods Section
     def _get_uuid(self):
         return generate_uuid()
     # File Handling Methods Section
     # Generate path to save file
-    def _get_save_path(self, directory, file):
-        return self.files_handler.to_safe_file_path(directory, file)
+    def _get_save_path(self, *pathsegments):
+        pathsegments = [str(s) for s in pathsegments]
+        return self.files_handler.to_safe_file_path(*pathsegments)
     # Save file
     def _save_file(self, path, data):
         return self.files_handler.save(path, data)
     # Messages Handling Methods Section
     # Sets context
     def _set_context(self, hello_message):
-        self.context            = object()
-        self.context.user_info  = hello_message.user_info
-    # Saves snapshot
-    def save_snapshot(self, snapshot_uuid, snapshot_message_bytes):
-        snapshot_path   = self._get_save_path(self.snapshots_dir, snapshot_uuid)
+        try:
+            self.context            = UserContext(hello_message.user_info)            
+        except Exception as e:
+            logger.error(f'error parsing hello_message : {e}')
+            self._is_valid_connection = False
+    def _save_user_info(self):
+        user_info_path   =                              \
+            self._get_save_path(                        \
+                ConstantPathes.DATA_DIRRECTORY,         \
+                ConstantPathes.USERS_DIRRECTORY,        \
+                self.context.user_info.user_id)
         # Save snapshot
-        is_saved        = self.save_file(snapshot_path, snapshot_message_bytes)
+        is_saved         = self._save_file(user_info_path, self.context.user_info.serialize())
+        if not is_saved:
+            logger.error(f'error saving user info of user {self.context.user_info.user_id}')
+            return None
+        return user_info_path
+    # Saves snapshot
+    def _save_snapshot(self, snapshot_uuid, snapshot_message_bytes):
+        snapshot_path   =                               \
+            self._get_save_path(                        \
+                ConstantPathes.DATA_DIRRECTORY,         \
+                ConstantPathes.SNAPSHOTS_DIRRECTORY,    \
+                self.context.user_info.user_id,         \
+                snapshot_uuid,                          \
+                SNAPSHOT_FILE_NAME)
+        # Save snapshot
+        is_saved        = self._save_file(snapshot_path, snapshot_message_bytes)
         if not is_saved:
             logger.error(f'error saving snapshot of user {self.context.user_info.user_id}')
             return None
         return snapshot_path
     # Publish snapshot message
     def publish_snapshot_message(self, snapshot_uuid, raw_snapshot_path):
-        # Creating saved snapshot message
-        saved_snapshot_message =                                    \
+        # Creating raw snapshot message
+        raw_snapshot_message =                                      \
             self.messages.get_message(                              \
                 MessageQueueMessagesTyeps.RAW_SNAPSHOT_MESSAGE)(    \
                     self.context.user_info.user_id,                 \
                     snapshot_uuid,                                  \
                     raw_snapshot_path)
-        # Publish snapshot to
-        self.publish_snapshot_function(saved_snapshot_message)        
+        # Publish raw snapshot message
+        self.publish_snapshot_function(raw_snapshot_message.serialize())
     # Handle snapshot message
     def handle_snapshot_message(self, snapshot_message_bytes):
         # Gets snapshot uuid
         snapshot_uuid       = self._get_uuid()
         # Saving snapshot
-        raw_snapshot_path   = self.save_snapshot(snapshot_message_bytes)
+        raw_snapshot_path   = self._save_snapshot(snapshot_uuid, snapshot_message_bytes)
         # If error occurred while saving snapshot
         if not raw_snapshot_path:
             return
@@ -131,11 +152,16 @@ class ServerHandler(threading.Thread):
         if not self._is_valid_connection:
             return
         # Sets client context based on hello message
-        self._set_context(hello_message)
+        self._set_context(hello_message)        
+        # Saving user information
+        self._save_user_info() 
+        if not self._is_valid_connection:
+            return       
         # Sends configuration message to client
         self.send_config_message()
         if not self._is_valid_connection:
             return
+        logger.info(f'start receiving snapshots from user {self.context.user_info.user_id}')
         # As long as connection is valid
         while self._is_valid_connection:
             try:
@@ -143,7 +169,9 @@ class ServerHandler(threading.Thread):
                 snapshot_message_bytes = self.receive_snapshot_message_bytes()                
                 # Handle snapshot message
                 self.handle_snapshot_message(snapshot_message_bytes)
-            except EOFError:            
+            except EOFError:   
+                logger.info(f'finished snapshots from user {self.context.user_info.user_id}')         
                 break
-            except Exception as e:
-                logger.error(f'exception has occurred handling user {self.context.user_info.user_id}: {e}')
+            # TODO DEBUG RESTORE
+            #except Exception as e:
+            #    logger.error(f'exception has occurred handling user {self.context.user_info.user_id}: {e}')

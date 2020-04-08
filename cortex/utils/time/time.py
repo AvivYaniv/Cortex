@@ -2,9 +2,11 @@
 import datetime
 from builtins import staticmethod
 
-DATETIME_FORMAT             = '%Y-%m-%d_%H-%M-%S-%f'
-
 class TimeUtils:
+    
+    DATETIME_FORMAT         = '%Y-%m-%d_%H-%M-%S-%f'
+    CONCISE_DATE_FORMAT     = '%d %B, %Y'
+    CONCISE_HOUR_FORMAT     = '%H:%M:%S.%f'
     
     EPOCH_MOMENT            = datetime.datetime.utcfromtimestamp(0)
 
@@ -14,5 +16,5 @@ class TimeUtils:
     
     @staticmethod
     def get_time_stamp(dt, datetime_format=None):
-        datetime_format = datetime_format if datetime_format else DATETIME_FORMAT
+        datetime_format = datetime_format if datetime_format else TimeUtils.DATETIME_FORMAT
         return dt.strftime(datetime_format)

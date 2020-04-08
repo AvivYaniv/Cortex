@@ -10,12 +10,11 @@ from builtins import staticmethod
 
 from cortex.entities import UserInfo
 
+from cortex.utils import TimeUtils
+
 class HelloMessageNative(HelloMessage):
     ENCODING                = 'utf-8' 
     
-    DATETIME_FORMAT         = '%Y-%m-%d_%H:%M:%S'
-    CONCISE_DATE_FORMAT     = '%d %B, %Y'
-
     SERIALIZATION_ENDIANITY = '<'
 
     SERIALIZATION_HEADER    = 'QI'
@@ -38,14 +37,14 @@ class HelloMessageNative(HelloMessage):
         return self._serialization_size
     
     def serialize(self):
-        username_size                   = len(self.username)
-        birth_date_as_number            = int(time.mktime(self.birth_date.timetuple()))
-        return                                                          \
-            pack(self.get_current_serialization_format(),               \
-                 self.user_id,                                          \
-                 username_size,                                         \
-                 self.username.encode(HelloMessageNative.ENCODING),     \
-                 birth_date_as_number,                                  \
+        username_size                   = len(self.user_info.username)
+        birth_date_as_number            = self.user_info.birth_date
+        return                                                                  \
+            pack(self.get_current_serialization_format(),                       \
+                 self.user_info.user_id,                                        \
+                 username_size,                                                 \
+                 self.user_info.username.encode(HelloMessageNative.ENCODING),   \
+                 birth_date_as_number,                                          \
                  self.gender.encode(HelloMessageNative.ENCODING))
     
     @staticmethod

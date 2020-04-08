@@ -1,6 +1,8 @@
+import os
+
 import threading
 
-from pathlib import Path, PurePath
+from pathlib import PurePath
 
 class _FileHandler:
     lock            = threading.Lock()
@@ -10,20 +12,42 @@ class _FileHandler:
         self.__dict__ = self.__class__._shared_state
     
     @staticmethod
-    def to_safe_file_path(directory, file):
-        return _FileHandler.to_safe_path(str(PurePath(directory) / Path(file)))
+    def to_safe_file_path(*pathsegments, extension=''):
+        pathsegments = [str(s) for s in pathsegments]
+        full_path = str(PurePath(*pathsegments)) + extension
+        return _FileHandler.to_safe_path(full_path)
     
     @staticmethod
     def to_safe_path(path_name):
         return path_name.replace(':', '-').replace(' ', '_')
-            
-    def save(self, file_path, data, mode='a+'):
-        self.lock.acquire()
+          
+    @staticmethod      
+    def read_file(file_path, mode=None):
+        mode = mode if mode else 'r'
+        with open(file_path, mode) as f:
+            content = f.read() 
+        return content
+       
+    @staticmethod
+    def create_path(path):
+        directories = os.path.dirname(path)
+        if not os.path.isdir(directories):
+            os.makedirs(directories)
+
+    def save(self, file_path, data):
         is_written  = False
+        if not data:
+            print('DEBUG TODO REMOVE NO DATA RECEIVED')
+            return is_written
+        self.lock.acquire()
         try:
-            with open(file_path, mode) as file:                             
+            _FileHandler.create_path(file_path)
+            mode = 'w' if isinstance(data, str) else 'wb'
+            with open(file_path, mode) as file:
                 file.write(data)
-            is_written = True
+            is_written = True  
+        except Exception as e:
+            print(f'error saving file {file_path} : {e}')      
         finally:            
             self.lock.release()
         return is_written

@@ -2,17 +2,16 @@ from datetime import datetime
 from struct import pack, calcsize
 import time
 
-from ..utils import Serialization
+from cortex.entities import Snapshot as SnapshotEntity
+
+from cortex.utils import Serialization
+from cortex.utils import TimeUtils
 
 from .depthimage import DepthImage
 from .colorimage import ColorImage
 
 class Snapshot:
     ERROR_DATA_INCOMPLETE   = 'incomplete data'
-
-    DATETIME_FORMAT         = '%Y-%m-%d_%H-%M-%S-%f'
-    CONCISE_DATE_FORMAT     = '%d %B, %Y'
-    CONCISE_HOUR_FORMAT     = '%H:%M:%S.%f'
 
     SERIALIZATION_ENDIANITY = '<'
 
@@ -29,10 +28,10 @@ class Snapshot:
         self.user_feeling   = user_feeling
          
     def __repr__(self):
-        return f'Snapshot(datetime={datetime.strftime(self.datetime, Snapshot.DATETIME_FORMAT)}, translation={self.translation}, rotation={self.rotation}, color_image={self.color_image}, depth_image={self.depth_image})'
+        return f'Snapshot(datetime={datetime.strftime(self.datetime, TimeUtils.DATETIME_FORMAT)}, translation={self.translation}, rotation={self.rotation}, color_image={self.color_image}, depth_image={self.depth_image})'
     
     def __str__(self):
-        return f'Snapshot from {datetime.strftime(self.datetime, Snapshot.CONCISE_DATE_FORMAT)} at {datetime.strftime(self.datetime, Snapshot.CONCISE_HOUR_FORMAT)} on {self.translation} / {self.rotation} with a {self.color_image} and a {self.depth_image}'
+        return f'Snapshot from {datetime.strftime(self.datetime, TimeUtils.CONCISE_DATE_FORMAT)} at {datetime.strftime(self.datetime, TimeUtils.CONCISE_HOUR_FORMAT)} on {self.translation} / {self.rotation} with a {self.color_image} and a {self.depth_image}'
     
     def get_current_serialization_format(self):
         if not hasattr(self, '_current_serialization_format'):
@@ -91,5 +90,5 @@ class Snapshot:
         user_feeling                                        =   \
             (hunger, thirst, exhaustion, happiness)
         
-        return Snapshot(timestamp, translation, rotation, color_image, depth_image, user_feeling)
+        return SnapshotEntity(timestamp, translation, rotation, color_image, depth_image, user_feeling)
     

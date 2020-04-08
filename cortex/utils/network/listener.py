@@ -23,18 +23,16 @@ class Listener:
     def __exit__(self, exception, error, traceback):
         self.stop()
         if exception is not None:
-            print('DEBUG ' + str(exception))
+            print(f'{exception}')
             raise exception
         return True
         
     def start(self):
-        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-        
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)         
         if self.reuseaddr:
-            self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) 
-        
+            self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)         
         self.server.bind((self.host, self.port))
-        self.server.consume_messages(self.backlog)
+        self.server.listen(self.backlog)
     
     def stop(self):
         self.server.close()

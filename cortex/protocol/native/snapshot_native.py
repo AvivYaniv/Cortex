@@ -16,10 +16,6 @@ from cortex.protocol.snapshot_message import SnapshotMessage
 class SnapshotMessageNative(SnapshotMessage):
     ERROR_DATA_INCOMPLETE   = 'incomplete data'
 
-    DATETIME_FORMAT         = '%Y-%m-%d_%H-%M-%S-%f'
-    CONCISE_DATE_FORMAT     = '%d %B, %Y'
-    CONCISE_HOUR_FORMAT     = '%H:%M:%S.%f'
-
     SERIALIZATION_ENDIANITY = '<'
 
     SERIALIZATION_HEADER    = 'Qddddddd'
@@ -47,13 +43,13 @@ class SnapshotMessageNative(SnapshotMessage):
         header =                                                                                                \
             pack(SnapshotMessageNative.SERIALIZATION_ENDIANITY + SnapshotMessageNative.SERIALIZATION_HEADER,    \
                  self.timestamp,                                                                                \
-                 *self.translation,                                                                             \
-                 *self.rotation)
+                 *self.pose.translation.get(),                                                                             \
+                 *self.pose.rotation.get())
         body =                                                                                                  \
             self.color_image.serialize() + self.depth_image.serialize()    
         trailer =                                                                                               \
             pack(SnapshotMessageNative.SERIALIZATION_ENDIANITY + SnapshotMessageNative.SERIALIZATION_TRAILER,   \
-                 *self.user_feeling)
+                 *self.user_feeling.get())
         return header + body + trailer
     
     @staticmethod

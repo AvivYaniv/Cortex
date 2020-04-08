@@ -67,21 +67,22 @@ class ServerService:
             message_queue_host,             \
             message_queue_port              \
             )        
-    # Core Logic Methods Section  
+    # Core Logic Method Section  
     # Run server service and handle clients
     def run(self):
         # Logging initialization
-        logger.info(f'starting server on {self.server_port_int}:{self.server_ip_str}')
-        # Listening to incoming messages and handling them accordingly
-        with Listener(self.server_port_int, self.server_ip_str) as listener:
-            # Accept client        
-            connection = listener.accept()        
-            # Initialize client ServerHandler
-            handler = ServerHandler(connection, self.publish_snapshot_function)        
-            # Handle client
-            handler.start()
+        logger.info(f'starting server on {self.server_ip_str}:{self.server_port_int}')
+        while True:
+            # Listening to incoming messages and handling them accordingly
+            with Listener(self.server_port_int, self.server_ip_str) as listener:
+                # Accept client        
+                connection = listener.accept()        
+                # Initialize client ServerHandler
+                handler = ServerHandler(connection, self.publish_snapshot_function)        
+                # Handle client
+                handler.start()
 
-def run_server(host='', port='', publish=None, message_queue_type=None, message_queue_host=None, message_queue_port=None):
+def run_server_service(host='', port='', publish=None, message_queue_type=None, message_queue_host=None, message_queue_port=None):
     """Starts a server to which snapshots can be uploaded with `upload_sample`"""  
     server_service = ServerService(host, port, publish, message_queue_type, message_queue_host, message_queue_port)
     server_service.run()

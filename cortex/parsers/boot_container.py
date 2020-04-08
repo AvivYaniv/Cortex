@@ -1,6 +1,8 @@
 
 from cortex.envvars import get_message_queue_parameters
 
+from cortex.parsers.parser_service import run_parser
+
 import os
 
 # Constants Section
@@ -10,7 +12,7 @@ PARSER_TYPE_ENVIRONMENT_VARIABLE                    =   'PARSER'
 PARSER_TYPE_NOT_CONFIGURED_ERROR_MESSAGE            =   'Parser type not configured in container'
 
 def run_parser_service(parser_type, message_queue_type, message_queue_host, message_queue_port):
-    pass
+    run_parser(parser_type, message_queue_type, message_queue_host, message_queue_port)
 
 if "__main__" == __name__:
     if PARSER_TYPE_ENVIRONMENT_VARIABLE not in os.environ:

@@ -4,11 +4,14 @@ from cortex.readers.reader_versions import ReaderVersions
 
 from cortex.utils import DynamicModuleLoader
 
+DEFAULT_MIND_FILE_VERSION   =   ReaderVersions.PROTOBUFF
+
 class MindStreamReader:
     LOOKUP_TOKEN        =   'reader'
     NAME_IDENTIFIER     =   'version'
         
-    def __init__(self, file_path, version): 
+    def __init__(self, file_path, version=None): 
+        version = version if version else DEFAULT_MIND_FILE_VERSION
         self._load_readers()
         reader_class        = self.find_reader_driver(version)
         self.reader         = reader_class(file_path)
@@ -49,11 +52,11 @@ class MindStreamReader:
         return self.reader.read_snapshot()
 
 class MindFileReader(MindStreamReader):
-    def __init__(self, file_path, version=ReaderVersions.PROTOBUFF):
+    def __init__(self, file_path, version=None):
         super().__init__(file_path, version)
 
 def read(file_path):
-    with MindFileReader(file_path, version=ReaderVersions.PROTOBUFF) as sample_reader:
+    with MindFileReader(file_path, version=None) as sample_reader:
         print(str(sample_reader.user_information))
         for snapshot in sample_reader:
             print(str(snapshot))

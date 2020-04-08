@@ -47,10 +47,7 @@ class RabbitMQMessageQueue(MessageQueue):
             self.logger.error(ex.message)
             return False
         return True
-           
-    def __init__(self, logger, callback, message_queue_context, host=None):
-        super(RabbitMQMessageQueue, self).__init__(logger, callback, message_queue_context, host=None)
-    
+   
     def _run_reciver(self):
         self.channel.basic_consume(
             queue                   =    self.message_queue_context.queue_name, 
