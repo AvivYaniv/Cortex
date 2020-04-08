@@ -5,7 +5,7 @@ from datetime import datetime
 
 from cortex.protocol.hello_message import HelloMessage
 
-from cortex.utils.serialization import Serialization
+from cortex.utils import Serialization
 
 class HelloMessageNative(HelloMessage):
     ENCODING                = 'utf-8' 

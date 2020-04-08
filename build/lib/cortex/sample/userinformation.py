@@ -2,7 +2,7 @@ import time
 from struct import pack, calcsize
 from datetime import datetime
 
-from cortex.utils.serialization import Serialization
+from cortex.utils import Serialization
 
 class UserInformation:
     ENCODING                = 'utf-8'

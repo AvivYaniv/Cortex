@@ -26,10 +26,9 @@ MESSAGE_QUEUE_INSTALLATION_FAILED_ERROR_MESSAGE                 =   'Message que
 # Installation file
 MESSAGE_QUEUE_INSTALLATION_FILE_SUFFIX              			=   '_install.sh'
 
-def load_message_queue(callback, message_queue_context, message_queue_type, host):
+def load_message_queue(callback, message_queue_context, message_queue_type, host, port):
     LOOKUP_TOKEN        =   'MessageQueue'
-    NAME_IDENTIFIER     =   'name'
-    
+    NAME_IDENTIFIER     =   'name'    
     dir_path = os.path.dirname(os.path.realpath(__file__))
     imported_modules_names = DynamicModuleLoader.load_modules(dir_path)
     _, class_mqs = \
@@ -38,20 +37,18 @@ def load_message_queue(callback, message_queue_context, message_queue_type, host
         logger.error(MESSAGE_QUEUE_TYPE_NOT_FOUND_ERROR_MESSAGE)
         return None
     # Returning specified message queue object
-    return class_mqs[message_queue_type](logger, callback, message_queue_context, host)
+    return class_mqs[message_queue_type](logger, callback, message_queue_context, host, port)
 
 def get_message_install_file_path(message_queue_type):
     return get_project_file_path_by_caller(message_queue_type, MESSAGE_QUEUE_INSTALLATION_FILE_SUFFIX)
 
 def install_message_queue(message_queue_type):
     # Installing message queue
-    message_queue_install_file_path = get_message_install_file_path(message_queue_type)
-    
+    message_queue_install_file_path = get_message_install_file_path(message_queue_type)    
     # If message queue install file dosen't exist
     if (not os.path.isfile(message_queue_install_file_path)):
         logger.error(MESSAGE_QUEUE_INSTALL_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT.format(message_queue_install_file_path))
-        return False
-    
+        return False    
     # Installing message queue
     logger.info(INSTALLING_MESSAGE_QUEUE_INFO_MESSAGE)
     intallation_success = (0 == run_bash_scipt(message_queue_install_file_path)) 
@@ -64,9 +61,10 @@ def install_message_queue(message_queue_type):
 def run_message_queue(message_queue_context,
 					  callback				 =	 None, 
 					  message_queue_type     =   None,
-					  host                   =   None):
+					  host                   =   None,
+					  port                   =   None):
     message_queue_type  = message_queue_type if message_queue_type else RabbitMQMessageQueue.name
-    message_queue       = load_message_queue(callback, message_queue_context, message_queue_type, host)
+    message_queue       = load_message_queue(callback, message_queue_context, message_queue_type, host, port)
     # If message queue not found - exit
     if not message_queue:
         return

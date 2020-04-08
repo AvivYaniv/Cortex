@@ -4,7 +4,7 @@ from cortex.utils import Connection
 
 from cortex.parsers import Parser
 
-from cortex.protocol import MessagesTyeps, Protocol, snapshot_message
+from cortex.protocol import ProtocolMessagesTyeps, Protocol, snapshot_message
 
 from cortex.sample import Snapshot
 
@@ -21,10 +21,13 @@ from cortex.logger import _LoggerLoader
 logger                    = logging.getLogger(__name__)
 logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
+       
+# Messages Section
+
         
 class FilesHandler:
     @staticmethod
-    def toSafePath(path_name):
+    def to_safe_path(path_name):
         return path_name.replace(':', '-').replace(' ', '_')
             
     @staticmethod
@@ -55,29 +58,29 @@ class Handler(threading.Thread):
                 Path(self.pure_path).mkdir(parents=True, exist_ok=True)
             
             def path(self, file_name):
-                return str(self.pure_path / Path(FilesHandler.toSafePath(file_name)))
+                return str(self.pure_path / Path(FilesHandler.to_safe_path(file_name)))
             
             def save(self, file_name, data):
                 FilesHandler.save(self.lock, self.path(file_name), data)
                 
         lock        =   self.lock        
         user_dir    =   str(hello_message.user_id)        
-        path        =   PurePath(self.data_dir, user_dir, FilesHandler.toSafePath(snapshot_message.getTimeStamp()))       
+        path        =   PurePath(self.data_dir, user_dir, FilesHandler.to_safe_path(snapshot_message.getTimeStamp()))       
         snapshot    =   snapshot_message
         return Context(lock, path, snapshot)
     
     def run(self): # start invokes run	
         # Receive hello message        
         hello_message_bytes = self.connection.receive_message()
-        hello_message       = self.protocol.get_message(MessagesTyeps.HELLO_MESSAGE).read(hello_message_bytes)
+        hello_message       = self.protocol.get_message(ProtocolMessagesTyeps.HELLO_MESSAGE).read(hello_message_bytes)
         # Send config message
-        config_message = self.protocol.get_message(MessagesTyeps.CONFIG_MESSAGE)(*self.supported_fields)
+        config_message = self.protocol.get_message(ProtocolMessagesTyeps.CONFIG_MESSAGE)(*self.supported_fields)
         self.connection.send_message(config_message.serialize())
         # Receive snapshot messages
         while True:
             try:
                 snapshot_message_bytes  =   self.connection.receive_message()
-                snapshot_message        =   self.protocol.get_message(MessagesTyeps.SNAPSHOT_MESSAGE).read(snapshot_message_bytes)
+                snapshot_message        =   self.protocol.get_message(ProtocolMessagesTyeps.SNAPSHOT_MESSAGE).read(snapshot_message_bytes)
                 context                 =   self.get_context(hello_message, snapshot_message)
                 self.parser.parse(context, snapshot_message)
             except EOFError:            
@@ -85,7 +88,7 @@ class Handler(threading.Thread):
 
 def run_server(host='127.0.0.1', port='8000', data_dir='data'):
     """Starts a server to which snapshots can be uploaded with `upload_sample`"""  
-    logger.info("TODO UPDATE Processing data")
+    logger.info('Running server on {host}:{port} saving to {data_dir}')
     
     # Parse server address
     server_ip_str, server_port_str  = host, port

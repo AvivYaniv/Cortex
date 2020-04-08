@@ -5,7 +5,7 @@ from cortex.protobuf import protocol_proto
 
 from cortex.protocol.config_message import ConfigMessage
 
-from cortex.utils.serialization import Serialization
+from cortex.utils import Serialization
 
 class ConfigMessageProto(ConfigMessage):
     

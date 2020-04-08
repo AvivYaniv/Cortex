@@ -4,7 +4,7 @@ from struct import pack, calcsize
 
 from cortex.protocol.config_message import ConfigMessage
 
-from cortex.utils.serialization import Serialization
+from cortex.utils import Serialization
 
 class ConfigMessageNative(ConfigMessage):
     ENCODING                    = 'utf-8'
@@ -46,20 +46,20 @@ class ConfigMessageNative(ConfigMessage):
     @staticmethod
     def read(data):
         stream = io.BytesIO(data)
-        
+        return ConfigMessageNative.read_stream(stream)
+    
+    @staticmethod
+    def read_stream(stream):       
         fields_number                                       = \
-            Serialization.read(stream, ConfigMessageNative.SERIALIZATION_HEADER)[0]
-        
-        fields = []
-        
+            Serialization.read(stream, ConfigMessageNative.SERIALIZATION_HEADER)[0]        
+        fields_config = []        
         for field_index in range(fields_number):
             field_size                                      = \
                 Serialization.read(stream, ConfigMessageNative.SERIALIZATION_FIELD_HEADER)[0]
             FIELD_PAYLOAD_FORMAT                            = ConfigMessageNative.SERIALIZATION_FIELD_PAYLOAD.format(field_size)
             field                                           = \
                 Serialization.read(stream, FIELD_PAYLOAD_FORMAT)[0]
-            fields.append(field.decode(ConfigMessageNative.ENCODING))
-        
-        return ConfigMessage(*fields)
+            fields_config.append(field.decode(ConfigMessageNative.ENCODING))        
+        return ConfigMessage(fields_config)
     
     

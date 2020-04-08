@@ -5,7 +5,10 @@ from datetime import datetime
 
 from cortex.protocol.hello_message import HelloMessage
 
-from cortex.utils.serialization import Serialization
+from cortex.utils import Serialization
+from builtins import staticmethod
+
+from cortex.entities import UserInfo
 
 class HelloMessageNative(HelloMessage):
     ENCODING                = 'utf-8' 
@@ -19,12 +22,9 @@ class HelloMessageNative(HelloMessage):
     SERIALIZATION_PAYLOAD   = '{0}sIc'
     SERIALIZATION_FORMAT    = SERIALIZATION_ENDIANITY + SERIALIZATION_HEADER + SERIALIZATION_PAYLOAD
     
-    GENDER_TABLE            = { 'm' : 'MALE' , 'f' : 'FEMALE', 'o' : 'OTHER' }
-    
     def get_current_serialization_format(self):
         if not hasattr(self, '_current_serialization_format'):        
-            username_size = len(self.username)
-            
+            username_size = len(self.username)            
             # user_id        :    uint64
             # username       :    uint32 + string of <username_size> length
             # birth_date     :    uint32
@@ -40,7 +40,6 @@ class HelloMessageNative(HelloMessage):
     def serialize(self):
         username_size                   = len(self.username)
         birth_date_as_number            = int(time.mktime(self.birth_date.timetuple()))
-       
         return                                                          \
             pack(self.get_current_serialization_format(),               \
                  self.user_id,                                          \
@@ -52,15 +51,15 @@ class HelloMessageNative(HelloMessage):
     @staticmethod
     def read(data):
         stream = io.BytesIO(data)
-        
-        user_id, username_size                          = \
-            Serialization.read(stream, HelloMessageNative.SERIALIZATION_HEADER)
-        
-        CURRENT_USER_PAYLOAD_FORMAT                     = HelloMessageNative.SERIALIZATION_PAYLOAD.format(username_size)
-        
-        username, birth_date, gender                    = \
-            Serialization.read(stream, CURRENT_USER_PAYLOAD_FORMAT)
-        
-        return HelloMessage(user_id, username, birth_date, gender)
+        return HelloMessageNative.read_stream(stream)
     
+    @staticmethod
+    def read_stream(stream):
+        user_id, username_size                                          = \
+            Serialization.read(stream, HelloMessageNative.SERIALIZATION_HEADER)
+        CURRENT_USER_PAYLOAD_FORMAT = HelloMessageNative.SERIALIZATION_PAYLOAD.format(username_size)
+        username, birth_date, gender                                    = \
+            Serialization.read(stream, CURRENT_USER_PAYLOAD_FORMAT)
+        user_info = UserInfo(user_id, username, birth_date, gender)
+        return HelloMessage(user_info)
     

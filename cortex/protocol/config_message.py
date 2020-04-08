@@ -1,8 +1,8 @@
 
 class ConfigMessage:
-    def __init__(self, *args):
-        self.fields_number  = len(args)
-        self.fields         = args
+    def __init__(self, fields_config):
+        self.fields_number  = len(fields_config)
+        self.fields         = fields_config
          
     def __repr__(self):
         return f'ConfigMessage(fields_number={self.fields_number}, fields={self.fields})'

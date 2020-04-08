@@ -1,15 +1,14 @@
 from datetime import datetime
 
 class HelloMessage:   
-    def __init__(self, user_id, username, birth_date, gender):
-        self.user_id        = user_id
-        self.username       = username
-        self.birth_date     = birth_date if isinstance(birth_date, datetime) else datetime.fromtimestamp(birth_date)
-        self.gender         = gender
-         
+    GENDER_TABLE            = { 'm' : 'MALE' , 'f' : 'FEMALE', 'o' : 'OTHER' }
+    
+    def __init__(self, user_info):
+        self.user_info      = user_info
+    
     def __repr__(self):
-        return f'HelloMessage(user_id={self.user_id}, username={self.username}, birth_date={datetime.strftime(self.birth_date, HelloMessage.DATETIME_FORMAT)}, gender={self.gender})'
+        return f'HelloMessage(user_id={self.user_info.user_id}, username={self.user_info.username}, birth_date={datetime.strftime(self.user_info.birth_date, HelloMessage.DATETIME_FORMAT)}, gender={self.user_info.gender})'
     
     def __str__(self):
-        return f'user {self.user_id}: {self.username}, born {datetime.strftime(self.birth_date, HelloMessage.CONCISE_DATE_FORMAT)} ({HelloMessage.GENDER_TABLE[self.gender]})'
+        return f'user {self.user_info.user_id}: {self.user_info.username}, born {datetime.strftime(self.user_info.birth_date, HelloMessage.CONCISE_DATE_FORMAT)} ({HelloMessage.GENDER_TABLE[self.user_info.gender]})'
     

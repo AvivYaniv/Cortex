@@ -28,12 +28,13 @@ class MessageQueue:
             self.logger.error(MESSAGE_QUEUE_DIRECTION_UNSPECIFIED_ERROR_MESSAGE)
             return False
             
-    def __init__(self, logger, callback, message_queue_context, host=None):
+    def __init__(self, logger, callback, message_queue_context, host=None, port=None):
         self.logger = logger
         self.logger.info(MESSAGE_QUEUE_INITIALIZING_INFO_MESSAGE)
         self.callback                   = callback
         self.message_queue_context      = message_queue_context
         self.host                       = host if host else MESSAGE_QUEUE_DEFAULT_HOST
+        self.port                       = port
         self.is_initialized             = self._init_message_queue()
         if self.is_initialized:
             self.logger.info(MESSAGE_QUEUE_HAS_INITIALIZED_INFO_MESSAGE)

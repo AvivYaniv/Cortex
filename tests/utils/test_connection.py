@@ -14,7 +14,7 @@ def server():
     server = socket.socket()
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind(('0.0.0.0', _PORT))
-    server.listen(1000)
+    server.consume_messages(1000)
     try:
         time.sleep(0.1)
         yield server

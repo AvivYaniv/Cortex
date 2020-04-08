@@ -2,7 +2,7 @@ import sys
 
 import click
 
-import cortex.server
+import cortex.server.server
 
 import logging
 from cortex.logger import _LoggerLoader
@@ -20,12 +20,12 @@ def main():
 @main.command()
 @click.option('-h', '--host', default='')
 @click.option('-p', '--port', default='')
-@click.argument('data_dir', type=str)
-def run_server(host, port, data_dir):
+@click.argument('mq_url', type=str)
+def run_server(host, port, mq_url):
     """
     Starts a server to which samples can be uploaded to with `upload_sample`
     """
-    cortex.server.run_server(host, port, data_dir)
+    cortex.server.server.run_server(host, port, mq_url)
 
 if __name__ == '__main__':
     try:

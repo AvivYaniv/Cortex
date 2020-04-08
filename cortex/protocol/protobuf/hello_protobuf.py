@@ -5,7 +5,9 @@ from cortex.protobuf import protocol_proto
 
 from cortex.protocol.hello_message import HelloMessage
 
-from cortex.utils.serialization import Serialization
+from cortex.utils import Serialization
+
+from cortex.entities import UserInfo
 
 class HelloMessageProto(HelloMessage):
     
@@ -27,16 +29,19 @@ class HelloMessageProto(HelloMessage):
     @staticmethod
     def read(data):
         stream = io.BytesIO(data)
-        
+        return HelloMessageProto.read_stream(stream)
+    
+    @staticmethod
+    def read_stream(stream):
         hello_message_bytes         =     Serialization.read_tunnled_message(stream)
         hello_message_protobuf      =     protocol_proto.HelloMessage()
         hello_message_protobuf.ParseFromString(hello_message_bytes)
-        
-        hello_message                 =                             \
-            HelloMessage(                                           \
-                    hello_message_protobuf.user_data.user_id,    
-                    hello_message_protobuf.user_data.username, 
-                    hello_message_protobuf.user_data.birthday, 
-                    protocol_proto._USER_GENDER.values_by_number[hello_message_protobuf.user_data.gender].name.lower()[0])       
-        return hello_message
-        
+        user_info                   =                                                                               \
+            UserInfo(                                                                                               \
+            hello_message_protobuf.user_data.user_id,                                                               \
+            hello_message_protobuf.user_data.username,                                                              \
+            hello_message_protobuf.user_data.birthday,                                                              \
+            protocol_proto._USER_GENDER.values_by_number[hello_message_protobuf.user_data.gender].name.lower()[0]   \
+            )
+        return HelloMessage(user_info)
+    

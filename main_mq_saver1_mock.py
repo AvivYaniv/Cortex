@@ -30,11 +30,11 @@ class Saver:
         self.database           = _DataBaseMock()
         self.saver_number       = get_saver_number(get_filename(__file__))
         self.saver_name         = 'saver.' + self.saver_number
-        self.saving_callback    = self.generate_callback()
+        self.saving_callback    = self.publish_parsed_callback()
         self.lock               = threading.Lock()
         
     # Generates parse callback with custom arguments - by this currying function 
-    def generate_callback(self):
+    def publish_parsed_callback(self):
         def save(message):
             self.lock.acquire()
             try:

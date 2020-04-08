@@ -4,8 +4,8 @@ from cortex.publisher_consumer.message_queue.context.message_queue_context_facto
 if "__main__" == __name__:
     mq_context_factory      =   MessageQueueContextFactory()
     message_queue_context   =   mq_context_factory.get_mq_context('server', 'publishers', 'snapshots')
-    message_queue_publisher = MessageQueuePublisher(message_queue_context)
-    publish_function        = message_queue_publisher.run()
+    message_queue_publisher =   MessageQueuePublisher(message_queue_context)
+    publish_function        =   message_queue_publisher.run()
     
     for i in range(10):
         publish_function(message=f'Server message {i}', routing_key='snapshot')

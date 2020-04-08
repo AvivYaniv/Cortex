@@ -4,8 +4,8 @@ version: "3"
 # Define docker-composes services
 services:
 
-  # MessageQueue Container
-  message_queue:
+  # Color Image Parser Container
+  parser_color_image:
     # Path of Dockerfile
     build: 
       context: .
@@ -27,7 +27,7 @@ services:
 
     # Defining environment variables      
     environment:
-      RUN: MESSAGE_QUEUE
+      PARSER: color_image
   
   # Server Container
   server:

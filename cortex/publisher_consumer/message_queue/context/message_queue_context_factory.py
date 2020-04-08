@@ -1,5 +1,5 @@
 
-from cortex.utils.dictionary_to_object import dictionary_to_object
+from cortex.utils import dictionary_to_object
 
 from cortex.publisher_consumer.message_queue.rabbitmq_mq import RabbitMQMessageQueue
 from cortex.publisher_consumer.message_queue.context.message_queue_context import MessageQueueContext

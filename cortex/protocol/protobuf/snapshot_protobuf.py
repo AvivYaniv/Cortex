@@ -11,8 +11,8 @@ from cortex.sample.depthimage import DepthImage
 
 from cortex.protocol.snapshot_message import SnapshotMessage
 
-from cortex.utils.serialization import Serialization
-from cortex.utils.time import TimeUtils
+from cortex.utils import Serialization
+from cortex.utils import TimeUtils
 
 class SnapshotMessageProto(SnapshotMessage):
     
@@ -51,7 +51,10 @@ class SnapshotMessageProto(SnapshotMessage):
     @staticmethod
     def read(data):
         stream = io.BytesIO(data)
-        
+        return SnapshotMessageProto.read_stream(stream)
+    
+    @staticmethod
+    def read_stream(stream):        
         snapshot_message_bytes         =     Serialization.read_tunnled_message(stream)
         snapshot_message_protobuf      =     protocol_proto.SnapshotMessage()
         snapshot_message_protobuf.ParseFromString(snapshot_message_bytes)

@@ -1,7 +1,7 @@
 from .native import *
 from .protobuf import *
 
-class MessagesTyeps:
+class ProtocolMessagesTyeps:
     HELLO_MESSAGE       = 0
     CONFIG_MESSAGE      = 1
     SNAPSHOT_MESSAGE    = 2
@@ -13,16 +13,16 @@ class ProtocolTypes:
 class Protocol:
     NATIVE_MESSAGES =                                                   \
         {                                                               \
-            MessagesTyeps.HELLO_MESSAGE     : HelloMessageNative,       \
-            MessagesTyeps.CONFIG_MESSAGE    : ConfigMessageNative,      \
-            MessagesTyeps.SNAPSHOT_MESSAGE  : SnapshotMessageNative,    \
+            ProtocolMessagesTyeps.HELLO_MESSAGE     : HelloMessageNative,       \
+            ProtocolMessagesTyeps.CONFIG_MESSAGE    : ConfigMessageNative,      \
+            ProtocolMessagesTyeps.SNAPSHOT_MESSAGE  : SnapshotMessageNative,    \
         }
     
     PROTOBUF_MESSAGES =                                                 \
         {                                                               \
-            MessagesTyeps.HELLO_MESSAGE     : HelloMessageProto,        \
-            MessagesTyeps.CONFIG_MESSAGE    : ConfigMessageProto,       \
-            MessagesTyeps.SNAPSHOT_MESSAGE  : SnapshotMessageProto,     \
+            ProtocolMessagesTyeps.HELLO_MESSAGE     : HelloMessageProto,        \
+            ProtocolMessagesTyeps.CONFIG_MESSAGE    : ConfigMessageProto,       \
+            ProtocolMessagesTyeps.SNAPSHOT_MESSAGE  : SnapshotMessageProto,     \
         }
     
     PROTOCOLS_MESSAGES_TABLE =                                          \

@@ -5,7 +5,7 @@ from cortex.protobuf import protocol_proto
 
 from cortex.protocol.hello_message import HelloMessage
 
-from cortex.utils.serialization import Serialization
+from cortex.utils import Serialization
 
 class HelloMessageProto(HelloMessage):
     

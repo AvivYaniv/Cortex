@@ -1,6 +1,6 @@
 import socket
 
-from .connection import Connection
+from cortex.utils.network.connection import Connection
 
 class Listener:
     DEFAULT_HOST    = '0.0.0.0'
@@ -34,7 +34,7 @@ class Listener:
             self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) 
         
         self.server.bind((self.host, self.port))
-        self.server.listen(self.backlog)
+        self.server.consume_messages(self.backlog)
     
     def stop(self):
         self.server.close()

@@ -4,7 +4,7 @@ from struct import pack, calcsize
 
 from cortex.protocol.config_message import ConfigMessage
 
-from cortex.utils.serialization import Serialization
+from cortex.utils import Serialization
 
 class ConfigMessageNative(ConfigMessage):
     ENCODING                    = 'utf-8'

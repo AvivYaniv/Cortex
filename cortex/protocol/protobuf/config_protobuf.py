@@ -1,11 +1,10 @@
 import io
-import time
 
 from cortex.protobuf import protocol_proto
 
 from cortex.protocol.config_message import ConfigMessage
 
-from cortex.utils.serialization import Serialization
+from cortex.utils import Serialization
 
 class ConfigMessageProto(ConfigMessage):
     
@@ -19,12 +18,14 @@ class ConfigMessageProto(ConfigMessage):
     @staticmethod
     def read(data):
         stream = io.BytesIO(data)
-        
-        config_message_bytes         =     Serialization.read_tunnled_message(stream)
-        config_message_protobuf      =     protocol_proto.ConfigMessage()
+        return ConfigMessageProto.read_stream(stream)
+    
+    @staticmethod
+    def read_stream(stream):
+        config_message_bytes         =  Serialization.read_tunnled_message(stream)
+        config_message_protobuf      =  protocol_proto.ConfigMessage()
         config_message_protobuf.ParseFromString(config_message_bytes)
-        
-        config_message                 =                          	\
-            ConfigMessage(*[f.name for f in config_message_protobuf.fields_config.fields])
+        fields_config                =  [f.name for f in config_message_protobuf.fields_config.fields]
+        config_message               =  ConfigMessage(fields_config)
         return config_message
         

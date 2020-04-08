@@ -16,7 +16,7 @@ class Parser:
         self.parser_name     = 'parser.' + self.parser_number
         
     # Generates parse callback with custom arguments - by this currying function 
-    def generate_callback(self):
+    def publish_parsed_callback(self):
         def parse(message):
             print(f'{self.parser_name} Received {message}')
             message = str(message).replace('Server', self.parser_name)
@@ -24,16 +24,16 @@ class Parser:
         return parse
     
     def run(self):
-        self.register_publish()
-        self.listen()
+        self.register_publish_parsed()
+        self.consume_messages()
     
-    def listen(self):
+    def consume_messages(self):
         mq_context_factory      = MessageQueueContextFactory()
         message_queue_context   = mq_context_factory.get_mq_context('parser', 'consumers', 'snapshots') 
-        message_queue_consumer  = MessageQueueConsumer(self.generate_callback(), message_queue_context)
+        message_queue_consumer  = MessageQueueConsumer(self.publish_parsed_callback(), message_queue_context)
         message_queue_consumer.run()
     
-    def register_publish(self):
+    def register_publish_parsed(self):
         mq_context_factory      = MessageQueueContextFactory()
         message_queue_context   = mq_context_factory.get_mq_context('parser', 'publishers', 'parsed_snapshot', name=self.parser_name)
         message_queue_publisher = MessageQueuePublisher(message_queue_context)

@@ -1,5 +1,4 @@
 from struct import pack, unpack, calcsize
-from numpy.lib import stride_tricks
 
 DEFAULT_ENDIANITY                   = '<'
 

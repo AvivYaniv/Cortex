@@ -7,7 +7,7 @@ class RabbitMQMessageQueue(MessageQueue):
     name            = 'rabbitmq'
         
     # Generates callback with custom arguments - by this currying function 
-    def generate_callback(self):
+    def generate_message_callback(self):
         def callback(channel, method, properties, body):
             self.callback(body)
             channel.basic_ack(delivery_tag = method.delivery_tag)    
@@ -54,14 +54,14 @@ class RabbitMQMessageQueue(MessageQueue):
     def _run_reciver(self):
         self.channel.basic_consume(
             queue                   =    self.message_queue_context.queue_name, 
-            on_message_callback     =    self.generate_callback()
+            on_message_callback     =    self.generate_message_callback()
             )
         self.channel.start_consuming()
     
-    def _messege_queue_publish(self, message, routing_key=''):
+    def _messege_queue_publish(self, message, publisher_name=''):
         self.channel.basic_publish(
             exchange                =    self.message_queue_context.exchange_name, 
-            routing_key             =    routing_key, 
+            routing_key             =    publisher_name, 
             body                    =    message
             )
     

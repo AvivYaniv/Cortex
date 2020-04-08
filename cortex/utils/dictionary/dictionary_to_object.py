@@ -7,8 +7,8 @@ class dict2obj(object):
             else:
                setattr(self, a, dict2obj(b) if isinstance(b, dict) else b)
 
-def dictionary_to_object(d, _o = None):
+def dictionary_to_object(d, cls = None):
     converted = dict2obj(d)
-    if _o:
-        converted.__class__ = _o
+    if cls:
+        converted.__class__ = cls
     return converted 

@@ -11,8 +11,8 @@ from cortex.sample.depthimage import DepthImage
 
 from cortex.protocol.snapshot_message import SnapshotMessage
 
-from cortex.utils.serialization import Serialization
-from cortex.utils.time import TimeUtils
+from cortex.utils import Serialization
+from cortex.utils import TimeUtils
 
 class SnapshotMessageProto(SnapshotMessage):
     

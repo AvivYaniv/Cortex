@@ -2,7 +2,9 @@ import time
 from struct import pack, calcsize
 from datetime import datetime
 
-from cortex.utils.serialization import Serialization
+from cortex.utils import Serialization
+
+from cortex.entities import UserInfo
 
 class UserInformation:
     ENCODING                = 'utf-8'
@@ -51,7 +53,6 @@ class UserInformation:
     def serialize(self):
         username_size                   = len(self.username)
         birth_date_as_number            = int(time.mktime(self.birth_date.timetuple()))
-       
         return                                                      \
             pack(self.get_current_serialization_format(),           \
                  self.user_id,                                      \
@@ -63,12 +64,9 @@ class UserInformation:
     @staticmethod
     def read(stream):
         user_id, username_size                          = \
-            Serialization.read(stream, UserInformation.SERIALIZATION_HEADER)
-        
+            Serialization.read(stream, UserInformation.SERIALIZATION_HEADER)        
         CURRENT_USER_PAYLOAD_FORMAT                     = UserInformation.SERIALIZATION_PAYLOAD.format(username_size)
-        
         username, birth_date, gender                    = \
-            Serialization.read(stream, CURRENT_USER_PAYLOAD_FORMAT)
-        
-        return UserInformation(user_id, username, datetime.fromtimestamp(birth_date), gender)
+            Serialization.read(stream, CURRENT_USER_PAYLOAD_FORMAT)        
+        return UserInfo(user_id, username, datetime.fromtimestamp(birth_date), gender)
     
