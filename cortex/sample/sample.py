@@ -32,6 +32,7 @@ class Sample:
                 Sample.color_image_bug_fix(snapshot)
                 yield snapshot
             except EOFError:
-                stream.close()
                 break 
+            finally:
+                stream.close()
     

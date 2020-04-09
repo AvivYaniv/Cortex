@@ -50,7 +50,7 @@ class MindStreamReader:
     
     def __next__(self):
         return self.reader.read_snapshot()
-
+        
 class MindFileReader(MindStreamReader):
     def __init__(self, file_path, version=None):
         super().__init__(file_path, version)

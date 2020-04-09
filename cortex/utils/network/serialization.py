@@ -19,7 +19,7 @@ class Serialization:
     
     @staticmethod
     def read_tunnled_message(stream, endianity = None, expect_eof=None):
-        endianity = endianity if endianity else DEFAULT_ENDIANITY
+        endianity   = endianity if endianity else DEFAULT_ENDIANITY
         message_size = Serialization.read(stream, Serialization.TUNNLE_MESSAGE_HEADER, endianity, expect_eof)[0]
         return stream.read(message_size)
     
@@ -51,8 +51,8 @@ class Serialization:
         serialization_size  =   calcsize(endianity + serialization_format)        
         serialized          =   stream.read(serialization_size)            
         if not serialized:
-            if not expect_eof:
-                raise EOFError()
+            if expect_eof:
+                raise EOFError
             else:
                 raise RuntimeError(Serialization.ERROR_DATA_INCOMPLETE)
         return unpack(endianity + serialization_format, serialized)

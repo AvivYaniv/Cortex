@@ -71,10 +71,12 @@ class ServerHandler(threading.Thread):
     def receive_snapshot_message_bytes(self):
         try:
             snapshot_message_bytes      =   self.connection.receive_message()
+        except EOFError as e:
+            raise e
         except Exception as e:
             logger.error(f'error receiving snapshot_message of user {self.context.user_info.user_id}: {e}')
             self._is_valid_connection   = False
-            return b''
+            raise EOFError
         return snapshot_message_bytes
     # UUID Methods Section
     def _get_uuid(self):
@@ -172,6 +174,4 @@ class ServerHandler(threading.Thread):
             except EOFError:   
                 logger.info(f'finished snapshots from user {self.context.user_info.user_id}')         
                 break
-            # TODO DEBUG RESTORE
-            #except Exception as e:
-            #    logger.error(f'exception has occurred handling user {self.context.user_info.user_id}: {e}')
+            

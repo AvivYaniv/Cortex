@@ -18,7 +18,7 @@ class Connection:
     
     def __exit__(self, exception, error, traceback):
         self.close()
-        if exception is not None:
+        if exception is not EOFError:
             print(str(exception))
             raise exception
         return True
@@ -58,7 +58,9 @@ class Connection:
         self.sock.close()
         
     def send_message(self, data):
-        message_size     = len(data)        
+        if not data:
+            return
+        message_size     = len(data)                
         message =                                                       \
             pack(Connection.SERIALIZATION_FORMAT.format(message_size),  \
                  message_size,                                          \
