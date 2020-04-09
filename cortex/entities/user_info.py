@@ -6,6 +6,9 @@ from cortex.utils import object_to_json, json_to_object
 DEFAULT_ENCODING            = 'utf-8'
 
 class UserInfo:
+    
+    export_extension    =   '.json'
+    
     def __init__(self, user_id, username, birth_date, gender, encoding=None):
         encoding            = encoding if encoding else DEFAULT_ENCODING
         self.user_id        = user_id

@@ -12,9 +12,11 @@ class _FileHandler:
         self.__dict__ = self.__class__._shared_state
     
     @staticmethod
-    def to_safe_file_path(*pathsegments, extension=''):
-        pathsegments = [str(s) for s in pathsegments]
-        full_path = str(PurePath(*pathsegments)) + extension
+    def to_safe_file_path(*pathsegments, fname=None, extension=None):
+        fname = str(fname) if fname else ''
+        extension = str(extension) if extension else ''
+        pathsegments = [str(s) for s in pathsegments] + [fname + extension]
+        full_path = str(PurePath(*pathsegments))
         return _FileHandler.to_safe_path(full_path)
     
     @staticmethod

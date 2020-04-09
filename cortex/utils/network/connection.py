@@ -13,7 +13,7 @@ class Connection:
     SERIALIZATION_FORMAT         = SERIALIZATION_ENDIANITY + SERIALIZATION_HEADER + SERIALIZATION_PAYLOAD
     
     CONNECTION_RETRIES_NUMBER    = 20
-    CONNECTION_RETRY_DELAY       = 2
+    CONNECTION_RETRY_DELAY       = 3
     
     def __init__(self, sock):
         self.sock = sock

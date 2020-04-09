@@ -6,6 +6,8 @@ from cortex.utils import generate_uuid
 
 from cortex.utils import ConstantPathes
 
+from cortex.entities import UserInfo
+
 import threading
 
 import logging
@@ -23,8 +25,9 @@ SNAPSHOT_FILE_NAME          = 'snapshot'
 DEFAULT_SUPPORTED_FIELDS    = [ 'color_image', 'depth_image', 'user_feeling', 'translation', 'rotation' ]
 
 class UserContext:
-    def __init__(self, user_info):
-        self.user_info = user_info
+    def __init__(self, user_info, user_info_path):
+        self.user_info      = user_info
+        self.user_info_path = user_info_path
 
 class ServerHandler(threading.Thread):        
     # Constructor Section
@@ -83,30 +86,30 @@ class ServerHandler(threading.Thread):
         return generate_uuid()
     # File Handling Methods Section
     # Generate path to save file
-    def _get_save_path(self, *pathsegments):
-        pathsegments = [str(s) for s in pathsegments]
-        return self.files_handler.to_safe_file_path(*pathsegments)
+    def _get_save_path(self, *pathsegments, fname=None, extension=None):
+        return self.files_handler.to_safe_file_path(*pathsegments, fname=fname, extension=extension)
     # Save file
     def _save_file(self, path, data):
         return self.files_handler.save(path, data)
     # Messages Handling Methods Section
     # Sets context
-    def _set_context(self, hello_message):
+    def _set_context(self, hello_message, user_info_path):
         try:
-            self.context            = UserContext(hello_message.user_info)            
+            self.context                = UserContext(hello_message.user_info, user_info_path)            
         except Exception as e:
             logger.error(f'error parsing hello_message : {e}')
             self._is_valid_connection = False
-    def _save_user_info(self):
+    def _save_user_info(self, hello_message):
         user_info_path   =                              \
             self._get_save_path(                        \
                 ConstantPathes.DATA_DIRRECTORY,         \
                 ConstantPathes.USERS_DIRRECTORY,        \
-                self.context.user_info.user_id)
+                fname=hello_message.user_info.user_id,  \
+                extension=UserInfo.export_extension)
         # Save snapshot
-        is_saved         = self._save_file(user_info_path, self.context.user_info.serialize())
+        is_saved         = self._save_file(user_info_path, hello_message.user_info.serialize())
         if not is_saved:
-            logger.error(f'error saving user info of user {self.context.user_info.user_id}')
+            logger.error(f'error saving user info of user {hello_message.user_info.user_id}')
             return None
         return user_info_path
     # Saves snapshot
@@ -131,6 +134,7 @@ class ServerHandler(threading.Thread):
             self.messages.get_message(                              \
                 MessageQueueMessagesTyeps.RAW_SNAPSHOT_MESSAGE)(    \
                     self.context.user_info.user_id,                 \
+                    self.context.user_info_path,                    \
                     snapshot_uuid,                                  \
                     raw_snapshot_path)
         # Publish raw snapshot message
@@ -153,10 +157,10 @@ class ServerHandler(threading.Thread):
         hello_message = self.receive_hello_message()
         if not self._is_valid_connection:
             return
-        # Sets client context based on hello message
-        self._set_context(hello_message)        
         # Saving user information
-        self._save_user_info() 
+        user_info_path = self._save_user_info(hello_message) 
+        # Sets client context based on hello message
+        self._set_context(hello_message, user_info_path)        
         if not self._is_valid_connection:
             return       
         # Sends configuration message to client
