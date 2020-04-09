@@ -36,7 +36,7 @@ class _FileHandler:
         if not os.path.isdir(directories):
             os.makedirs(directories)
 
-    def save(self, file_path, data):
+    def save(self, file_path, data, mode = None):
         is_written  = False
         if not data:
             print('DEBUG TODO REMOVE NO DATA RECEIVED')
@@ -44,7 +44,7 @@ class _FileHandler:
         self.lock.acquire()
         try:
             _FileHandler.create_path(file_path)
-            mode = 'w' if isinstance(data, str) else 'wb'
+            mode = mode if mode else ('w' if isinstance(data, str) else 'wb')
             with open(file_path, mode) as file:
                 file.write(data)
             is_written = True  

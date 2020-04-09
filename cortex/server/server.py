@@ -1,7 +1,7 @@
 
 from cortex.utils.url import parse_url
 
-from cortex.server.server_service import run_server
+from cortex.server.server_service import run_server_service
 
 def run_server(host=None, port=None, mq_url=None):
     """Starts a server to which snapshots can be uploaded with `upload_sample`"""  

@@ -7,7 +7,6 @@ from cortex.publisher_consumer.message_queue import MessageQueueConsumer
 from cortex.publisher_consumer.message_queue.context.message_queue_context_factory import MessageQueueContextFactory
 
 from cortex.parsers.snapshot import Parser
-from cortex.parsers.snapshot.parser_saver import ParserSaver
 
 import logging
 from cortex.logger import _LoggerLoader
@@ -42,7 +41,6 @@ class ParserService:
         self.message_queue_host = message_queue_host
         self.message_queue_port = message_queue_port
         self.parser             = Parser(parser_type)
-        self.parser_saver       = ParserSaver()
         self.initialized        = self.parser.initialized
         # Messages
         self.protocol           = Protocol() 
@@ -77,7 +75,7 @@ class ParserService:
                 logger.error(f'error reading snapshot file {raw_snapshot_message.raw_snapshot_path} : {e}')
                 return            
             context                     = self._set_context(raw_snapshot_message)
-            result                      = self.parser.parse(self.parser_saver, context, snapshot)
+            result                      = self.parser.export_parse(context, snapshot)
             parsed_snapshot_message     =                               \
                 self.messages.get_message(                              \
                     MessageQueueMessagesTyeps.PARSED_SNAPSHOT_MESSAGE)( \

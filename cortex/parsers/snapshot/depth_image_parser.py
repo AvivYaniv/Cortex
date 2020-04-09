@@ -2,18 +2,26 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
+import io
+
 class DepthImageParser:
     
-    field       = 'depth_image'
+    field       =   'depth_image'
     
-    extension   =   '.jpg'
+    extension   =   '.png'
     
-    def parse(self, parser_saver, context, snapshot, path=None):
+    def parse(self, snapshot):
         matplotlib.use('Agg')
-        path = path if path else parser_saver.get_path(context, extension=DepthImageParser.extension)
-        parser_saver.create_path(path)
-        image = np.mat(snapshot.depth_image.data)
-        image = image.reshape(snapshot.depth_image.width, snapshot.depth_image.height)
-        plt.imsave(path, image, cmap='hot')
-        return path
+        image               = np.mat(snapshot.depth_image.data)
+        image               = image.reshape(snapshot.depth_image.width, snapshot.depth_image.height)
+        plt.imshow(image, cmap='hot')
+        plt.axis('off')
+        plt.gca().set_axis_off()
+        plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, hspace = 0, wspace = 0)
+        plt.margins(0,0)
+        plt.gca().xaxis.set_major_locator(plt.NullLocator())
+        plt.gca().yaxis.set_major_locator(plt.NullLocator())
+        image_byte_array    = io.BytesIO()
+        plt.savefig(image_byte_array, format='PNG')        
+        return image_byte_array.getvalue()
     

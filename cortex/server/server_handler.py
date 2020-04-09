@@ -19,7 +19,7 @@ logger_loader               = _LoggerLoader()
 logger_loader.load_log_config()
 
 # Constants Section
-SNAPSHOT_FILE_NAME          = 'snapshot'
+SNAPSHOT_FILE_NAME          = 'snapshot.raw'
 
 # Supported fields
 DEFAULT_SUPPORTED_FIELDS    = [ 'color_image', 'depth_image', 'user_feeling', 'translation', 'rotation' ]

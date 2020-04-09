@@ -4,6 +4,8 @@ from cortex.utils import _FileHandler
 from cortex.utils import ConstantPathes
 
 class ParserSaver:
+    EXTENSIONS_TO_SAVE  =   [ '.png', '.gif', '.jpg', '.jpeg', '.wmawmv', '.mp4', '.avi', '.mov', '.flv' ]
+    
     def __init__(self):
         self.file_handler   = _FileHandler()
         
@@ -19,11 +21,16 @@ class ParserSaver:
         return file_path
     
     @staticmethod
+    def is_save_required(extension):
+        return extension.lower() in ParserSaver.EXTENSIONS_TO_SAVE
+    
+    @staticmethod
     def create_path(path):
         _FileHandler.create_path(path)
         
-    def save_file(self, file_path, data):
-        self.file_handler.save(file_path, data)
+    def save_file(self, file_path, data, mode=None):
+        mode = mode if mode else 'wb'
+        self.file_handler.save(file_path, data, mode)
         
     def save(self, context, data, extension=''):
         file_path   = self.get_path(context, extension)

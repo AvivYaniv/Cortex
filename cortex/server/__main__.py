@@ -13,7 +13,7 @@ logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
 
 @click.group()
-@click.version_option(cortex.client.version)
+@click.version_option(cortex.server.version)
 def main():
     pass
 
