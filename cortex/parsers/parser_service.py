@@ -34,14 +34,15 @@ class ParserService:
     def get_parser_name(parser_type):
         return f'parser.{parser_type}'
     
-    def __init__(self, parser_type, message_queue_type, message_queue_host, message_queue_port):
+    def __init__(self, parser_type, message_queue_type=None, message_queue_host=None, message_queue_port=None):
         self.parser_type        = parser_type
         self.parser_name        = ParserService.get_parser_name(parser_type)
+        self.parser             = Parser(parser_type)
+        self.initialized        = self.parser.initialized
+        # Message Queue
         self.message_queue_type = message_queue_type
         self.message_queue_host = message_queue_host
         self.message_queue_port = message_queue_port
-        self.parser             = Parser(parser_type)
-        self.initialized        = self.parser.initialized
         # Messages
         self.protocol           = Protocol() 
         self.messages           = MessageQueueMessages()        

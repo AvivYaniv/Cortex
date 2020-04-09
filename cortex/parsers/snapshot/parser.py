@@ -34,6 +34,7 @@ class Parser:
     def save_parsed(self, context, result):
         file_path = self._saver.get_path(context, self._parser_extension)
         self._saver.save_file(file_path, result)
+        return file_path
         
     def export_parse(self, context, snapshot):   
         result      = self.parse(snapshot)

@@ -52,11 +52,11 @@ class Saver:
             mq_context_factory.get_mq_category_contexts(    \
                 caller_type   =   'saver',                  \
                 category      =   'consumers')        
-        parser_listen_threads = self.create_listen_threads(message_queue_category_contexts)
+        parser_listen_threads = self.create_consumers_threads(message_queue_category_contexts)
         for lt in parser_listen_threads:
             lt.start()
         
-    def create_listen_threads(self, message_queue_category_contexts):
+    def create_consumers_threads(self, message_queue_category_contexts):
         consumer_threads = []
         for message_queue_context in message_queue_category_contexts:
             consumer_thread = \

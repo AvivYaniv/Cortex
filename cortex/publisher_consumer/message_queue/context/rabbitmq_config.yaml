@@ -41,17 +41,31 @@ message_queue:
         # Category : Consumers
         consumers:   
             # Item
-            - parser.1:
+            - parser.color_image:
                 # Context fields values
                 exchange_type   : 'fanout'
-                exchange_name   : 'parser.1'
+                exchange_name   : 'parser.color_image'
                 queue_name      : 'saver'
                 binding_keys    : [ 'parser.*' ]
             # Item
-            - parser.2:
+            - parser.depth_image:
                 # Context fields values
                 exchange_type   : 'fanout'
-                exchange_name   : 'parser.2'
+                exchange_name   : 'parser.depth_image'
                 queue_name      : 'saver'
                 binding_keys    : [ 'parser.*' ]
+            # Item
+            - parser.pose:
+                # Context fields values
+                exchange_type   : 'fanout'
+                exchange_name   : 'parser.pose'
+                queue_name      : 'saver'
+                binding_keys    : [ 'parser.*' ]
+            # Item
+            - parser.user_feelings:
+                # Context fields values
+                exchange_type   : 'fanout'
+                exchange_name   : 'parser.user_feelings'
+                queue_name      : 'saver'
+                binding_keys    : [ 'parser.*' ]    
                 
