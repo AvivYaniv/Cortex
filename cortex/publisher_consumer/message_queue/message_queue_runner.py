@@ -13,6 +13,9 @@ logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
 logger                    = logging.getLogger(__name__)
 
+# Constants Section
+DEFAULT_MESSAGE_QUEUE                                           =   RabbitMQMessageQueue.name
+
 # Messages Section
 # Info Messages
 INSTALLING_MESSAGE_QUEUE_INFO_MESSAGE                           =   'Installing message queue...'
@@ -63,7 +66,7 @@ def run_message_queue(message_queue_context,
 					  message_queue_type     =   None,
 					  host                   =   None,
 					  port                   =   None):
-    message_queue_type  = message_queue_type if message_queue_type else RabbitMQMessageQueue.name
+    message_queue_type  = message_queue_type if message_queue_type else DEFAULT_MESSAGE_QUEUE
     message_queue       = load_message_queue(callback, message_queue_context, message_queue_type, host, port)
     # If message queue not found - exit
     if not message_queue:

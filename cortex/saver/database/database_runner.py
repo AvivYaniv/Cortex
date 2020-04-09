@@ -6,12 +6,15 @@ from cortex.utils import get_project_file_path_by_caller
 import logging
 from cortex.logger import _LoggerLoader
 
-from cortex.saver.database.postgresql_db import PostgreSQLDataBase
+from cortex.saver.database.mongodb_db import MongoDBDataBase
 
 # Log loading
 logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
 logger                    = logging.getLogger(__name__)
+
+# Constants Section
+DEFAULT_DB                                                 =    MongoDBDataBase
 
 # Messages Section
 # Info Messages
@@ -61,7 +64,7 @@ def install_database(database_type):
 def run_database(database_type  =   None,
                  host           =   None,
                  port           =   None):
-    database_type  = database_type if database_type else PostgreSQLDataBase.name
+    database_type  = database_type if database_type else DEFAULT_DB
     database       = load_database(database_type, host, port)
     # If data base not found - exit
     if not database:
