@@ -1,6 +1,8 @@
 from struct import pack, unpack, calcsize
 import socket
 
+import time
+
 class Connection:
     NOT_ALL_DATA_RECEIVED_ERROR  =   'Error! not all data received'
     
@@ -9,6 +11,9 @@ class Connection:
     SERIALIZATION_HEADER         = 'I'
     SERIALIZATION_PAYLOAD        = '{0}s'
     SERIALIZATION_FORMAT         = SERIALIZATION_ENDIANITY + SERIALIZATION_HEADER + SERIALIZATION_PAYLOAD
+    
+    CONNECTION_RETRIES_NUMBER    = 20
+    CONNECTION_RETRY_DELAY       = 2
     
     def __init__(self, sock):
         self.sock = sock
@@ -35,7 +40,14 @@ class Connection:
                 
         # Connect to server
         sock = socket.socket()
-        sock.connect((server_ip_str, server_port_int))
+        
+        for retry_number in range(Connection.CONNECTION_RETRIES_NUMBER):
+            try:
+                sock.connect((server_ip_str, server_port_int))
+                break
+            except ConnectionRefusedError as e:
+                print(e)
+                time.sleep(Connection.CONNECTION_RETRY_DELAY)        
         return cls(sock)
         
     def send(self, data):

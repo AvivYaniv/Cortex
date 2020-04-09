@@ -27,6 +27,7 @@ services:
 
     # Defining environment variables      
     environment:
+      RUN: PARSERS
       PARSER: color_image
   
   # Server Container
@@ -62,7 +63,7 @@ services:
 
     # The command to execute once the image is created.
     # Client waits for server to accept connections before starting
-    command: ["./wait-for-it.sh", "server:8000"]
+    command: ["./scripts/wait-for-it.sh", "server:8000"]
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
