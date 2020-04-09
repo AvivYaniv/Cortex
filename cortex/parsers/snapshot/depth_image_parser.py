@@ -8,9 +8,9 @@ class DepthImageParser:
     
     extension   =   '.jpg'
     
-    def parse(self, parser_saver, context, snapshot):
+    def parse(self, parser_saver, context, snapshot, path=None):
         matplotlib.use('Agg')
-        path = parser_saver.get_path(context, DepthImageParser.extension)
+        path = path if path else parser_saver.get_path(context, extension=DepthImageParser.extension)
         parser_saver.create_path(path)
         image = np.mat(snapshot.depth_image.data)
         image = image.reshape(snapshot.depth_image.width, snapshot.depth_image.height)

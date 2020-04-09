@@ -14,13 +14,16 @@ class ParserSaver:
                 ConstantPathes.SNAPSHOTS_DIRRECTORY,    \
                 context.user_id,                        \
                 context.snapshot_uuid,                  \
-                context.parser_type,                    \
+                fname=context.parser_type,              \
                 extension=extension)
         return file_path
     
     @staticmethod
     def create_path(path):
         _FileHandler.create_path(path)
+        
+    def save_file(self, file_path, data):
+        self.file_handler.save(file_path, data)
         
     def save(self, context, data, extension=''):
         file_path   = self.get_path(context, extension)
