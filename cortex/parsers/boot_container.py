@@ -12,7 +12,7 @@ PARSER_TYPE_ENVIRONMENT_VARIABLE                    =   'PARSER'
 # Messages Section
 PARSER_TYPE_NOT_CONFIGURED_ERROR_MESSAGE            =   'Parser type not configured in container'
 
-def run_parser(parser_type, message_queue_type, message_queue_host, message_queue_port):
+def run_parser_container(parser_type, message_queue_type, message_queue_host, message_queue_port):
     run_parser_service(parser_type, message_queue_type, message_queue_host, message_queue_port)
 
 if "__main__" == __name__:
@@ -21,5 +21,5 @@ if "__main__" == __name__:
         sys.exit()
     parser_type                     = os.environ[PARSER_TYPE_ENVIRONMENT_VARIABLE]
     message_queue_type, host, port  = get_message_queue_parameters()
-    run_parser(parser_type, message_queue_type, host, port)
+    run_parser_container(parser_type, message_queue_type, host, port)
     
