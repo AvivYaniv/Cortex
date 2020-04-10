@@ -6,7 +6,7 @@ from cortex.utils import get_project_file_path_by_caller
 import logging
 from cortex.logger import _LoggerLoader
 
-from cortex.saver.database.mongodb_db import MongoDBDataBase
+from cortex.database.mongodb_db import MongoDBDataBase
 
 # Log loading
 logger_loader             = _LoggerLoader()

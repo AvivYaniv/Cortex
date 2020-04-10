@@ -2,7 +2,7 @@
 from cortex.database.database_runner import load_database 
 
 # TODO : Replace with real code
-class _DataBase:
+class _DataBaseBase:
     def __init__(self, database_type, host, port):
         self.driver     = load_database(database_type, host, port)
     def create_entity(self, entity_name, **kwargs):

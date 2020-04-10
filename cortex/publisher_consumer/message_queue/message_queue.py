@@ -25,21 +25,21 @@ class MessageQueue:
         elif self.message_queue_context.is_transmitter():
             return self._init_transmitter()
         else:
-            self.logger.error(MESSAGE_QUEUE_DIRECTION_UNSPECIFIED_ERROR_MESSAGE)
+            self._logger.error(MESSAGE_QUEUE_DIRECTION_UNSPECIFIED_ERROR_MESSAGE)
             return False
             
     def __init__(self, logger, callback, message_queue_context, host, port):
-        self.logger                     = logger
-        self.logger.info(MESSAGE_QUEUE_INITIALIZING_INFO_MESSAGE)
+        self._logger                    = logger
+        self._logger.info(MESSAGE_QUEUE_INITIALIZING_INFO_MESSAGE)
         self.callback                   = callback
         self.message_queue_context      = message_queue_context
         self.host                       = host if host else MESSAGE_QUEUE_DEFAULT_HOST
         self.port                       = port
         self.is_initialized             = self._init_message_queue()
         if self.is_initialized:
-            self.logger.info(MESSAGE_QUEUE_HAS_INITIALIZED_INFO_MESSAGE)
+            self._logger.info(MESSAGE_QUEUE_HAS_INITIALIZED_INFO_MESSAGE)
         else:
-            self.logger.error(MESSAGE_QUEUE_HAS_NOT_INITIALIZED_ERROR_MESSAGE)
+            self._logger.error(MESSAGE_QUEUE_HAS_NOT_INITIALIZED_ERROR_MESSAGE)
     
     def _run_reciver(self):
         raise NotImplementedError

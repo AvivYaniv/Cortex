@@ -1,4 +1,7 @@
 
+def object_to_dictionary(o):
+    return vars(o)
+
 class dict2obj(object):
     def __init__(self, d):
         for a, b in d.items():
