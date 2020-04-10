@@ -52,11 +52,7 @@ class MongoDBDataBase(_DataBaseDriver):
         return result_success
     # Existence Methods
     def has_entity(self, entity_name, **kwargs):
-        try:
-            self.get_entity(entity_name, **kwargs)
-            return True
-        except LookupError:
-            return False
+        return self.get_entity(entity_name, **kwargs) is not None
     # Result Methods
     @staticmethod
     def to_standard_result_entity(result_entity):

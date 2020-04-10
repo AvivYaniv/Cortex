@@ -101,6 +101,7 @@ def run_database_service(database_type):
 def run_database(database_type  =   None,
                  host           =   None,
                  port           =   None):
+    database_type  = database_type if database_type else DEFAULT_DB_TYPE
     database       = load_database(database_type, host, port)
     # If data base not found - exit
     if not database:

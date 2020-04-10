@@ -21,9 +21,9 @@ logger_loader.load_log_config()
 ERROR_DURING_INITIALIZATION_CANT_RUN_ERROR_MESSAGE  =   'Parser service initialization failed, can\'t run'
 
 class ParserContext:
-    def __init__(self, user_id, user_info_path, snapshot_uuid, parser_type):
-        self.user_id        = user_id
-        self.user_info_path = user_info_path
+    def __init__(self, user_info, snapshot_uuid, parser_type):
+        self.user_id        = user_info.user_id
+        self.user_info      = user_info
         self.snapshot_uuid  = snapshot_uuid
         self.parser_type    = parser_type
 
@@ -53,7 +53,7 @@ class ParserService:
                 MessageQueueMessagesTyeps.RAW_SNAPSHOT_MESSAGE).deserialize(incoming_snapshot_message)
         return raw_snapshot_message
     def _set_context(self, raw_snapshot_message):
-        return ParserContext(raw_snapshot_message.user_id, raw_snapshot_message.user_info_path, raw_snapshot_message.snapshot_uuid, self.parser_type)    
+        return ParserContext(raw_snapshot_message.user_info, raw_snapshot_message.snapshot_uuid, self.parser_type)    
     # Reads raw snapshot message
     def read_raw_snapshot(self, raw_snapshot_message):
         raw_snapshot_path       = raw_snapshot_message.raw_snapshot_path
@@ -80,8 +80,7 @@ class ParserService:
             parsed_snapshot_message     =                               \
                 self.messages.get_message(                              \
                     MessageQueueMessagesTyeps.PARSED_SNAPSHOT_MESSAGE)( \
-                        context.user_id,                                \
-                        context.user_info_path,                         \
+                        context.user_info,                              \
                         context.snapshot_uuid,                          \
                         self.parser_type,                               \
                         result,                                         \

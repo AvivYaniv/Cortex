@@ -1,46 +1,33 @@
 
-from cortex.database.mongodb_db import MongoDBDataBase
-from cortex.database.database_cortex import _DataBaseCortex
-
 from cortex.publisher_consumer.message_queue.context import MessageQueueContextFactory
 from cortex.publisher_consumer.message_queue.consumer.Message_queue_consumer_thread import MessageQueueConsumerThread
 
-from cortex.publisher_consumer.messages import MessageQueueMessages, MessageQueueMessagesTyeps
+from cortex.saver.saver_messages_handler import SaverMessagesHandler
    
 class SaverService:
     SERVICE_TYPE                =   'saver'
     
-    DEFAULT_ENCODING            =   'utf-8'
-    
     # Constructor Section
     def __init__(self, database_type=None, database_host=None, database_port=None, message_queue_type=None, message_queue_host=None, message_queue_port=None):
-        self.saving_callback    = self.save_parsed_callback()
-        # Database
-        self.database_type      = database_type 
-        self.database_host      = database_host
-        self.database_port      = database_port
-        self.database           = _DataBaseCortex(self.database_type, self.database_host, self.database_port)
+        self.saving_callback        = self.save_parsed_callback()
+        # Saver handler
+        self.saver_messges_handler  = SaverMessagesHandler(database_type, database_host, database_port)
         # Message Queue
-        self.message_queue_type = message_queue_type
-        self.message_queue_host = message_queue_host
-        self.message_queue_port = message_queue_port
-        # Messages
-        self.messages           = MessageQueueMessages() 
-    
+        self.message_queue_type     = message_queue_type
+        self.message_queue_host     = message_queue_host
+        self.message_queue_port     = message_queue_port
+        
     # Save Methods Section    
     # Generates save callback with custom arguments - by this currying function 
     def save_parsed_callback(self):
         def save(message):
-            self.save_message(message)                               
+            self.handle_message(message)                               
         return save
     
-    def save_message(self, message):
+    def handle_message(self, message):
         print('TODO DEBUG REMOVE Saver got a new message')
-        message                 = message if isinstance(message, str) else message.decode(SaverService.DEFAULT_ENCODING)
-        parsed_snapshot_message = self.messages.get_message(                              \
-                    MessageQueueMessagesTyeps.PARSED_SNAPSHOT_MESSAGE).deserialize(message)
-        pass
-    
+        self.saver_messges_handler.handle(message)
+        
     # Core Logic Method Section
     def run(self):
         mq_context_factory      = MessageQueueContextFactory(self.message_queue_type)

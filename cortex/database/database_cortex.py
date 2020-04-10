@@ -38,6 +38,13 @@ class _DataBaseCortex(_DataBaseBase):
                 birth_date=birth_date,                                             \
                 gender=gender                                                      \
                 )
+    def has_user(self, *, user_id):
+        user =                                                                      \
+            self.driver.has_entity(                                                 \
+                _DataBaseCortex.ENTITY_USER,                                        \
+                user_id=str(user_id)                                                \
+                )
+        return user
     def get_user(self, *, user_id):
         user =                                                                     \
             self.driver.get_entity(                                                \
