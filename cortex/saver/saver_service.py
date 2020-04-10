@@ -1,11 +1,12 @@
 
+from cortex.database.mongodb_db import MongoDBDataBase
 from cortex.database.database_cortex import _DataBaseCortex
 
 from cortex.publisher_consumer.message_queue.context import MessageQueueContextFactory
 from cortex.publisher_consumer.message_queue.consumer.Message_queue_consumer_thread import MessageQueueConsumerThread
 
 from cortex.publisher_consumer.messages import MessageQueueMessages, MessageQueueMessagesTyeps
-    
+   
 class SaverService:
     SERVICE_TYPE                =   'saver'
     
@@ -15,10 +16,10 @@ class SaverService:
     def __init__(self, database_type=None, database_host=None, database_port=None, message_queue_type=None, message_queue_host=None, message_queue_port=None):
         self.saving_callback    = self.save_parsed_callback()
         # Database
-        self.database_type      = database_type
+        self.database_type      = database_type 
         self.database_host      = database_host
         self.database_port      = database_port
-        self.database           = _DataBaseCortex(database_type, database_host, database_port)
+        self.database           = _DataBaseCortex(self.database_type, self.database_host, self.database_port)
         # Message Queue
         self.message_queue_type = message_queue_type
         self.message_queue_host = message_queue_host
@@ -34,6 +35,7 @@ class SaverService:
         return save
     
     def save_message(self, message):
+        print('TODO DEBUG REMOVE Saver got a new message')
         message                 = message if isinstance(message, str) else message.decode(SaverService.DEFAULT_ENCODING)
         parsed_snapshot_message = self.messages.get_message(                              \
                     MessageQueueMessagesTyeps.PARSED_SNAPSHOT_MESSAGE).deserialize(message)

@@ -37,9 +37,21 @@ DATABASE_RUNNING_FAILED_ERROR_MESSAGE                      =   'Data base runnni
 DATABASE_INSTALLATION_FILE_SUFFIX                          =   '_install.sh'
 DATABASE_RUN_FILE_SUFFIX                                   =   '_run.sh'
 
-def load_database(database_type, host, port):
+# Constants Section
+# Networking
+DEFAULT_DB_HOST            =    '127.0.0.1'
+DEFAULT_DB_PORT            =    '27017'
+    
+# DataBase
+DEFAULT_DB_TYPE            =    MongoDBDataBase.name
+
+def load_database(database_type=None, host=None, port=None):
     LOOKUP_TOKEN        =   'DataBase'
-    NAME_IDENTIFIER     =   'name'    
+    NAME_IDENTIFIER     =   'name'   
+    # Default argument resolution 
+    database_type       = database_type if database_type else DEFAULT_DB_TYPE 
+    host                = host if host else DEFAULT_DB_HOST
+    port                = int(port if port else DEFAULT_DB_PORT)
     dir_path = os.path.dirname(os.path.realpath(__file__))
     imported_modules_names = DynamicModuleLoader.load_modules(dir_path)
     _, class_dbs = \
@@ -89,7 +101,6 @@ def run_database_service(database_type):
 def run_database(database_type  =   None,
                  host           =   None,
                  port           =   None):
-    database_type  = database_type if database_type else DEFAULT_DB
     database       = load_database(database_type, host, port)
     # If data base not found - exit
     if not database:

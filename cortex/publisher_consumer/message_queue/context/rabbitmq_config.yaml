@@ -44,28 +44,28 @@ message_queue:
             - parser.color_image:
                 # Context fields values
                 exchange_type   : 'fanout'
-                exchange_name   : 'parser.color_image'
-                queue_name      : 'saver'
-                binding_keys    : [ 'parser.*' ]
+                exchange_name   : 'color_image.parser'
+                queue_name      : 'color_image'
+                binding_keys    : [ 'color_image.*' ]
             # Item
             - parser.depth_image:
                 # Context fields values
                 exchange_type   : 'fanout'
-                exchange_name   : 'parser.depth_image'
-                queue_name      : 'saver'
-                binding_keys    : [ 'parser.*' ]
+                exchange_name   : 'depth_image.parser'
+                queue_name      : 'depth_image'
+                binding_keys    : [ 'depth_image.*' ]
             # Item
             - parser.pose:
                 # Context fields values
                 exchange_type   : 'fanout'
-                exchange_name   : 'parser.pose'
-                queue_name      : 'saver'
-                binding_keys    : [ 'parser.*' ]
+                exchange_name   : 'pose.parser'
+                queue_name      : 'pose'
+                binding_keys    : [ 'pose.*' ]
             # Item
             - parser.user_feelings:
                 # Context fields values
                 exchange_type   : 'fanout'
-                exchange_name   : 'parser.user_feelings'
-                queue_name      : 'saver'
-                binding_keys    : [ 'parser.*' ]    
+                exchange_name   : 'user_feelings.parser'
+                queue_name      : 'user_feelings'
+                binding_keys    : [ 'user_feelings.*' ]
                 

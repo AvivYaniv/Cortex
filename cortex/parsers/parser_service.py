@@ -32,7 +32,7 @@ class ParserService:
     
     @staticmethod 
     def get_parser_name(parser_type):
-        return f'parser.{parser_type}'
+        return f'{parser_type}.parser'
     
     def __init__(self, parser_type, message_queue_type=None, message_queue_host=None, message_queue_port=None):
         self.parser_type        = parser_type
