@@ -21,20 +21,20 @@ def main():
 
 @main.command()
 @click.argument('parser_type', type=str)
-@click.argument('data', type=str)
-def parse(parser_type, data):
+@click.argument('raw_snapshot_path', type=str)
+def parse(parser_type, raw_snapshot_path):
     """
     Accepts a parser name and a path to some raw data, 
     and prints the result, as published to the message queue 
     (optionally redirecting it to a file).
     """
-    parser = Parser(parser_type)
-    parser.parse(data)
+    parser       = Parser(parser_type)
+    return parser.parse(raw_snapshot_path)
 
 @main.command()
 @click.argument('parser_type', type=str)
 @click.argument('mq_url', type=str)
-def run_server(parser_type, mq_url):
+def run_parser(parser_type, mq_url):
     """
     Starts a parser of the given type and publishes parsed output to message-queue
     """

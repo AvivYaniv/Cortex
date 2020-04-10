@@ -2,6 +2,12 @@
 import json
 from collections import namedtuple
 
+def args_to_json(*args):
+    return json.dumps(args)
+
+def kwargs_to_json(**kwargs):
+    return json.dumps(kwargs)
+
 def object_to_json(o):
     return json.dumps(vars(o))
         

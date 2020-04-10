@@ -68,5 +68,3 @@ class Saver:
 if "__main__" == __name__:
     saver = Saver()
     saver.run()
-
-    

@@ -1,5 +1,5 @@
 
-from cortex.saver.db import _DataBase
+from cortex.database import _DataBase
 
 from cortex.publisher_consumer.message_queue.context import MessageQueueContextFactory
 from cortex.publisher_consumer.message_queue.consumer.Message_queue_consumer_thread import MessageQueueConsumerThread
