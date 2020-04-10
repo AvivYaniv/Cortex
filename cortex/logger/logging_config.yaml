@@ -12,23 +12,23 @@ handlers:
    formatter: simple
    stream: ext://sys.stdout
   
-  message_queue_log_handler:
+  database_log_handler:
    class: logging.handlers.RotatingFileHandler
    level: DEBUG
    formatter: simple
-   filename: logs/message_queue.log
+   filename: logs/database.log
    maxBytes: 10485760
    backupCount: 20
    encoding: utf8
 
   client_log_handler:
-   class: logging.handlers.RotatingFileHandler
-   level: DEBUG
-   formatter: simple
-   filename: logs/client.log
-   maxBytes: 10485760
-   backupCount: 20
-   encoding: utf8
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: simple
+    filename: logs/client.log
+    maxBytes: 10485760
+    backupCount: 20
+    encoding: utf8
 
   server_log_handler:
    class: logging.handlers.RotatingFileHandler
@@ -58,9 +58,9 @@ handlers:
    encoding: utf8
 
 loggers:
-  cortex.publisher_consumer.message_queue:
+  cortex.database:
    level: INFO
-   handlers: [console, error_file_handler, message_queue_log_handler]
+   handlers: [console, error_file_handler, database_log_handler]
    propagate: no
 
   cortex.client:

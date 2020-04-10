@@ -10,5 +10,5 @@
 	  apt-get install -y sudo
 	  ## Install mongodb and its dependencies
 	  sudo apt-get install mongodb -y --fix-missing
-	fi	
+	fi
 )

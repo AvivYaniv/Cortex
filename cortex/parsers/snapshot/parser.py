@@ -2,7 +2,7 @@ import os
 
 from cortex.utils import DynamicModuleLoader
 
-from cortex.parsers.snapshot.parser_saver import ParserFileHandler
+from cortex.parsers.snapshot.parser_file_handler import ParserFileHandler
 
 import logging
 from cortex.logger import _LoggerLoader
@@ -30,6 +30,9 @@ class Parser:
       
     def parse(self, raw_snapshot_path):
         raw_snapshot = self._file_handler.read_file(raw_snapshot_path, 'rb')
+        return self.parse_snapshot(raw_snapshot)
+    
+    def parse_snapshot(self, raw_snapshot):
         return self._parser_function(raw_snapshot)
     
     def save_parsed(self, context, result):
@@ -37,11 +40,13 @@ class Parser:
         self._file_handler.save_file(file_path, result)
         return file_path
         
-    def export_parse(self, context, snapshot):   
-        result      = self.parse(snapshot)
+    def export_parse(self, context, raw_snapshot):
+        is_uri = False   
+        result      = self.parse_snapshot(raw_snapshot)
         if self._is_save_required:
             result = self.save_parsed(context, result)
-        return result
+            is_uri = True
+        return (is_uri, result)
 
     def _set_parser_function(self, parser_type):
         self._parser_object     = None

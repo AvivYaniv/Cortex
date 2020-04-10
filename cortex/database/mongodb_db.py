@@ -65,8 +65,8 @@ class MongoDBDataBase(_DataBaseDriver):
         result_entity.pop(MongoDBDataBase.DEFAULT_DB_ID, None)
         return result_entity    
     # Run Method
-    def run(self):
+    def _create(self):
         # MongoDB ''tables'' (BSON documents) are creates on demand
         # therefore, no need to initialize it prior of using it
-        super().run()
+        super()._create()
     

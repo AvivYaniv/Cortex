@@ -76,7 +76,7 @@ class ParserService:
                 logger.error(f'error reading snapshot file {raw_snapshot_message.raw_snapshot_path} : {e}')
                 return            
             context                     = self._set_context(raw_snapshot_message)
-            result                      = self.parser.export_parse(context, snapshot)
+            is_uri, result              = self.parser.export_parse(context, snapshot)
             parsed_snapshot_message     =                               \
                 self.messages.get_message(                              \
                     MessageQueueMessagesTyeps.PARSED_SNAPSHOT_MESSAGE)( \
@@ -84,7 +84,8 @@ class ParserService:
                         context.user_info_path,                         \
                         context.snapshot_uuid,                          \
                         self.parser_type,                               \
-                        result)
+                        result,                                         \
+                        is_uri)
             self.publish_function(parsed_snapshot_message.serialize(), publisher_name=self.parser_name)
             logger.info(f'{self.parser_name} Parsed message')
         return parse_and_publish

@@ -14,20 +14,28 @@ logger_loader.load_log_config()
 logger                    = logging.getLogger(__name__)
 
 # Constants Section
-DEFAULT_DB                                                 =    MongoDBDataBase
+DEFAULT_DB                                                 =    MongoDBDataBase.name
 
 # Messages Section
 # Info Messages
+# Install Info Messages
 INSTALLING_DATABASE_INFO_MESSAGE                           =   'Installing data base...'
 DATABASE_INSTALLATION_COMPLETED_INFO_MESSAGE               =   'Data base installation completed!'
+# Running Info Messages
+RUNNING_DATABASE_INFO_MESSAGE                              =   'Running data base...'
 
-# Error messages
+# Error Messages
 DATABASE_TYPE_NOT_FOUND_ERROR_MESSAGE                      =   'Specified data base class not found in directory'
+# Install Error Messages
 DATABASE_INSTALL_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT    =   'Data base install file {} dosen\'t exist'
 DATABASE_INSTALLATION_FAILED_ERROR_MESSAGE                 =   'Data base installation has failed'
+# Run Error Messages
+DATABASE_RUNN_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT       =   'Data base run file {} dosen\'t exist'
+DATABASE_RUNNING_FAILED_ERROR_MESSAGE                      =   'Data base runnning has failed'
 
 # Installation file
 DATABASE_INSTALLATION_FILE_SUFFIX                          =   '_install.sh'
+DATABASE_RUN_FILE_SUFFIX                                   =   '_run.sh'
 
 def load_database(database_type, host, port):
     LOOKUP_TOKEN        =   'DataBase'
@@ -42,12 +50,15 @@ def load_database(database_type, host, port):
     # Returning specified data base object
     return class_dbs[database_type](logger, host, port)
 
-def get_message_install_file_path(database_type):
+def get_database_install_file_path(database_type):
     return get_project_file_path_by_caller(database_type, DATABASE_INSTALLATION_FILE_SUFFIX)
+
+def get_database_run_file_path(database_type):
+    return get_project_file_path_by_caller(database_type, DATABASE_RUN_FILE_SUFFIX)
 
 def install_database(database_type):
     # Installing data base
-    database_install_file_path = get_message_install_file_path(database_type)    
+    database_install_file_path = get_database_install_file_path(database_type)    
     # If data base install file dosen't exist
     if (not os.path.isfile(database_install_file_path)):
         logger.error(DATABASE_INSTALL_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT.format(database_install_file_path))
@@ -61,6 +72,20 @@ def install_database(database_type):
         logger.error(DATABASE_INSTALLATION_FAILED_ERROR_MESSAGE)
     return intallation_success
 
+def run_database_service(database_type):
+    # Running data base
+    database_run_file_path = get_database_run_file_path(database_type)    
+    # If data base run file dosen't exist
+    if (not os.path.isfile(database_run_file_path)):
+        logger.error(DATABASE_RUNN_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT.format(database_run_file_path))
+        return False    
+    # Running data base
+    logger.info(RUNNING_DATABASE_INFO_MESSAGE)
+    running_success = (0 == run_bash_scipt(database_run_file_path)) 
+    if not running_success:
+        logger.error(DATABASE_RUNNING_FAILED_ERROR_MESSAGE)
+    return running_success
+
 def run_database(database_type  =   None,
                  host           =   None,
                  port           =   None):
@@ -73,5 +98,5 @@ def run_database(database_type  =   None,
     else:
         # If data base installed
         if install_database(database_type):
-            return database.run()
+            run_database_service(database_type)
     

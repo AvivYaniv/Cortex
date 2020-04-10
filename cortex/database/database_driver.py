@@ -13,14 +13,11 @@ class _DataBaseDriver:
 
     # Initialization Methods
     def create_tables(self):
-        self._logger('tables creation has finished!')
+        self._logger.info('tables creation has finished!')
         pass
-    
     def create_triggers(self):
-        self._logger('triggers creation has finished!')
+        self._logger.info('triggers creation has finished!')
         pass
-    
-    # Core Logic Method
-    def run(self):
+    def _create(self):
         self.create_tables()
         self.create_triggers()
