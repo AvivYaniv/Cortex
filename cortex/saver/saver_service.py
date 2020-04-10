@@ -3,7 +3,15 @@ from cortex.publisher_consumer.message_queue.context import MessageQueueContextF
 from cortex.publisher_consumer.message_queue.consumer.Message_queue_consumer_thread import MessageQueueConsumerThread
 
 from cortex.saver.saver_messages_handler import SaverMessagesHandler
-   
+
+import logging
+from cortex.logger import _LoggerLoader
+
+# Log loading
+logger                    = logging.getLogger(__name__)
+logger_loader             = _LoggerLoader()
+logger_loader.load_log_config()
+
 class SaverService:
     SERVICE_TYPE                =   'saver'
     

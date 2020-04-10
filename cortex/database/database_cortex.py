@@ -54,7 +54,7 @@ class _DataBaseCortex(_DataBaseBase):
         if user is None:
             logger.warning('user {user_id} not found!')
         return user
-    def get_all_users(self, *, user_id):
+    def get_all_users(self):
         users =                                                                     \
             self.driver.get_entities(                                               \
                 _DataBaseCortex.ENTITY_USER                                         \
