@@ -38,7 +38,7 @@ class ResultAPI(Resource):
 class ResultDataAPI(Resource):
     def get(self, user_id, snapshot_uuid, result_name):
         uri     =   api_service.get_result_data(user_id, snapshot_uuid, result_name)
-        return send_file(uri, mimetype='image/png')
+        return send_file(uri)
 
 # Adding API Resources
 # User API Section

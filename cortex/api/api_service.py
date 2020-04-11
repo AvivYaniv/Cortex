@@ -72,12 +72,12 @@ class APIService:
         text_retrieval_method                   =   self._database.get_text_retrieval_method(result_name)
         if text_retrieval_method:
             result                              =   text_retrieval_method(snapshot_uuid=snapshot_uuid)
-            disapproved_fields_for_display      =   [ ]
+            disapproved_fields_for_display      =   [ 'snapshot_uuid' ]
         else:
             binary_retrieval_method             =   self._database.get_binary_retrieval_method(result_name)
             if binary_retrieval_method:
                 result                          =   binary_retrieval_method(snapshot_uuid=snapshot_uuid)
-                disapproved_fields_for_display  =   [ 'uri' ]
+                disapproved_fields_for_display  =   [ 'snapshot_uuid', 'uri' ]
         if text_retrieval_method or binary_retrieval_method: 
             return self._prepare_get_query_result_blacklist(result, disapproved_fields_for_display)
         return APIService.EMPTY_RESULT
@@ -86,7 +86,7 @@ class APIService:
         binary_retrieval_method                 =   self._database.get_binary_retrieval_method(result_name)
         if binary_retrieval_method:
             result                              =   binary_retrieval_method(snapshot_uuid=snapshot_uuid)
-            uri                                 =   result.uri
+            uri                                 =   result['uri']
             return uri
         return APIService.EMPTY_RESULT 
     
