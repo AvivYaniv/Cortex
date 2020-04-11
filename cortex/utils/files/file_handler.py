@@ -2,6 +2,7 @@ import os
 
 import threading
 
+import pathlib
 from pathlib import PurePath
 
 class _FileHandler:
@@ -10,6 +11,12 @@ class _FileHandler:
     
     def __init__(self):
         self.__dict__ = self.__class__._shared_state
+        
+    @staticmethod
+    def to_safe_absolute_file_path(*pathsegments, fname=None, extension=None):
+        current_directory = str(pathlib.Path().absolute())
+        pathsegments = (current_directory,) + pathsegments
+        return _FileHandler.to_safe_file_path(*pathsegments, fname=fname, extension=extension)
     
     @staticmethod
     def to_safe_file_path(*pathsegments, fname=None, extension=None):

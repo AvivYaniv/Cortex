@@ -11,7 +11,7 @@ class ParserFileHandler:
         
     def get_path(self, context, extension=''):
         file_path   =                                   \
-            _FileHandler.to_safe_file_path(             \
+            _FileHandler.to_safe_absolute_file_path(    \
                 ConstantPathes.get_snapshots_path(),    \
                 context.user_id,                        \
                 context.snapshot_uuid,                  \
