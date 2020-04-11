@@ -13,7 +13,7 @@ logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
 
 class SaverService:
-    SERVICE_TYPE                =   'saver'
+    SERVICE_TYPE                    =   'saver'
     
     # Constructor Section
     def __init__(self, database_type=None, database_host=None, database_port=None, message_queue_type=None, message_queue_host=None, message_queue_port=None):
@@ -33,7 +33,6 @@ class SaverService:
         return save
     
     def handle_message(self, message):
-        print('TODO DEBUG REMOVE Saver got a new message')
         self.saver_messges_handler.handle(message)
         
     # Core Logic Method Section

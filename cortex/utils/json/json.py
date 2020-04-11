@@ -1,6 +1,6 @@
 
 import json
-from collections import namedtuple
+import datetime
 
 from cortex.utils.dictionary import dictionary_to_object
 
@@ -12,10 +12,15 @@ def kwargs_to_json(**kwargs):
 
 def object_to_json(o):
     return json.dumps(o, default=lambda x: x.__dict__)
+
+def json_with_dates_converter(o):
+    if isinstance(o, datetime.datetime):
+        return o.__str__()
+
+def dictionary_to_json(dictionary):
+    return json.dumps(dictionary, default = json_with_dates_converter)
         
 def json_to_object(data, _cls = None):
-    # TODO DEBUG REVISE
-    # converted = json.loads(data, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
     converted = dictionary_to_object(json.loads(data))
     if _cls:
         converted.__class__ = _cls

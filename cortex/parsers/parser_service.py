@@ -82,6 +82,7 @@ class ParserService:
                     MessageQueueMessagesTyeps.PARSED_SNAPSHOT_MESSAGE)( \
                         context.user_info,                              \
                         context.snapshot_uuid,                          \
+                        snapshot.timestamp,                             \
                         self.parser_type,                               \
                         result,                                         \
                         is_uri)

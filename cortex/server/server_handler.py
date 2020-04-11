@@ -102,8 +102,7 @@ class ServerHandler(threading.Thread):
     def _save_snapshot(self, snapshot_uuid, snapshot_message_bytes):
         snapshot_path   =                               \
             self._get_save_path(                        \
-                ConstantPathes.DATA_DIRRECTORY,         \
-                ConstantPathes.SNAPSHOTS_DIRRECTORY,    \
+                ConstantPathes.get_snapshots_path(),    \
                 self.context.user_info.user_id,         \
                 snapshot_uuid,                          \
                 SNAPSHOT_FILE_NAME)

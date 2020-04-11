@@ -1,5 +1,6 @@
 from cortex.database.database_base import _DataBaseBase
 
+from cortex.utils import TimeUtils
 from cortex.utils import kwargs_to_string
 
 import logging
@@ -39,12 +40,12 @@ class _DataBaseCortex(_DataBaseBase):
                 gender=gender                                                      \
                 )
     def has_user(self, *, user_id):
-        user =                                                                      \
+        is_exist =                                                                  \
             self.driver.has_entity(                                                 \
                 _DataBaseCortex.ENTITY_USER,                                        \
-                user_id=str(user_id)                                                \
+                user_id=user_id                                                     \
                 )
-        return user
+        return is_exist
     def get_user(self, *, user_id):
         user =                                                                     \
             self.driver.get_entity(                                                \
@@ -67,19 +68,28 @@ class _DataBaseCortex(_DataBaseBase):
             self.driver.update_entity(                                              \
                 _DataBaseCortex.ENTITY_USER,                                        \
                 _DataBaseCortex.ENTITY_IDS_NAMES[_DataBaseCortex.ENTITY_USER],      \
-                user_id,                                                            \
+                user_id=user_id,                                                    \
                 **kwargs                                                            \
                 ) 
         if not update_result:
             logger.warning('error while updating user {user_id} to {kwargs_to_string(**kwargs)}')
     # Snapshot Entity Section
-    def create_snapshot(self, *, snapshot_uuid, timestamp):
+    def create_snapshot(self, *, snapshot_uuid, user_id, timestamp):
         return                                                                      \
             self.driver.create_entity(                                              \
                 _DataBaseCortex.ENTITY_SNAPSHOT,                                    \
                 snapshot_uuid=snapshot_uuid,                                        \
+                user_id=user_id,                                                    \
                 timestamp=timestamp,                                                \
+                datetime=TimeUtils.timestamp_to_dateime(timestamp),                 \
                 )
+    def has_snapshot(self, *, snapshot_uuid):
+        is_exist =                                                                  \
+            self.driver.has_entity(                                                 \
+                _DataBaseCortex.ENTITY_SNAPSHOT,                                    \
+                snapshot_uuid=snapshot_uuid                                         \
+                )
+        return is_exist
     def get_snapshot(self, *, snapshot_uuid):
         snapshot =                                                                  \
             self.driver.get_entity(                                                 \
@@ -89,6 +99,15 @@ class _DataBaseCortex(_DataBaseBase):
         if snapshot is None:
             logger.warning('snapshot {snapshot_uuid} not found!')
         return snapshot
+    def get_all_snapshots(self, *, user_id):
+        snapshots =                                                                 \
+            self.driver.get_entities(                                               \
+                _DataBaseCortex.ENTITY_SNAPSHOT,                                    \
+                user_id=user_id,                                                    \
+                )
+        if snapshots is None:
+            logger.warning('no snapshots found!')
+        return snapshots
     def get_user_snapshots(self, *, user_id):
         snapshots =                                                                 \
             self.driver.get_entities(                                               \

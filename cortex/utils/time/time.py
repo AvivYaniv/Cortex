@@ -1,6 +1,5 @@
 
-import datetime
-from builtins import staticmethod
+from datetime import datetime
 
 class TimeUtils:
     
@@ -8,7 +7,11 @@ class TimeUtils:
     CONCISE_DATE_FORMAT     = '%d %B, %Y'
     CONCISE_HOUR_FORMAT     = '%H:%M:%S.%f'
     
-    EPOCH_MOMENT            = datetime.datetime.utcfromtimestamp(0)
+    EPOCH_MOMENT            = datetime.utcfromtimestamp(0)
+
+    @staticmethod
+    def timestamp_to_dateime(timestamp):
+        return datetime.fromtimestamp(timestamp/1000.0)
 
     @staticmethod
     def unix_time_millis(dt):

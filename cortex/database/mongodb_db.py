@@ -18,7 +18,7 @@ class MongoDBDataBase(_DataBaseDriver):
         super().__init__(logger, host, port)
         self._client = pymongo.MongoClient(host, port)
         # TODO DEBUG REMOVE !!! [ START ]
-        self._client.drop_database(MongoDBDataBase.db_instance_name)
+        #self._client.drop_database(MongoDBDataBase.db_instance_name)
         # TODO DEBUG REMOVE !!! [ END ]
         self._db     = self._client[MongoDBDataBase.db_instance_name]
     # CRUD Methods Section

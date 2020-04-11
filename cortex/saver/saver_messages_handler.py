@@ -41,6 +41,7 @@ class SaverMessagesHandler:
         # Fetch user id and path
         user_info               = parsed_snapshot_message.user_info        
         self.save_user(user_info)
+        self.save_snapshot(parsed_snapshot_message.snapshot_uuid, user_info.user_id, parsed_snapshot_message.snapshot_timestamp)
         # Fetch parsed field
         field                   = parsed_snapshot_message.field
         snapshot_uuid           = parsed_snapshot_message.snapshot_uuid
@@ -55,22 +56,37 @@ class SaverMessagesHandler:
         self.SAVE_METHODS[field](snapshot_uuid, result, is_uri)
     # User Saving Method
     def save_user(self, user_info):
-        if not self._database.has_user(user_id=user_info.user_id):
-            user_id         = user_info.user_id
-            username        = user_info.username
-            birth_date      = datetime.fromtimestamp(user_info.birth_date)
-            gender          = user_info.gender
-            creation_status =                                   \
-                self._database.create_user(                     \
-                    user_id    = user_id,                       \
-                    username   = username,                      \
-                    birth_date = birth_date,                    \
-                    gender     = gender,                        \
-                    )
-            if creation_status:
-                logger.info(f'user {user_id} added successfully!')
-            else:
-                logger.error(f'failed to add user {user_id}')
+        if self._database.has_user(user_id=user_info.user_id):
+            return
+        user_id         = user_info.user_id
+        username        = user_info.username
+        birth_date      = datetime.fromtimestamp(user_info.birth_date)
+        gender          = user_info.gender
+        creation_status =                                   \
+            self._database.create_user(                     \
+                user_id    = user_id,                       \
+                username   = username,                      \
+                birth_date = birth_date,                    \
+                gender     = gender,                        \
+                )
+        if creation_status:
+            logger.info(f'user {user_id} added successfully!')
+        else:
+            logger.error(f'failed to add user {user_id}')
+    # Snapshot Saving Method
+    def save_snapshot(self, snapshot_uuid, user_id, snapshot_timestamp):
+        if self._database.has_snapshot(snapshot_uuid=snapshot_uuid):
+            return
+        creation_status =                                   \
+            self._database.create_snapshot(                 \
+                snapshot_uuid = snapshot_uuid,              \
+                user_id       = user_id,                    \
+                timestamp     = snapshot_timestamp          \
+                )
+        if creation_status:
+            logger.info(f'snapshot {snapshot_uuid} added successfully!')
+        else:
+            logger.error(f'failed to add snapshot {snapshot_uuid}')    
     # Fields Saving Methods
     def save_parsed_pose(self, snapshot_uuid, result, is_uri):
         snapshot_uuid   = snapshot_uuid
@@ -109,7 +125,7 @@ class SaverMessagesHandler:
         snapshot_uuid   = snapshot_uuid
         uri             = result
         creation_status =                                       \
-            self._database.create_user_feelings(                \
+            self._database.create_color_image(                  \
                 snapshot_uuid  = snapshot_uuid,                 \
                 uri            = uri,                           \
                 )
@@ -121,7 +137,7 @@ class SaverMessagesHandler:
         snapshot_uuid   = snapshot_uuid
         uri             = result
         creation_status =                                       \
-            self._database.create_user_feelings(                \
+            self._database.create_depth_image(                  \
                 snapshot_uuid  = snapshot_uuid,                 \
                 uri            = uri,                           \
                 )

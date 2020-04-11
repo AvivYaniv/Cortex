@@ -1,8 +1,9 @@
 from datetime import datetime
 from struct import pack, calcsize
-import time
 
-from ..utils import Serialization
+from cortex.utils import TimeUtils
+
+from cortex.utils import Serialization
 
 from .depthimage import DepthImage
 from .colorimage import ColorImage
@@ -21,7 +22,7 @@ class Snapshot:
     
     def __init__(self, timestamp, translation, rotation, color_image, depth_image, user_feeling):
         self.timestamp		= timestamp
-        self.datetime       = datetime.fromtimestamp(timestamp/1000.0)
+        self.datetime       = TimeUtils.timestamp_to_dateime(timestamp)
         self.translation    = translation
         self.rotation       = rotation
         self.color_image    = color_image

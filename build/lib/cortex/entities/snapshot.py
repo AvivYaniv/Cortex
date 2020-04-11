@@ -1,4 +1,3 @@
-from datetime import datetime
 
 from cortex.utils import TimeUtils
 
@@ -6,7 +5,7 @@ class Snapshot:
     
     def __init__(self, timestamp, translation, rotation, color_image, depth_image, user_feeling):
         self.timestamp      = timestamp
-        self.datetime       = datetime.fromtimestamp(timestamp/1000.0)
+        self.datetime       = TimeUtils.timestamp_to_dateime(timestamp)
         self.translation    = translation
         self.rotation       = rotation
         self.color_image    = color_image
