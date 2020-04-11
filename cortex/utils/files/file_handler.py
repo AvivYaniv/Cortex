@@ -6,7 +6,7 @@ import pathlib
 from pathlib import PurePath
 
 class _FileHandler:
-    lock            = threading.Lock()
+    _lock           = threading.Lock()
     _shared_state   = {}
     
     def __init__(self):
@@ -48,7 +48,7 @@ class _FileHandler:
         if not data:
             print('DEBUG TODO REMOVE NO DATA RECEIVED')
             return is_written
-        self.lock.acquire()
+        self._lock.acquire()
         try:
             _FileHandler.create_path(file_path)
             mode = mode if mode else ('w' if isinstance(data, str) else 'wb')
@@ -58,5 +58,7 @@ class _FileHandler:
         except Exception as e:
             print(f'error saving file {file_path} : {e}')      
         finally:            
-            self.lock.release()
+            self._lock.release()
         return is_written
+    
+    

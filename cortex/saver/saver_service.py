@@ -4,6 +4,8 @@ from cortex.publisher_consumer.message_queue.consumer.Message_queue_consumer_thr
 
 from cortex.saver.saver_messages_handler import SaverMessagesHandler
 
+import threading
+
 import logging
 from cortex.logger import _LoggerLoader
 
@@ -24,12 +26,17 @@ class SaverService:
         self.message_queue_type     = message_queue_type
         self.message_queue_host     = message_queue_host
         self.message_queue_port     = message_queue_port
-        
+        # Locks
+        self._lock                  = threading.Lock()        
     # Save Methods Section    
     # Generates save callback with custom arguments - by this currying function 
     def save_parsed_callback(self):
         def save(message):
-            self.handle_message(message)                               
+            self._lock.acquire()
+            try:
+                self.handle_message(message)
+            finally:            
+                self._lock.release()                                           
         return save
     
     def handle_message(self, message):
