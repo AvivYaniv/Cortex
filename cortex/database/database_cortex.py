@@ -99,15 +99,6 @@ class _DataBaseCortex(_DataBaseBase):
         if snapshot is None:
             logger.warning('snapshot {snapshot_uuid} not found!')
         return snapshot
-    def get_all_snapshots(self, *, user_id):
-        snapshots =                                                                 \
-            self.driver.get_entities(                                               \
-                _DataBaseCortex.ENTITY_SNAPSHOT,                                    \
-                user_id=user_id,                                                    \
-                )
-        if snapshots is None:
-            logger.warning('no snapshots found!')
-        return snapshots
     def get_user_snapshots(self, *, user_id):
         snapshots =                                                                 \
             self.driver.get_entities(                                               \
@@ -117,10 +108,11 @@ class _DataBaseCortex(_DataBaseBase):
         if snapshots is None:
             logger.warning('user {user_id} snapshots not found!')
         return snapshots
-    def get_snapshot_details(self, *, snapshot_uuid):
+    def get_snapshot_details(self, *, user_id, snapshot_uuid):
         snapshot =                                                                  \
             self.driver.get_entity(                                                 \
                 _DataBaseCortex.ENTITY_SNAPSHOT,                                    \
+                user_id=user_id,                                                    \
                 snapshot_uuid=snapshot_uuid                                         \
                 )
         if snapshot is None:

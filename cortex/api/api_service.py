@@ -36,18 +36,19 @@ class APIService:
         return self._marshal_loader.marshal(dictionary)
     def get_all_users(self):
         users                       = self._database.get_all_users()
-        # TODO : CONVERT TO OUTPUT FORMAT
         approved_fields_for_display = [ 'user_id' , 'username' ]
         return [self.prepare_get_query_result(user, approved_fields_for_display) for user in users]
     def get_user(self, user_id):
         user                        = self._database.get_user(user_id=user_id)
-        # TODO : CONVERT TO OUTPUT FORMAT
         approved_fields_for_display = [ 'user_id' , 'username', 'birth_date', 'gender' ]
         return self.prepare_get_query_result(user, approved_fields_for_display)
-    def get_snapshots(self, user_id):
-        snapshots                   = self._database.get_all_snapshots(user_id=user_id)
-        # TODO : CONVERT TO OUTPUT FORMAT
-        approved_fields_for_display = [ 'snapshot_uuid' , 'timestamp' ]
+    def get_user_snapshots(self, user_id):
+        snapshots                   = self._database.get_user_snapshots(user_id=user_id)
+        approved_fields_for_display = [ 'snapshot_uuid' , 'datetime' ]
         return [self.prepare_get_query_result(snapshot, approved_fields_for_display) for snapshot in snapshots]
-    
+    def get_snapshot(self, user_id, snapshot_uuid):
+        snapshot                    = self._database.get_snapshot_details(user_id=user_id, snapshot_uuid=snapshot_uuid)
+        # TODO : CONVERT TO OUTPUT FORMAT
+        approved_fields_for_display = [ 'snapshot_uuid' , 'datetime', self._database.AVAILABLE_RESULTS_LIST_NAME ]
+        return self.prepare_get_query_result(snapshot, approved_fields_for_display)
     

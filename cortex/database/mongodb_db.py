@@ -29,7 +29,7 @@ class MongoDBDataBase(_DataBaseDriver):
     def get_entity(self, entity_name, **kwargs):
         entity = self._db[entity_name].find_one(kwargs)
         if not entity:
-            self._logger.error(f'entity of type {entity_name} which is {kwargs_to_string(**kwargs)} not found!')
+            self._logger.info(f'entity of type {entity_name} which is {kwargs_to_string(**kwargs)} not found!')
         return MongoDBDataBase.to_standard_result_entity(entity)
     def get_entities(self, entity_name, **kwargs):
         entities = [e for e in self.get_entities_lazy(entity_name, **kwargs)]
@@ -37,7 +37,7 @@ class MongoDBDataBase(_DataBaseDriver):
     def get_entities_lazy(self, entity_name, **kwargs):
         cursor = self._db[entity_name].find(kwargs)
         if cursor is None:
-            self._logger.error(f'entities of type {entity_name} which are {kwargs_to_string(**kwargs)} not found!')
+            self._logger.info(f'entities of type {entity_name} which are {kwargs_to_string(**kwargs)} not found!')
             return []
         for e in cursor:
             yield MongoDBDataBase.to_standard_result_entity(e)
