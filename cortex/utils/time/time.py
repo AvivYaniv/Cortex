@@ -10,8 +10,12 @@ class TimeUtils:
     EPOCH_MOMENT            = datetime.utcfromtimestamp(0)
 
     @staticmethod
-    def timestamp_to_dateime(timestamp):
-        return datetime.fromtimestamp(timestamp/1000.0)
+    def timestamp_to_dateime(timestamp, division=1):
+        return datetime.fromtimestamp(timestamp / division)
+
+    @staticmethod
+    def milliseconds_timestamp_to_dateime(timestamp):
+        return TimeUtils.timestamp_to_dateime(timestamp, 1000.0)
 
     @staticmethod
     def unix_time_millis(dt):

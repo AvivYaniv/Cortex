@@ -8,7 +8,7 @@ class Snapshot:
     
     def __init__(self, timestamp, translation, rotation, color_image, depth_image, user_feelings):
         self.timestamp      = timestamp
-        self.datetime       = TimeUtils.timestamp_to_dateime(timestamp)
+        self.datetime       = TimeUtils.milliseconds_timestamp_to_dateime(timestamp)
         self.pose           = Pose(translation, rotation)
         self.color_image    = color_image
         self.depth_image    = depth_image

@@ -1,5 +1,6 @@
 
 from flask import Flask
+from flask import send_file
 from flask_restful import Api, Resource
 from cortex.api.api_service import APIService
 
@@ -30,13 +31,25 @@ class SnapshotAPI(Resource):
     def get(self, user_id, snapshot_uuid):
         return api_service.get_snapshot(user_id, snapshot_uuid)
 
+class ResultAPI(Resource):
+    def get(self, user_id, snapshot_uuid, result_name):
+        return api_service.get_result(user_id, snapshot_uuid, result_name)
+
+class ResultDataAPI(Resource):
+    def get(self, user_id, snapshot_uuid, result_name):
+        uri     =   api_service.get_result_data(user_id, snapshot_uuid, result_name)
+        return send_file(uri, mimetype='image/png')
+
 # Adding API Resources
 # User API Section
-api.add_resource(AllUsersAPI,       f'{API_PREFIX}/users',                                                  endpoint = 'users'      )
-api.add_resource(UserAPI,           f'{API_PREFIX}/users/<int:user_id>',                                    endpoint = 'user'       )
+api.add_resource(AllUsersAPI,       f'{API_PREFIX}/users',                                                                          endpoint = 'users'          )
+api.add_resource(UserAPI,           f'{API_PREFIX}/users/<int:user_id>',                                                            endpoint = 'user'           )
 # Snapshot API Section
-api.add_resource(UserSnapshotsAPI,  f'{API_PREFIX}/users/<int:user_id>/snapshots',                          endpoint = 'snapshots'  )
-api.add_resource(SnapshotAPI,       f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>',   endpoint = 'snapshot'   )
+api.add_resource(UserSnapshotsAPI,  f'{API_PREFIX}/users/<int:user_id>/snapshots',                                                  endpoint = 'snapshots'      )
+api.add_resource(SnapshotAPI,       f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>',                           endpoint = 'snapshot'       )
+# Result API Section
+api.add_resource(ResultAPI,         f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>/<string:result_name>',      endpoint = 'result'         )
+api.add_resource(ResultDataAPI,     f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>/<string:result_name>/data', endpoint = 'result_data'    )
 
 def run_api_server(address=None):
     """Starts an API server of which users and snapshots can be retrived"""

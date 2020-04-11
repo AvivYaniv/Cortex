@@ -1,5 +1,5 @@
 
-from datetime import datetime
+from cortex.utils.image import get_image_metadata_by_uri
 
 from cortex.database.database_cortex import _DataBaseCortex
 
@@ -8,6 +8,7 @@ from cortex.publisher_consumer.messages import MessageQueueMessages, MessageQueu
 import logging
 from cortex.logger import _LoggerLoader
 from cortex.utils.json.json import json_to_object
+from cortex.utils.time.time import TimeUtils
 
 # Log loading
 logger                    = logging.getLogger(__name__)
@@ -60,7 +61,7 @@ class SaverMessagesHandler:
             return
         user_id         = user_info.user_id
         username        = user_info.username
-        birth_date      = datetime.fromtimestamp(user_info.birth_date)
+        birth_date      = TimeUtils.timestamp_to_dateime(user_info.birth_date)
         gender          = user_info.gender
         creation_status =                                   \
             self._database.create_user(                     \
@@ -121,13 +122,19 @@ class SaverMessagesHandler:
             logger.info(f'user_feelings of snapshot {snapshot_uuid} added successfully!')
         else:
             logger.error(f'failed to add user_feelings of snapshot {snapshot_uuid}')
+    @staticmethod
+    def get_image_metadata(uri):
+        return get_image_metadata_by_uri(uri)        
     def save_color_image(self, snapshot_uuid, result, is_uri):
         snapshot_uuid   = snapshot_uuid
         uri             = result
+        width, height   = SaverMessagesHandler.get_image_metadata(uri)
         creation_status =                                       \
             self._database.create_color_image(                  \
                 snapshot_uuid  = snapshot_uuid,                 \
                 uri            = uri,                           \
+                width          = width,                         \
+                height         = height,                        \
                 )
         if creation_status:
             logger.info(f'color_image of snapshot {snapshot_uuid} added successfully!')
@@ -136,10 +143,13 @@ class SaverMessagesHandler:
     def save_depth_image(self, snapshot_uuid, result, is_uri):
         snapshot_uuid   = snapshot_uuid
         uri             = result
+        width, height   = SaverMessagesHandler.get_image_metadata(uri)
         creation_status =                                       \
             self._database.create_depth_image(                  \
                 snapshot_uuid  = snapshot_uuid,                 \
                 uri            = uri,                           \
+                width          = width,                         \
+                height         = height,                        \
                 )
         if creation_status:
             logger.info(f'depth_image of snapshot {snapshot_uuid} added successfully!')

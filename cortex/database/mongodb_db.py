@@ -7,11 +7,11 @@ from cortex.database.database_driver import _DataBaseDriver
 
 class MongoDBDataBase(_DataBaseDriver):
     
-    name                = 'mongodb'
+    name                    = 'mongodb'
     
-    db_instance_name    = 'db'
+    db_instance_name        = 'db'
     
-    DEFAULT_DB_ID       = '_id'
+    DEFAULT_DB_ID           = '_id'
 
     # Constructor Section
     def __init__(self, logger, host, port):

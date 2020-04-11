@@ -3,7 +3,8 @@
 DATABASE_DEFAULT_HOST       =   'localhost'
 
 class _DataBaseDriver:
-    _shared_state = {}
+    IMPLEMENTATION_FILEDS   =   []  # Fields that are part of database implementation, therefore shouldn't be exported
+    _shared_state           =   {}    
     # Constructor Section
     def __init__(self, logger, host, port):
         self.__dict__   = self.__class__._shared_state

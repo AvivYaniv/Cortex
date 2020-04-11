@@ -14,21 +14,21 @@ logger_loader.load_log_config()
 class _DataBaseCortex(_DataBaseBase):
     # Constants Section
     # Entities
-    ENTITY_USER                 =   'user'
-    ENTITY_SNAPSHOT             =   'snapshot'
+    ENTITY_USER                         =   'user'
+    ENTITY_SNAPSHOT                     =   'snapshot'
     
-    ENTITY_POSE                 =   'pose'
-    ENTITY_USER_FEELINGS        =   'user_feelings'
-    ENTITY_COLOR_IMAGE          =   'color_image'
-    ENTITY_DEPTH_IMAGE          =   'depth_image'
+    ENTITY_POSE                         =   'pose'
+    ENTITY_USER_FEELINGS                =   'user_feelings'
+    ENTITY_COLOR_IMAGE                  =   'color_image'
+    ENTITY_DEPTH_IMAGE                  =   'depth_image'
 
-    AVAILABLE_RESULTS_LIST_NAME =    'aviable_results'
+    AVAILABLE_RESULTS_LIST_NAME         =   'aviable_results'
 
-    ENTITY_IDS_NAMES            =    { ENTITY_USER : 'user_id', ENTITY_SNAPSHOT : 'snapshot_uuid' }
+    ENTITY_IDS_NAMES                    =   { ENTITY_USER : 'user_id', ENTITY_SNAPSHOT : 'snapshot_uuid' }
 
-    PARSED_ENTITIES_LIST        =    [ ENTITY_POSE, ENTITY_USER_FEELINGS, ENTITY_COLOR_IMAGE, ENTITY_DEPTH_IMAGE ]
+    PARSED_ENTITIES_LIST                =   [ ENTITY_POSE, ENTITY_USER_FEELINGS, ENTITY_COLOR_IMAGE, ENTITY_DEPTH_IMAGE ]
 
-    # Methods Section
+    # Methods Section    
     # User Entity Section
     def create_user(self, *, user_id, username, birth_date, gender):
         return                                                                     \
@@ -81,7 +81,7 @@ class _DataBaseCortex(_DataBaseBase):
                 snapshot_uuid=snapshot_uuid,                                        \
                 user_id=user_id,                                                    \
                 timestamp=timestamp,                                                \
-                datetime=TimeUtils.timestamp_to_dateime(timestamp),                 \
+                datetime=TimeUtils.milliseconds_timestamp_to_dateime(timestamp),    \
                 )
     def has_snapshot(self, *, snapshot_uuid):
         is_exist =                                                                  \
@@ -150,7 +150,7 @@ class _DataBaseCortex(_DataBaseBase):
         pose =                                                                      \
             self.driver.get_entity(                                                 \
                 _DataBaseCortex.ENTITY_POSE,                                        \
-                snapshot_uuid=snapshot_uuid                                         \
+                snapshot_uuid=snapshot_uuid,                                        \
                 )
         if pose is None:
             logger.warning('pose for snapshot {snapshot_uuid} not found!')
@@ -185,12 +185,16 @@ class _DataBaseCortex(_DataBaseBase):
     def create_color_image(self, *,     \
                     snapshot_uuid,      \
                     uri,                \
+                    width,              \
+                    height              \
                     ):
         return                                                                      \
             self.driver.create_entity(                                              \
                 _DataBaseCortex.ENTITY_COLOR_IMAGE,                                 \
                 snapshot_uuid   = snapshot_uuid,                                    \
-                uri             = uri                                               \
+                uri             = uri,                                              \
+                width           = width,                                            \
+                height          = height                                            \
                 )
     def get_color_image(self, *, snapshot_uuid):
         color_image =                                                               \
@@ -205,12 +209,16 @@ class _DataBaseCortex(_DataBaseBase):
     def create_depth_image(self, *,     \
                     snapshot_uuid,      \
                     uri,                \
+                    width,              \
+                    height              \
                     ):
         return                                                                      \
             self.driver.create_entity(                                              \
                 _DataBaseCortex.ENTITY_DEPTH_IMAGE,                                 \
                 snapshot_uuid   = snapshot_uuid,                                    \
-                uri             = uri                                               \
+                uri             = uri,                                              \
+                width           = width,                                            \
+                height          = height                                            \
                 )
     def get_depth_image(self, *, snapshot_uuid):
         depth_image =                                                               \
@@ -221,5 +229,15 @@ class _DataBaseCortex(_DataBaseBase):
         if depth_image is None:
             logger.warning('depth image for snapshot {snapshot_uuid} not found!')
         return depth_image
-    
-    
+    # Retrieval Methods Section
+    def get_text_retrieval_method(self, parsed_field_name):
+        PARSED_TEXT_RETRIEVAL_FUNCTIONS     =    {  _DataBaseCortex.ENTITY_POSE         : self.get_pose,        _DataBaseCortex.ENTITY_USER_FEELINGS    : self.get_user_feelings    }
+        if parsed_field_name in PARSED_TEXT_RETRIEVAL_FUNCTIONS.keys():
+            return PARSED_TEXT_RETRIEVAL_FUNCTIONS[parsed_field_name]
+        return None
+    def get_binary_retrieval_method(self, parsed_field_name):
+        PARSED_BINARY_RETRIEVAL_FUNCTIONS   =    {  _DataBaseCortex.ENTITY_COLOR_IMAGE  : self.get_color_image, _DataBaseCortex.ENTITY_DEPTH_IMAGE      : self.get_depth_image      }
+        if parsed_field_name in PARSED_BINARY_RETRIEVAL_FUNCTIONS.keys():
+            return PARSED_BINARY_RETRIEVAL_FUNCTIONS[parsed_field_name]
+        return None
+    # 
