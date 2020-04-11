@@ -32,8 +32,13 @@ class SnapshotAPI(Resource):
         return api_service.get_snapshot(user_id, snapshot_uuid)
 
 class ResultAPI(Resource):
+    @staticmethod
+    def get_result_data_uri(user_id, snapshot_uuid, result_name):
+        return f'{API_PREFIX}/users/{user_id}/snapshots/{snapshot_uuid}/{result_name}/data'
+                
     def get(self, user_id, snapshot_uuid, result_name):
-        return api_service.get_result(user_id, snapshot_uuid, result_name)
+        data_uri    = ResultAPI.get_result_data_uri(user_id, snapshot_uuid, result_name)
+        return api_service.get_result(user_id, snapshot_uuid, result_name, data_uri)
 
 class ResultDataAPI(Resource):
     def get(self, user_id, snapshot_uuid, result_name):

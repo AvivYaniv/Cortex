@@ -24,18 +24,19 @@ def function_logging_decorator(fn):
 
 class APIService:
     # Constants Section
-    DEFAULT_MARSHAL_FORMAT          = JSONMarshal.type
-    EMPTY_RESULT                    = ''
+    DEFAULT_MARSHAL_FORMAT                                  = JSONMarshal.type
+    DATA_URI_KEY_NAME                                       = 'data_uri'
+    EMPTY_RESULT                                            = ''
     # Constructor Section
     def __init__(self, database_type=None, database_host=None, database_port=None, marshal_format=None):
         # DataBase
-        self.database_type          = database_type 
-        self.database_host          = database_host
-        self.database_port          = database_port
-        self._database              = _DataBaseCortex(self.database_type, self.database_host, self.database_port)
+        self.database_type                                  = database_type 
+        self.database_host                                  = database_host
+        self.database_port                                  = database_port
+        self._database                                      = _DataBaseCortex(self.database_type, self.database_host, self.database_port)
         # Output Formatter
-        self.marshal_format         = marshal_format if marshal_format else APIService.DEFAULT_MARSHAL_FORMAT
-        self._marshal_loader        = marshalLoader(self.marshal_format)
+        self.marshal_format                                 = marshal_format if marshal_format else APIService.DEFAULT_MARSHAL_FORMAT
+        self._marshal_loader                                = marshalLoader(self.marshal_format)
     # Methods Section
     # Representation Methods Section
     def _prepare_get_query_result_for_reperesentation(self, dictionary):
@@ -49,44 +50,46 @@ class APIService:
     # CRUD Methods Section
     @function_logging_decorator
     def get_all_users(self):
-        users                       = self._database.get_all_users()
-        approved_fields_for_display = [ 'user_id' , 'username' ]
+        users                                               = self._database.get_all_users()
+        approved_fields_for_display                         = [ 'user_id' , 'username' ]
         return [self._prepare_get_query_result_whitelist(user, approved_fields_for_display) for user in users]
     @function_logging_decorator
     def get_user(self, user_id):
-        user                        = self._database.get_user(user_id=user_id)
-        approved_fields_for_display = [ 'user_id' , 'username', 'birth_date', 'gender' ]
+        user                                                = self._database.get_user(user_id=user_id)
+        approved_fields_for_display                         = [ 'user_id' , 'username', 'birth_date', 'gender' ]
         return self._prepare_get_query_result_whitelist(user, approved_fields_for_display)
     @function_logging_decorator
     def get_user_snapshots(self, user_id):
-        snapshots                   = self._database.get_user_snapshots(user_id=user_id)
-        approved_fields_for_display = [ 'snapshot_uuid' , 'datetime' ]
+        snapshots                                           = self._database.get_user_snapshots(user_id=user_id)
+        approved_fields_for_display                         = [ 'snapshot_uuid' , 'datetime' ]
         return [self._prepare_get_query_result_whitelist(snapshot, approved_fields_for_display) for snapshot in snapshots]
     @function_logging_decorator
     def get_snapshot(self, user_id, snapshot_uuid):
-        snapshot                    = self._database.get_snapshot_details(user_id=user_id, snapshot_uuid=snapshot_uuid)
-        approved_fields_for_display = [ 'snapshot_uuid' , 'datetime', self._database.AVAILABLE_RESULTS_LIST_NAME ]
+        snapshot                                            = self._database.get_snapshot_details(user_id=user_id, snapshot_uuid=snapshot_uuid)
+        approved_fields_for_display                         = [ 'snapshot_uuid' , 'datetime', self._database.AVAILABLE_RESULTS_LIST_NAME ]
         return self._prepare_get_query_result_whitelist(snapshot, approved_fields_for_display)
     @function_logging_decorator
-    def get_result(self, user_id, snapshot_uuid, result_name):
-        text_retrieval_method                   =   self._database.get_text_retrieval_method(result_name)
+    def get_result(self, user_id, snapshot_uuid, result_name, data_uri=None):
+        text_retrieval_method                               =   self._database.get_text_retrieval_method(result_name)
         if text_retrieval_method:
-            result                              =   text_retrieval_method(snapshot_uuid=snapshot_uuid)
-            disapproved_fields_for_display      =   [ 'snapshot_uuid' ]
+            result                                          =   text_retrieval_method(snapshot_uuid=snapshot_uuid)
+            disapproved_fields_for_display                  =   [ 'snapshot_uuid' ]
         else:
-            binary_retrieval_method             =   self._database.get_binary_retrieval_method(result_name)
+            binary_retrieval_method                         =   self._database.get_binary_retrieval_method(result_name)
             if binary_retrieval_method:
-                result                          =   binary_retrieval_method(snapshot_uuid=snapshot_uuid)
-                disapproved_fields_for_display  =   [ 'snapshot_uuid', 'uri' ]
-        if text_retrieval_method or binary_retrieval_method: 
+                result                                      =   binary_retrieval_method(snapshot_uuid=snapshot_uuid)
+                disapproved_fields_for_display              =   [ 'snapshot_uuid', 'uri' ]
+                if data_uri:
+                    result[APIService.DATA_URI_KEY_NAME]    = data_uri
+        if text_retrieval_method or binary_retrieval_method:             
             return self._prepare_get_query_result_blacklist(result, disapproved_fields_for_display)
         return APIService.EMPTY_RESULT
     @function_logging_decorator
     def get_result_data(self, user_id, snapshot_uuid, result_name):
-        binary_retrieval_method                 =   self._database.get_binary_retrieval_method(result_name)
+        binary_retrieval_method                     =   self._database.get_binary_retrieval_method(result_name)
         if binary_retrieval_method:
-            result                              =   binary_retrieval_method(snapshot_uuid=snapshot_uuid)
-            uri                                 =   result['uri']
+            result                                  =   binary_retrieval_method(snapshot_uuid=snapshot_uuid)
+            uri                                     =   result['uri']
             return uri
         return APIService.EMPTY_RESULT 
     
