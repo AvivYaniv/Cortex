@@ -3,13 +3,17 @@ disable_existing_loggers: False
 
 formatters:
   simple:
-    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-   
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s --- %(message)s (%(filename)s:%(lineno)s)"
+  console_colored:
+    class: colorlog.ColoredFormatter
+    format: "%(log_color)s[%(asctime)s] [%(levelname)-8s] --- %(message)s (%(filename)s:%(lineno)s)"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+    
 handlers:
   console:
    class: logging.StreamHandler
    level: DEBUG
-   formatter: simple
+   formatter: console_colored
    stream: ext://sys.stdout
   
   database_log_handler:

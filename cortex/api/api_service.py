@@ -18,7 +18,7 @@ logger_loader.load_log_config()
 # Decorators Section
 def function_logging_decorator(fn):
     def func(*a, **kw):
-        logger.info('%s(%s, %s)', fn, a, kw)
+        logger.info('%s(%s, %s)', fn.__name__, a, kw)
         return fn(*a, **kw)
     return func
 
