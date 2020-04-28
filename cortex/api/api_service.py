@@ -68,8 +68,20 @@ class APIService:
         snapshot                                            = self._database.get_snapshot_details(user_id=user_id, snapshot_uuid=snapshot_uuid)
         approved_fields_for_display                         = [ 'snapshot_uuid' , 'datetime', self._database.AVAILABLE_RESULTS_LIST_NAME ]
         return self._prepare_get_query_result_whitelist(snapshot, approved_fields_for_display)
+    @staticmethod
+    def embed_data_uri(result, user_id, snapshot_uuid, result_name, data_uri_converter=None):
+        if data_uri_converter:
+            result[APIService.DATA_URI_KEY_NAME]    = data_uri_converter(user_id, snapshot_uuid, result_name)
     @function_logging_decorator
-    def get_result(self, user_id, snapshot_uuid, result_name, data_uri=None):
+    def get_snapshot_results(self, user_id, snapshot_uuid, data_uri_converter=None):
+        snapshot                                            = self._database.get_snapshot_details(user_id=user_id, snapshot_uuid=snapshot_uuid)
+        for parsed_entity_name in snapshot[self._database.AVAILABLE_RESULTS_LIST_NAME]:
+            snapshot[parsed_entity_name] = self.get_result(user_id, snapshot_uuid, parsed_entity_name, data_uri_converter)
+        approved_fields_for_display                         = [ 'snapshot_uuid' , 'datetime']
+        approved_fields_for_display.extend(self._database.PARSED_ENTITIES_LIST)
+        return self._prepare_get_query_result_whitelist(snapshot, approved_fields_for_display)
+    @function_logging_decorator
+    def get_result(self, user_id, snapshot_uuid, result_name, data_uri_converter=None):
         text_retrieval_method                               =   self._database.get_text_retrieval_method(result_name)
         if text_retrieval_method:
             result                                          =   text_retrieval_method(snapshot_uuid=snapshot_uuid)
@@ -79,8 +91,7 @@ class APIService:
             if binary_retrieval_method:
                 result                                      =   binary_retrieval_method(snapshot_uuid=snapshot_uuid)
                 disapproved_fields_for_display              =   [ 'snapshot_uuid', 'uri' ]
-                if data_uri:
-                    result[APIService.DATA_URI_KEY_NAME]    = data_uri
+                APIService.embed_data_uri(result, user_id, snapshot_uuid, result_name, data_uri_converter)                
         if text_retrieval_method or binary_retrieval_method:             
             return self._prepare_get_query_result_blacklist(result, disapproved_fields_for_display)
         return APIService.EMPTY_RESULT

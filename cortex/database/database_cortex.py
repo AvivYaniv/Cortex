@@ -123,6 +123,9 @@ class _DataBaseCortex(_DataBaseBase):
             if self.driver.has_entity(parsed_entity_name):
                 snapshot[_DataBaseCortex.AVAILABLE_RESULTS_LIST_NAME].append(parsed_entity_name)
         return snapshot
+    def remove_entity_ids(self, entity):
+        for entity_id in self.ENTITY_IDS_NAMES.values():
+            entity.pop(entity_id, None)  
     # Pose Entity Section
     def create_pose(self, *,            \
                     snapshot_uuid,      \

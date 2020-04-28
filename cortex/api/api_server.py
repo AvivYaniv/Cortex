@@ -31,14 +31,16 @@ class SnapshotAPI(Resource):
     def get(self, user_id, snapshot_uuid):
         return api_service.get_snapshot(user_id, snapshot_uuid)
 
+def get_result_data_uri(user_id, snapshot_uuid, result_name):
+    return f'{API_PREFIX}/users/{user_id}/snapshots/{snapshot_uuid}/{result_name}/data'
+
+class SnapshotResultsAPI(Resource):
+    def get(self, user_id, snapshot_uuid):
+        return api_service.get_snapshot_results(user_id, snapshot_uuid, data_uri_converter=get_result_data_uri)
+    
 class ResultAPI(Resource):
-    @staticmethod
-    def get_result_data_uri(user_id, snapshot_uuid, result_name):
-        return f'{API_PREFIX}/users/{user_id}/snapshots/{snapshot_uuid}/{result_name}/data'
-                
     def get(self, user_id, snapshot_uuid, result_name):
-        data_uri    = ResultAPI.get_result_data_uri(user_id, snapshot_uuid, result_name)
-        return api_service.get_result(user_id, snapshot_uuid, result_name, data_uri)
+        return api_service.get_result(user_id, snapshot_uuid, result_name, data_uri_converter=get_result_data_uri)
 
 class ResultDataAPI(Resource):
     def get(self, user_id, snapshot_uuid, result_name):
@@ -47,14 +49,16 @@ class ResultDataAPI(Resource):
 
 # Adding API Resources
 # User API Section
-api.add_resource(AllUsersAPI,       f'{API_PREFIX}/users',                                                                          endpoint = 'users'          )
-api.add_resource(UserAPI,           f'{API_PREFIX}/users/<int:user_id>',                                                            endpoint = 'user'           )
+api.add_resource(AllUsersAPI,           f'{API_PREFIX}/users',                                                                          endpoint = 'users'              )
+api.add_resource(UserAPI,               f'{API_PREFIX}/users/<int:user_id>',                                                            endpoint = 'user'               )
 # Snapshot API Section
-api.add_resource(UserSnapshotsAPI,  f'{API_PREFIX}/users/<int:user_id>/snapshots',                                                  endpoint = 'snapshots'      )
-api.add_resource(SnapshotAPI,       f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>',                           endpoint = 'snapshot'       )
+api.add_resource(UserSnapshotsAPI,      f'{API_PREFIX}/users/<int:user_id>/snapshots',                                                  endpoint = 'snapshots'          )
+api.add_resource(SnapshotAPI,           f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>',                           endpoint = 'snapshot'           )
 # Result API Section
-api.add_resource(ResultAPI,         f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>/<string:result_name>',      endpoint = 'result'         )
-api.add_resource(ResultDataAPI,     f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>/<string:result_name>/data', endpoint = 'result_data'    )
+api.add_resource(ResultAPI,             f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>/<string:result_name>',      endpoint = 'result'             )
+api.add_resource(ResultDataAPI,         f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>/<string:result_name>/data', endpoint = 'result_data'        )
+# Snapshot results API Section
+api.add_resource(SnapshotResultsAPI,    f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>/results',                   endpoint = 'snapshot_results'   )
 
 def run_api_server(address=None):
     """Starts an API server of which users and snapshots can be retrived"""
