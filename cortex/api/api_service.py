@@ -70,7 +70,7 @@ class APIService:
         return self._prepare_get_query_result_whitelist(snapshot, approved_fields_for_display)
     @staticmethod
     def embed_data_uri(result, user_id, snapshot_uuid, result_name, data_uri_converter=None):
-        if data_uri_converter:
+        if result and data_uri_converter:
             result[APIService.DATA_URI_KEY_NAME]    = data_uri_converter(user_id, snapshot_uuid, result_name)
     @function_logging_decorator
     def get_snapshot_results(self, user_id, snapshot_uuid, data_uri_converter=None):
@@ -80,6 +80,12 @@ class APIService:
         approved_fields_for_display                         = [ 'snapshot_uuid' , 'datetime']
         approved_fields_for_display.extend(self._database.PARSED_ENTITIES_LIST)
         return self._prepare_get_query_result_whitelist(snapshot, approved_fields_for_display)
+    @function_logging_decorator
+    def get_user_results(self, user_id, data_uri_converter=None):
+        user_results = []
+        for snapshot in self._database.get_user_snapshots(user_id=user_id):
+            user_results.append(self.get_snapshot_results(user_id, snapshot['snapshot_uuid'], data_uri_converter))
+        return user_results
     @function_logging_decorator
     def get_result(self, user_id, snapshot_uuid, result_name, data_uri_converter=None):
         text_retrieval_method                               =   self._database.get_text_retrieval_method(result_name)

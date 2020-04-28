@@ -1,10 +1,12 @@
 
 def strip_dictionary_fields_blacklist(dictionary, disapproved_keys):
-    for key in disapproved_keys: dictionary.pop(key, None)    
+    if dictionary:
+        for key in disapproved_keys: dictionary.pop(key, None)    
 
 def strip_dictionary_fields_whitelist(dictionary, approved_keys):
-    disapproved_keys = [k for k in dictionary if k not in approved_keys]
-    strip_dictionary_fields_blacklist(dictionary, disapproved_keys)    
+    if dictionary:            
+        disapproved_keys = [k for k in dictionary if k not in approved_keys]
+        strip_dictionary_fields_blacklist(dictionary, disapproved_keys)    
 
 def object_to_dictionary(o):
     return vars(o)
