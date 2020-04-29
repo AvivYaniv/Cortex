@@ -47,7 +47,7 @@
           user_snapshots_form.action = user_snapshots_url;
         }
       </script>
-      <form id="user_snapshots_form" autocomplete="off" onsubmit=build_user_snapshots_url()>
+      <form id="user_snapshots_form" method="POST" autocomplete="off" onsubmit=build_user_snapshots_url()>
         <div class="search_wrapper">
           <div>
             <div class="search_boxes">
@@ -56,6 +56,7 @@
                   id="user_name"
                   type="text"
                   placeholder="Search by user name..."
+                  required
                 />
               </div>
               <div class="search_box">
@@ -63,6 +64,7 @@
                   id="user_id"
                   type="text"                  
                   placeholder="Search by ID..."
+                  required
                 />
               </div>
               <div>

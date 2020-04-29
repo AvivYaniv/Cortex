@@ -41,7 +41,7 @@ def gui_serever():
         embedded_index  = embed_data_in_index(raw_index)          
         return embedded_index, 200
     
-    @app.route('/users/id=<string:user_id>')
+    @app.route('/users/id=<string:user_id>', methods=['POST'])
     def user(user_id):
         return user_id, 200
 
