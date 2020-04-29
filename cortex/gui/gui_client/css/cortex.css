@@ -1,0 +1,75 @@
+/* Body Section */
+body {
+  background-color: #f0e2c8;
+}
+
+/* Header Section */
+h1 {
+  font: 50px sans-serif;
+  clear: both;
+  height: 100%;
+  text-align: center;
+}
+
+.search_header {
+  margin: 4em 0 0.3em 0;
+}
+
+/* Search Box Section */
+.search_wrapper {
+  width: 580px;
+  padding: 5px;
+  margin: auto auto auto auto;
+  background: #444;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+input {
+  display: block;    
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+input[type="text"] {    
+  width: 250px;
+}
+input[type="submit"] {  
+  background-color: DodgerBlue;
+  color: #fff;
+}
+
+.search_boxes {  
+  display: table;  
+}
+
+.search_box {
+  display: table-cell;
+}
+
+div.search_boxes div:nth-child(n+2) {
+   padding-left: 5px;
+}
+
+/* Autocomplete Section */
+ul.ui-autocomplete {
+  list-style: none;
+}
+
+.ui-autocomplete {
+  width : 100px;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;  
+}
+
+.ui-menu .ui-menu-item:hover {
+  /*when hovering an item:*/
+  background-color: #6692bc94;
+}
+
+.ui-state-hover, .ui-state-focus {
+  /*when hovering an item:*/
+  background-color: #6692bc94;
+}

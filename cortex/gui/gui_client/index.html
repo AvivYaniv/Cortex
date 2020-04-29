@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Auto Complete -->
+    <script src="js/autocomplete.js"></script>
+    <!-- Dark mode -->
+    <script src="js/dark_mode.js"></script>
+    <!-- CSS -->
+    <link href="css/cortex.css" rel="stylesheet" type="text/css" media="all" />
+    <link
+      href="css/dark_mode.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <link href="css/index.css" rel="stylesheet" type="text/css" media="all" />
+  </head>
+
+  <body>
+    <h1 class="search_header">Cortex</h1>
+    <center>
+      <form autocomplete="off" action="/action_page.php">
+        <div class="search_wrapper">
+          <div>
+            <div class="search_boxes">
+              <div class="search_box">
+                <input
+                  id="name"
+                  type="text"
+                  name="user_search_box"
+                  placeholder="Search user..."
+                />
+              </div>
+              <div class="search_box">
+                <input
+                  id="phone"
+                  type="text"
+                  name="phone_search_box"
+                  placeholder="Search phone..."
+                />
+              </div>
+              <div>
+                <input type="submit" value="View" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </center>
+
+    <!-- Auto Complete -->
+    <script>
+      // assuming JSONdata something like:
+      var aTestData = [
+        ["Joe", "0123456789"],
+        ["Jim", "1234567890"],
+        ["Rose", "2345678901"],
+      ];
+
+      var aNames = [];
+      var aPhones = [];
+
+      $.map(aTestData, function (item, i) {
+        aNames.push({
+          label: item[0],
+          data: [item[1]],
+        });
+        aPhones.push({
+          label: item[1],
+          data: [item[0]],
+        });
+      });
+
+      $("#name").autocomplete({
+        minLength: 0,
+        source: aNames,
+        select: function (event, ui) {
+          console.log(ui);
+
+          $("#name").val(ui.label);
+          $("#phone").val(ui.item.data[0]);
+        },
+      });
+
+      $("#phone").autocomplete({
+        minLength: 0,
+        source: aPhones,
+        select: function (event, ui) {
+          console.log(ui);
+
+          $("#name").val(ui.item.data[0]);
+          $("#phone").val(ui.label);
+        },
+      });
+    </script>
+
+    <!-- Dark Mode -->
+    <script>
+      window.dhDarkModeHandler = new DarkModeHandler();
+    </script>
+    <button
+      id="dark_mode_button"
+      onclick="window.dhDarkModeHandler.toggleDarkModeForSession()"
+      title="Come to the dark side! 🍪"
+    >
+      Toggle dark mode 🌓
+    </button>
+  </body>
+</html>

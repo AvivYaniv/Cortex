@@ -1,0 +1,32 @@
+.chart text {
+    font: 10px sans-serif;
+    color: yellow;
+  }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.area {
+  fill: steelblue;
+  opacity: 0.5;
+}
+
+.dot {
+  fill: steelblue;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}

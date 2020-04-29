@@ -1,12 +1,13 @@
 
 from flask import Flask
+from flask import request
 from flask import send_file
 from flask_restful import Api, Resource
 from cortex.api.api_service import APIService
 
 # Constants Section
-API_VERSION =   'v1.0'
-API_PREFIX  =   f'/api/{API_VERSION}'
+API_VERSION                 =   'v1.0'
+API_PREFIX                  =   f'/api/{API_VERSION}'
 
 # RESTful Flask
 app = Flask(__name__)
@@ -32,7 +33,10 @@ class SnapshotAPI(Resource):
         return api_service.get_snapshot(user_id, snapshot_uuid)
 
 def get_result_data_uri(user_id, snapshot_uuid, result_name):
-    return f'{API_PREFIX}/users/{user_id}/snapshots/{snapshot_uuid}/{result_name}/data'
+    host_url = request.host
+    def get_result_data_uri_with_host(user_id, snapshot_uuid, result_name):
+        return f'http://{host_url}{API_PREFIX}/users/{user_id}/snapshots/{snapshot_uuid}/{result_name}/data'
+    return get_result_data_uri_with_host(user_id, snapshot_uuid, result_name)
     
 class ResultAPI(Resource):
     def get(self, user_id, snapshot_uuid, result_name):

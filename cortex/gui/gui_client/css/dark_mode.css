@@ -1,0 +1,36 @@
+.dark-mode {
+  background-color: #111515;
+  color: #0e74ad;  
+}
+
+input.dark-mode {
+  color: #B9BCC2;
+  background-color: #000000;
+}
+
+input.dark-mode[type="submit"] {  
+  background-color: #0e74ad;  
+}
+
+.ui-autocomplete.dark-mode {
+  color: #B9BCC2;
+  background-color: #252526;  
+}
+
+.ui-menu.dark-mode .ui-menu-item.dark-mode:hover {
+  background-color: #033556;
+}
+
+.ui-state-hover.dark-mode, .ui-state-focus.dark-mode {
+  /*when hovering an item:*/
+  background-color: #033556;
+}
+
+#dark_mode_button {
+  top: 0;
+  right: 0;
+  font: 20px sans-serif;
+  margin-top: 1px;
+  margin-right: 2px;
+  position: absolute;
+}
