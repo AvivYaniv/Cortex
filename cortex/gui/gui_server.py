@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 
 # Constants Section
-GUI_CLIENT_FOLDER   = 'gui_client'
+GUI_CLIENT_FOLDER   = str(Path(os.path.dirname(os.path.realpath(__file__)), 'gui_client'))
 
 # API URLs
 API_URL_USERS       = 'http://localhost:5000/api/v1.0/users'
@@ -15,7 +15,7 @@ API_URL_USERS       = 'http://localhost:5000/api/v1.0/users'
 app = Flask(__name__, static_url_path='', static_folder=GUI_CLIENT_FOLDER, template_folder=GUI_CLIENT_FOLDER)
 
 def read_client_file(fname, folder=GUI_CLIENT_FOLDER):
-    file_path = Path(os.path.dirname(os.path.realpath(__file__)), folder, fname)
+    file_path = Path(folder, fname)
     file_exists = Path(file_path).is_file()
     if not file_exists:
         return ''        
@@ -29,21 +29,33 @@ def gui_serever():
         users_json              =   requests.get(API_URL_USERS).json()
         users_converted         =   []
         for user_json_string in users_json:
-            user_json   = json.loads(user_json_string)
-            user_id     = user_json['user_id']
-            username    = user_json['username']
+            user_json       = json.loads(user_json_string)
+            user_id         = user_json['user_id']
+            username        = user_json['username']
             users_converted.append([f'{username}', f'{user_id}'])        
         return raw_index.replace('%users_converted%', str(users_converted))
     
+    def embed_data_in_snapshots(raw_snapshots):
+        users_json              =   requests.get(API_URL_USERS).json()
+        users_converted         =   []
+        for user_json_string in users_json:
+            user_json       = json.loads(user_json_string)
+            user_id         = user_json['user_id']
+            username        = user_json['username']
+            users_converted.append([f'{username}', f'{user_id}'])        
+        return raw_snapshots # raw_index.replace('%users_converted%', str(users_converted))
+    
     @app.route('/')
     def index(): 
-        raw_index       = read_client_file('index.html')
-        embedded_index  = embed_data_in_index(raw_index)          
-        return embedded_index, 200
+        raw_index           = read_client_file('index.html')
+        embedded_index      = embed_data_in_index(raw_index)          
+        return embedded_index, 200        
     
-    @app.route('/users/id=<string:user_id>', methods=['POST'])
+    @app.route('/snapshots/id=<string:user_id>', methods=['POST'])
     def user(user_id):
-        return user_id, 200
+        raw_snapshots       = read_client_file('snapshots.html')
+        embedded_snapshots  = embed_data_in_snapshots(raw_snapshots)          
+        return raw_snapshots, 200        
 
 def run_gui_server(address=None):
     """Starts an GUI server of which users and snapshots can be served to client side in convenient way"""
