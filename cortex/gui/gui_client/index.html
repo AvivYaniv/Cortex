@@ -46,18 +46,18 @@
             <div class="search_boxes">
               <div class="search_box">
                 <input
-                  id="name"
+                  id="user_name"
                   type="text"
                   name="user_search_box"
-                  placeholder="Search user..."
+                  placeholder="Search by user name..."
                 />
               </div>
               <div class="search_box">
                 <input
-                  id="phone"
+                  id="user_id"
                   type="text"
-                  name="phone_search_box"
-                  placeholder="Search phone..."
+                  name="user_id_search_box"
+                  placeholder="Search by ID..."
                 />
               </div>
               <div>
@@ -71,46 +71,64 @@
 
     <!-- Auto Complete -->
     <script>
-      // assuming JSONdata something like:
+      // TODO : Build dynamically
       var aTestData = [
         ["Joe", "0123456789"],
         ["Jim", "1234567890"],
         ["Rose", "2345678901"],
       ];
 
-      var aNames = [];
-      var aPhones = [];
+      var arrUserNames = [];
+      var arrUserIDs = [];
 
       $.map(aTestData, function (item, i) {
-        aNames.push({
+        arrUserNames.push({
           label: item[0],
           data: [item[1]],
         });
-        aPhones.push({
+        arrUserIDs.push({
           label: item[1],
           data: [item[0]],
         });
       });
 
-      $("#name").autocomplete({
+      $("#user_name").autocomplete({
         minLength: 0,
-        source: aNames,
+        source: arrUserNames,
+        messages: {
+          noResults: "no results.",
+          results: function (amount) {
+            return amount + " results.";
+          },
+        },
         select: function (event, ui) {
-          console.log(ui);
-
-          $("#name").val(ui.label);
-          $("#phone").val(ui.item.data[0]);
+          $("#user_name").val(ui.label);
+          $("#user_id").val(ui.item.data[0]);
+        },
+        change: function (event, ui) {
+          $.each([$(".ui-helper-hidden-accessible")], function () {
+            this.empty();
+          });
         },
       });
 
-      $("#phone").autocomplete({
+      $("#user_id").autocomplete({
         minLength: 0,
-        source: aPhones,
+        source: arrUserIDs,
+        messages: {
+          noResults: "no results.",
+          results: function (amount) {
+            return amount + " results.";
+          },
+        },
         select: function (event, ui) {
-          console.log(ui);
-
-          $("#name").val(ui.item.data[0]);
-          $("#phone").val(ui.label);
+          $("#user_name").val(ui.item.data[0]);
+          $("#user_id").val(ui.label);
+        },
+        change: function (event, ui) {
+          $.each([$(".ui-helper-hidden-accessible")], function () {
+            this.empty();
+          });
         },
       });
     </script>
