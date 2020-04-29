@@ -21,7 +21,7 @@
       src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
       integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
       crossorigin="anonymous"
-    ></script>    
+    ></script>
     <!-- Dark mode -->
     <script src="js/dark_mode.js"></script>
     <!-- CSS -->
@@ -38,7 +38,16 @@
   <body>
     <h1 class="search_header">Cortex</h1>
     <center>
-      <form autocomplete="off" action="/action_page.php">
+      <script>
+        function build_user_snapshots_url() {
+          var user_snapshots_url =
+            "/users/id=" +             
+            document.getElementById('user_id').value;
+          var user_snapshots_form = document.getElementById("user_snapshots_form");
+          user_snapshots_form.action = user_snapshots_url;
+        }
+      </script>
+      <form id="user_snapshots_form" autocomplete="off" onsubmit=build_user_snapshots_url()>
         <div class="search_wrapper">
           <div>
             <div class="search_boxes">
@@ -46,15 +55,13 @@
                 <input
                   id="user_name"
                   type="text"
-                  name="user_search_box"
                   placeholder="Search by user name..."
                 />
               </div>
               <div class="search_box">
                 <input
                   id="user_id"
-                  type="text"
-                  name="user_id_search_box"
+                  type="text"                  
                   placeholder="Search by ID..."
                 />
               </div>
@@ -69,13 +76,13 @@
 
     <!-- Auto Complete -->
     <script>
-      // TODO : Build dynamically
-      var aTestData = %users_converted%;
-      
+
+      var arrUsersData = %users_converted%;
+
       var arrUserNames = [];
       var arrUserIDs = [];
 
-      $.map(aTestData, function (item, i) {
+      $.map(arrUsersData, function (item, i) {
         arrUserNames.push({
           label: item[0],
           data: [item[1]],

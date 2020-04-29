@@ -32,8 +32,7 @@ def gui_serever():
             user_json   = json.loads(user_json_string)
             user_id     = user_json['user_id']
             username    = user_json['username']
-            users_converted.append([f'{username}', f'{user_id}'])
-        # return raw_index.format(users_converted=users_converted)
+            users_converted.append([f'{username}', f'{user_id}'])        
         return raw_index.replace('%users_converted%', str(users_converted))
     
     @app.route('/')
@@ -42,9 +41,9 @@ def gui_serever():
         embedded_index  = embed_data_in_index(raw_index)          
         return embedded_index, 200
     
-    @app.route('/users/<int:user_id>')
+    @app.route('/users/id=<string:user_id>')
     def user(user_id):
-        pass
+        return user_id, 200
 
 def run_gui_server(address=None):
     """Starts an GUI server of which users and snapshots can be served to client side in convenient way"""
