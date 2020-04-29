@@ -3,8 +3,8 @@
   display: grid;
   grid-row-gap: 10px;
   grid-column-gap: 10px;
-  grid-template-columns: auto auto 200px 400px 200px auto auto;
-  grid-template-rows: auto auto 200px 200px 200px auto auto;
+  grid-template-columns: auto auto 300px 600px 300px auto auto;
+  grid-template-rows: auto auto 300px 300px 300px auto auto;
 }
 
 .child_item_1 {

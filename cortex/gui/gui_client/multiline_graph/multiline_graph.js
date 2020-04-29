@@ -2,8 +2,8 @@
 var multiline_graph = function (graph_raw_data, dictConfiguration) {
   // ********************* Sizes Section ***********************
   var dictGraphSize = {
-    width: 400,
-    height: 400,
+    width: 600,
+    height: 600,
   };
 
   var dictGraphMargin = {
