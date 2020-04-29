@@ -21,8 +21,8 @@ function VisualizationManager() {
   draw_feelings_multiline_graph = function (dFeelingsData) {
     // Initialize feelings data configuration
     var dictConfiguration = {
-      mouse_legend_date_format: " - %d/%m/%Y %H:%M:%S",
-      x_axis_date_format: "%d/%m/%Y %H:%M:%S",
+      mouse_legend_date_format: "", // " - %d/%m/%Y %H:%M:%S"
+      x_axis_date_format: "%d/%m/%Y %H:%M",
       y_axis_legend: "Intensity",
       y_axis_extent: [40, 100],
       element_id: "user_feelings",

@@ -9,7 +9,7 @@ var multiline_graph = function (graph_raw_data, dictConfiguration) {
   var dictGraphMargin = {
       top: 20,
       right: 80,
-      bottom: 100,
+      bottom: 150,
       left: 50,
     },
     nRectWidth =
