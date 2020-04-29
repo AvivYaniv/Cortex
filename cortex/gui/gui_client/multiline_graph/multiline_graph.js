@@ -271,7 +271,7 @@ var multiline_graph = function (graph_raw_data, dictConfiguration) {
   // This is the black vertical line to follow mouse
   mouseG
     .append("path")
-    .attr("class", "mouse-line")
+    .attr("class", "mouse-line darkable")    
     .style("stroke", "black")
     .style("stroke-width", "1px")
     .style("opacategory", "0");

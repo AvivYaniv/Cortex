@@ -21,9 +21,7 @@
       src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
       integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
       crossorigin="anonymous"
-    ></script>
-    <!-- Auto Complete -->
-    <script src="js/autocomplete.js"></script>
+    ></script>    
     <!-- Dark mode -->
     <script src="js/dark_mode.js"></script>
     <!-- CSS -->
@@ -72,12 +70,8 @@
     <!-- Auto Complete -->
     <script>
       // TODO : Build dynamically
-      var aTestData = [
-        ["Joe", "0123456789"],
-        ["Jim", "1234567890"],
-        ["Rose", "2345678901"],
-      ];
-
+      var aTestData = %users_converted%;
+      
       var arrUserNames = [];
       var arrUserIDs = [];
 
