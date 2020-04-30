@@ -18,7 +18,7 @@ var multiline_graph = function (graph_raw_data, dictConfiguration) {
       dictGraphSize.height - dictGraphMargin.top - dictGraphMargin.bottom;
 
   // ********************* Dates Section ***********************
-  var parseDate = function (d) { return d3.time.format(dictConfiguration.input_date_format).parse(d.toString())} ;
+  var parseDate = function (d) { return new Date(d) };
   var dpDateParserForMovingMouse = d3.time.format(dictConfiguration.mouse_legend_date_format);
 
   // ********************* Scales Section ***********************
@@ -53,15 +53,6 @@ var multiline_graph = function (graph_raw_data, dictConfiguration) {
     graph_parsed_data = rename_json_field(graph_raw_data, dictConfiguration.date_colum_name, "_datetime");
   }
 
-  var selection = d3.select("body").selectAll(null)
-  .data(graph_parsed_data)
-  .enter()
-  .append("p")
-  .each(function(d) {
-    console.log("each: " + d); // d is datum
-  });
-
-  // ********************* TODO CONTINUE ***********************
   var lGraphLine = d3.svg
     .line()
     .interpolate("cardinal")
@@ -231,7 +222,7 @@ var multiline_graph = function (graph_raw_data, dictConfiguration) {
     })
     .enter()
     .append("circle")
-    .attr("r", 2)
+    .attr("r", 3)
     .attr("cx", function(d, i) {
       return xScale(d._datetime);
     })

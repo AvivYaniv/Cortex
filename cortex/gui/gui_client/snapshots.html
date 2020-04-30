@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>    
+  <head>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <!-- Bootstrap -->
@@ -45,7 +45,12 @@
       type="text/css"
       media="all"
     />
-    <link href="../css/cortex.css" rel="stylesheet" type="text/css" media="all" />
+    <link
+      href="../css/cortex.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
     <link
       href="../css/dark_mode.css"
       rel="stylesheet"
@@ -66,10 +71,22 @@
 
     <div class="wrapper">
       <div class="child_item_1">
-        <img id="color_image" src="" alt="Color Image" width="300" height="300" />
+        <img
+          id="color_image"
+          src=""
+          alt="Color Image"
+          width="300"
+          height="300"
+        />
       </div>
       <div class="child_item_2">
-        <img id="depth_image" src="" alt="Depth Image" width="300" height="300" />
+        <img
+          id="depth_image"
+          src=""
+          alt="Depth Image"
+          width="300"
+          height="300"
+        />
       </div>
 
       <div class="child_item_3">
@@ -90,19 +107,23 @@
         -->
     </div>
 
+    <!-- Prevent relaod popup -->
+    <script>
+            $(document).keydown(function (e) {
+          if ((e.keyCode == 65 && e.ctrlKey) || ((e.which || e.keyCode) == 116)) {
+              e.preventDefault();
+          }
+      });
+    </script>
+
     <!-- Visualization Manager -->
     <script src="../js/visualization_manager.js"></script>
     <script>
-      window.vmVisualizationManager = new VisualizationManager();
-      // TODO : Replace with real data
-      var dFeelingsData =
-        '[ { "datetime": 20111001, "snapshot_uuid": 322, "hunger": 50.4, "thirst": 62.7, "exhaustion": 72.2, "happiness": 72.2 }, { "datetime": 20111002, "snapshot_uuid": 899, "hunger": 58, "thirst": 59.9, "exhaustion": 67.7, "happiness": 69.7 }, { "datetime": 20111003, "snapshot_uuid": 399, "hunger": 53.3, "thirst": 59.1, "exhaustion": 69.4, "happiness": 69.4 }, { "datetime": 20111004, "snapshot_uuid": 588, "hunger": 55.7, "thirst": 58.8, "exhaustion": 68, "happiness": 68 }, { "datetime": 20111005, "snapshot_uuid": 488, "hunger": 64.2, "thirst": 58.7, "exhaustion": 72.4, "happiness": 78.4 }, { "datetime": 20111006, "snapshot_uuid": 877, "hunger": 58.8, "thirst": 57, "exhaustion": 77, "happiness": 77 }, { "datetime": 20111007, "snapshot_uuid": 766, "hunger": 57.9, "thirst": 56.7, "exhaustion": 82.3, "happiness": 86.3 }, { "datetime": 20111008, "snapshot_uuid": 166, "hunger": 61.8, "thirst": 56.8, "exhaustion": 78.9, "happiness": 76.9 }, { "datetime": 20111009, "snapshot_uuid": 966, "hunger": 69.3, "thirst": 56.7, "exhaustion": 68.8, "happiness": 66.8 }, { "datetime": 20111010, "snapshot_uuid": 100, "hunger": 71.2, "thirst": 60.1, "exhaustion": 68.7, "happiness": 60.7 }, { "datetime": 20111011, "snapshot_uuid": 811, "hunger": 68.7, "thirst": 61.1, "exhaustion": 70.3, "happiness": 71.3 }, { "datetime": 20111012, "snapshot_uuid": 111, "hunger": 61.8, "thirst": 61.5, "exhaustion": 75.3, "happiness": 71.3 }, { "datetime": 20111013, "snapshot_uuid": 344, "hunger": 63, "thirst": 64.3, "exhaustion": 76.6, "happiness": 74.6 }, { "datetime": 20111014, "snapshot_uuid": 677, "hunger": 66.9, "thirst": 67.1, "exhaustion": 66.6, "happiness": 67.6 }, { "datetime": 20111015, "snapshot_uuid": 144, "hunger": 61.7, "thirst": 64.6, "exhaustion": 68, "happiness": 64 }, { "datetime": 20111016, "snapshot_uuid": 121, "hunger": 61.8, "thirst": 61.6, "exhaustion": 70.6, "happiness": 71.6 }, { "datetime": 20111017, "snapshot_uuid": 211, "hunger": 62.8, "thirst": 61.1, "exhaustion": 71.1, "happiness": 71.1 }, { "datetime": 20111018, "snapshot_uuid": "099", "hunger": 60.8, "thirst": 59.2, "exhaustion": 70, "happiness": 79 }, { "datetime": 20111019, "snapshot_uuid": 288, "hunger": 62.1, "thirst": 58.9, "exhaustion": 61.6, "happiness": 68.6 }, { "datetime": 20111020, "snapshot_uuid": 577, "hunger": 65.1, "thirst": 57.2, "exhaustion": 57.4, "happiness": 57.4 }, { "datetime": 20111021, "snapshot_uuid": 566, "hunger": 55.6, "thirst": 56.4, "exhaustion": 64.3, "happiness": 66.3 }, { "datetime": 20111022, "snapshot_uuid": 400, "hunger": 54.4, "thirst": 60.7, "exhaustion": 72.4, "happiness": 70.4 } ]';
-      dFeelingsData = JSON.parse(dFeelingsData);
-      // TODO : END
-      window.vmVisualizationManager.initialize(dFeelingsData);
+      var dSnapshotsData = %snapshots_data%;
+      window.vmVisualizationManager = new VisualizationManager(dSnapshotsData);
     </script>
 
-    <!-- Dark Mode -->    
+    <!-- Dark Mode -->
     <script>
       window.dhDarkModeHandler = new DarkModeHandler();
     </script>
@@ -112,6 +133,6 @@
       title="Come to the dark side! 🍪"
     >
       Toggle dark mode 🌓
-    </button>    
+    </button>
   </body>
 </html>
