@@ -10,6 +10,7 @@ GUI_CLIENT_FOLDER   = str(Path(os.path.dirname(os.path.realpath(__file__)), 'gui
 
 # API URLs
 # TODO : Embed API host URL
+API_URL_USER_INFO_FORMAT    = 'http://localhost:5000/api/v1.0/users/{}'
 API_URL_USERS_FORMAT        = 'http://localhost:5000/api/v1.0/users'
 API_URL_SNAPSHOTS_FORMAT    = 'http://localhost:5000/api/v1.0/users/{}/results'
 
@@ -31,16 +32,24 @@ def gui_serever():
         users_json                  =   requests.get(API_URL_USERS_FORMAT).json()
         users_converted             =   []
         for user_json_string in users_json:
-            user_json               = json.loads(user_json_string)
-            user_id                 = user_json['user_id']
-            username                = user_json['username']
+            user_json               =   json.loads(user_json_string)
+            user_id                 =   user_json['user_id']
+            username                =   user_json['username']
             users_converted.append([f'{username}', f'{user_id}'])        
-        return raw_index.replace('%users_converted%', str(users_converted))
+        index_embedded              =   raw_index.replace('%users_converted%', str(users_converted))
+        return index_embedded
     
     def embed_data_in_snapshots(raw_snapshots, user_id):
         user_snapshots_url          =   API_URL_SNAPSHOTS_FORMAT.format(user_id)
-        snapshots_json_as_string    =   requests.get(user_snapshots_url).text               
-        return raw_snapshots.replace('%snapshots_data%', snapshots_json_as_string)
+        snapshots_json_as_string    =   requests.get(user_snapshots_url).text    
+        snapshots_embedded          =   raw_snapshots.replace('%snapshots_data%', snapshots_json_as_string)
+        user_info_url               =   API_URL_USER_INFO_FORMAT.format(user_id)
+        user_info_json              =   json.loads(requests.get(user_info_url).json())
+        snapshots_embedded          =   snapshots_embedded.replace('%username%', user_info_json['username'])
+        snapshots_embedded          =   snapshots_embedded.replace('%user_id%', str(user_info_json['user_id']))
+        snapshots_embedded          =   snapshots_embedded.replace('%birth_date%', user_info_json['birth_date'])
+        snapshots_embedded          =   snapshots_embedded.replace('%gender%', user_info_json['gender'])
+        return snapshots_embedded
     
     @app.route('/')
     def index(): 
