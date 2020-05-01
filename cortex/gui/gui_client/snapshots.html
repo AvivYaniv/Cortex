@@ -68,8 +68,7 @@
   </head>
 
   <body>
-    <!-- TODO : Rename -->
-    <h1 class="centered">User's Snapshots</h1>
+    <h1 class="centered">%username%'s Snapshots</h1>
 
     <div class="wrapper">
       <div class="child_item_1">
@@ -101,18 +100,17 @@
       <div class="child_item_5">
         <div id="user_feelings"></div>
       </div>
+
+      <div class="child_item_6">
+        <label>User name : %username%</label><br>
+        <label>User ID : %user_id%</label><br>
+        <label>Birth Date : %birth_date%</label><br>
+        <label>Gender : %gender%</label><br>        
+        <label id="current_snapshot"></label><br>
+      </div>
       
     </div>
-
-    <!-- Prevent relaod popup -->
-    <script>
-            $(document).keydown(function (e) {
-          if ((e.keyCode == 65 && e.ctrlKey) || ((e.which || e.keyCode) == 116)) {
-              e.preventDefault();
-          }
-      });
-    </script>
-
+    
     <!-- Visualization Manager -->
     <script src="../js/visualization_manager.js"></script>
     <script>

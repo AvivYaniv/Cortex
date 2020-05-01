@@ -1,4 +1,4 @@
-function bar_chart(bar_chart_id, chart_label, bars_labels) {
+function bar_chart(bar_chart_id, chart_label, bars_labels, bar_options=undefined) {
   var data = {
     labels: bars_labels,
     datasets: [
@@ -34,6 +34,9 @@ function bar_chart(bar_chart_id, chart_label, bars_labels) {
       ],
     },
   };
+
+  // Overriding default options with non-default
+  options = copy_override_dictionary(options, bar_options);
 
   var ctx = document.getElementById(bar_chart_id).getContext("2d");
   var myBarChart = new Chart(ctx, {

@@ -332,16 +332,15 @@ var multiline_graph = function (graph_raw_data, dictConfiguration) {
                         lowDiff = diff;
                         xI = i;                        
                     }
-                }
-                // console.log("DEBUG In : " + m_orig.getDate() + "->" + tDateTicks[xI].getDate() + " : " + tIDTicks[xI]);
+                }                
                 return [ tIDTicks[xI] , tDateTicks[xI], lowDiff ];
             };
             
             // Finding closest x axis position and id
-            var sabich = find_mouses_x_axis_value(xPosition);
+            var cpClosestPosition = find_mouses_x_axis_value(xPosition);
 
             // Call callback
-            dictConfiguration["mouse_moving_callback"](sabich);      
+            dictConfiguration["mouse_moving_callback"](cpClosestPosition);      
         }
         
       d3.select(".mouse-line").attr("d", function () {

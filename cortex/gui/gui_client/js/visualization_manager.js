@@ -31,11 +31,9 @@ class VisualizationManager {
 
   static convert_snapshots_data_to_dictionary(dSnapshotsData) {
     // Constant Definition
-    const SNAPSHOT_UUID_NAME = "snapshot_uuid";
-    const SNAPSHOT_DATETIME_NAME = "datetime";
     const NON_JSON_SNAPSHOT_FIELDS = [
-      SNAPSHOT_UUID_NAME,
-      SNAPSHOT_DATETIME_NAME,
+      VisualizationManager.SNAPSHOT_UUID_NAME,
+      VisualizationManager.SNAPSHOT_DATETIME_NAME,
     ];
     // Variable Definition
     var dictSnapshotsDictionary = {};
@@ -60,7 +58,7 @@ class VisualizationManager {
       }
       // Set snapshot dictionay as entry with snapshot id
       dictSnapshotsDictionary[
-        dictCurrentSnapshot[SNAPSHOT_UUID_NAME]
+        dictCurrentSnapshot[VisualizationManager.SNAPSHOT_UUID_NAME]
       ] = dictCurrentSnapshot;
     }
     // Return snapshots dictionary
@@ -68,10 +66,6 @@ class VisualizationManager {
   }
 
   static extract_feelings_from_snapshots(dictSnapshotsDictionary) {
-    // Constant Definition
-    const SNAPSHOT_UUID_NAME = "snapshot_uuid";
-    const SNAPSHOT_DATETIME_NAME = "datetime";
-    const SNAPSHOT_USER_FEELINGS_NAME = "user_feelings";
     // Variable Definition
     var arrFeelingsData = [];
     // Code Section
@@ -79,14 +73,14 @@ class VisualizationManager {
     for (var kSnapshotKey in dictSnapshotsDictionary) {      
       var sSnapshot = dictSnapshotsDictionary[kSnapshotKey];
       var dictSnapshotUserFeelings = {};
-      dictSnapshotUserFeelings[SNAPSHOT_UUID_NAME] =
-        sSnapshot[SNAPSHOT_UUID_NAME];
-      dictSnapshotUserFeelings[SNAPSHOT_DATETIME_NAME] =
-        sSnapshot[SNAPSHOT_DATETIME_NAME];
+      dictSnapshotUserFeelings[VisualizationManager.SNAPSHOT_UUID_NAME] =
+        sSnapshot[VisualizationManager.SNAPSHOT_UUID_NAME];
+      dictSnapshotUserFeelings[VisualizationManager.SNAPSHOT_DATETIME_NAME] =
+        sSnapshot[VisualizationManager.SNAPSHOT_DATETIME_NAME];
       dictSnapshotUserFeelings = Object.assign(
         {},
         dictSnapshotUserFeelings,
-        sSnapshot[SNAPSHOT_USER_FEELINGS_NAME]
+        sSnapshot[VisualizationManager.SNAPSHOT_USER_FEELINGS_NAME]
       );
 
       // Add snapshot user feelings to the array
@@ -114,7 +108,18 @@ class VisualizationManager {
     this.bcTranslationBarChart = bar_chart(
       "bar_chart_translation",
       "Translation",
-      ["x", "y", "z"]
+      ["x", "y", "z"],
+      { scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              min: -10,
+              max: 10,
+            },
+          },
+        ],
+      }, }
     );
     this.bcRotatationBarChart = bar_chart("bar_chart_rotation", "Rotation", [
       "x",
@@ -124,36 +129,49 @@ class VisualizationManager {
     ]);
   }
 
+  static date_to_string(d) {
+    return d.toLocaleString();
+  }
+
   // Update Current Snapshot Method
-  update_to_current_snapshot(x) {
+  update_to_current_snapshot(...params) {
     // Get current snapshot
-    this.nCurrentSnapshotID = x[0];
-    this.nCurrentSnapshotValue = x[1].getTime();
+    var cpCurrentPosition = params[0];
+    this.nCurrentSnapshotID = cpCurrentPosition[0];
+    this.nCurrentSnapshotValue = cpCurrentPosition[1];
     // If current snapshot is diffrent from last snapshot
     if (this.nLastSnapshotID != this.nCurrentSnapshotID) {
       var sSnapshot = this.dictSnapshotsDictionary[this.nCurrentSnapshotID];
-      // Images update
-      $("#color_image").attr("src", sSnapshot["color_image"].data_uri);
-      $("#depth_image").attr("src", sSnapshot["depth_image"].data_uri);
-      // TODO : Fields can be accessed via globalThis.class_field
+      // Update description      
+      $("#current_snapshot").text("Current Snapshot: " + VisualizationManager.date_to_string(new Date(safe_get_value_from_dictionary(sSnapshot, "datetime"))));
+      // Images update      
+      $("#color_image").attr("src", safe_get_value_from_dictionary(sSnapshot, "color_image").data_uri);
+      $("#depth_image").attr("src", safe_get_value_from_dictionary(sSnapshot, "depth_image").data_uri);      
       // Bar charts update
-      var pPose = sSnapshot["pose"];
-      this.bcTranslationBarChart.data.datasets[0].data = [
-        pPose.translation_x,
-        pPose.translation_y,
-        pPose.translation_z,
-      ];
-      this.bcTranslationBarChart.update();
-      this.bcRotatationBarChart.data.datasets[0].data = [
-        pPose.rotation_x,
-        pPose.rotation_y,
-        pPose.rotation_z,
-        pPose.rotation_w,
-      ];
-      this.bcRotatationBarChart.update();
+      var pPose = safe_get_value_from_dictionary(sSnapshot, "pose");
+      if (pPose)
+      {
+        this.bcTranslationBarChart.data.datasets[0].data = [
+          pPose.translation_x,
+          pPose.translation_y,
+          pPose.translation_z,
+        ];
+        this.bcTranslationBarChart.update();
+        this.bcRotatationBarChart.data.datasets[0].data = [
+          pPose.rotation_x,
+          pPose.rotation_y,
+          pPose.rotation_z,
+          pPose.rotation_w,
+        ];
+        this.bcRotatationBarChart.update();
+      }
     }
     // Update snapshot sentinels
     this.nLastSnapshotID = this.nCurrentSnapshotID;
     this.nLastSnapshotValue = this.nCurrentSnapshotValue;
   }
 }
+
+VisualizationManager.SNAPSHOT_UUID_NAME = "snapshot_uuid";
+VisualizationManager.SNAPSHOT_DATETIME_NAME = "datetime";
+VisualizationManager.SNAPSHOT_USER_FEELINGS_NAME = "user_feelings";
