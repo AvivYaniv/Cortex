@@ -143,7 +143,7 @@ class VisualizationManager {
     if (this.nLastSnapshotID != this.nCurrentSnapshotID) {
       var sSnapshot = this.dictSnapshotsDictionary[this.nCurrentSnapshotID];
       // Update description      
-      $("#current_snapshot").text("Current Snapshot: " + VisualizationManager.date_to_string(new Date(safe_get_value_from_dictionary(sSnapshot, "datetime"))) + " (dark mouse on graph to explore)");
+      $("#current_snapshot").text("Current Snapshot: " + VisualizationManager.date_to_string(new Date(safe_get_value_from_dictionary(sSnapshot, "datetime"))) + " (darg mouse on graph to explore)");
       // Images update      
       $("#color_image").attr("src", safe_get_value_from_dictionary(sSnapshot, "color_image").data_uri);
       $("#depth_image").attr("src", safe_get_value_from_dictionary(sSnapshot, "depth_image").data_uri);      

@@ -41,13 +41,19 @@
       <script>
         function build_user_snapshots_url() {
           var user_snapshots_url =
-            "/snapshots/id=" +             
-            document.getElementById('user_id').value;
-          var user_snapshots_form = document.getElementById("user_snapshots_form");
+            "/snapshots/id=" + document.getElementById("user_id").value;
+          var user_snapshots_form = document.getElementById(
+            "user_snapshots_form"
+          );
           user_snapshots_form.action = user_snapshots_url;
         }
       </script>
-      <form id="user_snapshots_form" method="POST" autocomplete="off" onsubmit=build_user_snapshots_url()>
+      <form
+        id="user_snapshots_form"
+        method="POST"
+        autocomplete="off"
+        onsubmit="build_user_snapshots_url()"
+      >
         <div class="search_wrapper">
           <div>
             <div class="search_boxes">
@@ -62,7 +68,7 @@
               <div class="search_box">
                 <input
                   id="user_id"
-                  type="text"                  
+                  type="text"
                   placeholder="Search by ID..."
                   required
                 />
@@ -109,6 +115,12 @@
           $("#user_id").val(ui.item.data[0]);
         },
         change: function (event, ui) {
+          // If item not included in list
+          if(!ui.item){
+            // Clear to force selection
+                    $("#user_name").val("");
+                }
+
           $.each([$(".ui-helper-hidden-accessible")], function () {
             this.empty();
           });
@@ -129,6 +141,12 @@
           $("#user_id").val(ui.label);
         },
         change: function (event, ui) {
+          // If item not included in list
+          if(!ui.item){
+            // Clear to force selection
+                    $("#user_id").val("");
+                }
+
           $.each([$(".ui-helper-hidden-accessible")], function () {
             this.empty();
           });
