@@ -1,24 +1,8 @@
-class VisualizationManager {
-  // Constant Section
-  #MY_CONST = "IM CONST"; // TODO REMOVE
-  // Variables Section
-  // Data Section
-  #arrFeelingsData = undefined;
-  #dictSnapshotsDictionary = undefined;
-  // Snapshot sentinels variables section
-  #nLastSnapshotValue = undefined;
-  #nLastSnapshotID = undefined;
-  // Charts variables section
-  #bcTranslationBarChart = undefined;
-  #bcRotatationBarChart = undefined;
+class VisualizationManager {  
 
   draw_feelings_multiline_graph(arrFeelingsData) {
-    // Binding function for attaching current object to method upon callback
-    var bind = function (toObject, methodName) {
-      return function (x) {
-        toObject[methodName](x);
-      };
-    };
+    // In Binding callback to current object
+    // as in JavaScript function is not defaultly binded
     var registerd_mouse_move_callback = bind(
       this,
       "update_to_current_snapshot"
@@ -92,9 +76,7 @@ class VisualizationManager {
     var arrFeelingsData = [];
     // Code Section
     // Going over all snapshots dictionary and extracting user feelings
-    for (var kSnapshotKey in dictSnapshotsDictionary) {
-      // OUR GOAL:
-      // { "datetime": 20111001, "snapshot_uuid": 322, "hunger": 50.4, "thirst": 62.7, "exhaustion": 72.2, "happiness": 72.2 }
+    for (var kSnapshotKey in dictSnapshotsDictionary) {      
       var sSnapshot = dictSnapshotsDictionary[kSnapshotKey];
       var dictSnapshotUserFeelings = {};
       dictSnapshotUserFeelings[SNAPSHOT_UUID_NAME] =
@@ -144,15 +126,6 @@ class VisualizationManager {
 
   // Update Current Snapshot Method
   update_to_current_snapshot(x) {
-    // TODO : remove mock
-    var randomArray = function (length, max) {
-      return Array.apply(null, Array(length)).map(function () {
-        return (
-          Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * max) / max
-        );
-      });
-    };
-
     // Get current snapshot
     this.nCurrentSnapshotID = x[0];
     this.nCurrentSnapshotValue = x[1].getTime();
