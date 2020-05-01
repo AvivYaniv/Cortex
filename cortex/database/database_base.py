@@ -1,7 +1,6 @@
 
 from cortex.database.database_runner import load_database 
 
-# TODO : Replace with real code
 class _DataBaseBase:
     def __init__(self, database_type, host, port):
         self.driver     = load_database(database_type, host, port)

@@ -45,8 +45,7 @@ class _FileHandler:
 
     def save(self, file_path, data, mode = None):
         is_written  = False
-        if not data:
-            print('DEBUG TODO REMOVE NO DATA RECEIVED')
+        if not data:            
             return is_written
         self._lock.acquire()
         try:

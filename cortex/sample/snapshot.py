@@ -78,11 +78,7 @@ class Snapshot:
         
         color_image                                         =   ColorImage.read(stream)
         
-        # TODO DEBUG REMOVE
-        # color_image.save_image(str(timestamp)+'_color_image.png')  
         depth_image                                         =   DepthImage.read(stream)
-        # TODO DEBUG REMOVE
-        # depth_image.save_image(str(timestamp)+'_depth_image.png')
         
         (hunger, thirst, exhaustion, happiness)             =   \
             Serialization.read(stream, Snapshot.SERIALIZATION_TRAILER)

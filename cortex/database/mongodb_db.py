@@ -17,9 +17,9 @@ class MongoDBDataBase(_DataBaseDriver):
     def __init__(self, logger, host, port):
         super().__init__(logger, host, port)
         self._client = pymongo.MongoClient(host, port)
-        # TODO DEBUG REMOVE !!! [ START ]
+        # IMPORTANT! Following code is for clearing DB [ START ]
         # self._client.drop_database(MongoDBDataBase.db_instance_name)
-        # TODO DEBUG REMOVE !!! [ END ]
+        # IMPORTANT! [ END ]
         self._db     = self._client[MongoDBDataBase.db_instance_name]
     # CRUD Methods Section
     def create_entity(self, entity_name, **kwargs):
