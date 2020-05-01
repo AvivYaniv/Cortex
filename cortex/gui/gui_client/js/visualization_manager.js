@@ -21,7 +21,7 @@ class VisualizationManager {
       predefined_colors_dictionary: {
         hunger: "#FD4F2A",
         thirst: "#629EBB",
-        exhaustion: "#000000",
+        exhaustion: "brown",
         happiness: "green",
       },
     };
@@ -101,9 +101,7 @@ class VisualizationManager {
     // Initialize feelings data
     this.arrFeelingsData = VisualizationManager.extract_feelings_from_snapshots(
       this.dictSnapshotsDictionary
-    );
-    // Feelings initialization
-    this.draw_feelings_multiline_graph(this.arrFeelingsData);
+    );     
     // Bar charts initialization
     this.bcTranslationBarChart = bar_chart(
       "bar_chart_translation",
@@ -127,6 +125,9 @@ class VisualizationManager {
       "z",
       "w",
     ]);
+    // Feelings initialization
+    this.draw_feelings_multiline_graph(this.arrFeelingsData);   
+    this.update_to_current_snapshot([Object.keys(this.dictSnapshotsDictionary)[0]]);
   }
 
   static date_to_string(d) {
@@ -137,13 +138,12 @@ class VisualizationManager {
   update_to_current_snapshot(...params) {
     // Get current snapshot
     var cpCurrentPosition = params[0];
-    this.nCurrentSnapshotID = cpCurrentPosition[0];
-    this.nCurrentSnapshotValue = cpCurrentPosition[1];
+    this.nCurrentSnapshotID = cpCurrentPosition[0];    
     // If current snapshot is diffrent from last snapshot
     if (this.nLastSnapshotID != this.nCurrentSnapshotID) {
       var sSnapshot = this.dictSnapshotsDictionary[this.nCurrentSnapshotID];
       // Update description      
-      $("#current_snapshot").text("Current Snapshot: " + VisualizationManager.date_to_string(new Date(safe_get_value_from_dictionary(sSnapshot, "datetime"))));
+      $("#current_snapshot").text("Current Snapshot: " + VisualizationManager.date_to_string(new Date(safe_get_value_from_dictionary(sSnapshot, "datetime"))) + " (dark mouse on graph to explore)");
       // Images update      
       $("#color_image").attr("src", safe_get_value_from_dictionary(sSnapshot, "color_image").data_uri);
       $("#depth_image").attr("src", safe_get_value_from_dictionary(sSnapshot, "depth_image").data_uri);      
@@ -167,8 +167,7 @@ class VisualizationManager {
       }
     }
     // Update snapshot sentinels
-    this.nLastSnapshotID = this.nCurrentSnapshotID;
-    this.nLastSnapshotValue = this.nCurrentSnapshotValue;
+    this.nLastSnapshotID = this.nCurrentSnapshotID;    
   }
 }
 
