@@ -12,7 +12,12 @@ h1 {
   text-align: center;
 }
 
-.search_header {
+.center_text {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.cortex_header {
   margin: 4em 0 0.3em 0;
 }
 

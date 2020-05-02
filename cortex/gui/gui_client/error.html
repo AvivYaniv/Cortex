@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Dark mode -->
+    <script src="js/dark_mode.js"></script>
+    <!-- CSS -->
+    <link href="css/cortex.css" rel="stylesheet" type="text/css" media="all" />
+    <link
+      href="css/dark_mode.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />    
+  </head>
+
+  <body>
+    <h1 class="cortex_header">Cortex</h1>
+    <center>
+      <p class="center_text">Error has occured, please try again later...</p>
+    </center>
+
+    <!-- Dark Mode -->
+    <script>
+      window.dhDarkModeHandler = new DarkModeHandler();
+    </script>
+    <button
+      id="dark_mode_button"
+      onclick="window.dhDarkModeHandler.toggleDarkModeForSession()"
+      title="Come to the dark side! 🍪"
+    >
+      Toggle dark mode 🌓
+    </button>
+  </body>
+</html>
