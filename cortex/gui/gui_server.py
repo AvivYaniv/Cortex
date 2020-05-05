@@ -4,7 +4,8 @@ from flask import Flask
 import requests
 import os
 from pathlib import Path
-from cortex.api.api_urls import build_api_host_name
+
+from cortex.api.api_urls import *
 
 # Constants Section
 GUI_SERVER_HOST             = '127.0.0.1'
@@ -12,11 +13,13 @@ GUI_SERVER_PORT             = '8080'
 
 GUI_CLIENT_FOLDER           = str(Path(os.path.dirname(os.path.realpath(__file__)), 'gui_client'))
 
-# API URLs
-# TODO : Embed API host URL
-API_URL_USER_INFO_FORMAT    = '{}/api/v1.0/users/{}'
-API_URL_USERS_FORMAT        = '{}/api/v1.0/users'
-API_URL_SNAPSHOTS_FORMAT    = '{}/api/v1.0/users/{}/results'
+import logging
+from cortex.logger import _LoggerLoader
+
+# Log loading
+logger                    = logging.getLogger(__name__)
+logger_loader             = _LoggerLoader()
+logger_loader.load_log_config()
 
 # Flask
 app     = Flask(__name__, static_url_path='', static_folder=GUI_CLIENT_FOLDER, template_folder=GUI_CLIENT_FOLDER)
@@ -39,7 +42,8 @@ def gui_serever():
         return embedded_page
                 
     def embed_data_in_index(raw_index):
-        users_json                  =   requests.get(API_URL_USERS_FORMAT.format(api_host_name)).json()
+        users_url                   =   get_api_url(API_URL_FORMAT_GET_ALL_USERS, api_host_name)
+        users_json                  =   requests.get(users_url).json()
         users_converted             =   []
         for user_json_string in users_json:
             user_json               =   json.loads(user_json_string)
@@ -50,10 +54,10 @@ def gui_serever():
         return index_embedded
     
     def embed_data_in_snapshots(raw_snapshots, user_id):
-        user_snapshots_url          =   API_URL_SNAPSHOTS_FORMAT.format(api_host_name, user_id)
+        user_snapshots_url          =   get_api_url(API_URL_FORMAT_GET_ALL_USER_RESULTS, api_host_name).format(user_id)
         snapshots_json_as_string    =   requests.get(user_snapshots_url).text    
         snapshots_embedded          =   embed_data_in_page(raw_snapshots, snapshots_data=snapshots_json_as_string)        
-        user_info_url               =   API_URL_USER_INFO_FORMAT.format(api_host_name, user_id)
+        user_info_url               =   get_api_url(API_URL_FORMAT_GET_USER, api_host_name).format(user_id)
         user_info_json              =   json.loads(requests.get(user_info_url).json())
         snapshots_embedded          =   embed_data_in_page(snapshots_embedded,                              \
                                                            username     =   user_info_json['username'],     \
@@ -65,7 +69,7 @@ def gui_serever():
     # General error handler to disclose actual error code
     @app.errorhandler(Exception)
     def server_error_page(e):
-        # TODO Log
+        logger.error(f'Error in GUI, {e}', exc_info=True)
         return app.send_static_file('error.html'), 200
     
     @app.route('/')

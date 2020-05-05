@@ -1,3 +1,8 @@
+
+# Change working directory to main directory
+import os
+os.chdir('../../../')
+
 from cortex.server import run_server
 
 

@@ -1,3 +1,8 @@
+
+# Change working directory to main directory
+import os
+os.chdir('../../../')
+
 from cortex.client import upload_sample
 
 from cortex.readers.reader_versions import ReaderVersions
