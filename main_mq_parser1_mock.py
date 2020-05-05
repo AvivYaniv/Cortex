@@ -13,14 +13,14 @@ def get_parser_number(s):
 class Parser:
     def __init__(self):
         self.parser_number 	= get_parser_number(get_filename(__file__))
-        self.parser_name 	= 'parser.' + self.parser_number
+        self.parser_name 	= 'color_image' + '.parser'
         
     # Generates parse callback with custom arguments - by this currying function 
     def publish_parsed_callback(self):
         def parse(message):
             print(f'{self.parser_name} Received {message}')
             message = str(message).replace('Server', self.parser_name)
-            self.publish_function(message, routing_key=self.parser_name)
+            self.publish_function(message, publisher_name=self.parser_name)
         return parse
     
     def run(self):

@@ -2,6 +2,7 @@ from pathlib import Path
 
 import threading
 
+from cortex.publisher_consumer.message_queue.context import MessageQueueContextFactory
 from cortex.publisher_consumer.message_queue.consumer.Message_queue_consumer_thread import MessageQueueConsumerThread
     
 def get_filename(fpath):
@@ -46,18 +47,24 @@ class Saver:
         return save
     
     def run(self):
-        parser1_listener = self.create_listen_thread('parser.1')
-        parser2_listener = self.create_listen_thread('parser.2')
-        parser1_listener.start()
-        parser2_listener.start()
+        mq_context_factory              = MessageQueueContextFactory()
+        message_queue_category_contexts =                   \
+            mq_context_factory.get_mq_category_contexts(    \
+                caller_type   =   'saver',                  \
+                category      =   'consumers')        
+        parser_listen_threads = self.create_consumers_threads(message_queue_category_contexts)
+        for lt in parser_listen_threads:
+            lt.start()
         
-    def create_listen_thread(self, parser_name):
-        return MessageQueueConsumerThread(callback      =   self.saving_callback, 
-                                          caller_type   =   'saver', 
-                                          category      =   'consumers', 
-                                          item          =   parser_name)
+    def create_consumers_threads(self, message_queue_category_contexts):
+        consumer_threads = []
+        for message_queue_context in message_queue_category_contexts:
+            consumer_thread = \
+                MessageQueueConsumerThread(callback              =   self.saving_callback, 
+                                           message_queue_context =   message_queue_context)
+            consumer_threads.append(consumer_thread)
+        return consumer_threads
     
 if "__main__" == __name__:
     saver = Saver()
     saver.run()
-    
