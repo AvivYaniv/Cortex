@@ -18,13 +18,19 @@ logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
 
 # Methods Section
-def do_api_request(url_format, *args):
-    requst_url               =   get_api_url(url_format).format(*args)    
+def build_host_name(host, port):
+    host_name = ''
+    if (host or port):
+        host_name = 'http://' + (host if host else DEFAULT_API_HOST) + ':' + (port if port else DEFAULT_API_PORT)
+    return host_name
+
+def do_api_request(url_format, host, *args):
+    requst_url               =   get_api_url(url_format, host).format(*args)    
     requst_result            =   requests.get(requst_url)
     return requst_result
 
-def fetch_api_request(url_format, *args):    
-    return do_api_request(url_format, *args).text
+def fetch_api_request_text(url_format, host, *args):    
+    return do_api_request(url_format, host, *args).text
 
 # Click Methods Section
 @click.group()
@@ -33,56 +39,71 @@ def main():
     pass
 
 @main.command()
-def get_users():
+@click.option('-h', '--host', default='')
+@click.option('-p', '--port', default='')
+def get_users(host, port):
     """
     Gets all users
     """
-    result = fetch_api_request(API_URL_FORMAT_GET_ALL_USERS)
+    api_host = build_host_name(host, port)
+    result = fetch_api_request_text(API_URL_FORMAT_GET_ALL_USERS, api_host)
     print(result)
 
 @main.command()
 @click.argument('user_id', type=str)
-def get_user(user_id):
+@click.option('-h', '--host', default='')
+@click.option('-p', '--port', default='')
+def get_user(user_id, host, port):
     """
     Gets users details
     """    
-    result = fetch_api_request(API_URL_FORMAT_GET_USER, user_id)
+    api_host = build_host_name(host, port)
+    result = fetch_api_request_text(API_URL_FORMAT_GET_USER, api_host, user_id)
     print(result)
 
 @main.command()
 @click.argument('user_id', type=str)
-def get_snapshots(user_id):
+@click.option('-h', '--host', default='')
+@click.option('-p', '--port', default='')
+def get_snapshots(user_id, host, port):
     """
     Gets users snapshots
     """    
-    result = fetch_api_request(API_URL_FORMAT_GET_ALL_USER_SNAPSHOTS, user_id)
+    api_host = build_host_name(host, port)
+    result = fetch_api_request_text(API_URL_FORMAT_GET_ALL_USER_SNAPSHOTS, api_host, user_id)
     print(result)
 
 @main.command()
 @click.argument('user_id', type=str)
 @click.argument('snapshot_uuid', type=str)
-def get_snapshot(user_id, snapshot_uuid):
+@click.option('-h', '--host', default='')
+@click.option('-p', '--port', default='')
+def get_snapshot(user_id, snapshot_uuid, host, port):
     """
     Gets users snapshot
     """    
-    result = fetch_api_request(API_URL_FORMAT_GET_USER_SNAPSHOT, user_id, snapshot_uuid)
+    api_host = build_host_name(host, port)
+    result = fetch_api_request_text(API_URL_FORMAT_GET_USER_SNAPSHOT, api_host, user_id, snapshot_uuid)
     print(result)
     
 @main.command()
 @click.argument('user_id', type=str)
 @click.argument('snapshot_uuid', type=str)
 @click.argument('result_name', type=str)
+@click.option('-h', '--host', default='')
+@click.option('-p', '--port', default='')
 @click.option('-s', '--save', default='')
-def get_result(user_id, snapshot_uuid, result_name, save):
+def get_result(user_id, snapshot_uuid, result_name, host, port, save):
     """
     Gets users snapshot's result
     """    
+    api_host = build_host_name(host, port)
     if save:
-        result = do_api_request(API_URL_FORMAT_GET_RESULT_DATA, user_id, snapshot_uuid, result_name)
+        result = do_api_request(API_URL_FORMAT_GET_RESULT_DATA, api_host, user_id, snapshot_uuid, result_name)
         with open(save, 'wb') as f:
             f.write(result.content) 
     else:
-        result = fetch_api_request(API_URL_FORMAT_GET_RESULT, user_id, snapshot_uuid, result_name)
+        result = fetch_api_request_text(API_URL_FORMAT_GET_RESULT, api_host, user_id, snapshot_uuid, result_name)
         print(result)
 
 if __name__ == '__main__':

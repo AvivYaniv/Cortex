@@ -33,7 +33,7 @@ class SnapshotAPI(Resource):
 def get_result_data_uri(user_id, snapshot_uuid, result_name):
     host_url = request.host
     def get_result_data_uri_with_host(user_id, snapshot_uuid, result_name):
-        return get_api_url(API_URL_FORMAT_GET_RESULT_DATA, host=f'http://{host_url}')        
+        return get_api_url(API_URL_FORMAT_GET_RESULT_DATA, host=f'http://{host_url}').format(user_id, snapshot_uuid, result_name)
     return get_result_data_uri_with_host(user_id, snapshot_uuid, result_name)
     
 class ResultAPI(Resource):
