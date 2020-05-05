@@ -4,6 +4,175 @@ version: "3"
 # Define docker-composes services
 services:
 
+  # ---------------------- Database Section ----------------------
+  # Database Container
+  database:
+    # Path of Dockerfile
+    build: 
+      context: .
+
+    # The command to execute once the image is created.
+    # command: python ./code.py
+
+    # Container can access to the 'localhost' of the computer.
+    network_mode: host
+    
+    # Setting common volume, to share files among containers
+    volumes:
+      - ./:/usr/src/app
+    
+    # Define port so it would be accessible from outside the container
+    # [port on machine]:[port in the container]
+    ports:
+      - 5672:5672
+
+    # Defining environment variables      
+    environment:
+      RUN: DATABASE
+
+  # ---------------------- API Section ----------------------
+  # API Container
+  api:
+    # Path of Dockerfile
+    build: 
+      context: .
+
+    # The command to execute once the image is created.
+    # command: python ./code.py
+
+    # Container can access to the 'localhost' of the computer.
+    network_mode: host
+    
+    # Setting common volume, to share files among containers
+    volumes:
+      - ./:/usr/src/app
+    
+    # Define port so it would be accessible from outside the container
+    # [port on machine]:[port in the container]
+    ports:
+      - 5672:5672
+      
+    # The command to execute once the image is created.
+    # Wait for database
+    command: ["./scripts/wait-for-it.sh", "database:27017"]
+
+    # Defining environment variables      
+    environment:
+      RUN: API      
+
+  # ---------------------- GUI Section ----------------------
+  # GUI Container
+  gui:
+    # Path of Dockerfile
+    build: 
+      context: .
+
+    # The command to execute once the image is created.
+    # command: python ./code.py
+
+    # Container can access to the 'localhost' of the computer.
+    network_mode: host
+    
+    # Setting common volume, to share files among containers
+    volumes:
+      - ./:/usr/src/app
+    
+    # Define port so it would be accessible from outside the container
+    # [port on machine]:[port in the container]
+    ports:
+      - 5672:5672
+      
+    # The command to execute once the image is created.
+    # Wait for database and API
+    command: [ "./scripts/wait-for-it.sh", "database:27017", "./scripts/wait-for-it.sh", "api:5000" ]
+
+    # Defining environment variables      
+    environment:
+      RUN: GUI
+
+  # ---------------------- Savers Section ----------------------
+  # Saver Container
+  saver:
+    # Path of Dockerfile
+    build: 
+      context: .
+
+    # The command to execute once the image is created.
+    # command: python ./code.py
+
+    # Container can access to the 'localhost' of the computer.
+    network_mode: host
+    
+    # Setting common volume, to share files among containers
+    volumes:
+      - ./:/usr/src/app
+    
+    # Define port so it would be accessible from outside the container
+    # [port on machine]:[port in the container]
+    ports:
+      - 5672:5672
+      
+    # The command to execute once the image is created.
+    # Wait for database
+    command: ["./scripts/wait-for-it.sh", "database:27017"]
+
+    # Defining environment variables      
+    environment:
+      RUN: SAVER      
+
+  # ---------------------- Parsers Section ----------------------
+  # Pose Parser Container
+  parser_pose:
+    # Path of Dockerfile
+    build: 
+      context: .
+
+    # The command to execute once the image is created.
+    # command: python ./code.py
+
+    # Container can access to the 'localhost' of the computer.
+    network_mode: host
+    
+    # Setting common volume, to share files among containers
+    volumes:
+      - ./:/usr/src/app
+    
+    # Define port so it would be accessible from outside the container
+    # [port on machine]:[port in the container]
+    ports:
+      - 5672:5672
+
+    # Defining environment variables      
+    environment:
+      RUN: PARSERS
+      PARSER: pose
+      
+  # Depth Image Parser Container
+  parser_depth_image:
+    # Path of Dockerfile
+    build: 
+      context: .
+
+    # The command to execute once the image is created.
+    # command: python ./code.py
+
+    # Container can access to the 'localhost' of the computer.
+    network_mode: host
+    
+    # Setting common volume, to share files among containers
+    volumes:
+      - ./:/usr/src/app
+    
+    # Define port so it would be accessible from outside the container
+    # [port on machine]:[port in the container]
+    ports:
+      - 5672:5672
+
+    # Defining environment variables      
+    environment:
+      RUN: PARSERS
+      PARSER: depth_image
+      
   # Color Image Parser Container
   parser_color_image:
     # Path of Dockerfile
@@ -29,7 +198,34 @@ services:
     environment:
       RUN: PARSERS
       PARSER: color_image
+
+  # User feelings Parser Container
+  user_feelings_pose:
+    # Path of Dockerfile
+    build: 
+      context: .
+
+    # The command to execute once the image is created.
+    # command: python ./code.py
+
+    # Container can access to the 'localhost' of the computer.
+    network_mode: host
+    
+    # Setting common volume, to share files among containers
+    volumes:
+      - ./:/usr/src/app
+    
+    # Define port so it would be accessible from outside the container
+    # [port on machine]:[port in the container]
+    ports:
+      - 5672:5672
+
+    # Defining environment variables      
+    environment:
+      RUN: PARSERS
+      PARSER: user_feelings
   
+  # ---------------------- Server & Client Section ----------------------
   # Server Container
   server:
     # Path of Dockerfile
@@ -55,28 +251,28 @@ services:
     environment:
       RUN: SERVER
 
-  # Client Container
-  # FOR END-TO-END TESTING
-  client:
-    build: 
-      context: .
-
-    # The command to execute once the image is created.
-    # Client waits for server to accept connections before starting
-    command: ["./scripts/wait-for-it.sh", "server:8000"]
-
-    # Container can access to the 'localhost' of the computer.
-    network_mode: host
-
-    # Setting common volume, to share files among containers
-    volumes:
-      - ./:/usr/src/app
-
-    # Defining environment variables
-    environment:
-      RUN: CLIENT
-
-    # Defining client won't start till other specified conatiners are ready
-    depends_on:
-      - server
+  # # Client Container
+  # # FOR END-TO-END TESTING
+  # client:
+  #   build: 
+  #     context: .
+  # 
+  #   # The command to execute once the image is created.
+  #   # Client waits for server to accept connections before starting
+  #   command: ["./scripts/wait-for-it.sh", "server:8000"]
+  # 
+  #   # Container can access to the 'localhost' of the computer.
+  #   network_mode: host
+  # 
+  #   # Setting common volume, to share files among containers
+  #   volumes:
+  #     - ./:/usr/src/app
+  # 
+  #   # Defining environment variables
+  #   environment:
+  #     RUN: CLIENT
+  # 
+  #   # Defining client won't start till other specified conatiners are ready
+  #   depends_on:
+  #     - server
     

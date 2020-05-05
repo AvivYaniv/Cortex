@@ -6,10 +6,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 function main {
     python -m virtualenv .env --prompt "[Cortex] "
-    find .env -name site-packages -exec bash -c 'echo "../../../../" > {}/self.pth' \;
+    find .env -name site-packages -exec bash -c 'echo "../../../../" > {}/self.pth' \;	
     .env/bin/pip install -U pip
-    .env/bin/pip install -r requirements.tx	
+    .env/bin/pip install -r requirements.txt
 }
-
 
 main "$@"

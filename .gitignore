@@ -19,3 +19,6 @@ logs/
 # Compiled Python
 *.pyc
 build/
+
+# Environment
+.env/
