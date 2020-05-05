@@ -31,14 +31,14 @@ def saver(db_url, message):
 @main.command()
 @click.option('-d', '--database', default='')
 @click.option('-mq', '--message_queue', default='')
-def run_saver(db_url, mq_url):
+def run_saver(database, message_queue):
     """
     Runs a saver as a service 
     which works with a message queue indefinitely; 
     saver subscribes to all the relevant topics it is capable of consuming 
     and saving to the database.
     """
-    cortex.saver.saver.run_saver(db_url, mq_url)
+    cortex.saver.saver.run_saver(database, message_queue)
 
 if __name__ == '__main__':
     try:

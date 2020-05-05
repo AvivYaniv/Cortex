@@ -1,5 +1,7 @@
 from cortex.database.database_base import _DataBaseBase
 
+from cortex.database.mongodb_db import MongoDBDataBase
+
 from cortex.utils import TimeUtils
 from cortex.utils import kwargs_to_string
 
@@ -10,6 +12,14 @@ from cortex.logger import _LoggerLoader
 logger                    = logging.getLogger(__name__)
 logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
+
+# Constants Section
+# Networking
+DEFAULT_DB_HOST            =    '127.0.0.1'
+DEFAULT_DB_PORT            =    '27017'
+    
+# DataBase
+DEFAULT_DB_TYPE            =    MongoDBDataBase.name
 
 class _DataBaseCortex(_DataBaseBase):
     # Constants Section
@@ -27,6 +37,13 @@ class _DataBaseCortex(_DataBaseBase):
     ENTITY_IDS_NAMES                    =   { ENTITY_USER : 'user_id', ENTITY_SNAPSHOT : 'snapshot_uuid' }
 
     PARSED_ENTITIES_LIST                =   [ ENTITY_POSE, ENTITY_USER_FEELINGS, ENTITY_COLOR_IMAGE, ENTITY_DEPTH_IMAGE ]
+
+    # Constructor Section
+    def __init__(self, database_type=None, host=None, port=None):
+        database_type       =   database_type if database_type else DEFAULT_DB_TYPE
+        host                =   host          if host          else DEFAULT_DB_HOST
+        port                =   int(port      if port          else DEFAULT_DB_PORT)
+        super().__init__(database_type, host, port)
 
     # Methods Section    
     # User Entity Section

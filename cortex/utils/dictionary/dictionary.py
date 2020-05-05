@@ -24,3 +24,9 @@ def dictionary_to_object(d, cls = None):
     if cls:
         converted.__class__ = cls
     return converted 
+
+def embed_dictionary_in_string(raw_string, dictionary):
+    embedded_string = raw_string
+    for key, value in dictionary.items():
+        embedded_string = embedded_string.replace(key, value)
+    return embedded_string

@@ -29,11 +29,8 @@ class APIService:
     EMPTY_RESULT                                            = ''
     # Constructor Section
     def __init__(self, database_type=None, database_host=None, database_port=None, marshal_format=None):
-        # DataBase
-        self.database_type                                  = database_type 
-        self.database_host                                  = database_host
-        self.database_port                                  = database_port
-        self._database                                      = _DataBaseCortex(self.database_type, self.database_host, self.database_port)
+        # DataBase        
+        self._database                                      = _DataBaseCortex(database_type, database_host, database_port)
         # Output Formatter
         self.marshal_format                                 = marshal_format if marshal_format else APIService.DEFAULT_MARSHAL_FORMAT
         self._marshal_loader                                = marshalLoader(self.marshal_format)

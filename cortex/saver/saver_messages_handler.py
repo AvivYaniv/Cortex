@@ -18,12 +18,9 @@ logger_loader.load_log_config()
 class SaverMessagesHandler:
     DEFAULT_ENCODING            =   'utf-8'
     
-    def __init__(self, database_type, database_host, database_port):
-        # DataBase
-        self.database_type          = database_type 
-        self.database_host          = database_host
-        self.database_port          = database_port
-        self._database              = _DataBaseCortex(self.database_type, self.database_host, self.database_port)
+    def __init__(self, database_type=None, database_host=None, database_port=None):
+        # DataBase        
+        self._database              = _DataBaseCortex(database_type, database_host, database_port)
         # Messages
         self.messages               = MessageQueueMessages() 
         # Save methods

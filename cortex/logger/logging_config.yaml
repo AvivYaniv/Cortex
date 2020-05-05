@@ -25,6 +25,24 @@ handlers:
    backupCount: 20
    encoding: utf8
    
+  api_log_handler:
+   class: logging.handlers.RotatingFileHandler
+   level: DEBUG
+   formatter: simple
+   filename: logs/api.log
+   maxBytes: 10485760
+   backupCount: 20
+   encoding: utf8
+
+  gui_log_handler:
+   class: logging.handlers.RotatingFileHandler
+   level: DEBUG
+   formatter: simple
+   filename: logs/gui.log
+   maxBytes: 10485760
+   backupCount: 20
+   encoding: utf8
+   
   saver_log_handler:
    class: logging.handlers.RotatingFileHandler
    level: DEBUG
@@ -83,6 +101,16 @@ loggers:
   cortex.database:
    level: INFO
    handlers: [console, error_file_handler, database_log_handler]
+   propagate: no
+   
+  cortex.api:
+   level: INFO
+   handlers: [console, error_file_handler, api_log_handler]
+   propagate: no
+   
+  cortex.gui:
+   level: INFO
+   handlers: [console, error_file_handler, gui_log_handler]
    propagate: no
    
   cortex.saver:

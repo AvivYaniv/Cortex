@@ -5,16 +5,14 @@ from flask import send_file
 from flask_restful import Api, Resource
 from cortex.api.api_service import APIService
 
-# Constants Section
-API_VERSION                 =   'v1.0'
-API_PREFIX                  =   f'/api/{API_VERSION}'
+from cortex.api.api_urls import *
 
 # RESTful Flask
 app = Flask(__name__)
 api = Api(app)
 
 # API Service
-api_service = APIService()
+api_service = None
 
 class AllUsersAPI(Resource):
     def get(self):
@@ -35,7 +33,7 @@ class SnapshotAPI(Resource):
 def get_result_data_uri(user_id, snapshot_uuid, result_name):
     host_url = request.host
     def get_result_data_uri_with_host(user_id, snapshot_uuid, result_name):
-        return f'http://{host_url}{API_PREFIX}/users/{user_id}/snapshots/{snapshot_uuid}/{result_name}/data'
+        return get_api_url(API_URL_FORMAT_GET_RESULT_DATA, host=f'http://{host_url}')        
     return get_result_data_uri_with_host(user_id, snapshot_uuid, result_name)
     
 class ResultAPI(Resource):
@@ -55,25 +53,35 @@ class UserSnapshotsResultsAPI(Resource):
     def get(self, user_id):
         return api_service.get_user_results(user_id, data_uri_converter=get_result_data_uri)
 
+# Embedding Dictionaries Section
+DICT_FLASK    = {                                                   \
+                  '%user_id%'       : '<int:user_id>',              \
+                  '%snapshot_uuid%' : '<string:snapshot_uuid>',     \
+                  '%result_name%'   : '<string:result_name>',       \
+                }
+
+def get_flask_api_url(api_url_format):
+    return get_custom_api_url(api_url_format, DICT_FLASK)
+
 # Adding API Resources
 # User API Section
-api.add_resource(AllUsersAPI,               f'{API_PREFIX}/users',                                                                          endpoint = 'users'                  )
-api.add_resource(UserAPI,                   f'{API_PREFIX}/users/<int:user_id>',                                                            endpoint = 'user'                   )
+api.add_resource(AllUsersAPI,               get_flask_api_url(API_URL_FORMAT_GET_ALL_USERS),                    endpoint = 'users'                  )
+api.add_resource(UserAPI,                   get_flask_api_url(API_URL_FORMAT_GET_USER),                         endpoint = 'user'                   )
 # Snapshot API Section
-api.add_resource(UserSnapshotsAPI,          f'{API_PREFIX}/users/<int:user_id>/snapshots',                                                  endpoint = 'snapshots'              )
-api.add_resource(SnapshotAPI,               f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>',                           endpoint = 'snapshot'               )
+api.add_resource(UserSnapshotsAPI,          get_flask_api_url(API_URL_FORMAT_GET_ALL_USER_SNAPSHOTS),           endpoint = 'snapshots'              )
+api.add_resource(SnapshotAPI,               get_flask_api_url(API_URL_FORMAT_GET_USER_SNAPSHOT),                endpoint = 'snapshot'               )
 # Result API Section
-api.add_resource(ResultAPI,                 f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>/<string:result_name>',      endpoint = 'result'                 )
-api.add_resource(ResultDataAPI,             f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>/<string:result_name>/data', endpoint = 'result_data'            )
+api.add_resource(ResultAPI,                 get_flask_api_url(API_URL_FORMAT_GET_RESULT),                       endpoint = 'result'                 )
+api.add_resource(ResultDataAPI,             get_flask_api_url(API_URL_FORMAT_GET_RESULT_DATA),                  endpoint = 'result_data'            )
 # Snapshot results API Section
-api.add_resource(SnapshotResultsAPI,        f'{API_PREFIX}/users/<int:user_id>/snapshots/<string:snapshot_uuid>/results',                   endpoint = 'snapshot_results'       )
-api.add_resource(UserSnapshotsResultsAPI,   f'{API_PREFIX}/users/<int:user_id>/results',                                                    endpoint = 'user_snapshot_results'  )
+api.add_resource(SnapshotResultsAPI,        get_flask_api_url(API_URL_FORMAT_GET_SNAPSHOT_RESULTS),             endpoint = 'snapshot_results'       )
+api.add_resource(UserSnapshotsResultsAPI,   get_flask_api_url(API_URL_FORMAT_GET_ALL_USER_RESULTS),             endpoint = 'user_snapshot_results'  )
 
-def run_api_server(address=None):
+def run_api(host=None, port=None, database_type=None, database_host=None, database_port=None):
     """Starts an API server of which users and snapshots can be retrived"""
     # Parse server address
-    address                         = address if address else 'localhost:5000'
-    server_ip_str, server_port_str  = address.split(":")
-    server_port_int                 = int(server_port_str)
-    app.run(server_ip_str, server_port_int)
-   
+    api_server_host                         = host      if host else DEFAULT_API_HOST
+    api_server_port                         = int(host  if host else DEFAULT_API_PORT)    
+    global api_service
+    api_service = APIService(database_type, database_host, database_port)
+    app.run(api_server_host, api_server_port)
