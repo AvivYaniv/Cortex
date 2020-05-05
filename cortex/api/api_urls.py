@@ -32,6 +32,9 @@ DICT_ARGUNETS = {                                               \
                 }
 
 # Methods Section
+def build_api_host_name(host, port):
+    return 'http://' + (host if host else DEFAULT_API_HOST) + ':' + (port if port else DEFAULT_API_PORT)
+
 def get_custom_api_url(api_url_format, dictionary, host=''):
     return host + API_PREFIX + embed_dictionary_in_string(api_url_format, dictionary)
 

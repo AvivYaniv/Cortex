@@ -2,7 +2,6 @@ import sys
 
 import click
 
-import json
 import requests
 
 import cortex.cli
@@ -16,13 +15,6 @@ from cortex.logger import _LoggerLoader
 logger                    = logging.getLogger(__name__)
 logger_loader             = _LoggerLoader()
 logger_loader.load_log_config()
-
-# Methods Section
-def build_host_name(host, port):
-    host_name = ''
-    if (host or port):
-        host_name = 'http://' + (host if host else DEFAULT_API_HOST) + ':' + (port if port else DEFAULT_API_PORT)
-    return host_name
 
 def do_api_request(url_format, host, *args):
     requst_url               =   get_api_url(url_format, host).format(*args)    
@@ -45,7 +37,7 @@ def get_users(host, port):
     """
     Gets all users
     """
-    api_host = build_host_name(host, port)
+    api_host = build_api_host_name(host, port)
     result = fetch_api_request_text(API_URL_FORMAT_GET_ALL_USERS, api_host)
     print(result)
 
@@ -57,7 +49,7 @@ def get_user(user_id, host, port):
     """
     Gets users details
     """    
-    api_host = build_host_name(host, port)
+    api_host = build_api_host_name(host, port)
     result = fetch_api_request_text(API_URL_FORMAT_GET_USER, api_host, user_id)
     print(result)
 
@@ -69,7 +61,7 @@ def get_snapshots(user_id, host, port):
     """
     Gets users snapshots
     """    
-    api_host = build_host_name(host, port)
+    api_host = build_api_host_name(host, port)
     result = fetch_api_request_text(API_URL_FORMAT_GET_ALL_USER_SNAPSHOTS, api_host, user_id)
     print(result)
 
@@ -82,7 +74,7 @@ def get_snapshot(user_id, snapshot_uuid, host, port):
     """
     Gets users snapshot
     """    
-    api_host = build_host_name(host, port)
+    api_host = build_api_host_name(host, port)
     result = fetch_api_request_text(API_URL_FORMAT_GET_USER_SNAPSHOT, api_host, user_id, snapshot_uuid)
     print(result)
     
@@ -97,7 +89,7 @@ def get_result(user_id, snapshot_uuid, result_name, host, port, save):
     """
     Gets users snapshot's result
     """    
-    api_host = build_host_name(host, port)
+    api_host = build_api_host_name(host, port)
     if save:
         result = do_api_request(API_URL_FORMAT_GET_RESULT_DATA, api_host, user_id, snapshot_uuid, result_name)
         with open(save, 'wb') as f:
