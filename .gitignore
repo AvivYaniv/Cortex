@@ -1,10 +1,21 @@
+# Eclipse
 .project
 .pydevproject
+
+# Mind Files
+*.mind
+*.mind.gz
 sample.mind
 sample.mind.gz
 cortex/sample.mind
-main.py
+
+# Data Directory
 data/
 data/*.*
+
+# Logs Directory
 logs/
+
+# Compiled Python
 *.pyc
+build/
