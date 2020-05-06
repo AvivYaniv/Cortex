@@ -58,7 +58,11 @@ services:
 
     # Defining environment variables      
     environment:
-      RUN: API      
+      RUN: API  
+
+    # Defining client won't start till other specified conatiners are ready
+    depends_on:
+      - database
 
   # ---------------------- GUI Section ----------------------
   # GUI Container
@@ -90,6 +94,11 @@ services:
     environment:
       RUN: GUI
 
+    # Defining client won't start till other specified conatiners are ready
+    depends_on:
+      - database
+      - api
+      
   # ---------------------- Savers Section ----------------------
   # Saver Container
   saver:
@@ -118,7 +127,11 @@ services:
 
     # Defining environment variables      
     environment:
-      RUN: SAVER      
+      RUN: SAVER  
+
+    # Defining client won't start till other specified conatiners are ready
+    depends_on:
+      - database
 
   # ---------------------- Parsers Section ----------------------
   # Pose Parser Container
@@ -147,6 +160,10 @@ services:
       RUN: PARSERS
       PARSER: pose
       
+    # Defining client won't start till other specified conatiners are ready
+    depends_on:
+      - saver
+      
   # Depth Image Parser Container
   parser_depth_image:
     # Path of Dockerfile
@@ -173,6 +190,10 @@ services:
       RUN: PARSERS
       PARSER: depth_image
       
+    # Defining client won't start till other specified conatiners are ready
+    depends_on:
+      - saver
+      
   # Color Image Parser Container
   parser_color_image:
     # Path of Dockerfile
@@ -198,9 +219,13 @@ services:
     environment:
       RUN: PARSERS
       PARSER: color_image
+      
+    # Defining client won't start till other specified conatiners are ready
+    depends_on:
+      - saver
 
   # User feelings Parser Container
-  user_feelings:
+  parser_user_feelings:
     # Path of Dockerfile
     build: 
       context: .
@@ -224,6 +249,10 @@ services:
     environment:
       RUN: PARSERS
       PARSER: user_feelings
+      
+    # Defining client won't start till other specified conatiners are ready
+    depends_on:
+      - saver
   
   # ---------------------- Server & Client Section ----------------------
   # Server Container
@@ -250,6 +279,10 @@ services:
     # Defining environment variables      
     environment:
       RUN: SERVER
+
+    # Defining client won't start till other specified conatiners are ready
+    depends_on:
+      - saver
 
   # # Client Container
   # # FOR END-TO-END TESTING
