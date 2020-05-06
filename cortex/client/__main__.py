@@ -22,11 +22,11 @@ def main():
 @click.option('-p', '--port', default='')
 @click.argument('file', type=str)
 @click.option('-v', '--version', default='')
-def upload_sample(host, port, file):
+def upload_sample(host, port, file, version):
     """
     Sends to the server user's sample file; user information & snapshots
     """
-    cortex.client.upload_sample(host, port, file)
+    cortex.client.upload_sample(host, port, file, version)
 
 if __name__ == '__main__':
     try:
