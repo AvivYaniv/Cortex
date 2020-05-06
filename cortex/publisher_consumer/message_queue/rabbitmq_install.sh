@@ -11,6 +11,7 @@
 	  # Install rabbitmq-server and its dependencies
 	  sudo apt-get install rabbitmq-server -y --fix-missing
 	  # Start RabbitMQ service 
+	  sudo rabbitmq-plugins enable rabbitmq_management
 	  sudo service rabbitmq-server start
 	fi
 )

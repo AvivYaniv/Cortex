@@ -4,16 +4,52 @@ version: "3.5"
 # Define docker-composes services
 services:
 
+  # ---------------------- MessageQueue Section ----------------------
+  # MessageQueue Container
+  messagequeue:    
+    # Set hostname
+    hostname: messagequeue
+    
+    # IMPORTANT! Image not specified to ensure generics, it's being installed based on common installation file used by other container files
+  
+    # Path of Dockerfile
+    build: 
+      context: .
+
+    # Container can access to the 'localhost' of the computer.
+    network_mode: host
+    
+    # Setting common volume, to share files among containers
+    volumes:
+      - ./:/usr/src/app
+    
+    # Define port so it would be accessible from outside the container
+    # [port on machine]:[port in the container]
+    ports:
+      - "4369:4369"
+      - "5671:5671"      
+      - "5672:5672"
+      - "15672:15672"
+
+    # Defining environment variables      
+    environment:
+      RUN: PUBLISHER_CONSUMER
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn
+      
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+        start_period: 30s
+
   # ---------------------- Database Section ----------------------
   # Database Container
   database:
     # Path of Dockerfile
     build: 
       context: .
-
-    # The command to execute once the image is created.
-    # command: python ./code.py
-    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -31,14 +67,14 @@ services:
     environment:
       RUN: DATABASE
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: root
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn
       
     healthcheck:
         test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet 1
         interval: 30s
         timeout: 10s
         retries: 5
-        start_period: 40s
+        start_period: 30s
 
   # ---------------------- API Section ----------------------
   # API Container
@@ -46,10 +82,6 @@ services:
     # Path of Dockerfile
     build: 
       context: .
-
-    # The command to execute once the image is created.
-    # command: python ./code.py
-    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -71,7 +103,7 @@ services:
     environment:
       RUN: API  
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: root
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn
 
     # Defining client won't start till other specified conatiners are ready
     depends_on:
@@ -82,6 +114,7 @@ services:
         interval: 30s
         timeout: 10s
         retries: 5
+        start_period: 30s
 
   # ---------------------- GUI Section ----------------------
   # GUI Container
@@ -120,6 +153,7 @@ services:
         interval: 30s
         timeout: 10s
         retries: 5
+        start_period: 30s
       
   # ---------------------- Savers Section ----------------------
   # Saver Container
@@ -127,10 +161,6 @@ services:
     # Path of Dockerfile
     build: 
       context: .
-
-    # The command to execute once the image is created.
-    # command: python ./code.py
-    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -155,17 +185,20 @@ services:
     environment:
       RUN: SAVER  
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: root
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn
+      MQ_HOST: messagequeue
 
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - database
+      - messagequeue
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
         interval: 30s
         timeout: 10s
         retries: 5
+        start_period: 30s
 
   # ---------------------- Parsers Section ----------------------
   # Pose Parser Container
@@ -173,10 +206,6 @@ services:
     # Path of Dockerfile
     build: 
       context: .
-
-    # The command to execute once the image is created.
-    # command: python ./code.py
-    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -198,27 +227,28 @@ services:
       RUN: PARSERS
       PARSER: pose
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: root
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn
+      MQ_HOST: messagequeue
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - saver
+      - messagequeue
+      
+    restart: on-failure
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
         interval: 30s
         timeout: 10s
         retries: 5
+        start_period: 30s
       
   # Depth Image Parser Container
   parser_depth_image:
     # Path of Dockerfile
     build: 
       context: .
-
-    # The command to execute once the image is created.
-    # command: python ./code.py
-    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -240,27 +270,28 @@ services:
       RUN: PARSERS
       PARSER: depth_image
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: root
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn
+      MQ_HOST: messagequeue
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - saver
+      - messagequeue
+      
+    restart: on-failure
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
         interval: 30s
         timeout: 10s
         retries: 5
+        start_period: 30s
       
   # Color Image Parser Container
   parser_color_image:
     # Path of Dockerfile
     build: 
       context: .
-
-    # The command to execute once the image is created.
-    # command: python ./code.py
-    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -282,27 +313,28 @@ services:
       RUN: PARSERS
       PARSER: color_image
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: root
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn
+      MQ_HOST: messagequeue
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - saver
+      - messagequeue
+      
+    restart: on-failure
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
         interval: 30s
         timeout: 10s
         retries: 5
+        start_period: 30s
 
   # User feelings Parser Container
   parser_user_feelings:
     # Path of Dockerfile
     build: 
       context: .
-
-    # The command to execute once the image is created.
-    # command: python ./code.py
-    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -324,17 +356,22 @@ services:
       RUN: PARSERS
       PARSER: user_feelings      
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: root
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn
+      MQ_HOST: messagequeue
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - saver
+      - messagequeue
+      
+    restart: on-failure
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
         interval: 30s
         timeout: 10s
         retries: 5
+        start_period: 30s
   
   # ---------------------- Server & Client Section ----------------------
   # Server Container
@@ -342,10 +379,6 @@ services:
     # Path of Dockerfile
     build: 
       context: .
-
-    # The command to execute once the image is created.
-    # command: python ./code.py
-    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -367,14 +400,15 @@ services:
     environment:
       RUN: SERVER
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: root
-      
-      
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn
+      MQ_HOST: messagequeue
+    
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:8000"]
         interval: 30s
         timeout: 10s
         retries: 5
+        start_period: 30s
 
     # Defining client won't start till other specified conatiners are ready
     depends_on:
@@ -383,6 +417,9 @@ services:
       - parser_color_image
       - parser_depth_image
       - parser_user_feelings
+      - messagequeue
+      
+    restart: on-failure
 
   # # Client Container
   # # FOR END-TO-END TESTING
