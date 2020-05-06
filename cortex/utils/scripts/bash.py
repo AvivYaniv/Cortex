@@ -6,7 +6,7 @@ WAIT_TO_END_DEFAULT = True
 def run_bash_scipt(script_path, wait_to_end=None, show_output=None):
     wait_to_end = wait_to_end if wait_to_end else WAIT_TO_END_DEFAULT
     
-    show_output = show_output if show_output else True
+    show_output = show_output if (show_output and wait_to_end) else True
     
     process = subprocess.Popen(         \
                 script_path,            \

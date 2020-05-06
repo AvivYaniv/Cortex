@@ -1,4 +1,6 @@
 import os 
+import threading
+
 from cortex.utils import DynamicModuleLoader 
 from cortex.utils import run_bash_scipt
 from cortex.utils import get_project_file_path_by_caller
@@ -15,6 +17,9 @@ logger                    = logging.getLogger(__name__)
 
 # Constants Section
 DEFAULT_MESSAGE_QUEUE                                           =   RabbitMQMessageQueue.name
+
+# Locks
+installation_lock                                               =   threading.Lock()
 
 # Messages Section
 # Info Messages
@@ -54,7 +59,11 @@ def install_message_queue(message_queue_type):
         return False    
     # Installing message queue
     logger.info(INSTALLING_MESSAGE_QUEUE_INFO_MESSAGE)
-    intallation_success = (0 == run_bash_scipt(message_queue_install_file_path)) 
+    installation_lock.acquire()
+    try:
+        intallation_success = (0 == run_bash_scipt(message_queue_install_file_path))
+    finally:            
+        installation_lock.release()     
     if intallation_success:
         logger.info(MESSAGE_QUEUE_INSTALLATION_COMPLETED_INFO_MESSAGE)
     else:

@@ -5,7 +5,7 @@
 	
 	# If rabbitmq-server not installed
 	if [ "" == "$PKG_OK" ]; then
-	  # Install sudo
+	  # Install sudo	  
 	  apt-get update
 	  apt-get install -y sudo
 	  ## Install rabbitmq-server and its dependencies
