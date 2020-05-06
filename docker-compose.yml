@@ -200,7 +200,7 @@ services:
       PARSER: color_image
 
   # User feelings Parser Container
-  user_feelings_pose:
+  user_feelings:
     # Path of Dockerfile
     build: 
       context: .
