@@ -24,7 +24,11 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
+      - 27017:27017
+      - 4369:4369
+      - 5671:5671      
       - 5672:5672
+      - 15672:15672
 
     # Defining environment variables      
     environment:
@@ -50,7 +54,11 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
+      - 5000:5000
+      - 4369:4369
+      - 5671:5671      
       - 5672:5672
+      - 15672:15672
       
     # The command to execute once the image is created.
     # Wait for database
@@ -84,7 +92,11 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
+      - 8080:8080
+      - 4369:4369
+      - 5671:5671      
       - 5672:5672
+      - 15672:15672
       
     # The command to execute once the image is created.
     # Wait for database and API
@@ -119,7 +131,10 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
+      - 4369:4369
+      - 5671:5671      
       - 5672:5672
+      - 15672:15672
       
     # The command to execute once the image is created.
     # Wait for database
@@ -153,7 +168,10 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
+      - 4369:4369
+      - 5671:5671      
       - 5672:5672
+      - 15672:15672
 
     # Defining environment variables      
     environment:
@@ -183,7 +201,10 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
+      - 4369:4369
+      - 5671:5671      
       - 5672:5672
+      - 15672:15672
 
     # Defining environment variables      
     environment:
@@ -213,7 +234,10 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
+      - 4369:4369
+      - 5671:5671      
       - 5672:5672
+      - 15672:15672
 
     # Defining environment variables      
     environment:
@@ -243,7 +267,10 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
-      - 5672:5672
+      - 4369:4369
+      - 5671:5671      
+      - 5672:5672      
+      - 15672:15672
 
     # Defining environment variables      
     environment:
@@ -275,6 +302,10 @@ services:
     # [port on machine]:[port in the container]
     ports:
       - 8000:8000
+      - 4369:4369
+      - 5671:5671      
+      - 5672:5672
+      - 15672:15672
 
     # Defining environment variables      
     environment:
