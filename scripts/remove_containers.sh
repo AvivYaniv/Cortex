@@ -1,10 +1,16 @@
 #!/bin/bash
 
-# Stopping Docker Compose
-sudo docker-compose stop
+# Stopping and removing previous containers and images
+sudo docker-compose down
+
+{
+	sudo docker stop 			$(sudo docker ps -a -q) -t 1
+	sudo docker rm 				$(sudo docker ps -a -q) -f
+	sudo docker rmi 			$(sudo docker images --filter "dangling=true" -q --no-trunc)
+}  &> /dev/null
 
 # Prunning unused containers
-sudo docker container prune  --force
+sudo docker container prune					--force
 
 # Removing Cortex containers
 # Removing { Server, Client } containers
@@ -27,4 +33,4 @@ sudo docker rmi cortex_api 					--force
 # Removing Database container
 sudo docker rmi cortex_database 			--force
 
-echo "\nFinished remove remants of old containers!\n"
+echo -e "\nFinished remove remants of old containers!\n"

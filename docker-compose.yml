@@ -1,5 +1,5 @@
 # docker-compose version tag.
-version: "3"
+version: "3.5"
 
 # Define docker-composes services
 services:
@@ -13,6 +13,7 @@ services:
 
     # The command to execute once the image is created.
     # command: python ./code.py
+    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -24,15 +25,20 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
-      - 27017:27017
-      - 4369:4369
-      - 5671:5671      
-      - 5672:5672
-      - 15672:15672
+      - "27017:27017"
 
     # Defining environment variables      
     environment:
       RUN: DATABASE
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
+      
+    healthcheck:
+        test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet 1
+        interval: 30s
+        timeout: 10s
+        retries: 5
+        start_period: 40s
 
   # ---------------------- API Section ----------------------
   # API Container
@@ -43,6 +49,7 @@ services:
 
     # The command to execute once the image is created.
     # command: python ./code.py
+    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -54,11 +61,7 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
-      - 5000:5000
-      - 4369:4369
-      - 5671:5671      
-      - 5672:5672
-      - 15672:15672
+      - "5000:5000"     
       
     # The command to execute once the image is created.
     # Wait for database
@@ -67,10 +70,18 @@ services:
     # Defining environment variables      
     environment:
       RUN: API  
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
 
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - database
+      
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:5000"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
 
   # ---------------------- GUI Section ----------------------
   # GUI Container
@@ -78,9 +89,6 @@ services:
     # Path of Dockerfile
     build: 
       context: .
-
-    # The command to execute once the image is created.
-    # command: python ./code.py
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -91,12 +99,8 @@ services:
     
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
-    ports:
-      - 8080:8080
-      - 4369:4369
-      - 5671:5671      
-      - 5672:5672
-      - 15672:15672
+    ports:            
+      - "8080:8080"
       
     # The command to execute once the image is created.
     # Wait for database and API
@@ -111,6 +115,12 @@ services:
       - database
       - api
       
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:8080"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+      
   # ---------------------- Savers Section ----------------------
   # Saver Container
   saver:
@@ -120,6 +130,7 @@ services:
 
     # The command to execute once the image is created.
     # command: python ./code.py
+    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -131,10 +142,10 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
-      - 4369:4369
-      - 5671:5671      
-      - 5672:5672
-      - 15672:15672
+      - "4369:4369"
+      - "5671:5671"      
+      - "5672:5672"
+      - "15672:15672"
       
     # The command to execute once the image is created.
     # Wait for database
@@ -143,10 +154,18 @@ services:
     # Defining environment variables      
     environment:
       RUN: SAVER  
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
 
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - database
+      
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
 
   # ---------------------- Parsers Section ----------------------
   # Pose Parser Container
@@ -157,6 +176,7 @@ services:
 
     # The command to execute once the image is created.
     # command: python ./code.py
+    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -168,19 +188,27 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
-      - 4369:4369
-      - 5671:5671      
-      - 5672:5672
-      - 15672:15672
+      - "4369:4369"
+      - "5671:5671"      
+      - "5672:5672"
+      - "15672:15672"
 
     # Defining environment variables      
     environment:
       RUN: PARSERS
       PARSER: pose
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - saver
+      
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
       
   # Depth Image Parser Container
   parser_depth_image:
@@ -190,6 +218,7 @@ services:
 
     # The command to execute once the image is created.
     # command: python ./code.py
+    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -201,19 +230,27 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
-      - 4369:4369
-      - 5671:5671      
-      - 5672:5672
-      - 15672:15672
+      - "4369:4369"
+      - "5671:5671"      
+      - "5672:5672"
+      - "15672:15672"
 
     # Defining environment variables      
     environment:
       RUN: PARSERS
       PARSER: depth_image
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - saver
+      
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
       
   # Color Image Parser Container
   parser_color_image:
@@ -223,6 +260,7 @@ services:
 
     # The command to execute once the image is created.
     # command: python ./code.py
+    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -234,19 +272,27 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
-      - 4369:4369
-      - 5671:5671      
-      - 5672:5672
-      - 15672:15672
+      - "4369:4369"
+      - "5671:5671"      
+      - "5672:5672"
+      - "15672:15672"
 
     # Defining environment variables      
     environment:
       RUN: PARSERS
       PARSER: color_image
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - saver
+      
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
 
   # User feelings Parser Container
   parser_user_feelings:
@@ -256,6 +302,7 @@ services:
 
     # The command to execute once the image is created.
     # command: python ./code.py
+    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -267,19 +314,27 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
-      - 4369:4369
-      - 5671:5671      
-      - 5672:5672      
-      - 15672:15672
+      - "4369:4369"
+      - "5671:5671"      
+      - "5672:5672"      
+      - "15672:15672"
 
     # Defining environment variables      
     environment:
       RUN: PARSERS
-      PARSER: user_feelings
+      PARSER: user_feelings      
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - saver
+      
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
   
   # ---------------------- Server & Client Section ----------------------
   # Server Container
@@ -290,6 +345,7 @@ services:
 
     # The command to execute once the image is created.
     # command: python ./code.py
+    command: sh -c "rabbitmq-plugins enable rabbitmq_management; rabbitmq-server"
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
@@ -301,19 +357,32 @@ services:
     # Define port so it would be accessible from outside the container
     # [port on machine]:[port in the container]
     ports:
-      - 8000:8000
-      - 4369:4369
-      - 5671:5671      
-      - 5672:5672
-      - 15672:15672
+      - "8000:8000"
+      - "4369:4369"
+      - "5671:5671"      
+      - "5672:5672"
+      - "15672:15672"
 
     # Defining environment variables      
     environment:
       RUN: SERVER
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
+      
+      
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:8000"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
 
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - saver
+      - parser_pose
+      - parser_color_image
+      - parser_depth_image
+      - parser_user_feelings
 
   # # Client Container
   # # FOR END-TO-END TESTING

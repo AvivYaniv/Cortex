@@ -44,8 +44,10 @@ def gui_serever():
     def embed_data_in_index(raw_index):
         users_url                   =   get_api_url(API_URL_FORMAT_GET_ALL_USERS, api_host_name)
         users_json                  =   requests.get(users_url).json()
-        users_converted             =   []
+        users_converted             =   []        
         for user_json_string in users_json:
+            if not user_json_string:
+                continue
             user_json               =   json.loads(user_json_string)
             user_id                 =   user_json['user_id']
             username                =   user_json['username']
