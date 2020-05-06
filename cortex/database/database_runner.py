@@ -77,7 +77,7 @@ def install_database(database_type):
         return False    
     # Installing data base
     logger.info(INSTALLING_DATABASE_INFO_MESSAGE)
-    intallation_success = (0 == run_bash_scipt(database_install_file_path, shell=False)) 
+    intallation_success = (0 == run_bash_scipt(database_install_file_path)) 
     if intallation_success:
         logger.info(DATABASE_INSTALLATION_COMPLETED_INFO_MESSAGE)
     else:

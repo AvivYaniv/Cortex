@@ -1,14 +1,18 @@
 #!/bin/bash
 
 ( 
-	PKG_OK=$(dpkg-query -W --showformat='${Status}\n' mongodb|grep "install ok installed")
+	PKG_OK=$(dpkg-query -W --showformat='${Status}\n' mongodb-org|grep "install ok installed")
 	
 	# If mongodb not installed
-	if [ "" == "$PKG_OK" ]; then
+	if [ "" == "$PKG_OK" ]; then	
 	  # Install sudo
 	  apt-get update
 	  apt-get install -y sudo
+	  # Preparation for MongoDB installation  
+	  sudo apt-get install dirmngr gnupg apt-transport-https software-properties-common ca-certificates curl -y
+	  curl -fsSL https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+	  sudo add-apt-repository 'deb https://repo.mongodb.org/apt/debian buster/mongodb-org/4.2 main'	  
 	  ## Install mongodb and its dependencies
-	  sudo apt-get install mongodb -y --fix-missing
+	  sudo apt-get install mongodb-org -y --fix-missing
 	fi
 )
