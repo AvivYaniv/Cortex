@@ -7,7 +7,7 @@ sudo docker-compose down
 	sudo docker stop 			$(sudo docker ps -a -q) -t 1
 	sudo docker rm 				$(sudo docker ps -a -q) -f
 	sudo docker rmi 			$(sudo docker images --filter "dangling=true" -q --no-trunc)
-}  &> /dev/null
+} &> /dev/null
 
 {
 	# Prunning unused containers
@@ -33,6 +33,9 @@ sudo docker-compose down
 
 	# Removing Database container
 	sudo docker rmi cortex_database 			--force
-}  &> /dev/null
+	
+	# Removing MessageQueue container
+	sudo docker rmi cortex_messagequeue 		--force
+} &> /dev/null
 
 echo -e "\nFinished remove remants of old containers!\n"

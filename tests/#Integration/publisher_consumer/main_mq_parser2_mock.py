@@ -1,3 +1,7 @@
+# Change working directory to main directory
+import os
+os.chdir('../../../')
+
 from pathlib import Path
 
 from cortex.publisher_consumer.message_queue import MessageQueuePublisher

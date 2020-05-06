@@ -29,6 +29,7 @@ class MessageQueue:
             return False
             
     def __init__(self, logger, callback, message_queue_context, host, port):
+        print(f'TODO DEUG REMOVE {host}')
         self._logger                    = logger
         self._logger.info(MESSAGE_QUEUE_INITIALIZING_INFO_MESSAGE)
         self.callback                   = callback

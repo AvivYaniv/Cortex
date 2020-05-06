@@ -10,7 +10,9 @@ services:
     # Set hostname
     hostname: messagequeue
     
-    # IMPORTANT! Image not specified to ensure generics, it's being installed based on common installation file used by other container files
+    # IMPORTANT! Image not specified to ensure generics;
+    # to make sure only one place is controlling messagequeue type - 
+    # it's being installed based on the common installation file used by other container files
   
     # Path of Dockerfile
     build: 
@@ -65,9 +67,7 @@ services:
 
     # Defining environment variables      
     environment:
-      RUN: DATABASE
-      RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: mWMjW4hn
+      RUN: DATABASE      
       
     healthcheck:
         test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet 1
@@ -102,9 +102,7 @@ services:
     # Defining environment variables      
     environment:
       RUN: API  
-      RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: mWMjW4hn
-
+      
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - database

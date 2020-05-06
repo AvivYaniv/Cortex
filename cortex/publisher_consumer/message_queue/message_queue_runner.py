@@ -50,7 +50,9 @@ def load_message_queue(callback, message_queue_context, message_queue_type, host
 def get_message_install_file_path(message_queue_type):
     return get_project_file_path_by_caller(message_queue_type, MESSAGE_QUEUE_INSTALLATION_FILE_SUFFIX)
 
-def install_message_queue(message_queue_type):
+def install_message_queue(message_queue_type=None):
+    # Default parameter resolution
+    message_queue_type = message_queue_type if message_queue_type else DEFAULT_MESSAGE_QUEUE
     # Installing message queue
     message_queue_install_file_path = get_message_install_file_path(message_queue_type)    
     # If message queue install file dosen't exist
