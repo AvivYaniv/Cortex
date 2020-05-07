@@ -82,9 +82,6 @@ def run_message_queue(message_queue_context,
     # If message queue not found - exit
     if not message_queue:
         return
-    # Else, message queue found - install & run
     else:
-        # If message queue installed
-        if install_message_queue(message_queue_type):
-            return message_queue.run()
+        return message_queue.run()
     

@@ -41,10 +41,12 @@ services:
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
-        interval: 30s
+        interval: 60s
         timeout: 10s
         retries: 5
-        start_period: 30s
+        start_period: 10s
+        
+    restart: on-failure
 
   # ---------------------- Database Section ----------------------
   # Database Container
@@ -70,11 +72,13 @@ services:
       RUN: DATABASE      
       
     healthcheck:
-        test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet 1
-        interval: 30s
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:27017"]
+        interval: 60s
         timeout: 10s
         retries: 5
         start_period: 30s
+        
+    restart: on-failure
 
   # ---------------------- API Section ----------------------
   # API Container
@@ -108,11 +112,13 @@ services:
       - database
       
     healthcheck:
-        test: ["CMD", "curl", "-f", "http://127.0.0.1:5000"]
-        interval: 30s
+        test: ["CMD", "curl", "-f", "http://127.0.0.1:5000/api/v1.0/users"]
+        interval: 60s
         timeout: 10s
         retries: 5
-        start_period: 30s
+        start_period: 10s
+        
+    restart: on-failure
 
   # ---------------------- GUI Section ----------------------
   # GUI Container
@@ -148,10 +154,12 @@ services:
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:8080"]
-        interval: 30s
+        interval: 60s
         timeout: 10s
         retries: 5
-        start_period: 30s
+        start_period: 10s
+        
+    restart: on-failure
       
   # ---------------------- Savers Section ----------------------
   # Saver Container
@@ -183,20 +191,14 @@ services:
     environment:
       RUN: SAVER  
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: mWMjW4hn
-      MQ_HOST: messagequeue
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn      
 
     # Defining client won't start till other specified conatiners are ready
     depends_on:
       - database
       - messagequeue
       
-    healthcheck:
-        test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
-        interval: 30s
-        timeout: 10s
-        retries: 5
-        start_period: 30s
+    restart: on-failure
 
   # ---------------------- Parsers Section ----------------------
   # Pose Parser Container
@@ -225,8 +227,7 @@ services:
       RUN: PARSERS
       PARSER: pose
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: mWMjW4hn
-      MQ_HOST: messagequeue
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn      
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
@@ -234,13 +235,7 @@ services:
       - messagequeue
       
     restart: on-failure
-      
-    healthcheck:
-        test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
-        interval: 30s
-        timeout: 10s
-        retries: 5
-        start_period: 30s
+    
       
   # Depth Image Parser Container
   parser_depth_image:
@@ -268,8 +263,7 @@ services:
       RUN: PARSERS
       PARSER: depth_image
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: mWMjW4hn
-      MQ_HOST: messagequeue
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn      
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
@@ -277,13 +271,7 @@ services:
       - messagequeue
       
     restart: on-failure
-      
-    healthcheck:
-        test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
-        interval: 30s
-        timeout: 10s
-        retries: 5
-        start_period: 30s
+    
       
   # Color Image Parser Container
   parser_color_image:
@@ -311,8 +299,7 @@ services:
       RUN: PARSERS
       PARSER: color_image
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: mWMjW4hn
-      MQ_HOST: messagequeue
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn      
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
@@ -320,13 +307,7 @@ services:
       - messagequeue
       
     restart: on-failure
-      
-    healthcheck:
-        test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
-        interval: 30s
-        timeout: 10s
-        retries: 5
-        start_period: 30s
+    
 
   # User feelings Parser Container
   parser_user_feelings:
@@ -354,8 +335,7 @@ services:
       RUN: PARSERS
       PARSER: user_feelings      
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: mWMjW4hn
-      MQ_HOST: messagequeue
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn      
       
     # Defining client won't start till other specified conatiners are ready
     depends_on:
@@ -363,13 +343,7 @@ services:
       - messagequeue
       
     restart: on-failure
-      
-    healthcheck:
-        test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
-        interval: 30s
-        timeout: 10s
-        retries: 5
-        start_period: 30s
+    
   
   # ---------------------- Server & Client Section ----------------------
   # Server Container
@@ -398,15 +372,14 @@ services:
     environment:
       RUN: SERVER
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: mWMjW4hn
-      MQ_HOST: messagequeue
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn      
     
     healthcheck:
-        test: ["CMD", "curl", "-f", "http://127.0.0.1:8000"]
-        interval: 30s
+        test: [ "CMD", "nc", "-z", "localhost", "8000" ]
+        interval: 60s
         timeout: 10s
         retries: 5
-        start_period: 30s
+        start_period: 10s
 
     # Defining client won't start till other specified conatiners are ready
     depends_on:

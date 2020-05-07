@@ -1,4 +1,6 @@
 
+import time
+
 # Messages Section
 MESSAGE_QUEUE_DIRECTION_UNSPECIFIED_ERROR_MESSAGE       =   'Message Queue direction (reciver/transmitter) unspecified!'
 MESSAGE_QUEUE_HAS_NOT_INITIALIZED_ERROR_MESSAGE         =   'Message Queue has not initialized'
@@ -9,10 +11,23 @@ MESSAGE_QUEUE_HAS_INITIALIZED_INFO_MESSAGE              =   'Message Queue has i
 MESSAGE_QUEUE_IS_RUNNING_INFO_MESSAGE                   =   'Message Queue ready & runs!'
 
 # Constants Section
+DEFAULT_HEALTHCHECK_RETRAY_SLEEP                        =   40
 MESSAGE_QUEUE_DEFAULT_HOST								=	'localhost'
 
 class MessageQueue:
     
+    def _health_check(self):
+        # Should test message-queue is capable of handling messages
+        return True
+    
+    def _wait_to_be_alive(self):
+        while not self._health_check():
+            time.sleep(DEFAULT_HEALTHCHECK_RETRAY_SLEEP)
+            
+    def _default_hostname_resolution(self, host, port):
+        self.host                       = host if host else MESSAGE_QUEUE_DEFAULT_HOST
+        self.port                       = port
+        
     def _init_reciver(self):
         raise NotImplementedError
     
@@ -20,22 +35,21 @@ class MessageQueue:
         raise NotImplementedError
         
     def _init_message_queue(self):
+        self._wait_to_be_alive()
         if self.message_queue_context.is_reciver():
             return self._init_reciver()
         elif self.message_queue_context.is_transmitter():
             return self._init_transmitter()
         else:
-            self._logger.error(MESSAGE_QUEUE_DIRECTION_UNSPECIFIED_ERROR_MESSAGE)
+            self._logger.warning(MESSAGE_QUEUE_DIRECTION_UNSPECIFIED_ERROR_MESSAGE)
             return False
             
-    def __init__(self, logger, callback, message_queue_context, host, port):
-        print(f'TODO DEUG REMOVE {host}')
+    def __init__(self, logger, callback, message_queue_context, host, port):        
         self._logger                    = logger
         self._logger.info(MESSAGE_QUEUE_INITIALIZING_INFO_MESSAGE)
         self.callback                   = callback
         self.message_queue_context      = message_queue_context
-        self.host                       = host if host else MESSAGE_QUEUE_DEFAULT_HOST
-        self.port                       = port
+        self._default_hostname_resolution(host, port)
         self.is_initialized             = self._init_message_queue()
         if self.is_initialized:
             self._logger.info(MESSAGE_QUEUE_HAS_INITIALIZED_INFO_MESSAGE)

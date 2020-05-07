@@ -2,9 +2,34 @@ import pika
 
 from cortex.publisher_consumer.message_queue.message_queue import MessageQueue
 
+# Constants definition
+RABBITMQ_DEFAULT_HOST               =   '127.0.0.1'
+RABBITMQ_DEFAULT_PORT               =   5672
+
 class RabbitMQMessageQueue(MessageQueue):
     
     name            = 'rabbitmq'
+    
+    def _default_hostname_resolution(self, host, port):
+        self.host                       = host if host else RABBITMQ_DEFAULT_HOST
+        self.port                       = port if port else RABBITMQ_DEFAULT_PORT
+    
+    def _set_connections_parameters(self):
+        self.params     = pika.ConnectionParameters(self.host, int(self.port))
+    
+    def _health_check(self):
+        connection      = None
+        try:
+            self._set_connections_parameters()
+            connection  = pika.BlockingConnection(self.params)
+            self._logger.info(f'{RabbitMQMessageQueue.name} is available!')
+            return True
+        except Exception as error:
+            self._logger.warning(f'{RabbitMQMessageQueue.name} at {self.host}:{self.port} not available : {error}')
+            return False
+        finally:
+            if connection and connection.is_open:            
+                connection.close()
         
     # Generates callback with custom arguments - by this currying function 
     def generate_message_callback(self):
@@ -15,7 +40,7 @@ class RabbitMQMessageQueue(MessageQueue):
     
     def _init_reciver(self):
         try:
-            self.params     = pika.ConnectionParameters(self.host)
+            self._set_connections_parameters()
             self.connection = pika.BlockingConnection(self.params)
             self.channel    = self.connection.channel()
             if self.message_queue_context.exchange_name:
