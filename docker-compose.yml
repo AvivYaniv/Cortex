@@ -38,6 +38,7 @@ services:
       RUN: PUBLISHER_CONSUMER
       RABBITMQ_DEFAULT_USER: root
       RABBITMQ_DEFAULT_PASS: mWMjW4hn
+      RABBITMQ_NODE_IP_ADDRESS: "0.0.0.0"
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]

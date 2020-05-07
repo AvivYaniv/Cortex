@@ -12,7 +12,7 @@ MESSAGE_QUEUE_IS_RUNNING_INFO_MESSAGE                   =   'Message Queue ready
 
 # Constants Section
 DEFAULT_HEALTHCHECK_RETRAY_SLEEP                        =   40
-MESSAGE_QUEUE_DEFAULT_HOST								=	'0.0.0.0'
+MESSAGE_QUEUE_DEFAULT_HOST								=	'127.0.0.1'
 
 class MessageQueue:
     
