@@ -372,14 +372,7 @@ services:
     environment:
       RUN: SERVER
       RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: mWMjW4hn      
-    
-    healthcheck:
-        test: [ "CMD", "nc", "-z", "localhost", "8000" ]
-        interval: 60s
-        timeout: 10s
-        retries: 5
-        start_period: 10s
+      RABBITMQ_DEFAULT_PASS: mWMjW4hn
 
     # Defining client won't start till other specified conatiners are ready
     depends_on:

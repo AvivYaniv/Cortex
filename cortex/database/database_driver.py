@@ -1,6 +1,6 @@
 
 # Constants Section
-DATABASE_DEFAULT_HOST       =   'localhost'
+DATABASE_DEFAULT_HOST       =   '0.0.0.0'
 
 class _DataBaseDriver:
     IMPLEMENTATION_FILEDS   =   []  # Fields that are part of database implementation, therefore shouldn't be exported
