@@ -10,9 +10,9 @@ services:
     # Set hostname
     hostname: messagequeue
     
-    # IMPORTANT! Image not specified to ensure generics;
+    # IMPORTANT! Image not specified to ensure generics and light weightness;
     # to make sure only one place is controlling messagequeue type - 
-    # it's being installed based on the common installation file used by other container files
+    # it's being installed based on installtion file configured by environment variable
   
     # Path of Dockerfile
     build: 

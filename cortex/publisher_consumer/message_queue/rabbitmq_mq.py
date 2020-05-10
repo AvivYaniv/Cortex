@@ -3,7 +3,7 @@ import pika
 from cortex.publisher_consumer.message_queue.message_queue import MessageQueue
 
 # Constants definition
-RABBITMQ_DEFAULT_HOST               =   '127.0.0.1'
+RABBITMQ_DEFAULT_HOST               =   '0.0.0.0'
 RABBITMQ_DEFAULT_PORT               =   5672
 
 class RabbitMQMessageQueue(MessageQueue):

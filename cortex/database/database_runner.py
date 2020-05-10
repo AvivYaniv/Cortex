@@ -39,7 +39,7 @@ DATABASE_RUN_FILE_SUFFIX                                   =   '_run.sh'
 
 # Constants Section
 # Networking
-DEFAULT_DB_HOST            =    '127.0.0.1'
+DEFAULT_DB_HOST            =    '0.0.0.0'
 DEFAULT_DB_PORT            =    '27017'
     
 # DataBase
