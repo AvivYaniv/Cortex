@@ -3,7 +3,7 @@ import pika
 from cortex.publisher_consumer.message_queue.message_queue import MessageQueue
 
 # Constants definition
-RABBITMQ_DEFAULT_HOST               =   '0.0.0.0'
+RABBITMQ_DEFAULT_HOST               =   '127.0.0.1'
 RABBITMQ_DEFAULT_PORT               =   5672
 
 class RabbitMQMessageQueue(MessageQueue):
@@ -28,7 +28,7 @@ class RabbitMQMessageQueue(MessageQueue):
             self._logger.warning(f'{RabbitMQMessageQueue.name} at {self.host}:{self.port} not available : {error}')
             return False
         finally:
-            if connection and connection.is_open:            
+            if connection is not None and connection.is_open:            
                 connection.close()
         
     # Generates callback with custom arguments - by this currying function 

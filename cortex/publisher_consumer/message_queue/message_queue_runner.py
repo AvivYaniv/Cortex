@@ -79,9 +79,7 @@ def run_message_queue(message_queue_context,
 					  port                   =   None):
     message_queue_type  = message_queue_type if message_queue_type else DEFAULT_MESSAGE_QUEUE
     message_queue       = load_message_queue(callback, message_queue_context, message_queue_type, host, port)
-    # If message queue not found - exit
-    if not message_queue:
-        return
-    else:
+    # If message queue - run it
+    if message_queue:
         return message_queue.run()
     
