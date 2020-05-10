@@ -21,7 +21,7 @@ var bind = function (toObject, methodName) {
   
 // Used to safe get value form dictionary
 var safe_get_value_from_dictionary = function(dictionay, key_name) {
-  if (!dictionay.hasOwnProperty(key_name)) 
+  if (!dictionay.hasOwnProperty(key_name) || null === dictionay[key_name]) 
   {
     return "";
   }

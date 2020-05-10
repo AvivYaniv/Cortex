@@ -339,8 +339,11 @@ var multiline_graph = function (graph_raw_data, dictConfiguration) {
             // Finding closest x axis position and id
             var cpClosestPosition = find_mouses_x_axis_value(xPosition);
 
-            // Call callback
-            dictConfiguration["mouse_moving_callback"](cpClosestPosition);      
+            if (null !== cpClosestPosition)
+            {
+              // Call callback
+              dictConfiguration["mouse_moving_callback"](cpClosestPosition);
+            }
         }
         
       d3.select(".mouse-line").attr("d", function () {
