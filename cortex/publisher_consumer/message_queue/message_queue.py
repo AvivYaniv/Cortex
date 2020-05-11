@@ -33,6 +33,9 @@ class MessageQueue:
     
     def _init_transmitter(self):
         raise NotImplementedError
+    
+    def get_publish_function(self):
+        return None
         
     def _init_message_queue(self):
         self._wait_to_be_alive()

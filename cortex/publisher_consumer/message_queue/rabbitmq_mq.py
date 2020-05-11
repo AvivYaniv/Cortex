@@ -6,6 +6,8 @@ from cortex.publisher_consumer.message_queue.message_queue import MessageQueue
 RABBITMQ_DEFAULT_HOST               =   '127.0.0.1'
 RABBITMQ_DEFAULT_PORT               =   5672
 
+PUBLISH_RETRY_NUMBER                =   2
+
 class RabbitMQMessageQueue(MessageQueue):
     
     name            = 'rabbitmq'
@@ -30,7 +32,7 @@ class RabbitMQMessageQueue(MessageQueue):
         finally:
             if connection is not None and connection.is_open:            
                 connection.close()
-        
+         
     # Generates callback with custom arguments - by this currying function 
     def generate_message_callback(self):
         def callback(channel, method, properties, body):
@@ -58,12 +60,12 @@ class RabbitMQMessageQueue(MessageQueue):
                         routing_key =   binding_key
                         )
         except Exception as ex:
-            self._logger.error(ex)
+            self._logger.error(ex.message)
         return True
     
     def _init_transmitter(self):
         try:
-            self.params     = pika.ConnectionParameters(self.host)
+            self._set_connections_parameters()
             self.connection = pika.BlockingConnection(self.params)
             self.channel    = self.connection.channel()
             if self.message_queue_context.exchange_name:
@@ -81,12 +83,26 @@ class RabbitMQMessageQueue(MessageQueue):
         self.channel.start_consuming()
     
     def _messege_queue_publish(self, message, publisher_name=''):
-        self.channel.basic_publish(
-            exchange                =    self.message_queue_context.exchange_name, 
-            routing_key             =    publisher_name, 
-            body                    =    message
-            )
+        def emit_message(message, publisher_name=''):
+            try:
+                self.channel.basic_publish(
+                    exchange                =    self.message_queue_context.exchange_name, 
+                    routing_key             =    publisher_name, 
+                    body                    =    message
+                    )
+                return True
+            except:
+                return False
+        for _ in range(PUBLISH_RETRY_NUMBER):
+            if emit_message(message, publisher_name):
+                break
+            else:
+                self._init_transmitter()
+    
+    def get_publish_function(self):
+        if self.message_queue_context.is_transmitter():
+            return self._messege_queue_publish
+        return None
     
     def _run_transmitter(self):
-        return self._messege_queue_publish
-    
+        pass           

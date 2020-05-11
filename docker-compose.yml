@@ -44,10 +44,10 @@ services:
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:15672"]
-        interval: 1m
+        interval: 5m
         timeout: 20s
         retries: 5
-        start_period: 5m
+        start_period: 20m
         
     restart: on-failure
 
@@ -76,10 +76,10 @@ services:
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:27017"]
-        interval: 1m
+        interval: 5m
         timeout: 20s
         retries: 5
-        start_period: 5m
+        start_period: 20m
         
     restart: on-failure
 
@@ -116,10 +116,10 @@ services:
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:5000/api/v1.0/users"]
-        interval: 1m
+        interval: 5m
         timeout: 20s
         retries: 5
-        start_period: 5m
+        start_period: 20m
         
     restart: on-failure
 
@@ -157,10 +157,10 @@ services:
       
     healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:8080"]
-        interval: 1m
+        interval: 5m
         timeout: 20s
         retries: 5
-        start_period: 5m
+        start_period: 20m
         
     restart: on-failure
       

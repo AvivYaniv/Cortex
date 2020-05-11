@@ -2,7 +2,7 @@
 from cortex.protocol import ProtocolMessagesTyeps, Protocol
 from cortex.publisher_consumer.messages import MessageQueueMessages, MessageQueueMessagesTyeps
 
-from cortex.publisher_consumer.message_queue import MessageQueuePublisher
+from cortex.publisher_consumer.message_queue import MessageQueuePublisherThread
 from cortex.publisher_consumer.message_queue import MessageQueueConsumer 
 from cortex.publisher_consumer.message_queue.context.message_queue_context_factory import MessageQueueContextFactory
 
@@ -113,10 +113,11 @@ class ParserService:
         message_queue_consumer.run()
     # Publish parsed
     def register_publish_parsed(self, mq_context_factory):
-        message_queue_context   = \
+        message_queue_context           = \
             mq_context_factory.get_mq_context(ParserService.SERVICE_TYPE, 'publishers', 'parsed_snapshot', name=self.parser_name)
-        message_queue_publisher = MessageQueuePublisher(message_queue_context)
-        self.publish_function   = message_queue_publisher.run()
+        self.message_queue_publisher    = MessageQueuePublisherThread(message_queue_context)
+        self.publish_function           = self.message_queue_publisher.get_publish_function()
+        self.message_queue_publisher.run()
         
 def run_parser_service(parser_type, message_queue_type=None, message_queue_host=None, message_queue_port=None):
     parser = ParserService(parser_type, message_queue_type, message_queue_host, message_queue_port)

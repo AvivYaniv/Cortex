@@ -4,7 +4,7 @@ from cortex.utils import Listener
 
 from cortex.server.server_handler import ServerHandler
 
-from cortex.publisher_consumer.message_queue import MessageQueuePublisher 
+from cortex.publisher_consumer.message_queue import MessageQueuePublisherThread 
 from cortex.publisher_consumer.message_queue.context.message_queue_context_factory import MessageQueueContextFactory
 
 import logging
@@ -52,8 +52,9 @@ class ServerService:
         # Initializing Message Queue
         self._init_mq(message_queue_type, message_queue_host, message_queue_port)
         # Setting Message Queue snapshot publish function
-        self.mq_publish_snapshot_function   =   self.message_queue_publisher.run()
+        self.mq_publish_snapshot_function   =   self.message_queue_publisher.get_publish_function()
         self.publish_snapshot_function      =   self.publish_mq_callback(self.mq_publish_snapshot_function, publisher_name='snapshot')
+        self.message_queue_publisher.run()
     # Message Queue Methods Section
     # Initialize MessageQueue and set publish function     
     def _init_mq(self, message_queue_type=None, message_queue_host=None, message_queue_port=None):
@@ -61,7 +62,7 @@ class ServerService:
         mq_context_factory              =   MessageQueueContextFactory(message_queue_type)
         message_queue_context           =   mq_context_factory.get_mq_context('server', 'publishers', 'snapshots')
         self.message_queue_publisher    =   \
-            MessageQueuePublisher(          \
+            MessageQueuePublisherThread(    \
             message_queue_context,          \
             message_queue_type,             \
             message_queue_host,             \

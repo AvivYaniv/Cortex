@@ -4,7 +4,7 @@ os.chdir('../../../')
 
 from pathlib import Path
 
-from cortex.publisher_consumer.message_queue import MessageQueuePublisher
+from cortex.publisher_consumer.message_queue import MessageQueuePublisherThread
 from cortex.publisher_consumer.message_queue import MessageQueueConsumer 
 from cortex.publisher_consumer.message_queue.context.message_queue_context_factory import MessageQueueContextFactory
 
@@ -40,8 +40,9 @@ class Parser:
     def register_publish_parsed(self):
         mq_context_factory      = MessageQueueContextFactory()
         message_queue_context   = mq_context_factory.get_mq_context('parser', 'publishers', 'parsed_snapshot', name=self.parser_name)
-        message_queue_publisher = MessageQueuePublisher(message_queue_context)
-        self.publish_function   = message_queue_publisher.run()
+        message_queue_publisher = MessageQueuePublisherThread(message_queue_context)
+        self.publish_function   = message_queue_publisher.get_publish_function()
+        message_queue_publisher.run()
         
 if "__main__" == __name__:
     parser = Parser()

@@ -9,6 +9,7 @@ from cortex.publisher_consumer.message_queue.rabbitmq_mq import RabbitMQMessageQ
 
 import logging
 from cortex.logger import _LoggerLoader
+from docutils.languages import ca
 
 # Log loading
 logger_loader             = _LoggerLoader()
@@ -72,13 +73,21 @@ def install_message_queue(message_queue_type=None):
         logger.error(MESSAGE_QUEUE_INSTALLATION_FAILED_ERROR_MESSAGE)
     return intallation_success
 
-def run_message_queue(message_queue_context,
-					  callback				 =	 None, 
-					  message_queue_type     =   None,
-					  host                   =   None,
-					  port                   =   None):
+def get_message_queue(message_queue_context,
+                      callback               =   None, 
+                      message_queue_type     =   None,
+                      host                   =   None,
+                      port                   =   None):
     message_queue_type  = message_queue_type if message_queue_type else DEFAULT_MESSAGE_QUEUE
     message_queue       = load_message_queue(callback, message_queue_context, message_queue_type, host, port)
+    return message_queue
+
+def run_message_queue(message_queue_context,
+                      callback               =   None, 
+                      message_queue_type     =   None,
+                      host                   =   None,
+                      port                   =   None):
+    message_queue = get_message_queue(message_queue_context, callback, message_queue_type, host, port)
     # If message queue - run it
     if message_queue:
         return message_queue.run()
