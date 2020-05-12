@@ -23,7 +23,7 @@ h1 {
 
 /* Loader Section */
 .loader {
-  position: absolute; /* or fixed */
+  position: absolute;
   top: 40%;
   left: 45%;
 }

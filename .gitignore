@@ -24,3 +24,4 @@ build/
 .env/
 *.ffs_db
 cortex/gui/gui_client/sync.ffs_db
+cortex/gui/gui_client/sync.ffs_db
