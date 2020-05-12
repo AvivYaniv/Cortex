@@ -72,6 +72,26 @@
   <!-- Icon -->
   <link rel="icon" href="../img/cortex.ico" />
 
+  <script>
+    function open_in_new_tab(element) {
+      var newTab = window.open();
+      setTimeout(function () {
+        newTab.document.body.innerHTML = element.innerHTML;
+      }, 500);
+      return false;
+    }
+
+    function zoom(element_id) {
+         var newTab = window.open();
+         var data = document.getElementById(element_id).getAttribute("src");
+         setTimeout(function () {
+             newTab.document.title = element_id;
+             newTab.document.body.innerHTML = "<img src='" + data + "'>";
+         }, 500);
+         return false;
+     }
+  </script>
+
   <body>
     <div id="layer_loader" class="loader">
       <img id="loader" class="loader" src="../img/loading.gif" />
@@ -81,24 +101,30 @@
       <title>%username%'s Snapshots</title>
       <h1 class="centered">%username%'s Snapshots</h1>
 
-      <div class="wrapper">
-        <div class="child_item_1">
-          <img
-            id="color_image"
-            src=""
-            alt="Color Image"
-            width="300"
-            height="300"
-          />
-        </div>
-        <div class="child_item_2">
-          <img
-            id="depth_image"
-            src=""
-            alt="Depth Image"
-            width="300"
-            height="300"
-          />
+      <div class="wrapper">        
+          <div class="child_item_1">
+            <a target="_blank" class="image_link" onClick='zoom("color_image")'>
+              <img
+                id="color_image"                
+                src=""                
+                title="Click to open color image in new tab"
+                alt="Color Image"
+                width="300"
+                height="300"              
+              />
+            </a>
+          </div>        
+        <div class="child_item_2">    
+          <a target="_blank" class="image_link" onClick='zoom("depth_image")'>
+            <img
+              id="depth_image"
+              src=""              
+              title="Click to open depth image in new tab"
+              alt="Depth Image"
+              width="300"
+              height="300"
+            />
+          </a>      
         </div>
 
         <div class="child_item_3">
@@ -133,16 +159,19 @@
           method: "GET",
           dataType: "JSON",
           beforeSend: function (xhr) {
-            document.querySelector("#layer_content").style.visibility = "hidden";
-            document.querySelector("#layer_loader").style.visibility = "visible";
+            document.querySelector("#layer_content").style.visibility =
+              "hidden";
+            document.querySelector("#layer_loader").style.visibility =
+              "visible";
           },
           success: function (data) {
             dSnapshotsData = JSON.parse(data);
             window.vmVisualizationManager = new VisualizationManager(
               dSnapshotsData
-              );
-              document.querySelector("#layer_loader").style.display = "none";
-              document.querySelector("#layer_content").style.visibility = "visible";
+            );
+            document.querySelector("#layer_loader").style.display = "none";
+            document.querySelector("#layer_content").style.visibility =
+              "visible";
           },
         });
       </script>
