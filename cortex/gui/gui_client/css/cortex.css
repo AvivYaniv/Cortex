@@ -67,7 +67,7 @@ div.search_boxes div:nth-child(n + 2) {
 
 /* Images Section */
 .image_link {
-  cursor: hand;
+  cursor: pointer;
 }
 
 /* Autocomplete Section */
