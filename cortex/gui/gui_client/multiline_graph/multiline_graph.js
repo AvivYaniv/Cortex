@@ -321,11 +321,11 @@ var multiline_graph = function (graph_raw_data, dictConfiguration) {
             {
                 m_orig = m;
                 m = m.getTime();
-                var lowDiff = 1e99;
+                var lowDiff = 1e999;
                 var xI = null;
                 for (var i = 0; i < tickPos.length; i++) 
                 {
-                    var current = new Date(tickPos[i].toString()).getTime();
+                    var current = new Date(tDateOriginalTicks[i].toString()).getTime();
                     var diff = Math.abs(m - current);
                     if (diff < lowDiff) 
                     {
