@@ -3,6 +3,7 @@ from cortex.publisher_consumer.messages import MessageQueueMessages, MessageQueu
 from cortex.protocol import ProtocolMessagesTyeps, Protocol
 from cortex.utils import _FileHandler
 from cortex.utils import generate_uuid
+from cortex.utils.hash import get_data_hash
 
 from cortex.utils import ConstantPathes
 
@@ -83,6 +84,8 @@ class ServerHandler(threading.Thread):
     # UUID Methods Section
     def _get_uuid(self):
         return generate_uuid()
+    def _get_hash(self, data):
+        return get_data_hash(data)
     # File Handling Methods Section
     # Generate path to save file
     def _get_save_path(self, *pathsegments, fname=None, extension=None):
@@ -106,6 +109,9 @@ class ServerHandler(threading.Thread):
                 self.context.user_info.user_id,         \
                 snapshot_uuid,                          \
                 SNAPSHOT_FILE_NAME)
+        # Deduping snapshots (to avoid multiple saving and handling of existing snapshots) 
+        if self.files_handler.is_file_exists(snapshot_path):
+            return None
         # Save snapshot
         is_saved        = self._save_file(snapshot_path, snapshot_message_bytes)
         if not is_saved:
@@ -126,7 +132,7 @@ class ServerHandler(threading.Thread):
     # Handle snapshot message
     def handle_snapshot_message(self, snapshot_message_bytes):
         # Gets snapshot uuid
-        snapshot_uuid       = self._get_uuid()
+        snapshot_uuid       = self._get_hash(snapshot_message_bytes)
         # Saving snapshot
         raw_snapshot_path   = self._save_snapshot(snapshot_uuid, snapshot_message_bytes)
         # If error occurred while saving snapshot

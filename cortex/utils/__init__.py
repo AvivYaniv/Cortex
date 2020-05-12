@@ -13,6 +13,8 @@ from cortex.utils.files import FileReaderDriver
 from cortex.utils.files import get_project_file_path_by_caller
 from cortex.utils.files import _FileHandler
 
+from cortex.utils.hash import get_data_hash
+
 from cortex.utils.modules import DynamicModuleLoader
 
 from cortex.utils.network import Connection

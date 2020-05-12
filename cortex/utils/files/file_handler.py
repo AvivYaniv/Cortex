@@ -3,6 +3,7 @@ import os
 import threading
 
 import pathlib
+from pathlib import Path
 from pathlib import PurePath
 
 class _FileHandler:
@@ -42,6 +43,10 @@ class _FileHandler:
         directories = os.path.dirname(path)
         if not os.path.isdir(directories):
             os.makedirs(directories)
+            
+    def is_file_exists(self, file_path):
+        plFilePath = Path(file_path)
+        return plFilePath.is_file()        
 
     def save(self, file_path, data, mode = None):
         is_written  = False
