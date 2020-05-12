@@ -56,9 +56,7 @@ def gui_serever():
         return index_embedded
     
     def embed_data_in_snapshots(raw_snapshots, user_id):
-        user_snapshots_url          =   get_api_url(API_URL_FORMAT_GET_ALL_USER_RESULTS, api_host_name).format(user_id)
-        snapshots_json_as_string    =   requests.get(user_snapshots_url).text    
-        snapshots_embedded          =   embed_data_in_page(raw_snapshots, snapshots_data=snapshots_json_as_string)        
+        snapshots_embedded          =   embed_data_in_page(raw_snapshots, snapshots_data_url=f'/results/id={user_id}')         
         user_info_url               =   get_api_url(API_URL_FORMAT_GET_USER, api_host_name).format(user_id)
         user_info_json              =   json.loads(requests.get(user_info_url).json())
         snapshots_embedded          =   embed_data_in_page(snapshots_embedded,                              \
@@ -79,6 +77,17 @@ def gui_serever():
         raw_index           = read_client_file('index.html')
         embedded_index      = embed_data_in_index(raw_index)          
         return embedded_index, 200        
+    
+    @app.route('/results/id=<string:user_id>', methods=['POST', 'GET'])
+    def results(user_id):
+        user_snapshots_url          =   get_api_url(API_URL_FORMAT_GET_ALL_USER_RESULTS, api_host_name).format(user_id)
+        snapshots_json_as_string    =   requests.get(user_snapshots_url).text
+        response = app.response_class(
+            response=json.dumps(snapshots_json_as_string),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
     
     @app.route('/snapshots/id=<string:user_id>', methods=['POST'])
     def user(user_id):

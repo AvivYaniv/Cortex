@@ -27,6 +27,8 @@
       data-semver="3.5.3"
       src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.js"
     ></script>
+    <!-- URI -->
+    <script type="text/javascript" src="../js/URI.js"></script>
     <!-- Utilities -->
     <script src="../js/utilities.js"></script>
     <!-- Custom chart libraries -->
@@ -68,70 +70,94 @@
   </head>
 
   <!-- Icon -->
-  <link rel="icon" href="../img/cortex.ico">
+  <link rel="icon" href="../img/cortex.ico" />
 
   <body>
-    <title>%username%'s Snapshots</title>
-    <h1 class="centered">%username%'s Snapshots</h1>
-
-    <div class="wrapper">
-      <div class="child_item_1">
-        <img
-          id="color_image"
-          src=""
-          alt="Color Image"
-          width="300"
-          height="300"
-        />
-      </div>
-      <div class="child_item_2">
-        <img
-          id="depth_image"
-          src=""
-          alt="Depth Image"
-          width="300"
-          height="300"
-        />
-      </div>
-
-      <div class="child_item_3">
-        <canvas id="bar_chart_translation" width="300" height="300"></canvas>
-      </div>
-      <div class="child_item_4">
-        <canvas id="bar_chart_rotation" width="300" height="300"></canvas>
-      </div>
-
-      <div class="child_item_5">
-        <div id="user_feelings"></div>
-      </div>
-
-      <div class="child_item_6">
-        <label>User name : %username%</label><br>
-        <label>User ID : %user_id%</label><br>
-        <label>Birth Date : %birth_date%</label><br>
-        <label>Gender : %gender%</label><br>        
-        <label id="current_snapshot"></label><br>
-      </div>
-      
+    <div id="layer_loader" class="loader">
+      <img id="loader" class="loader" src="../img/loading.gif" />
     </div>
-    
-    <!-- Visualization Manager -->
-    <script src="../js/visualization_manager.js"></script>
-    <script>
-      var dSnapshotsData = %snapshots_data%;
-      window.vmVisualizationManager = new VisualizationManager(dSnapshotsData);
-    </script>
 
-    <!-- Dark Mode -->
-    <script>
-      window.dhDarkModeHandler = new DarkModeHandler();
-    </script>
-    <button
-      id="dark_mode_button"
-      onclick="window.dhDarkModeHandler.toggleDarkModeForSession()"
-      title="Come to the dark side! 🍪"
-    >
-      Toggle dark mode 🌓
-    </button>
+    <div id="layer_content">
+      <title>%username%'s Snapshots</title>
+      <h1 class="centered">%username%'s Snapshots</h1>
+
+      <div class="wrapper">
+        <div class="child_item_1">
+          <img
+            id="color_image"
+            src=""
+            alt="Color Image"
+            width="300"
+            height="300"
+          />
+        </div>
+        <div class="child_item_2">
+          <img
+            id="depth_image"
+            src=""
+            alt="Depth Image"
+            width="300"
+            height="300"
+          />
+        </div>
+
+        <div class="child_item_3">
+          <canvas id="bar_chart_translation" width="300" height="300"></canvas>
+        </div>
+        <div class="child_item_4">
+          <canvas id="bar_chart_rotation" width="300" height="300"></canvas>
+        </div>
+
+        <div class="child_item_5">
+          <div id="user_feelings"></div>
+        </div>
+
+        <div class="child_item_6">
+          <label>User name : %username%</label><br />
+          <label>User ID : %user_id%</label><br />
+          <label>Birth Date : %birth_date%</label><br />
+          <label>Gender : %gender%</label><br />
+          <label id="current_snapshot"></label><br />
+        </div>
+      </div>
+
+      <!-- Visualization Manager -->
+      <script src="../js/visualization_manager.js"></script>
+      <script>
+        var dSnapshotsDataURL = new URI("%snapshots_data_url%")
+          .resolve(new URI(window.location.href))
+          .toString();
+
+        $.ajax({
+          url: dSnapshotsDataURL,
+          method: "GET",
+          dataType: "JSON",
+          beforeSend: function (xhr) {
+            document.querySelector("#layer_content").style.visibility = "hidden";
+            document.querySelector("#layer_loader").style.visibility = "visible";
+          },
+          success: function (data) {
+            dSnapshotsData = JSON.parse(data);
+            window.vmVisualizationManager = new VisualizationManager(
+              dSnapshotsData
+              );
+              document.querySelector("#layer_loader").style.display = "none";
+              document.querySelector("#layer_content").style.visibility = "visible";
+          },
+        });
+      </script>
+
+      <!-- Dark Mode -->
+      <script>
+        window.dhDarkModeHandler = new DarkModeHandler();
+      </script>
+      <button
+        id="dark_mode_button"
+        onclick="window.dhDarkModeHandler.toggleDarkModeForSession()"
+        title="Come to the dark side! 🍪"
+      >
+        Toggle dark mode 🌓
+      </button>
+    </div>
   </body>
 </html>

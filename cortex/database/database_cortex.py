@@ -70,7 +70,7 @@ class _DataBaseCortex(_DataBaseBase):
                 user_id=user_id                                                    \
                 )
         if user is None:
-            logger.warning('user {user_id} not found!')
+            logger.warning(f'user {user_id} not found!')
         return user
     def get_all_users(self):
         users =                                                                     \
@@ -89,7 +89,7 @@ class _DataBaseCortex(_DataBaseBase):
                 **kwargs                                                            \
                 ) 
         if not update_result:
-            logger.warning('error while updating user {user_id} to {kwargs_to_string(**kwargs)}')
+            logger.warning(f'error while updating user {user_id} to {kwargs_to_string(**kwargs)}')
     # Snapshot Entity Section
     def create_snapshot(self, *, snapshot_uuid, user_id, timestamp):
         return                                                                      \
@@ -114,7 +114,7 @@ class _DataBaseCortex(_DataBaseBase):
                 snapshot_uuid=snapshot_uuid                                         \
                 )
         if snapshot is None:
-            logger.warning('snapshot {snapshot_uuid} not found!')
+            logger.warning(f'snapshot {snapshot_uuid} not found!')
         return snapshot
     def get_user_snapshots(self, *, user_id):
         snapshots =                                                                 \
@@ -123,7 +123,7 @@ class _DataBaseCortex(_DataBaseBase):
                 user_id=user_id                                                     \
                 )
         if snapshots is None:
-            logger.warning('user {user_id} snapshots not found!')
+            logger.warning(f'user {user_id} snapshots not found!')
         return snapshots
     def get_snapshot_details(self, *, user_id, snapshot_uuid):
         snapshot =                                                                  \
@@ -133,7 +133,7 @@ class _DataBaseCortex(_DataBaseBase):
                 snapshot_uuid=snapshot_uuid                                         \
                 )
         if snapshot is None:
-            logger.warning('snapshot {snapshot_uuid} not found!')
+            logger.warning(f'snapshot {snapshot_uuid} not found!')
         # Adding available results to snapshot details
         snapshot.update( { _DataBaseCortex.AVAILABLE_RESULTS_LIST_NAME : [] } )
         for parsed_entity_name in _DataBaseCortex.PARSED_ENTITIES_LIST:
@@ -173,7 +173,7 @@ class _DataBaseCortex(_DataBaseBase):
                 snapshot_uuid=snapshot_uuid,                                        \
                 )
         if pose is None:
-            logger.warning('pose for snapshot {snapshot_uuid} not found!')
+            logger.warning(f'pose for snapshot {snapshot_uuid} not found!')
         return pose
     # User Feelings Entity Section
     def create_user_feelings(self, *,   \
@@ -199,7 +199,7 @@ class _DataBaseCortex(_DataBaseBase):
                 snapshot_uuid=snapshot_uuid                                         \
                 )
         if user_feelings is None:
-            logger.warning('user feelings for snapshot {snapshot_uuid} not found!')
+            logger.warning(f'user feelings for snapshot {snapshot_uuid} not found!')
         return user_feelings
     # User Color Image Entity Section
     def create_color_image(self, *,     \
@@ -223,7 +223,7 @@ class _DataBaseCortex(_DataBaseBase):
                 snapshot_uuid=snapshot_uuid                                         \
                 )
         if color_image is None:
-            logger.warning('color image for snapshot {snapshot_uuid} not found!')
+            logger.warning(f'color image for snapshot {snapshot_uuid} not found!')
         return color_image
     # User Depth Image Entity Section
     def create_depth_image(self, *,     \
@@ -247,7 +247,7 @@ class _DataBaseCortex(_DataBaseBase):
                 snapshot_uuid=snapshot_uuid                                         \
                 )
         if depth_image is None:
-            logger.warning('depth image for snapshot {snapshot_uuid} not found!')
+            logger.warning(f'depth image for snapshot {snapshot_uuid} not found!')
         return depth_image
     # Retrieval Methods Section
     def get_text_retrieval_method(self, parsed_field_name):

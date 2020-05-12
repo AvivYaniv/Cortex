@@ -21,6 +21,13 @@ h1 {
   margin: 4em 0 0.3em 0;
 }
 
+/* Loader Section */
+.loader {
+  position: absolute; /* or fixed */
+  top: 40%;
+  left: 45%;
+}
+
 /* Search Box Section */
 .search_wrapper {
   width: 580px;
