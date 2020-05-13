@@ -40,8 +40,7 @@ class ClientService:
         try:
             self.connection.send_message(hello_message.serialize())
         except Exception as e:
-            logger.error(f'error while sending hello_message: {e}')
-            print(f'TODO DEBUG REMOVE {e}')
+            logger.error(f'error while sending hello_message: {e}')            
             self._is_valid_connection = False
             return
     # Receives configuration message from server
