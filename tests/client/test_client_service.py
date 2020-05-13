@@ -10,7 +10,7 @@ import pytest
 from tests.integration.tools.main_create_example_mind import EXAMPLE_FILE_PATH, DEFAULT_FILE_VERSION
 
 from cortex.client.client_service import ClientService
-# from cortex.client.client_service import 
+from cortex.client.client_service import DEFAULT_HOST, DEFAULT_PORT
 
 from cortex.utils import delete_under_folder
 
@@ -18,9 +18,6 @@ from cortex.server import run_server
 from cortex.server.server_handler import ServerHandler
     
 from tests.test_constants import *
-
-DEFAULT_HOST = '0.0.0.0'
-DEFAULT_PORT = 1234
     
 def delete_server_user_folder_before_and_after(function):
     @functools.wraps(function)
