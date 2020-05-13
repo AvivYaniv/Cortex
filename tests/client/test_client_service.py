@@ -19,7 +19,7 @@ from cortex.server.server_handler import ServerHandler
     
 from tests.test_constants import *
 
-_TEST_PORT = 1234
+_TEST_PORT = 9765
     
 def delete_server_user_folder_before_and_after(function):
     @functools.wraps(function)
