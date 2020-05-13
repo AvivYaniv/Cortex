@@ -1,2 +1,13 @@
-sample.mind.gz
+
+# Mind Files
+*.mind
+*.mind.gz
+example.mind
+example.mind.gz
 sample.mind
+sample.mind.gz
+cortex/sample.mind
+
+# Data Directory
+data/
+data/*.*
