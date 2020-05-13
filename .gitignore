@@ -15,9 +15,6 @@ cortex/sample.mind
 data/
 data/*.*
 
-# Logs Directory
-logs/*
-
 # Compiled Python
 *.pyc
 build/
