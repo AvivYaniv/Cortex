@@ -1,6 +1,3 @@
-# Change working directory to main directory
-import os
-os.chdir('../../../')
 
 from pathlib import Path
 

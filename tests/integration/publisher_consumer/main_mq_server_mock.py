@@ -1,6 +1,3 @@
-# Change working directory to main directory
-import os
-os.chdir('../../../')
 
 from cortex.publisher_consumer.message_queue import MessageQueuePublisherThread 
 from cortex.publisher_consumer.message_queue.context.message_queue_context_factory import MessageQueueContextFactory
