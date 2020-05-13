@@ -34,7 +34,7 @@ def delete_server_user_folder_before_and_after(function):
     
 @pytest.fixture
 def client_service():
-    client_service = ClientService(DEFAULT_HOST, DEFAULT_PORT)    
+    client_service = ClientService(DEFAULT_HOST, _TEST_PORT)    
     return client_service
 
 @delete_server_user_folder_before_and_after
@@ -43,7 +43,7 @@ def test_client_service(client_service, capsys):
     def run_server_thread(test_server_snapshot_published_counter):
         def snapshot_publish(message):            
             test_server_snapshot_published_counter.value += 1            
-        run_server(DEFAULT_HOST, DEFAULT_PORT, publish=snapshot_publish)
+        run_server(DEFAULT_HOST, _TEST_PORT, publish=snapshot_publish)
     import multiprocessing
     server_thread = multiprocessing.Process(target=run_server_thread, args=(test_server_snapshot_published_counter, None))
     server_thread.start()
