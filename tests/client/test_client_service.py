@@ -10,7 +10,7 @@ import pytest
 from tests.integration.tools.main_create_example_mind import EXAMPLE_FILE_PATH, DEFAULT_FILE_VERSION
 
 from cortex.client.client_service import ClientService
-from cortex.client.client_service import DEFAULT_HOST
+from cortex.client.client_service import DEFAULT_PORT
 
 from cortex.utils import delete_under_folder
 
@@ -19,7 +19,7 @@ from cortex.server.server_handler import ServerHandler
     
 from tests.test_constants import *
 
-_TEST_PORT = 9765
+DEFAULT_HOST = '0.0.0.0'
     
 def delete_server_user_folder_before_and_after(function):
     @functools.wraps(function)
@@ -34,7 +34,7 @@ def delete_server_user_folder_before_and_after(function):
     
 @pytest.fixture
 def client_service():
-    client_service = ClientService(DEFAULT_HOST, _TEST_PORT)    
+    client_service = ClientService(DEFAULT_HOST, DEFAULT_PORT)    
     return client_service
 
 @delete_server_user_folder_before_and_after
@@ -43,7 +43,7 @@ def test_client_service(client_service, capsys):
     def run_server_thread(test_server_snapshot_published_counter):
         def snapshot_publish(message):            
             test_server_snapshot_published_counter.value += 1            
-        run_server(DEFAULT_HOST, _TEST_PORT, publish=snapshot_publish)
+        run_server(DEFAULT_HOST, DEFAULT_PORT, publish=snapshot_publish)
     import multiprocessing
     server_thread = multiprocessing.Process(target=run_server_thread, args=(test_server_snapshot_published_counter, None))
     server_thread.start()
