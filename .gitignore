@@ -5,6 +5,8 @@
 # Mind Files
 *.mind
 *.mind.gz
+example.mind
+example.mind.gz
 sample.mind
 sample.mind.gz
 cortex/sample.mind
@@ -14,7 +16,7 @@ data/
 data/*.*
 
 # Logs Directory
-logs/
+logs/*
 
 # Compiled Python
 *.pyc
