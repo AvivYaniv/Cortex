@@ -43,7 +43,7 @@ class SnapshotMessageNative(SnapshotMessage):
         header =                                                                                                \
             pack(SnapshotMessageNative.SERIALIZATION_ENDIANITY + SnapshotMessageNative.SERIALIZATION_HEADER,    \
                  self.timestamp,                                                                                \
-                 *self.pose.translation.get(),                                                                             \
+                 *self.pose.translation.get(),                                                                  \
                  *self.pose.rotation.get())
         body =                                                                                                  \
             self.color_image.serialize() + self.depth_image.serialize()    

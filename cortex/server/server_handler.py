@@ -88,8 +88,9 @@ class ServerHandler(threading.Thread):
         return get_data_hash(data)
     # File Handling Methods Section
     # Generate path to save file
-    def _get_save_path(self, *pathsegments, fname=None, extension=None):
-        return self.files_handler.to_safe_file_path(*pathsegments, fname=fname, extension=extension)
+    @staticmethod
+    def _get_save_path(*pathsegments, fname=None, extension=None):
+        return _FileHandler.to_safe_file_path(*pathsegments, fname=fname, extension=extension)
     # Save file
     def _save_file(self, path, data):
         return self.files_handler.save(path, data)
@@ -101,13 +102,15 @@ class ServerHandler(threading.Thread):
         except Exception as e:
             logger.error(f'error parsing hello_message : {e}')
             self._is_valid_connection = False
+    @staticmethod
+    def get_user_snapshots_path(user_id):
+        return ServerHandler._get_save_path(ConstantPathes.get_snapshots_path(), user_id)    
     # Saves snapshot
     def _save_snapshot(self, snapshot_uuid, snapshot_message_bytes):
-        snapshot_path   =                               \
-            self._get_save_path(                        \
-                ConstantPathes.get_snapshots_path(),    \
-                self.context.user_info.user_id,         \
-                snapshot_uuid,                          \
+        snapshot_path   =                                                               \
+            ServerHandler._get_save_path(                                               \
+                ServerHandler.get_user_snapshots_path(self.context.user_info.user_id),  \
+                snapshot_uuid,                                                          \
                 SNAPSHOT_FILE_NAME)
         # Deduping snapshots (to avoid multiple saving and handling of existing snapshots) 
         if self.files_handler.is_file_exists(snapshot_path):
@@ -137,7 +140,7 @@ class ServerHandler(threading.Thread):
         raw_snapshot_path   = self._save_snapshot(snapshot_uuid, snapshot_message_bytes)
         # If error occurred while saving snapshot
         if not raw_snapshot_path:
-            return
+            return        
         # Publishing snapshot message
         self.publish_snapshot_message(snapshot_uuid, raw_snapshot_path)        
     # Core Logic Methods Section  

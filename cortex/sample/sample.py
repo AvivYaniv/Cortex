@@ -2,9 +2,9 @@ from .userinformation import UserInformation
 from .snapshot import Snapshot
 
 class Sample:
-    def __init__(self, user_information, snapshots):
-        self.user_information = user_information
-        self.snapshots        = snapshots
+    def __init__(self, user_information, snapshots):        
+        self.user_information   = user_information
+        self.snapshots          = snapshots
          
     def __repr__(self):
         return f'Sample(' + self.user_information.__repr__() + ', Snapshots=' + len(self.snapshots) + ')'

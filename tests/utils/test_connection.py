@@ -5,7 +5,6 @@ import pytest
 
 from cortex.utils import Connection
 
-
 _PORT = 1234
 
 

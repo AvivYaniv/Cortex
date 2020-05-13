@@ -49,7 +49,10 @@ class MindStreamReader:
         return self
     
     def __next__(self):
-        return self.reader.read_snapshot()
+        try:
+            return self.reader.read_snapshot()
+        except EOFError:
+            raise StopIteration        
         
 class MindFileReader(MindStreamReader):
     def __init__(self, file_path, version=None):

@@ -4,6 +4,9 @@ import logging.config
 from cortex.utils.files.file_paths import get_project_file_path_by_caller
 from cortex.readers.dictionary import DictionayReaderDriver
 
+# Change working directory to main directory, because logs are relative to that path
+os.chdir(os.path.dirname(os.path.realpath(__file__)) + '/../../')
+
 # Logging configuration file
 LOGGER_CONFIG_FILE_NAME                         = 'logging_config.yaml'
 
