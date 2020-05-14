@@ -34,43 +34,38 @@ class ClientService:
         self.server_ip_str              = host if host else DEFAULT_HOST
         self.server_port_int            = int(port if port else DEFAULT_PORT)
     # Methods Section
-    # Sends hello message to server
-    def send_hello_message(self, user_information):
-        hello_message = protocol.get_message(ProtocolMessagesTyeps.HELLO_MESSAGE)(user_information)
+    # Message Creation
+    @staticmethod
+    def create_message(message_type, *args, **kwargs):
+        return protocol.get_message(message_type)(*args, **kwargs)
+    
+    def send_message(self, message_type, *args, **kwargs):
+        message = ClientService.create_message(message_type, *args, **kwargs)
         try:
-            self.connection.send_message(hello_message.serialize())
+            self.connection.send_message(message.serialize())            
+            if ProtocolMessagesTyeps.SNAPSHOT_MESSAGE == message_type:
+                self.total_snapshots_uploaded   += 1
         except Exception as e:                
-            logger.error(f'error while sending hello_message: {e}')            
+            logger.error(f'error while sending message type {message_type} : {e}')            
             self._is_valid_connection = False
             return
+ 
     # Receives configuration message from server
-    def receive_config_message(self):
+    def receive_message(self, message_type):
         try:
-            config_message_bytes           = self.connection.receive_message()
+            message_bytes           = self.connection.receive_message()
         except Exception as e:
-            logger.error(f'error receiving config_message : {e}')
+            logger.error(f'error receiving message type {message_type} : {e}')
             self._is_valid_connection   = False
             return None
         try:
-            config_message                 = protocol.get_message(ProtocolMessagesTyeps.CONFIG_MESSAGE).read(config_message_bytes)
-        except Exception as e:
-            # TODO DEBUG REMOVE
-            raise e
-            # TODO DEBUG REMOVE
-            logger.error(f'error while parsing config_message: {e}')
+            config_message                 = protocol.get_message(message_type).read(message_bytes)
+        except Exception as e:            
+            logger.error(f'error while parsing message type {message_type} : {e}')
             self._is_valid_connection     = False
             return None
         return config_message
-    # Sends snapshot message to server
-    def send_snapshot_message(self, snapshot, fields):
-        snapshot_message = protocol.get_message(ProtocolMessagesTyeps.SNAPSHOT_MESSAGE)(snapshot, fields)
-        try:
-            self.connection.send_message(snapshot_message.serialize())
-            self.total_snapshots_uploaded   += 1
-        except Exception as e:
-            logger.error(f'error while sending snapshot_message: {e}')
-            self._is_valid_connection = False
-            return
+    
     # Uploads a mind file to server    
     def upload_sample(self, file_path='', version=''):
         file_path     = file_path if file_path else DEFAULT_FILE_PATH
@@ -88,18 +83,18 @@ class ClientService:
             with Connection.connect(self.server_ip_str, self.server_port_int) as connection:                    
                 self.connection      =      connection
                 # Sending hello message
-                user_information     =      sample_reader.user_information                
-                self.send_hello_message(user_information)
+                user_information     =      sample_reader.user_information
+                self.send_message(ProtocolMessagesTyeps.HELLO_MESSAGE, user_information)
                 if not self._is_valid_connection:
                     return
                 # Receiving configuration message
-                config_message = self.receive_config_message()
+                config_message = self.receive_message(ProtocolMessagesTyeps.CONFIG_MESSAGE)
                 if not self._is_valid_connection:
                     return
                 fields = config_message.fields            
                 # Sending snapshot messages
-                for snapshot in sample_reader:                    
-                    self.send_snapshot_message(snapshot, fields)
+                for snapshot in sample_reader:
+                    self.send_message(ProtocolMessagesTyeps.SNAPSHOT_MESSAGE, snapshot, fields)
                     if not self._is_valid_connection:
                         return
         # Logging client has finished to upload file

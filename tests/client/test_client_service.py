@@ -11,7 +11,7 @@ import pytest
 from tests.integration.tools.main_create_example_mind import EXAMPLE_FILE_PATH, DEFAULT_FILE_VERSION
 
 from cortex.client.client_service import ClientService
-from cortex.client.client_service import DEFAULT_HOST, DEFAULT_PORT
+from cortex.client.client_service import DEFAULT_PORT
 
 from cortex.utils import delete_under_folder
 
@@ -19,6 +19,9 @@ from cortex.server import run_server
 from cortex.server.server_handler import ServerHandler
     
 from tests.test_constants import *
+    
+# Constants Definition
+TEST_HOST = '0.0.0.0'
     
 def delete_server_user_folder_before_and_after(function):
     @functools.wraps(function)
@@ -33,19 +36,26 @@ def delete_server_user_folder_before_and_after(function):
     
 @pytest.fixture
 def client_service():
-    client_service = ClientService(DEFAULT_HOST, DEFAULT_PORT)    
+    client_service = ClientService(TEST_HOST, DEFAULT_PORT)    
     return client_service
 
 @delete_server_user_folder_before_and_after
 def test_client_service(client_service, capsys):
+    # Creating shared-memory value to count published snapshots
     test_server_snapshot_published_counter = Value('i', 0)    
     def run_server_thread(test_server_snapshot_published_counter):
-        def snapshot_publish(message):            
+        def snapshot_publish(message):
+            # Update shared-memory published snapshots counter
             test_server_snapshot_published_counter.value += 1            
-        run_server(DEFAULT_HOST, DEFAULT_PORT, publish=snapshot_publish)    
-    server_thread = multiprocessing.Process(target=run_server_thread, args=(test_server_snapshot_published_counter, None))
-    server_thread.start()
+        run_server(TEST_HOST, DEFAULT_PORT, publish=snapshot_publish)
+    # Spawn process for server thread
+    server_proccess = multiprocessing.Process(target=run_server_thread, args=[test_server_snapshot_published_counter])
+    server_proccess.start()
+    # Upload to server
     client_service.upload_sample(EXAMPLE_FILE_PATH, DEFAULT_FILE_VERSION)
-    time.sleep(SERVER_SNAPSHOT_MAX_DURATION_HANDLING * client_service.total_snapshots_uploaded)
-    server_thread.kill()    
+    # Wait for server to handle messages and kill it
+    server_proccess.join(SERVER_SNAPSHOT_MAX_DURATION_HANDLING * client_service.total_snapshots_uploaded)
+    server_proccess.kill()
+    # Ensure snapshots have been published
+    assert 0 < test_server_snapshot_published_counter.value
     assert client_service.total_snapshots_uploaded == test_server_snapshot_published_counter.value
