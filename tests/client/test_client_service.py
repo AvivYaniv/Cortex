@@ -47,5 +47,5 @@ def test_client_service(client_service, capsys):
     server_thread.start()
     client_service.upload_sample(EXAMPLE_FILE_PATH, DEFAULT_FILE_VERSION)
     time.sleep(SERVER_SNAPSHOT_MAX_DURATION_HANDLING * client_service.total_snapshots_uploaded)    
-    server_thread.kill()    
+    #server_thread.kill()    
     assert client_service.total_snapshots_uploaded == test_server_snapshot_published_counter.value
