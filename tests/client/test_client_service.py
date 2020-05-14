@@ -3,6 +3,7 @@ import time
 
 import functools
 
+import multiprocessing
 from multiprocessing import Value
 
 import pytest
@@ -41,8 +42,7 @@ def test_client_service(client_service, capsys):
     def run_server_thread(test_server_snapshot_published_counter):
         def snapshot_publish(message):            
             test_server_snapshot_published_counter.value += 1            
-        run_server(DEFAULT_HOST, DEFAULT_PORT, publish=snapshot_publish)
-    import multiprocessing
+        run_server(DEFAULT_HOST, DEFAULT_PORT, publish=snapshot_publish)    
     server_thread = multiprocessing.Process(target=run_server_thread, args=(test_server_snapshot_published_counter, None))
     server_thread.start()
     client_service.upload_sample(EXAMPLE_FILE_PATH, DEFAULT_FILE_VERSION)

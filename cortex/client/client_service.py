@@ -19,7 +19,7 @@ logger_loader.load_log_config()
 # Constants Section
 DEFAULT_HOST            =    '127.0.0.1'
 DEFAULT_PORT            =    '8000'
-DEFAULT_FILE_PATH        =    'sample.mind.gz'
+DEFAULT_FILE_PATH       =    'sample.mind.gz'
 DEFAULT_FILE_VERSION    =    ReaderVersions.PROTOBUFF
 
 # Setting default protocol    
@@ -40,6 +40,9 @@ class ClientService:
         try:
             self.connection.send_message(hello_message.serialize())
         except Exception as e:
+            # TODO DEBUG REMOVE
+            raise e
+            # TODO DEBUG REMOVE            
             logger.error(f'error while sending hello_message: {e}')            
             self._is_valid_connection = False
             return
@@ -48,12 +51,18 @@ class ClientService:
         try:
             config_message_bytes           = self.connection.receive_message()
         except Exception as e:
+            # TODO DEBUG REMOVE
+            raise e
+            # TODO DEBUG REMOVE
             logger.error(f'error receiving config_message : {e}')
             self._is_valid_connection   = False
             return None
         try:
             config_message                 = protocol.get_message(ProtocolMessagesTyeps.CONFIG_MESSAGE).read(config_message_bytes)
         except Exception as e:
+            # TODO DEBUG REMOVE
+            raise e
+            # TODO DEBUG REMOVE
             logger.error(f'error while parsing config_message: {e}')
             self._is_valid_connection     = False
             return None
