@@ -40,7 +40,7 @@ def client_service():
     return client_service
 
 @delete_server_user_folder_before_and_after
-def test_client_service(client_service, capsys):
+def test_client_service(client_service):
     # Creating shared-memory value to count published snapshots
     test_server_snapshot_published_counter = Value('i', 0)    
     def run_server_thread(test_server_snapshot_published_counter):

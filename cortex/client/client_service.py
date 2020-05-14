@@ -47,29 +47,28 @@ class ClientService:
                 self.total_snapshots_uploaded   += 1
         except Exception as e:                
             logger.error(f'error while sending message type {message_type} : {e}')            
-            self._is_valid_connection = False
-            return
+            self._is_valid_connection = False            
  
     # Receives configuration message from server
     def receive_message(self, message_type):
         try:
-            message_bytes           = self.connection.receive_message()
+            message_bytes               = self.connection.receive_message()
         except Exception as e:
             logger.error(f'error receiving message type {message_type} : {e}')
             self._is_valid_connection   = False
             return None
         try:
-            config_message                 = protocol.get_message(message_type).read(message_bytes)
+            message                     = protocol.get_message(message_type).read(message_bytes)
         except Exception as e:            
             logger.error(f'error while parsing message type {message_type} : {e}')
-            self._is_valid_connection     = False
+            self._is_valid_connection   = False
             return None
-        return config_message
+        return message
     
     # Uploads a mind file to server    
     def upload_sample(self, file_path='', version=''):
-        file_path     = file_path if file_path else DEFAULT_FILE_PATH
-        version     = version if version else DEFAULT_FILE_VERSION
+        file_path       = file_path if file_path else DEFAULT_FILE_PATH
+        version         = version if version else DEFAULT_FILE_VERSION
         # Logging initialization
         logger.info(f'initializing client to upload {file_path} of version {version} to server at {self.server_ip_str}:{self.server_port_int}')
         # Validating sample file exists - else quitting
