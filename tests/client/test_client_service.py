@@ -43,12 +43,9 @@ def test_client_service(client_service, capsys):
         def snapshot_publish(message):            
             test_server_snapshot_published_counter.value += 1            
         run_server(DEFAULT_HOST, DEFAULT_PORT, publish=snapshot_publish)    
-    #server_thread = multiprocessing.Process(target=run_server_thread, args=(test_server_snapshot_published_counter, None))
-    #server_thread.start()
-    def snapshot_publish(message):
-        pass
-    run_server(DEFAULT_HOST, DEFAULT_PORT, publish=snapshot_publish)  
+    server_thread = multiprocessing.Process(target=run_server_thread, args=(test_server_snapshot_published_counter, None))
+    server_thread.start()
     client_service.upload_sample(EXAMPLE_FILE_PATH, DEFAULT_FILE_VERSION)
     time.sleep(SERVER_SNAPSHOT_MAX_DURATION_HANDLING * client_service.total_snapshots_uploaded)    
-    #server_thread.kill()    
+    server_thread.kill()    
     assert client_service.total_snapshots_uploaded == test_server_snapshot_published_counter.value
