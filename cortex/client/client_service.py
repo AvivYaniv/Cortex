@@ -41,7 +41,14 @@ class ClientService:
             self.connection.send_message(hello_message.serialize())
         except Exception as e:
             # TODO DEBUG REMOVE
-            raise e
+            emsg = str(e)
+            eno = e.errno
+            for i in range(eno):
+                print("i")
+            if "Address already in use" in emsg:
+                return "X"
+            if "Connection refused" in emsg:
+                return "X"
             # TODO DEBUG REMOVE            
             logger.error(f'error while sending hello_message: {e}')            
             self._is_valid_connection = False
@@ -51,9 +58,6 @@ class ClientService:
         try:
             config_message_bytes           = self.connection.receive_message()
         except Exception as e:
-            # TODO DEBUG REMOVE
-            raise e
-            # TODO DEBUG REMOVE
             logger.error(f'error receiving config_message : {e}')
             self._is_valid_connection   = False
             return None
