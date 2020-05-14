@@ -15,6 +15,7 @@ from cortex.utils.files import get_project_file_path_by_caller
 from cortex.utils.files import _FileHandler
 
 from cortex.utils.folder import delete_under_folder
+from cortex.utils.folder import count_folders_subfolders
 
 from cortex.utils.hash import get_data_hash
 

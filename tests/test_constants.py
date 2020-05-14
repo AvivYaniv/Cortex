@@ -4,7 +4,7 @@ TEST_USER_1_ID                          =   '42'
 TEST_USER_2_ID                          =   '100'
 
 # Durations Section
-SERVER_SNAPSHOT_MAX_DURATION_HANDLING   =   1
+SERVER_SNAPSHOT_MAX_DURATION_HANDLING   =   2
 
 # Hosts
 SERVER_TEST_HOST                        =   '0.0.0.0'

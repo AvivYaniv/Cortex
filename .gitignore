@@ -12,6 +12,10 @@ cortex/sample.mind
 # Test Mind Files
 !example.mind
 !example.mind.gz
+!example42.mind
+!example42.mind.gz
+!example100.mind
+!example100.mind.gz
 
 # Logs
 logs/*

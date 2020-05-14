@@ -8,6 +8,7 @@ from tests.test_constants import TEST_USER_1_ID, TEST_USER_2_ID
 # Change working directory to main directory
 import os
 from cortex.writers.mind.mind_writer import MindFileWriter
+from cortex.entities.user_feelings import UserFeelings
 os.chdir('../../')
 
 # Constants Section
@@ -17,7 +18,7 @@ DEFAULT_FILE_PATH           =   'sample.mind.gz'
 DEFAULT_FILE_VERSION        =   ReaderVersions.PROTOBUFF 
 DEPRECTED_FILE_VERSION      =   [ ReaderVersions.BINARY ]   
 
-def create_example_mind(file_path='', version='', example_user_id=''):
+def create_example_mind(file_path='', version='', example_user_id='', snapshot_manipulator=None):
     file_path           = file_path if file_path else DEFAULT_FILE_PATH
     version             = version if version else DEFAULT_FILE_VERSION
     
@@ -36,6 +37,8 @@ def create_example_mind(file_path='', version='', example_user_id=''):
             snapshots_counter = 0
             for snapshot in sample_reader:                
                 snapshots_counter += 1
+                if snapshot_manipulator:
+                    snapshot_manipulator(snapshot)
                 sample_writer.write_snapshot(snapshot)
                 if EXAMPLE_SNAPSHOTS_NUMBER == snapshots_counter:                    
                     break
@@ -49,6 +52,10 @@ def create_example_mind(file_path='', version='', example_user_id=''):
     assert EXAMPLE_SNAPSHOTS_NUMBER == snapshots_counter 
         
     print(f'Exported {file_path} ---> {example_file_path} successfully!')
-        
+   
+def snapshot_feelings_manipulator(snapshot):
+    original_feelings = snapshot.user_feelings 
+    snapshot.user_feelings = UserFeelings(original_feelings.get()[::-1])    
+    
 if "__main__" == __name__:
-    create_example_mind(example_user_id=TEST_USER_1_ID)   
+    create_example_mind(example_user_id=TEST_USER_2_ID, snapshot_manipulator=snapshot_feelings_manipulator)   

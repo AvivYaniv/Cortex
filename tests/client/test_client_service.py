@@ -4,14 +4,17 @@ from multiprocessing import Value
 
 import pytest
 
-from tests._tools.main_create_example_mind import EXAMPLE_FILE_PATH, DEFAULT_FILE_VERSION
+from tests._tools.main_create_example_mind import DEFAULT_FILE_VERSION
 
 from cortex.client.client_service import ClientService
 from cortex.client.client_service import DEFAULT_PORT
 
 from cortex.server import run_server
 
+from tests.test_constants import TEST_USER_1_ID, TEST_USER_2_ID
 from tests.test_constants import SERVER_TEST_HOST, SERVER_SNAPSHOT_MAX_DURATION_HANDLING
+
+from tests.test_constants import get_user_test_file_path
 
 from tests._test_setup import delete_server_user_folder_before_and_after
 from tests._test_setup.services import client_service
@@ -22,7 +25,7 @@ def test_client_file_not_found(client_service, capsys):
     out, _ = capsys.readouterr()
     assert ClientService.get_file_not_found_message(NON_EXISTANT_FILE_NAME) in out
 
-@delete_server_user_folder_before_and_after
+@delete_server_user_folder_before_and_after()
 def test_client_service(client_service):
     # Creating shared-memory value to count published snapshots
     test_server_snapshot_published_counter = Value('i', 0)    
@@ -35,7 +38,7 @@ def test_client_service(client_service):
     server_proccess = multiprocessing.Process(target=run_server_service, args=[test_server_snapshot_published_counter])
     server_proccess.start()
     # Upload to server
-    client_service.upload_sample(EXAMPLE_FILE_PATH, DEFAULT_FILE_VERSION)
+    client_service.upload_sample(get_user_test_file_path(TEST_USER_1_ID), DEFAULT_FILE_VERSION)
     # Wait for server to handle messages and kill it
     server_proccess.join(SERVER_SNAPSHOT_MAX_DURATION_HANDLING * client_service.total_snapshots_uploaded)
     server_proccess.kill()

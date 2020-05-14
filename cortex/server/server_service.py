@@ -33,27 +33,27 @@ class ServerService:
     # Methods Section
     # Publish Methods Section
     # Generates callback with custom arguments - by this currying function 
-    def publish_mq_callback(self, publish_function, **kwargs):
-        def mq_publish(message):
+    def publish_threadsafe_wrapper(self, publish_function, **kwargs):
+        def publish_threadsafe(message):
             self.lock.acquire()
             try:
                 publish_function(message, **kwargs)
             finally:            
                 self.lock.release()
-        return mq_publish
+        return publish_threadsafe
     # Setting publish snapshot function
     def _set_publish_snapshot_function(self, publish=None, message_queue_type=None, message_queue_host=None, message_queue_port=None):
         # If publish function has been passed
         if publish:
             # Setting publish function
-            self.publish_snapshot_function = publish
+            self.publish_snapshot_function = self.publish_threadsafe_wrapper(publish)
             # Returning, no need to initiate message-queue
             return
         # Initializing Message Queue
         self._init_mq(message_queue_type, message_queue_host, message_queue_port)
         # Setting Message Queue snapshot publish function
         self.mq_publish_snapshot_function   =   self.message_queue_publisher.get_publish_function()
-        self.publish_snapshot_function      =   self.publish_mq_callback(self.mq_publish_snapshot_function, publisher_name='snapshot')
+        self.publish_snapshot_function      =   self.publish_threadsafe(self.mq_publish_snapshot_function, publisher_name='snapshot')
         self.message_queue_publisher.run()
     # Message Queue Methods Section
     # Initialize MessageQueue and set publish function     
