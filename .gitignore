@@ -7,18 +7,10 @@
 *.mind.gz
 sample.mind
 sample.mind.gz
-cortex/sample.mind
-
-# Test Mind Files
-!example.mind
-!example.mind.gz
-!example42.mind
-!example42.mind.gz
-!example100.mind
-!example100.mind.gz
 
 # Logs
 logs/*
+*.log
 
 # Data Directory
 data/
@@ -33,3 +25,11 @@ build/
 *.ffs_db
 cortex/gui/gui_client/sync.ffs_db
 cortex/gui/gui_client/sync.ffs_db
+
+# Test Mind Files
+!example.mind
+!example.mind.gz
+!example42.mind
+!example42.mind.gz
+!example100.mind
+!example100.mind.gz
