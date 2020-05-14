@@ -1,0 +1,3 @@
+2020-05-14 13:49:12,899 - cortex.server.server_service - server_service - INFO - starting server on 0.0.0.0:8000 --- starting server on 0.0.0.0:8000 (server_service.py:75)
+2020-05-14 13:49:12,919 - cortex.server.server_handler - server_handler - INFO - start receiving snapshots from user 42 --- start receiving snapshots from user 42 (server_handler.py:161)
+2020-05-14 13:49:13,847 - cortex.server.server_handler - server_handler - INFO - finished snapshots from user 42 --- finished snapshots from user 42 (server_handler.py:170)

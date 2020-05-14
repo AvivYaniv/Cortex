@@ -8,7 +8,7 @@ from multiprocessing import Value
 
 import pytest
 
-from tests.integration.tools.main_create_example_mind import EXAMPLE_FILE_PATH, DEFAULT_FILE_VERSION
+from tests._tools.main_create_example_mind import EXAMPLE_FILE_PATH, DEFAULT_FILE_VERSION
 
 from cortex.client.client_service import ClientService
 from cortex.client.client_service import DEFAULT_PORT
@@ -19,10 +19,7 @@ from cortex.server import run_server
 from cortex.server.server_handler import ServerHandler
     
 from tests.test_constants import *
-    
-# Constants Definition
-TEST_HOST = '0.0.0.0'
-    
+   
 def delete_server_user_folder_before_and_after(function):
     @functools.wraps(function)
     def wrapper(*args, **kwargs):
@@ -36,7 +33,7 @@ def delete_server_user_folder_before_and_after(function):
     
 @pytest.fixture
 def client_service():
-    client_service = ClientService(TEST_HOST, DEFAULT_PORT)    
+    client_service = ClientService(SERVER_TEST_HOST, DEFAULT_PORT)    
     return client_service
 
 @delete_server_user_folder_before_and_after
@@ -47,7 +44,7 @@ def test_client_service(client_service):
         def snapshot_publish(message):
             # Update shared-memory published snapshots counter
             test_server_snapshot_published_counter.value += 1            
-        run_server(TEST_HOST, DEFAULT_PORT, publish=snapshot_publish)
+        run_server(SERVER_TEST_HOST, DEFAULT_PORT, publish=snapshot_publish)
     # Spawn process for server thread
     server_proccess = multiprocessing.Process(target=run_server_thread, args=[test_server_snapshot_published_counter])
     server_proccess.start()

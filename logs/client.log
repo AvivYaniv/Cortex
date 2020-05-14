@@ -1,0 +1,1 @@
+2020-05-14 13:49:12,896 - cortex.client.client_service - client_service - INFO - initializing client to upload example.mind.gz of version protobuf to server at 0.0.0.0:8000 --- initializing client to upload example.mind.gz of version protobuf to server at 0.0.0.0:8000 (client_service.py:73)
