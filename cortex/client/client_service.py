@@ -12,15 +12,18 @@ import logging
 from cortex.logger import _LoggerLoader
 
 # Log initialization
-logger                    = logging.getLogger(__name__)
-logger_loader             = _LoggerLoader()
+logger                          =   logging.getLogger(__name__)
+logger_loader                   =   _LoggerLoader()
 logger_loader.load_log_config()
 
 # Constants Section
-DEFAULT_HOST            =    '127.0.0.1'
-DEFAULT_PORT            =    '8000'
-DEFAULT_FILE_PATH       =    'sample.mind.gz'
-DEFAULT_FILE_VERSION    =    ReaderVersions.PROTOBUFF
+DEFAULT_HOST                    =    '127.0.0.1'
+DEFAULT_PORT                    =    '8000'
+DEFAULT_FILE_PATH               =    'sample.mind.gz'
+DEFAULT_FILE_VERSION            =    ReaderVersions.PROTOBUFF
+
+# Messages Section
+FILE_NOT_FOUND_MESSAGE_FORMAT   =   'sample file not found at path %s'
 
 # Setting default protocol    
 protocol = Protocol() 
@@ -34,6 +37,10 @@ class ClientService:
         self.server_ip_str              = host if host else DEFAULT_HOST
         self.server_port_int            = int(port if port else DEFAULT_PORT)
     # Methods Section
+    # Output messages
+    @staticmethod
+    def get_file_not_found_message(file_path):
+        return FILE_NOT_FOUND_MESSAGE_FORMAT % ( file_path )
     # Message Creation
     @staticmethod
     def create_message(message_type, *args, **kwargs):
@@ -73,7 +80,9 @@ class ClientService:
         logger.info(f'initializing client to upload {file_path} of version {version} to server at {self.server_ip_str}:{self.server_port_int}')
         # Validating sample file exists - else quitting
         if not os.path.isfile(file_path):
-            logger.error(f'sample file not found at path {file_path}')
+            error_message = ClientService.get_file_not_found_message(file_path)
+            logger.error(error_message)
+            print(error_message)
             return
         # Initializing connection status as valid
         self._is_valid_connection = True        
