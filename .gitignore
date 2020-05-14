@@ -2,15 +2,15 @@
 .project
 .pydevproject
 
+# Logs
+logs/*
+*.log
+
 # Mind Files
 *.mind
 *.mind.gz
 sample.mind
 sample.mind.gz
-
-# Logs
-logs/*
-*.log
 
 # Data Directory
 data/
