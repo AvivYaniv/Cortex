@@ -4,6 +4,6 @@ python:
 install:
   - pip install -r requirements.txt
 script:
-  - pytest -r --cov-report term --cov=cortex
+  - pytest --trace --cov-report term --cov=cortex
 after_success:
   - codecov
