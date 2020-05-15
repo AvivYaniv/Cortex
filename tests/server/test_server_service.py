@@ -7,8 +7,6 @@ from multiprocessing import Manager
 
 import pytest
 
-from tests._tools.main_create_example_mind import DEFAULT_FILE_VERSION
-
 from cortex.client.client_service import ClientService
 from cortex.client.client_service import DEFAULT_PORT
 
@@ -25,17 +23,8 @@ from cortex.utils.folder import count_folders_subfolders
 from tests.test_constants import TEST_USER_1_ID, TEST_USER_2_ID
 from tests.test_constants import SERVER_TEST_HOST, SERVER_SNAPSHOT_MAX_DURATION_HANDLING
 
-from tests.test_constants import get_user_test_file_path
-
+from tests._test_setup.services import run_client_service
 from tests._test_setup import delete_server_user_folder_before_and_after
-
-def run_client_service(client_sent_snapshots_counter, test_user_id=None):        
-    client_service  = ClientService(SERVER_TEST_HOST, DEFAULT_PORT)
-    test_user_id    = test_user_id if test_user_id else TEST_USER_1_ID
-    test_file_path  = get_user_test_file_path(test_user_id)
-    # Upload to server
-    client_service.upload_sample(test_file_path, DEFAULT_FILE_VERSION)
-    client_sent_snapshots_counter.value = client_service.total_snapshots_uploaded  
 
 @delete_server_user_folder_before_and_after()
 def test_server_service():

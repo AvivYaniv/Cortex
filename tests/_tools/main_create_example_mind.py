@@ -5,6 +5,8 @@ from cortex.readers.reader_versions import ReaderVersions
 from tests.test_constants import get_user_test_file_path
 from tests.test_constants import TEST_USER_1_ID, TEST_USER_2_ID
 
+from tests.test_constants import DEFAULT_FILE_VERSION
+
 # Change working directory to main directory
 import os
 from cortex.writers.mind.mind_writer import MindFileWriter
@@ -15,7 +17,7 @@ os.chdir('../../')
 EXAMPLE_SNAPSHOTS_NUMBER    =   5
 DEFAULT_FILE_PATH           =   'sample.mind.gz'
 
-DEFAULT_FILE_VERSION        =   ReaderVersions.PROTOBUFF 
+
 DEPRECTED_FILE_VERSION      =   [ ReaderVersions.BINARY ]   
 
 def create_example_mind(file_path='', version='', example_user_id='', snapshot_manipulator=None):

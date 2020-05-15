@@ -1,8 +1,17 @@
 
 def is_interleaved_list(lst):
-    last_item = lst[0]
-    for i in range(1, 1+len(lst)):
-        if lst[i] != last_item:
+    last = lst[0]
+    blocks = { last }
+    for i in range(1, len(lst)):
+        current = lst[i]
+        # If in same block
+        if current == last:
+            continue
+        # If new block id has occurred - therefore interleaving
+        if current in blocks:
             return True
-        last_item = lst[i]
+        # Add to blocks
+        blocks.add(current)
+        # Update last block to current
+        last = current
     return False

@@ -21,7 +21,7 @@ DEFAULT_HOST            =    '127.0.0.1'
 DEFAULT_PORT            =    '8000'
 
 class ServerService:
-    lock                        = threading.Lock()
+    lock                = threading.Lock()
     
     # Constructor Section
     def __init__(self, host='', port='', publish=None, message_queue_type=None, message_queue_host=None, message_queue_port=None):
@@ -53,7 +53,7 @@ class ServerService:
         self._init_mq(message_queue_type, message_queue_host, message_queue_port)
         # Setting Message Queue snapshot publish function
         self.mq_publish_snapshot_function   =   self.message_queue_publisher.get_publish_function()
-        self.publish_snapshot_function      =   self.publish_threadsafe(self.mq_publish_snapshot_function, publisher_name='snapshot')
+        self.publish_snapshot_function      =   self.publish_threadsafe_wrapper(self.mq_publish_snapshot_function, publisher_name='snapshot')
         self.message_queue_publisher.run()
     # Message Queue Methods Section
     # Initialize MessageQueue and set publish function     

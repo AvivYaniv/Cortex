@@ -114,7 +114,7 @@ class ServerHandler(threading.Thread):
                 SNAPSHOT_FILE_NAME)
         # Deduping snapshots (to avoid multiple saving and handling of existing snapshots) 
         if self.files_handler.is_file_exists(snapshot_path):
-            return None
+            return None        
         # Save snapshot
         is_saved        = self._save_file(snapshot_path, snapshot_message_bytes)
         if not is_saved:
