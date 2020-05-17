@@ -1,12 +1,12 @@
 
 import functools 
 
-from tests.test_constants import TEST_USER_1_ID
+from tests.test_constants import get_test_user
 
 from cortex.utils import delete_under_folder
 from cortex.server.server_handler import ServerHandler
 
-def delete_server_user_folder_before_and_after(user_id=TEST_USER_1_ID):
+def delete_server_user_folder_before_and_after(user_id=get_test_user(1).ID):
     def decorator(function):
         @functools.wraps(function)
         def wrapper(*args, **kwargs):            
@@ -17,5 +17,4 @@ def delete_server_user_folder_before_and_after(user_id=TEST_USER_1_ID):
             return result
         return wrapper
     return decorator
-
     

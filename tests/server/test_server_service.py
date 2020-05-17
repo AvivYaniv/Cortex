@@ -20,7 +20,7 @@ from cortex.publisher_consumer.messages import MessageQueueMessages, MessageQueu
 
 from cortex.utils.folder import count_folders_subfolders
 
-from tests.test_constants import TEST_USER_1_ID, TEST_USER_2_ID
+from tests.test_constants import get_test_user
 from tests.test_constants import SERVER_TEST_HOST, SERVER_SNAPSHOT_MAX_DURATION_HANDLING
 
 from tests._test_setup.services import run_client_service
@@ -52,8 +52,8 @@ def test_server_service():
     assert 0 < test_server_snapshot_published_counter.value
     assert client_sent_snapshots_counter.value == test_server_snapshot_published_counter.value
 
-@delete_server_user_folder_before_and_after(TEST_USER_1_ID)
-@delete_server_user_folder_before_and_after(TEST_USER_2_ID)
+@delete_server_user_folder_before_and_after(get_test_user(1).ID)
+@delete_server_user_folder_before_and_after(get_test_user(2).ID)
 def test_server_service_multiple_clients():
     # Creating shared-memory value to count published snapshots
     test_server_snapshot_published_counter  = Value('i', 0)    
@@ -70,7 +70,7 @@ def test_server_service_multiple_clients():
     server_proccess = multiprocessing.Process(target=run_server_service, args=[test_server_snapshot_published_counter, test_server_snapshot_published_ids])
     server_proccess.start()    
     # Clients processes handling
-    test_users_ids                      = [ TEST_USER_1_ID, TEST_USER_2_ID ]
+    test_users_ids                      = [ get_test_user(1).ID, get_test_user(2).ID ]
     test_users_snapshots_counters       = [ ]
     client_proccesses_list              = [ ]     
     # Create process for client threads
@@ -135,6 +135,6 @@ def test_server_snapshots_dedup():
     # Ensure number of snapshots published equals the number of snapshots in current last execution, thus, duplicate snapshot uploading won't be published 
     assert client_sent_snapshots_counter.value == test_server_snapshot_published_counter.value
     # Ensure total snapshots folders is as much as snapshots in file
-    total_snapshots_folders = count_folders_subfolders(ServerHandler.get_user_snapshots_path(TEST_USER_1_ID))
+    total_snapshots_folders = count_folders_subfolders(ServerHandler.get_user_snapshots_path(get_test_user(1).ID))
     assert total_snapshots_folders == client_sent_snapshots_counter.value  
     

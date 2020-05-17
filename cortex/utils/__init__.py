@@ -19,6 +19,8 @@ from cortex.utils.folder import count_folders_subfolders
 
 from cortex.utils.hash import get_data_hash
 
+from cortex.utils.locators import change_direcoty_to_project_root
+
 from cortex.utils.modules import DynamicModuleLoader
 
 from cortex.utils.network import Connection

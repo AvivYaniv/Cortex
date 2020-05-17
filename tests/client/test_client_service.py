@@ -6,14 +6,14 @@ import time
 
 import pytest
 
-from tests._tools.main_create_example_mind import DEFAULT_FILE_VERSION
+from tests.test_constants import DEFAULT_FILE_VERSION
 
 from cortex.client.client_service import ClientService
 from cortex.client.client_service import DEFAULT_PORT
 
 from cortex.server import run_server
 
-from tests.test_constants import TEST_USER_1_ID
+from tests.test_constants import get_test_user
 from tests.test_constants import SERVER_TEST_HOST, SERVER_SNAPSHOT_MAX_DURATION_HANDLING
 
 from tests.test_constants import get_user_test_file_path
@@ -40,7 +40,7 @@ def test_client_service(client_service):
     server_proccess = multiprocessing.Process(target=run_server_service, args=[test_server_snapshot_published_counter])
     server_proccess.start()
     # Upload to server
-    client_service.upload_sample(get_user_test_file_path(TEST_USER_1_ID), DEFAULT_FILE_VERSION)
+    client_service.upload_sample(get_user_test_file_path(get_test_user(1).ID), DEFAULT_FILE_VERSION)
     # Wait for server to handle messages and kill it
     server_proccess.join(SERVER_SNAPSHOT_MAX_DURATION_HANDLING * client_service.total_snapshots_uploaded)
     server_proccess.kill()

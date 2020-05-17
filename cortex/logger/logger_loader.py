@@ -4,8 +4,7 @@ import logging.config
 from cortex.utils.files.file_paths import get_project_file_path_by_caller
 from cortex.readers.dictionary import DictionayReaderDriver
 
-# Change working directory to main directory, because logs are relative to that path
-os.chdir(os.path.dirname(os.path.realpath(__file__)) + '/../../')
+from cortex.utils import change_direcoty_to_project_root
 
 # Logging configuration file
 LOGGER_CONFIG_FILE_NAME                         = 'logging_config.yaml'
@@ -43,6 +42,7 @@ class _LoggerLoader:
                     print(ERROR_PARSING_CONFIGURATION_FILE)
         return dictionary 
     
+    @change_direcoty_to_project_root()
     def load_log_config(self, default_level=None):
         default_level = default_level if default_level else DEFAULT_LOGGING_LEVEL
         if not _LoggerLoader.s_is_log_config_initialized:
