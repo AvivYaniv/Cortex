@@ -2,6 +2,8 @@ import os
 
 from cortex.utils import DynamicModuleLoader
 
+from cortex.protocol import ProtocolMessagesTyeps, Protocol
+
 from cortex.parsers.snapshot.parser_file_handler import ParserFileHandler
 
 import logging
@@ -21,6 +23,7 @@ class Parser:
     
     def __init__(self, parser_type):
         self.initialized    = True
+        self.protocol       = Protocol() 
         self._file_handler  = ParserFileHandler()
         dir_path = os.path.dirname(os.path.realpath(__file__))
         imported_modules_names = DynamicModuleLoader.load_modules(dir_path)
@@ -28,25 +31,38 @@ class Parser:
             DynamicModuleLoader.dynamic_lookup_to_dictionary(imported_modules_names, self.LOOKUP_TOKEN, self.NAME_IDENTIFIER)
         self._set_parser_function(parser_type)
       
-    def parse(self, raw_snapshot_path):
-        raw_snapshot = self._file_handler.read_file(raw_snapshot_path, 'rb')
-        return self.parse_snapshot(raw_snapshot)
+    def read_raw_snapshot(self, raw_snapshot_path):
+        raw_snapshot    = self._file_handler.read_file(raw_snapshot_path, 'rb')
+        snapshot        = self.protocol.get_message(ProtocolMessagesTyeps.SNAPSHOT_MESSAGE).read(raw_snapshot)
+        return snapshot
     
     def parse_snapshot(self, raw_snapshot):
         return self._parser_function(raw_snapshot)
+    
+    def parse(self, raw_snapshot_path):
+        try:
+            snapshot    = self.read_raw_snapshot(raw_snapshot_path)
+        except Exception as e:
+            logger.error(f'error reading snapshot file {raw_snapshot_path} : {e}')
+            return None
+        result          = self.parse_snapshot(snapshot)
+        return (result, snapshot)
     
     def save_parsed(self, context, result):
         file_path = self._file_handler.get_path(context, self._parser_extension)
         self._file_handler.save_file(file_path, result)
         return file_path
         
-    def export_parse(self, context, raw_snapshot):
-        is_uri = False   
-        result      = self.parse_snapshot(raw_snapshot)
+    def export_parse(self, context, raw_snapshot_message):
+        is_uri              = False
+        parse_result        = self.parse(raw_snapshot_message.raw_snapshot_path)
+        if not parse_result:
+            return None        
+        result, snapshot    = parse_result        
         if self._is_save_required:
-            result = self.save_parsed(context, result)
-            is_uri = True
-        return (is_uri, result)
+            result          = self.save_parsed(context, result)
+            is_uri          = True
+        return (is_uri, result, snapshot)
 
     def _set_parser_function(self, parser_type):
         self._parser_object     = None

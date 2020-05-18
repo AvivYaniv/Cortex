@@ -28,8 +28,9 @@ def parse(parser_type, raw_snapshot_path):
     and prints the result, as published to the message queue 
     (optionally redirecting it to a file).
     """
-    parser       = Parser(parser_type)
-    return parser.parse(raw_snapshot_path)
+    parser          = Parser(parser_type)
+    result, _       = parser.parse(raw_snapshot_path)
+    return result
 
 @main.command()
 @click.argument('parser_type', type=str)

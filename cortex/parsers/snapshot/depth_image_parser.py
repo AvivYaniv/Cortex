@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
+import warnings
+
 import io
 
 class DepthImageParser:
@@ -12,7 +14,9 @@ class DepthImageParser:
     
     def parse(self, snapshot):
         matplotlib.use('Agg')
+        warnings.filterwarnings('ignore', category=PendingDeprecationWarning)
         image               = np.mat(snapshot.depth_image.data)
+        warnings.filterwarnings('default', category=PendingDeprecationWarning)
         image               = image.reshape(snapshot.depth_image.width, snapshot.depth_image.height)
         plt.imshow(image, cmap='hot')
         plt.axis('off')

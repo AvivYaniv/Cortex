@@ -28,14 +28,33 @@ SERVER_SNAPSHOT_MAX_DURATION_HANDLING   =   2
 # Hosts
 SERVER_TEST_HOST                        =   '0.0.0.0'
 
+# Tests Folder
+TESTS_FOLDER                            =   'tests'
+
 # File Version
 DEFAULT_FILE_VERSION                    =   ReaderVersions.PROTOBUFF 
 
 # File names
 EXAMPLE_FILE_PATH_FORMAT                =   'example%s.mind.gz'
 
+# Raw Snapshot
+RAW_SNAPSHOT_FOLDER                     =   '_snapshot'
+RAW_SNAPSHOT_FILE_NAME                  =   'snapshot.raw'
+
+# Parser Results
+PARSER_RESULT_FILE_EXTENSTION           =   '.result'
+
 def project_root():
     return str(pathlib.Path(abspath(getsourcefile(lambda:0))).parent.parent)
 
 def get_user_test_file_path(test_user_number):
     return str(pathlib.Path(project_root(), EXAMPLE_FILE_PATH_FORMAT % test_user_number))
+
+def get_raw_snapshot_file_path():
+    return str(pathlib.Path(project_root(), TESTS_FOLDER, RAW_SNAPSHOT_FOLDER, RAW_SNAPSHOT_FILE_NAME))
+
+def get_snapshot_result_file_name(parser_type):
+    return parser_type + PARSER_RESULT_FILE_EXTENSTION
+
+def get_raw_snapshot_result_path(parser_type):
+    return str(pathlib.Path(project_root(), TESTS_FOLDER, RAW_SNAPSHOT_FOLDER, get_snapshot_result_file_name(parser_type)))

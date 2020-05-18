@@ -4,7 +4,7 @@ from cortex.utils import _FileHandler
 from cortex.utils import ConstantPathes
 
 class ParserFileHandler:
-    EXTENSIONS_TO_SAVE  =   [ '.png', '.gif', '.jpg', '.jpeg', '.wmawmv', '.mp4', '.avi', '.mov', '.flv' ]
+    EXTENSIONS_TO_SAVE  =   [ '.png', '.gif', '.jpg', '.jpeg', '.wma', '.wmv', '.mp4', '.avi', '.mov', '.flv' ]
     
     def __init__(self):
         self.file_handler   = _FileHandler()

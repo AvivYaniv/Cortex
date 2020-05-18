@@ -1,5 +1,4 @@
 
-from cortex.protocol import ProtocolMessagesTyeps, Protocol
 from cortex.publisher_consumer.messages import MessageQueueMessages, MessageQueueMessagesTyeps
 
 from cortex.publisher_consumer.message_queue import MessageQueuePublisherThread
@@ -10,7 +9,6 @@ from cortex.parsers.snapshot import Parser
 
 import logging
 from cortex.logger import _LoggerLoader
-from cortex.utils import _FileHandler
 
 # Log loading
 logger                    = logging.getLogger(__name__)
@@ -43,8 +41,7 @@ class ParserService:
         self.message_queue_type = message_queue_type
         self.message_queue_host = message_queue_host
         self.message_queue_port = message_queue_port
-        # Messages
-        self.protocol           = Protocol() 
+        # Messages        
         self.messages           = MessageQueueMessages()        
     # Snapshot Methods Section
     def desrialize_raw_snapshot_message(self, incoming_snapshot_message):
@@ -54,30 +51,21 @@ class ParserService:
         return raw_snapshot_message
     def _set_context(self, raw_snapshot_message):
         return ParserContext(raw_snapshot_message.user_info, raw_snapshot_message.snapshot_uuid, self.parser_type)    
-    # Reads raw snapshot message
-    def read_raw_snapshot(self, raw_snapshot_message):
-        raw_snapshot_path       = raw_snapshot_message.raw_snapshot_path
-        raw_snapshot            = _FileHandler.read_file(raw_snapshot_path, 'rb')
-        snapshot                = \
-            self.protocol.get_message(ProtocolMessagesTyeps.SNAPSHOT_MESSAGE).read(raw_snapshot)
-        return snapshot
     # Generates parse callback with custom arguments - by this currying function 
     def publish_parsed_callback(self):
         def parse_and_publish(incoming_snapshot_message):
             logger.info(f'{self.parser_name} Received message')
             try:
-                raw_snapshot_message    = self.desrialize_raw_snapshot_message(incoming_snapshot_message)
+                raw_snapshot_message            = self.desrialize_raw_snapshot_message(incoming_snapshot_message)
             except Exception as e:
                 logger.error(f'error deserializing raw snapshot message : {e}')
+                return                       
+            context                             = self._set_context(raw_snapshot_message)
+            export_result                       = self.parser.export_parse(context, raw_snapshot_message)
+            if not export_result:
                 return
-            try:
-                snapshot                = self.read_raw_snapshot(raw_snapshot_message)
-            except Exception as e:
-                logger.error(f'error reading snapshot file {raw_snapshot_message.raw_snapshot_path} : {e}')
-                return            
-            context                     = self._set_context(raw_snapshot_message)
-            is_uri, result              = self.parser.export_parse(context, snapshot)
-            parsed_snapshot_message     =                               \
+            is_uri, result, snapshot            = export_result
+            parsed_snapshot_message             =                       \
                 self.messages.get_message(                              \
                     MessageQueueMessagesTyeps.PARSED_SNAPSHOT_MESSAGE)( \
                         context.user_info,                              \
