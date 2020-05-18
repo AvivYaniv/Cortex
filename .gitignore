@@ -34,5 +34,5 @@ cortex/gui/gui_client/sync.ffs_db
 !example100.mind
 !example100.mind.gz
 
-# Message Queue Test
-tests/publisher_consumer/mq_messages
+# # Message Queue Test
+# tests/publisher_consumer/mq_messages
