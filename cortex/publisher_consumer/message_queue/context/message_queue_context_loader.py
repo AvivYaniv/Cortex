@@ -18,7 +18,7 @@ MESSAGE_QUEUE_CONFIG_FILE_NAME_SUFFIX           = '_config.yaml'
 INFO_LOADING_MQ_CONFIG                          = 'Loading message queue configuration...'
 
 ERROR_UNKNOWN_TYPE_CONFIGURATION_FILE_NOT_FOUND = 'Error unknown file type of message queue configuration!'
-ERROR_PARSING_CONFIGURATION_FILE                = 'Error in parsing message queue configuration'
+ERROR_PARSING_CONFIGURATION_FILE                = f'Error in parsing message queue configuration'
 
 class _MessageQueueContextLoader:
     _shared_state = {}
@@ -46,8 +46,8 @@ class _MessageQueueContextLoader:
             with open(fpath, 'rt') as f:
                 try:
                     dictionary = dictionary_reader_driver(f) 
-                except:
-                    print(ERROR_PARSING_CONFIGURATION_FILE)
+                except Exception as e:
+                    print(ERROR_PARSING_CONFIGURATION_FILE + f' {e}')
         return dictionary 
     
     def _load_mq_config(self, message_queue_type):
