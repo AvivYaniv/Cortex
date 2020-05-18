@@ -13,7 +13,7 @@ from cortex.entities.user_feelings import UserFeelings
 from cortex.utils import change_direcoty_to_project_root
 
 # Constants Section
-EXAMPLE_SNAPSHOTS_NUMBER        =   367
+EXAMPLE_SNAPSHOTS_NUMBER        =   5
 DEFAULT_FILE_PATH               =   'sample.mind.gz'
 
 DEPRECTED_FILE_VERSION          =   [ ReaderVersions.BINARY ]   
@@ -68,6 +68,10 @@ def create_test_mind_file(file_path='', version='', test_user_number=1, snapshot
     print(f'Exported {file_path} ---> {example_file_path} successfully!')
     
 if "__main__" == __name__:
+    create_test_mind_file(test_user_number              =   1,  \
+                          snapshot_manipulator_flags    =       \
+                            [ SNAPSHOT_MANIPULATOR_FLAGS.DEPTH_IMAGE_SIZE_SWITCH ])  
+
     create_test_mind_file(test_user_number              =   2,  \
                           snapshot_manipulator_flags    =       \
                             [ SNAPSHOT_MANIPULATOR_FLAGS.USER_FEELINGS_REVERSE, SNAPSHOT_MANIPULATOR_FLAGS.DEPTH_IMAGE_SIZE_SWITCH ])   

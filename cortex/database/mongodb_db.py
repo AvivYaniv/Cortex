@@ -16,11 +16,17 @@ class MongoDBDataBase(_DataBaseDriver):
     # Constructor Section
     def __init__(self, logger, host, port):
         super().__init__(logger, host, port)
-        self._client = pymongo.MongoClient(host, port)
+        # Passing connect as False to deffer connection until first action takes place, to avoid ServerSelectionTimeoutError
+        # StackOverflow        : https://stackoverflow.com/questions/31030307/why-is-pymongo-3-giving-serverselectiontimeouterror
+        # GitHub Discussion    : https://github.com/dcrosta/flask-pymongo/issues/87
+        self._client = pymongo.MongoClient(host, port, connect=False)
         # IMPORTANT! Following code is for clearing DB [ START ]
-        # self._client.drop_database(MongoDBDataBase.db_instance_name)
+        # self._clear_db()
         # IMPORTANT! [ END ]
         self._db     = self._client[MongoDBDataBase.db_instance_name]
+    # Clear DB
+    def _clear_db(self):
+        self._client.drop_database(MongoDBDataBase.db_instance_name)
     # CRUD Methods Section
     def create_entity(self, entity_name, **kwargs):
         entity_document = self._db[entity_name]
