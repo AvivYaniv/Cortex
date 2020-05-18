@@ -11,9 +11,9 @@ from cortex.publisher_consumer.message_queue.message_queue_runner import shutdow
 
 from cortex.utils import delete_under_folder
 
-from tests._integration.publisher_consumer.main_mq_saver_mock import run_saver_mock
-from tests._integration.publisher_consumer.main_mq_parser_mock import run_parser_mock
-from tests._integration.publisher_consumer.main_mq_server_mock import run_server_mock
+from tests.publisher_consumer.main_mq_saver_mock import run_saver_mock
+from tests.publisher_consumer.main_mq_parser_mock import run_parser_mock
+from tests.publisher_consumer.main_mq_server_mock import run_server_mock
 
 from tests.test_constants import SERVER_MESSAGES_IDS
 

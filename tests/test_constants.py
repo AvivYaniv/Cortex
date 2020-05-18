@@ -46,7 +46,7 @@ RAW_SNAPSHOT_FILE_NAME                  =   'snapshot.raw'
 PARSER_RESULT_FILE_EXTENSTION           =   '.result'
 
 # Integration Folder
-INTEGRATION_FOLDER                      =   '_integration'
+INTEGRATION_FOLDER                      =   'integration'
 
 # Publisher Consumer Folder
 PUBLISHER_CONSUMER_FOLDER               =   'publisher_consumer'
@@ -80,7 +80,7 @@ def get_raw_snapshot_file_path():
     return str(pathlib.Path(project_root(), TESTS_FOLDER, RAW_SNAPSHOT_FOLDER, RAW_SNAPSHOT_FILE_NAME))
 
 def get_message_queue_messages_path():
-    return str(pathlib.Path(project_root(), TESTS_FOLDER, INTEGRATION_FOLDER, PUBLISHER_CONSUMER_FOLDER, MESSAGE_QUEUE_MESSAGES_FOLDER))    
+    return str(pathlib.Path(project_root(), TESTS_FOLDER, PUBLISHER_CONSUMER_FOLDER, MESSAGE_QUEUE_MESSAGES_FOLDER))    
 
 def get_message_queue_messages_file_path(service_name):
     return str(pathlib.Path(get_message_queue_messages_path(), service_name + SERVICE_OUTPUT_EXTENSTION))
