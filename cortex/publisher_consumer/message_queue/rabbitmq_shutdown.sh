@@ -2,5 +2,5 @@
 
 ( 
 	echo "Shutdown rabbitmq-server"
-	systemctl disable rabbitmq-server	
+	sudo systemctl disable rabbitmq-server	
 )
