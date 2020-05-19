@@ -86,6 +86,13 @@ The `Cortex` project contains of client that communicates to server user's telem
 
 The server passes the snapshot messages to a message-queue. <br/>
 Parser micro-services consume from the message-queue the raw snapshots and push to the message-queue the parsed results. <br/>
+Savers pull from the message-queue the parsed results, in a load-balanced manner, and save them to the database.
+
+Project also provides a GUI server to which users can view telemetry data.
+
+Other micro-services that are included are API to pull data from the database and CLI to run specific services.
+
+![alt text](https://github.com/AvivYaniv/Cortex/blob/master/about/Architecture/Architecture.png?raw=true)
 
 @@@ TODO CONTINUE : ## 3. Modules
 @@@ TODO CONTINUE : ### 3.1. Client
