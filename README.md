@@ -16,8 +16,8 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 
 ## Table Of Contents
 
-1. Installation <br/>
-2. Architecture <br/>
+1. Architecture <br/>
+2. Installation <br/>
 3. Modules <br/>
 3.1. Client <br/>
 3.2. Server <br/>
@@ -37,6 +37,20 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 7.2. Docker <br/>
 7.2.1. Docker startup <br/>
 7.2.2. How to add new micro-service <br/>
+
+## Architecture
+
+The Cortex project contains of client that communicates to server user's telemetry data, as matter of [lifelogging](https://en.wikipedia.org/wiki/Lifelog).
+
+The server passes the snapshot messages to a message-queue. <br/>
+Parser micro-services consume from the message-queue the raw snapshots and push to the message-queue the parsed results. <br/>
+Savers pull from the message-queue the parsed results, in a load-balanced manner, and save them to the database.
+
+Project also provides a GUI server to which users can connect to view telemetry data.
+
+Other micro-services that are included are API to pull data from the database and CLI to run specific services.
+
+![alt text](https://github.com/AvivYaniv/Cortex/blob/master/about/Architecture/Architecture.png?raw=true)
 
 ## Installation
 
@@ -80,15 +94,31 @@ NOTE! During that proccess, micro-services that use the database and message-que
     ...
     ```
 
-## Architecture
+## 3. Modules
+### 3.1. Client
+The client is available as `cortex.client`. <br/>
+Client used to upload a `mind` file to server, which is a presentation of telemetry snapshots <br/>
+1. API:
+    ```python
+    >>> from cortex.client import upload_sample
+    >>> upload_sample(host='127.0.0.1', port=8000, path='sample.mind.gz')
+    … # upload path to host:port
+    ```
+2. CLI:
+    ```sh
+    $ python -m cortex.client upload-sample \
+      -h/--host '127.0.0.1'             \
+      -p/--port 8000                    \
+      'snapshot.mind.gz'
+	…
+    ```
+<br/>
+Issues & Actions:<br/>
+1. File not found : client will write error message to user. <br/>
+2. Communication error : client will exit graciously. <br/>
+3. Server is unavailable : client will retray to connect for few times, and then exit if failed to connect. <br/>
+<br/>
 
-The `Cortex` project contains of client that communicates to server user's telemetry data, as matter of [lifelogging](https://en.wikipedia.org/wiki/Lifelog).
-
-The server passes the snapshot messages to a message-queue. <br/>
-Parser micro-services consume from the message-queue the raw snapshots and push to the message-queue the parsed results. <br/>
-
-@@@ TODO CONTINUE : ## 3. Modules
-@@@ TODO CONTINUE : ### 3.1. Client
 @@@ TODO CONTINUE : ### 3.2. Server
 @@@ TODO CONTINUE : ### 3.3. Parsers
 @@@ TODO CONTINUE : ### 3.4. Savers
