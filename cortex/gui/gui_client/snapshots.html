@@ -172,6 +172,8 @@
             document.querySelector("#layer_loader").style.display = "none";
             document.querySelector("#layer_content").style.visibility =
               "visible";
+            // Reload dark mode handler to applay on new items
+            window.dhDarkModeHandler.reloadDarkMode();
           },
         });
       </script>

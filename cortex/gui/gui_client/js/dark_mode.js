@@ -10,6 +10,11 @@ class DarkModeHandler {
     }
   }
 
+  reloadDarkMode() {
+    this.toggleDarkMode()  
+    this.toggleDarkMode()
+  }
+
   toggleDarkMode() {
     // Switch body to dark mode
     var element = document.body;
