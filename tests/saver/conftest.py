@@ -14,15 +14,12 @@ import multiprocessing
 
 from tests.test_constants import DEFAULT_INITIALIZATION_DURATION
 
-_database_proccess = None
-
 def pytest_sessionstart(session):
-    global _database_proccess
-    _database_proccess = 'sabich'
-    #_database_proccess = multiprocessing.Process(target=run_database)
-    #_database_proccess.start()
+    pytest.database_proccess = 'sabich'    
+    #pytest.database_proccess = multiprocessing.Process(target=run_database)
+    #pytest.database_proccess.start()
     #time.sleep(DEFAULT_INITIALIZATION_DURATION)
     
 def pytest_sessionfinish(session, exitstatus):
-    global _database_proccess
-    _database_proccess.kill()
+    #global _database_proccess
+    pytest.database_proccess.kill()
