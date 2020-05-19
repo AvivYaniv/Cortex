@@ -113,10 +113,10 @@ Client used to upload a `mind` file to server, which is a presentation of teleme
 	…
     ```
 <br/>
-Issues and actions:<br/>
-1. File not found : client will write error message to user.
-2. Communication error : client will exit graciously.
-3. Server is unavailable : client will retray to connect for few times, and then exit if failed to connect.
+Issues & Actions:<br/>
+1. File not found : client will write error message to user. <br/>
+2. Communication error : client will exit graciously. <br/>
+3. Server is unavailable : client will retray to connect for few times, and then exit if failed to connect. <br/>
 <br/>
 
 @@@ TODO CONTINUE : ### 3.2. Server
