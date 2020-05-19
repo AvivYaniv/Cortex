@@ -15,13 +15,14 @@ import multiprocessing
 from tests.test_constants import DEFAULT_INITIALIZATION_DURATION
 
 import tests.saver.pytest_shared as pytest_shared 
+pytest_shared.init_shared_variables()
 
 def pytest_sessionstart(session):
-    pytest_shared['database_proccess'] = 'sabich'    
+    pytest_shared.shared_dictionary['database_proccess'] = 'sabich'    
     #pytest.database_proccess = multiprocessing.Process(target=run_database)
     #pytest.database_proccess.start()
     #time.sleep(DEFAULT_INITIALIZATION_DURATION)
     
 def pytest_sessionfinish(session, exitstatus):
     #global _database_proccess
-    pytest_shared['database_proccess'].kill()
+    pytest_shared.shared_dictionary['database_proccess'].kill()
