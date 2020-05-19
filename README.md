@@ -48,7 +48,23 @@ NOTE! During that proccess, micro-services that use the database and message-que
     ...
     ```
 
-### Additional inforamtion on project startup
+### Project startup
+
+NOTE! This part useful if you want to dwelve more or add new micro-services, otherwise it can be skipped. <br/>
+
+Project startup uses docker-compose to bring up micro-services. <br/>
+
+Upon `run-pipeline.sh` script execution, the following actions will take place:
+
+1. Previous docker containers and images are deleted.
+2. Micro-services containers are built according to `docker-compose.yml` based on `Dockerfile` configuration.
+2.1. Container image is created.
+2.2. Project files are copied to image.
+2.3. The `run_container.sh` script is executed, to create new container:
+2.3.1. Project requirements are installed on container.
+2.3.2. Container is booted according to `boot_container.py` script:
+2.3.2.1. Based on `RUN` environment variable value, micro-service is package located.
+2.3.2.2. Micro-service package's `boot_container.py` script is executed and runs it.
 
 @@@ TODO CONTINUE
 
