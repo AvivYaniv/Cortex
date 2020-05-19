@@ -96,15 +96,28 @@ NOTE! During that proccess, micro-services that use the database and message-que
 
 ## 3. Modules
 ### 3.1. Client
-The client is available as cortex.client and expose the following API:
-
-    ```sh
+The client is available as `cortex.client`. <br/>
+Client used to upload a `mind` file to server, which is a presentation of telemetry snapshots <br/>
+1. API:
+    ```python
     >>> from cortex.client import upload_sample
     >>> upload_sample(host='127.0.0.1', port=8000, path='sample.mind.gz')
     … # upload path to host:port
     ```
-
-@@@ TODO CONTINUE 
+2. CLI:
+    ```sh
+    $ python -m cortex.client upload-sample \
+      -h/--host '127.0.0.1'             \
+      -p/--port 8000                    \
+      'snapshot.mind.gz'
+	…
+    ```
+<br/>
+Issues and actions:<br/>
+1. File not found : client will write error message to user.
+2. Communication error : client will exit graciously.
+3. Server is unavailable : client will retray to connect for few times, and then exit if failed to connect.
+<br/>
 
 @@@ TODO CONTINUE : ### 3.2. Server
 @@@ TODO CONTINUE : ### 3.3. Parsers
