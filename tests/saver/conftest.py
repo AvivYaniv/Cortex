@@ -14,7 +14,7 @@ import multiprocessing
 
 from tests.test_constants import DEFAULT_INITIALIZATION_DURATION
 
-global _database_proccess
+_database_proccess = None
 
 def pytest_sessionstart(session):
     global _database_proccess
