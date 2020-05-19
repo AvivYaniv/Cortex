@@ -26,12 +26,13 @@ Package for brain-comuter-interface, enabels to upload and view users thoughts.
     ```
 
 3. Lastly, run the ```run-pipeline.sh``` script to create docker containers:
-    ```
-    [Cortex] $ ./scripts/run-pipeline.sh
-    ```
 
-NOTE! Creation of docker containers may take some time
-NOTE! During that proccess, micro-services that use the database and message-queue would try to connect to them, until they are aviablable, errors seen during that period can be ignored.
+   ```sh
+   [Cortex] $ ./scripts/run-pipeline.sh
+   ```
+
+NOTE! Creation of docker containers may take some time <br/>
+NOTE! During that proccess, micro-services that use the database and message-queue would try to connect to them, until they are aviablable, errors seen during that period can be ignored.<br/>
 
 4. To check that everything is working as expected, run the tests:
 
