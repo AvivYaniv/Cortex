@@ -25,6 +25,8 @@ from tests.publisher_consumer.main_mq_saver_mock import run_saver_mock
 from tests.publisher_consumer.main_mq_parser_mock import run_parser_mock
 from tests.publisher_consumer.main_mq_server_mock import run_server_mock
 
+from tests.test_constants import CI_CD_TEST_ENVIRONMENT
+
 from tests.test_constants import SERVER_MESSAGES_IDS
 
 from tests.test_constants import MESSAGE_QUEUE_TYPE
@@ -38,8 +40,9 @@ def pytest_sessionstart(session):
     run_services_according_to_mesage_queue_configuration()
 
 def pytest_sessionfinish(session, exitstatus):
-    shutdown_message_queue(MESSAGE_QUEUE_TYPE)
-    delete_under_folder(get_message_queue_serivce_outputs_path())
+    if CI_CD_TEST_ENVIRONMENT not in os.environ:
+        shutdown_message_queue(MESSAGE_QUEUE_TYPE)
+        delete_under_folder(get_message_queue_serivce_outputs_path())
     
 def run_services_according_to_mesage_queue_configuration():
     # Start savers services

@@ -79,6 +79,9 @@ DEFAULT_PROCCESS_DURATION               =   1
 DEFAULT_JOIN_DURATION                   =   2
 DEFAULT_INITIALIZATION_DURATION         =   5
 
+# CI/CD
+CI_CD_TEST_ENVIRONMENT                  =   'TRAVIS'
+
 def project_root():
     return str(pathlib.Path(abspath(getsourcefile(lambda:0))).parent.parent)
 
