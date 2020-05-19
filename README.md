@@ -96,6 +96,14 @@ NOTE! During that proccess, micro-services that use the database and message-que
 
 ## 3. Modules
 ### 3.1. Client
+The client is available as cortex.client and expose the following API:
+
+    ```sh
+    >>> from cortex.client import upload_sample
+    >>> upload_sample(host='127.0.0.1', port=8000, path='sample.mind.gz')
+    … # upload path to host:port
+    ```
+
 @@@ TODO CONTINUE 
 
 @@@ TODO CONTINUE : ### 3.2. Server
