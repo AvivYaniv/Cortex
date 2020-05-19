@@ -30,6 +30,9 @@ Package for brain-comuter-interface, enabels to upload and view users thoughts.
     [Cortex] $ ./scripts/run-pipeline.sh
     ```
 
+NOTE! Creation of docker containers may take some time
+NOTE! During that proccess, micro-services that use the database and message-queue would try to connect to them, until they are aviablable, errors seen during that period can be ignored.
+
 4. To check that everything is working as expected, run the tests:
 
 
