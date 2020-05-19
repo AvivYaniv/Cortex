@@ -1,5 +1,5 @@
 
-from cortex.utils.image import get_image_metadata_by_uri
+import cortex.utils.image as image_utils
 
 from cortex.database.database_cortex import _DataBaseCortex
 
@@ -46,6 +46,7 @@ class SaverMessagesHandler:
         result                  = parsed_snapshot_message.result
         is_uri                  = parsed_snapshot_message.is_uri
         self.save_parsed(field, snapshot_uuid, result, is_uri)
+        return snapshot_uuid
     # Save Methods
     def save_parsed(self, field, snapshot_uuid, result, is_uri):
         if field not in self.SAVE_METHODS.keys():
@@ -121,7 +122,7 @@ class SaverMessagesHandler:
             logger.error(f'failed to add user_feelings of snapshot {snapshot_uuid}')
     @staticmethod
     def get_image_metadata(uri):
-        return get_image_metadata_by_uri(uri)        
+        return image_utils.get_image_metadata_by_uri(uri)        
     def save_color_image(self, snapshot_uuid, result, is_uri):
         snapshot_uuid   = snapshot_uuid
         uri             = result

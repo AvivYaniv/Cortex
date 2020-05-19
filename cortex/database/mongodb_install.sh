@@ -4,10 +4,13 @@
 	PKG_OK=$(dpkg-query -W --showformat='${Status}\n' mongodb-org|grep "install ok installed")
 	
 	# If mongodb not installed
-	if [ "" == "$PKG_OK" ]; then	
-	  # Install sudo
-	  apt-get update
-	  apt-get install -y sudo
+	if [ "" == "$PKG_OK" ]; then
+	  SUDO_OK=$(dpkg-query -W --showformat='${Status}\n' sudo|grep "install ok installed")
+	  if [ "" == "$SUDO_OK" ]; then
+		  # Install sudo
+		  apt-get update
+		  apt-get install -y sudo
+	  fi	
 	  # Preparation for MongoDB installation 
 	  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
 	  echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list

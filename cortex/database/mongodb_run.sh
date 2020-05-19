@@ -2,5 +2,5 @@
 
 ( 
 	sudo mkdir -p /data/db
-	/usr/bin/mongod
+	sudo /usr/bin/mongod
 )

@@ -11,7 +11,7 @@ class _DataBaseDriver:
         self._logger    = logger
         self.host       = host if host else DATABASE_DEFAULT_HOST
         self.port       = port
-
+    
     # Initialization Methods
     def create_tables(self):
         self._logger.info('tables creation has finished!')

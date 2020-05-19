@@ -21,11 +21,11 @@ class MongoDBDataBase(_DataBaseDriver):
         # GitHub Discussion    : https://github.com/dcrosta/flask-pymongo/issues/87
         self._client = pymongo.MongoClient(host, port, connect=False)
         # IMPORTANT! Following code is for clearing DB [ START ]
-        # self._clear_db()
+        # self._clear()
         # IMPORTANT! [ END ]
         self._db     = self._client[MongoDBDataBase.db_instance_name]
     # Clear DB
-    def _clear_db(self):
+    def _clear(self):
         self._client.drop_database(MongoDBDataBase.db_instance_name)
     # CRUD Methods Section
     def create_entity(self, entity_name, **kwargs):

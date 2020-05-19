@@ -10,8 +10,14 @@ import time
 
 import pytest
 
-def pytest_sessionstart(session):
-    run_database()
+import multiprocessing
 
+from tests.test_constants import DEFAULT_INITIALIZATION_DURATION
+
+def pytest_sessionstart(session):
+    session._database_proccess = multiprocessing.Process(target=run_database)
+    session._database_proccess.start()
+    time.sleep(DEFAULT_INITIALIZATION_DURATION)
+    
 def pytest_sessionfinish(session, exitstatus):
-    pass
+    session._database_proccess.kill()

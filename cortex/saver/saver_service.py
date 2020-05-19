@@ -34,13 +34,13 @@ class SaverService:
         def save(message):
             self._lock.acquire()
             try:
-                self.handle_message(message)
+                return self.handle_message(message)
             finally:            
                 self._lock.release()                                           
         return save
     
     def handle_message(self, message):
-        self.saver_messges_handler.handle(message)
+        return self.saver_messges_handler.handle(message)
         
     # Core Logic Method Section
     def run(self):
