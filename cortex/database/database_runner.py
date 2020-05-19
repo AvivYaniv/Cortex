@@ -21,6 +21,11 @@ DEFAULT_DB                                                 =    MongoDBDataBase.
 # Install Info Messages
 INSTALLING_DATABASE_INFO_MESSAGE                           =   'Installing data base...'
 DATABASE_INSTALLATION_COMPLETED_INFO_MESSAGE               =   'Data base installation completed!'
+
+# Shutdown Info Messages
+SHUTTING_DOOWN_SATABASE_DATABASE_INFO_MESSAGE              =   'Shutting-down data base...'
+DATABASE_SHUTDOWN_COMPLETED_INFO_MESSAGE                   =   'Data base shutdown completed!'
+
 # Running Info Messages
 RUNNING_DATABASE_INFO_MESSAGE                              =   'Running data base...'
 
@@ -29,12 +34,16 @@ DATABASE_TYPE_NOT_FOUND_ERROR_MESSAGE                      =   'Specified data b
 # Install Error Messages
 DATABASE_INSTALL_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT    =   'Data base install file {} dosen\'t exist'
 DATABASE_INSTALLATION_FAILED_ERROR_MESSAGE                 =   'Data base installation has failed'
+# Shutdown Error Messages
+DATABASE_SHUTDOWN_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT   =   'Data base shutdown file {} dosen\'t exist'
+DATABASE_SHUTDOWN_FAILED_ERROR_MESSAGE                     =   'Data base shutdown has failed'
 # Run Error Messages
 DATABASE_RUNN_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT       =   'Data base run file {} dosen\'t exist'
 DATABASE_RUNNING_FAILED_ERROR_MESSAGE                      =   'Data base runnning has failed'
 
-# Installation file
+# Files suffixes
 DATABASE_INSTALLATION_FILE_SUFFIX                          =   '_install.sh'
+DATABASE_SHUTDOWNON_FILE_SUFFIX                            =   '_shutdown.sh'
 DATABASE_RUN_FILE_SUFFIX                                   =   '_run.sh'
 
 # Constants Section
@@ -83,6 +92,26 @@ def install_database(database_type):
     else:
         logger.error(DATABASE_INSTALLATION_FAILED_ERROR_MESSAGE)
     return intallation_success
+
+def get_database_shutdown_file_path(database_type):
+    return get_project_file_path_by_caller(database_type, DATABASE_SHUTDOWNON_FILE_SUFFIX)
+
+def stop_database(database_type=None):
+    database_type = database_type if database_type else DEFAULT_DB_TYPE
+    # Shutting-down data base
+    database_shutdown_file_path = get_database_shutdown_file_path(database_type)    
+    # If data base shutdown file dosen't exist
+    if (not os.path.isfile(database_shutdown_file_path)):
+        logger.error(DATABASE_SHUTDOWN_FILE_DOSENT_EXIST_ERROR_MESSAGE_FORMAT.format(database_shutdown_file_path))
+        return False    
+    # Shutting-down data base
+    logger.info(SHUTTING_DOOWN_SATABASE_DATABASE_INFO_MESSAGE)
+    shutdown_success = (0 == run_bash_scipt(database_shutdown_file_path)) 
+    if shutdown_success:
+        logger.info(DATABASE_SHUTDOWN_COMPLETED_INFO_MESSAGE)
+    else:
+        logger.error(DATABASE_SHUTDOWN_FAILED_ERROR_MESSAGE)
+    return shutdown_success
 
 def run_database_service(database_type):
     # Running data base

@@ -78,6 +78,7 @@ MESSAGE_QUEUE_TYPE                      =   None
 DEFAULT_PROCCESS_DURATION               =   1
 DEFAULT_JOIN_DURATION                   =   2
 DEFAULT_INITIALIZATION_DURATION         =   5
+DEFAULT_SHUTDOWN_DURATION               =   5
 
 # CI/CD
 CI_CD_TEST_ENVIRONMENT                  =   'TRAVIS'
