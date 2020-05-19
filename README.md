@@ -16,6 +16,12 @@ Package for brain-comuter-interface, enabels to upload and view users thoughts.
     $ cd Cortex/
     ```
 
+2. Run the presequites script to install project presequites (i.e. docker, docker-compose):
+
+    ```sh
+    $ ./scripts/presequites.sh    
+    ```
+
 2. Run the installation script and activate the virtual environment:
 
     ```sh
@@ -25,14 +31,14 @@ Package for brain-comuter-interface, enabels to upload and view users thoughts.
     [Cortex] $ # you're good to go!
     ```
 
-3. Lastly, run the ```run-pipeline.sh``` script to create docker containers:
+3. Lastly, run the `run-pipeline.sh` script to create docker containers:
 
    ```sh
    [Cortex] $ ./scripts/run-pipeline.sh
    ```
 
 NOTE! Creation of docker containers may take some time <br/>
-NOTE! During that proccess, micro-services that use the database and message-queue would try to connect to them, until they are aviablable, errors seen during that period can be ignored.<br/>
+NOTE! During that proccess, micro-services that use the database and message-queue would try to connect to them, until they are available, errors seen during that period can be ignored.<br/>
 
 4. To check that everything is working as expected, run the tests:
 
@@ -42,9 +48,37 @@ NOTE! During that proccess, micro-services that use the database and message-que
     ...
     ```
 
-## Usage
+### Additional inforamtion on project startup
 
-The `cortex` package provides a command-line interface:
+Project 
+
+## Useful Scripts
+
+The `scripts` folder contains the following useful scripts:
+
+1. [ `client1.sh`, `client2.sh` ] : For client emulation as sanity-check.
+2. `docs.sh` : For automatic-documentation, so changes in documentation will take effect immideiatly.
+3. `dos2unix.sh` : To convert `.sh` files in the project to unix [end-of-line](https://en.wikipedia.org/wiki/Newline), for users of `Microsoft` oriented OSs.
+4. `install.sh` : For project installation, as covered in the **Installation** chapter in this document.
+5. `presequites.sh` : For project presequites installation, as covered in the **Installation** chapter in this document.
+6. `remove_containers.sh` : To clear all docker containers and images.
+7. `restore-pipeline.sh` : To bring up docker containers, after stopped (i.e. by `stop-pipeline.sh`).
+8. `run_container.sh` : This script is for internal usage, and used to run specific container by docker-compose.
+9. `run-pipeline.sh` : To run project, as covered in the **Installation** chapter in this document.
+9. `stop-pipeline.sh` : To stop project containers.
+10. `wait-for-it.sh` : Mainly for internal usage, used by docker to wait for micro-service to be available on specific port.
+
+## Architecture
+
+The `Cortex` project contains of client that communicates to server user's telemetry data, as matter of [lifelogging](https://en.wikipedia.org/wiki/Lifelog).
+
+Telemetry data currently contains snapshots of:
+1. User feelings: consists of the following [hunger, thirst, exhaustion, happiness], and ranged between [-1,1].
+2. [Pose](https://en.wikipedia.org/wiki/Pose_(computer_vision)): this is a common computer-vision way to determine object's position (user) and orientation relative to some coordinate system, and consists of two vectors: [ Translation, Rotation ].
+3. Color image: shows what the user sees.
+4. Depth image: shows 'heatmap' of user distance relatively to objects that are in front of the user.
+
+@@@ TODO CONTINUE
 
 ```sh
 $ python -m cortex
