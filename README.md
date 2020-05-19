@@ -3,8 +3,40 @@
 
 # Cortex
 
-Package for brain-comuter-interface, enabels to upload and view users thoughts. 
+Cortex is brain-comuter-interface ultra flexibale and durable project, which enabels to upload and view users telemetry data. 
 <br/>See [full documentation](https://braincomputerinterface.readthedocs.io/en/latest/).
+
+Telemetry data currently contains snapshots of:
+1. User feelings: consists of the following [hunger, thirst, exhaustion, happiness], and ranged between [-1,1].
+2. [Pose](https://en.wikipedia.org/wiki/Pose_(computer_vision)): a computer-vision concept to determine object's position (user) and orientation relative to some coordinate system, and consists of two vectors: [ Translation, Rotation ].
+3. Color image: shows what the user sees.
+4. Depth image: shows 'heatmap' of user distance relatively to objects that are in front of the user.
+
+Cortex project is the final project of [Advanced System Design](https://advanced-system-design.com/) at Tel-Aviv Univeristy by [Dan Gittik](https://dan-gittik.com/).
+
+## Table Of Contents
+
+1. Installation <br/>
+2. Architecture <br/>
+3. Modules <br/>
+3.1. Client <br/>
+3.2. Server <br/>
+3.3. Parsers <br/>
+3.4. Savers <br/>
+3.5. API <br/>
+3.6. GUI <br/>
+3.7. CLI <br/>
+4. Frameworks <br/>
+4.1. MessageQueue <br/>
+4.2. DataBase <br/>
+5. Flexability and SOLIDness <br/>
+6. Tests <br/>
+6.1. Test tools <br/>
+7. Additional Information <br/>
+7.1. Scripts <br/>
+7.2. Docker <br/>
+7.2.1. Docker startup <br/>
+7.2.2. How to add new micro-service <br/>
 
 ## Installation
 
@@ -16,7 +48,13 @@ Package for brain-comuter-interface, enabels to upload and view users thoughts.
     $ cd Cortex/
     ```
 
-2. Run the installation script and activate the virtual environment:
+2. Run the presequites script to install project presequites (i.e. docker, docker-compose):
+
+    ```sh
+    $ ./scripts/presequites.sh    
+    ```
+
+3. Run the installation script and activate the virtual environment:
 
     ```sh
     $ ./scripts/install.sh
@@ -25,7 +63,16 @@ Package for brain-comuter-interface, enabels to upload and view users thoughts.
     [Cortex] $ # you're good to go!
     ```
 
-3. To check that everything is working as expected, run the tests:
+4. Lastly, run the `run-pipeline.sh` script to create docker containers:
+
+   ```sh
+   [Cortex] $ ./scripts/run-pipeline.sh
+   ```
+
+NOTE! Creation of docker containers may take some time <br/>
+NOTE! During that proccess, micro-services that use the database and message-queue would try to connect to them, until they are available, errors seen during that period can be ignored.<br/>
+
+5. To check that everything is working as expected, run the tests:
 
 
     ```sh
@@ -33,66 +80,33 @@ Package for brain-comuter-interface, enabels to upload and view users thoughts.
     ...
     ```
 
-## Usage
+## Architecture
 
-The `cortex` package provides a command-line interface:
+The `Cortex` project contains of client that communicates to server user's telemetry data, as matter of [lifelogging](https://en.wikipedia.org/wiki/Lifelog).
 
-```sh
-$ python -m cortex
-Usage: cortex [OPTIONS] COMMAND [ARGS]...
+The server passes the snapshot messages to a message-queue. <br/>
+Parser micro-services consume from the message-queue the raw snapshots and push to the message-queue the parsed results. <br/>
 
-Options:
-  --version        Show the version and exit.
-  -q, --quiet
-  -t, --traceback
-  --help           Show this message and exit.
+@@@ TODO CONTINUE : ## 3. Modules
+@@@ TODO CONTINUE : ### 3.1. Client
+@@@ TODO CONTINUE : ### 3.2. Server
+@@@ TODO CONTINUE : ### 3.3. Parsers
+@@@ TODO CONTINUE : ### 3.4. Savers
+@@@ TODO CONTINUE : ### 3.5. API
+@@@ TODO CONTINUE : ### 3.6. GUI
+@@@ TODO CONTINUE : ### 3.7. CLI
+@@@ TODO CONTINUE : ## 4. Frameworks
+@@@ TODO CONTINUE : ### 4.1. MessageQueue
+@@@ TODO CONTINUE : ### 4.2. DataBase
 
-Commands:
-  run-server
-  run-webserver
-  upload-sample
 
-```
+## Flexability and [SOLIDness](https://en.wikipedia.org/wiki/SOLID)
 
-All commands accept the `-q` or `--quiet` flag to suppress output, and the `-t`
-or `--traceback` flag to show the full traceback when an exception is raised
-(by default, only the error message is printed, and the program exits with a
-non-zero code).
+The `cortex` project is built to be flexibale for modification and customizations.
 
-The CLI provides the `run-server` command:
-	This command starts a server to which sample files can be uploaded to with the `upload_sample` command
-	<br/> Usage: run-server [address] [data_dir]
+> "Make the easy things easy, and the hard things possible" ~ Larry Wall (Programming Perl, 2nd Edition (1996), by Larry Wall, Tom Christiansen and Randal Schwartz)
 
-```sh
-$ python -m cortex run_server '127.0.0.1:8000' 'data'
-
-```
-
-The CLI further provides the `run-webserver` command:
-	This command starts a server to which shows users thoughts
-	<br/> Usage: run-webserver [address] [data_dir]
-
-```sh
-$ python -m cortex run_webserver '127.0.0.1:8000' 'data'
-
-```
-
-The CLI further provides the `upload-sample` command:
-	This command sends to the server user's sample file
-	File can be either zipped (*.gz) or raw (*.mind)
-	Versions suppored: binary or protobuf
-	<br/> Usage: upload-sample [address] [file] [version]
-
-```sh
-$ python -m cortex client_run '127.0.0.1:8000' 'sample.mind' 'protobuf'
-
-```
-
-## Advanced Personalization for Programmers
-
-The `cortex` package provides the ability to further personalized handling of files and parsers.
-
-## Server Personalization for Programmers
+## Server
 
 ## Adding parsers
 
@@ -159,3 +173,42 @@ class YourReader:
 	def read_snapshot(self):
 		# Your code goes here
 ```
+
+@@@ TODO CONTINUE : ## 6. Tests
+@@@ TODO CONTINUE : ### 6.1. Test tools
+
+## Additional Information
+### Scripts
+
+The `scripts` folder contains the following useful scripts:
+
+1. [ `client1.sh`, `client2.sh` ] : For client emulation as sanity-check.
+2. `docs.sh` : For automatic-documentation, so changes in documentation will take effect immideiatly.
+3. `dos2unix.sh` : To convert `.sh` files in the project to unix [end-of-line](https://en.wikipedia.org/wiki/Newline), for users of `Microsoft` oriented OSs.
+4. `install.sh` : For project installation, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
+5. `presequites.sh` : For project presequites installation, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
+6. `remove_containers.sh` : To clear all docker containers and images.
+7. `restore-pipeline.sh` : To bring up docker containers, after stopped (i.e. by `stop-pipeline.sh`).
+8. `run_container.sh` : This script is for internal usage, and used to run specific container by docker-compose.
+9. `run-pipeline.sh` : To run project, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
+9. `stop-pipeline.sh` : To stop project containers.
+10. `wait-for-it.sh` : Mainly for internal usage, used by docker to wait for micro-service to be available on specific port.
+
+### Docker
+#### Docker startup
+
+Project startup uses docker-compose to bring up micro-services. <br/>
+
+Upon `run-pipeline.sh` script execution, the following actions will take place:
+
+1. Previous docker containers and images are deleted. <br/>
+2. Micro-services containers are built according to `docker-compose.yml` based on `Dockerfile` configuration. <br/>
+2.1. Container image is created. <br/>
+2.2. Project files are copied to image. <br/>
+2.3. The `run_container.sh` script is executed, to create new container: <br/>
+2.3.1. Project requirements are installed on container. <br/>
+2.3.2. Container is booted according to `boot_container.py` script: <br/>
+2.3.2.1. Based on `RUN` environment variable value, micro-service is package located. <br/>
+2.3.2.2. Micro-service package's `boot_container.py` script is executed and runs it. <br/>
+
+@@@ TODO CONTINUE : #### How to add new micro-service
