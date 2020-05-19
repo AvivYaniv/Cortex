@@ -16,27 +16,27 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 
 ## Table Of Contents
 
-1. Installation
-2. Architecture
-3. Modules
-3.1. Client
-3.2. Server
-3.3. Parsers
-3.4. Savers
-3.5. API
-3.6. GUI
-3.7. CLI
-4. Frameworks
-4.1. MessageQueue
-4.2. DataBase
-5. Flexability and SOLIDness
-6. Tests
-6.1. Test tools
-7. Additional Information
-7.1. Scripts
-7.2. Docker
-7.2.1. Docker startup
-7.2.2. How to add new micro-service
+1. Installation <br/>
+2. Architecture <br/>
+3. Modules <br/>
+3.1. Client <br/>
+3.2. Server <br/>
+3.3. Parsers <br/>
+3.4. Savers <br/>
+3.5. API <br/>
+3.6. GUI <br/>
+3.7. CLI <br/>
+4. Frameworks <br/>
+4.1. MessageQueue <br/>
+4.2. DataBase <br/>
+5. Flexability and SOLIDness <br/>
+6. Tests <br/>
+6.1. Test tools <br/>
+7. Additional Information <br/>
+7.1. Scripts <br/>
+7.2. Docker <br/>
+7.2.1. Docker startup <br/>
+7.2.2. How to add new micro-service <br/>
 
 ## Installation
 
