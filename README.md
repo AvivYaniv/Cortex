@@ -106,21 +106,46 @@ Client used to upload a `mind` file to server, which is a presentation of teleme
     ```
 2. CLI:
     ```sh
-    $ python -m cortex.client upload-sample \
-      -h/--host '127.0.0.1'             \
-      -p/--port 8000                    \
+    $ python -m cortex.client upload-sample    \
+      -h/--host '127.0.0.1'                    \
+      -p/--port 8000                           \
       'snapshot.mind.gz'
 	…
     ```
 <br/>
 Issues & Actions:<br/>
-1. File not found : client will write error message to user. <br/>
+1. File not found : client will write error message to user, and then exit graciously. <br/>
 2. Communication error : client will exit graciously. <br/>
 3. Server is unavailable : client will retray to connect for few times, and then exit if failed to connect. <br/>
 <br/>
 
-@@@ TODO CONTINUE : ### 3.2. Server
+### 3.2. Server
+The server is available as `cortex.server`. <br/>
+The server accepts clients connection, receive the uploaded `mind` file and publish them to its message queue. <br/>
+1. API:
+    ```python
+	>>> from cortex.server import run_server
+	>>> def print_message(message):
+	...     print(message)
+	>>> run_server(host='127.0.0.1', port=8000, publish=print_message)
+	… # listen on host:port and pass received messages to publish
+    ```
+2. CLI:
+    ```sh
+	python -m cortex.server run-server    \
+	 -h/--host '127.0.0.1'                \
+	 -p/--port 8000                       \
+	 'rabbitmq://127.0.0.1:5672/'
+    ```
+<br/>
+Issues & Actions:<br/>
+1. Multiple clients uploat at the same time : server will handle all clients requests. <br/>
+2. Communication error : server client's handler will stop graciously, no other clients (present or future) are be effected. <br/>
+3. Server accepts snapshhots that already have been accepted : server would detect the duplicate upload, and not publish any of the snapshots that have already been handled. <br/>
+<br/>
+
 @@@ TODO CONTINUE : ### 3.3. Parsers
+
 @@@ TODO CONTINUE : ### 3.4. Savers
 @@@ TODO CONTINUE : ### 3.5. API
 @@@ TODO CONTINUE : ### 3.6. GUI
@@ -231,7 +256,7 @@ Project startup uses docker-compose to bring up micro-services. <br/>
 
 Upon `run-pipeline.sh` script execution, the following actions will take place:
 
-1. Previous docker containers and images are deleted. <br/>
+1. ~Previous docker containers and images are deleted.~ (Uncomment in script to activate) <br/>
 2. Micro-services containers are built according to `docker-compose.yml` based on `Dockerfile` configuration. <br/>
 2.1. Container image is created. <br/>
 2.2. Project files are copied to image. <br/>
