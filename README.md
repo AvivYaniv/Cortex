@@ -8,7 +8,7 @@ Cortex is brain-comuter-interface ultra flexibale and durable project, which ena
 
 Telemetry data currently contains snapshots of:
 1. User feelings: consists of the following [hunger, thirst, exhaustion, happiness], and ranged between [-1,1].
-2. [Pose](https://en.wikipedia.org/wiki/Pose_(computer_vision)): this is a common computer-vision way to determine object's position (user) and orientation relative to some coordinate system, and consists of two vectors: [ Translation, Rotation ].
+2. [Pose](https://en.wikipedia.org/wiki/Pose_(computer_vision)): a computer-vision concept to determine object's position (user) and orientation relative to some coordinate system, and consists of two vectors: [ Translation, Rotation ].
 3. Color image: shows what the user sees.
 4. Depth image: shows 'heatmap' of user distance relatively to objects that are in front of the user.
 
