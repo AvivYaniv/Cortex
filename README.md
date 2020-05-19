@@ -50,7 +50,7 @@ NOTE! During that proccess, micro-services that use the database and message-que
 
 ### Additional inforamtion on project startup
 
-Project 
+@@@ TODO CONTINUE
 
 ## Useful Scripts
 
@@ -59,12 +59,12 @@ The `scripts` folder contains the following useful scripts:
 1. [ `client1.sh`, `client2.sh` ] : For client emulation as sanity-check.
 2. `docs.sh` : For automatic-documentation, so changes in documentation will take effect immideiatly.
 3. `dos2unix.sh` : To convert `.sh` files in the project to unix [end-of-line](https://en.wikipedia.org/wiki/Newline), for users of `Microsoft` oriented OSs.
-4. `install.sh` : For project installation, as covered in the **Installation** chapter in this document.
-5. `presequites.sh` : For project presequites installation, as covered in the **Installation** chapter in this document.
+4. `install.sh` : For project installation, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
+5. `presequites.sh` : For project presequites installation, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
 6. `remove_containers.sh` : To clear all docker containers and images.
 7. `restore-pipeline.sh` : To bring up docker containers, after stopped (i.e. by `stop-pipeline.sh`).
 8. `run_container.sh` : This script is for internal usage, and used to run specific container by docker-compose.
-9. `run-pipeline.sh` : To run project, as covered in the **Installation** chapter in this document.
+9. `run-pipeline.sh` : To run project, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
 9. `stop-pipeline.sh` : To stop project containers.
 10. `wait-for-it.sh` : Mainly for internal usage, used by docker to wait for micro-service to be available on specific port.
 
