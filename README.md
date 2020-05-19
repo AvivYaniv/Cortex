@@ -25,7 +25,12 @@ Package for brain-comuter-interface, enabels to upload and view users thoughts.
     [Cortex] $ # you're good to go!
     ```
 
-3. To check that everything is working as expected, run the tests:
+3. Lastly, run the ```run-pipeline.sh``` script to create docker containers:
+    ```
+    [Cortex] $ ./scripts/run-pipeline.sh
+    ```
+
+4. To check that everything is working as expected, run the tests:
 
 
     ```sh
