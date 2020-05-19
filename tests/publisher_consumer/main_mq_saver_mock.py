@@ -8,7 +8,7 @@ from tests.test_constants import SAVER_MOCK_DEFAULT_IDS
 
 from tests.test_constants import MESSAGE_QUEUE_TEST_HOST
 
-from tests.test_constants import get_message_queue_messages_file_path
+from tests.test_constants import get_message_queue_serivce_outputs_file_path
 
 from tests._utils.structured_file import StructuredFile
 
@@ -23,7 +23,7 @@ class Saver:
         self.service_type           = SAVER_SERVICE_TYPE   
         self.saver_name             = self.service_type + '.' + self.saver_id
         self.saving_callback        = self.publish_parsed_callback() 
-        self.saver_structured_file  = StructuredFile(get_message_queue_messages_file_path(self.service_type))
+        self.saver_structured_file  = StructuredFile(get_message_queue_serivce_outputs_file_path(self.service_type))
         self.lock                   = threading.Lock()
         
     # Generates parse callback with custom arguments - by this currying function 

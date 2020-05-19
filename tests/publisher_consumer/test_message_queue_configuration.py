@@ -11,10 +11,10 @@ from tests.test_constants import PARSER_SERVICE_TYPE
 from tests._utils.dictionary_file import DictionaryFile
 from tests._utils.structured_file import StructuredFile
 
-from tests.test_constants import get_message_queue_messages_file_path
+from tests.test_constants import get_message_queue_serivce_outputs_file_path
 
 def test_parsers():
-    parser_dictionay_file       = DictionaryFile(get_message_queue_messages_file_path(PARSER_SERVICE_TYPE))
+    parser_dictionay_file       = DictionaryFile(get_message_queue_serivce_outputs_file_path(PARSER_SERVICE_TYPE))
     parsed_output_dictionary    = parser_dictionay_file.read_dictionary()
     for parser_type in PARSER_TYPES:
         parsed_messages_by_current_parser_type = parsed_output_dictionary.get(parser_type, None)
@@ -45,7 +45,7 @@ def convert_saved_lists_to_structure(saved_structure_lists):
     return saved_structure
     
 def test_savers():
-    saver_structure_file        = StructuredFile(get_message_queue_messages_file_path(SAVER_SERVICE_TYPE))
+    saver_structure_file        = StructuredFile(get_message_queue_serivce_outputs_file_path(SAVER_SERVICE_TYPE))
     saved_structure_lists       = saver_structure_file.read_lines()
     saved_structure             = convert_saved_lists_to_structure(saved_structure_lists)
     for messsage_id in SERVER_MESSAGES_IDS:
@@ -59,7 +59,7 @@ def test_savers():
             assert parser_type in parsers_structure, f'Message {messsage_id} not received from {parser_type}'
     
 def test_savers_round_robin():
-    saver_structure_file        = StructuredFile(get_message_queue_messages_file_path(SAVER_SERVICE_TYPE))
+    saver_structure_file        = StructuredFile(get_message_queue_serivce_outputs_file_path(SAVER_SERVICE_TYPE))
     saved_structure_lists       = saver_structure_file.read_lines()
     saved_structure             = convert_saved_lists_to_structure(saved_structure_lists)
     savers_load_dictionary       = {}

@@ -9,7 +9,7 @@ from tests.test_constants import MESSAGE_QUEUE_TEST_HOST
 
 from tests.test_constants import PARSER_SERVICE_TYPE
 
-from tests.test_constants import get_message_queue_messages_file_path
+from tests.test_constants import get_message_queue_serivce_outputs_file_path
 
 from tests._utils.dictionary_file import DictionaryFile
 
@@ -18,7 +18,7 @@ class Parser:
         self.parset_type            = parset_type 
         self.service_type           = PARSER_SERVICE_TYPE
         self.parser_name            = self.parset_type + '.' + self.service_type 
-        self.parser_dictionay_file  = DictionaryFile(get_message_queue_messages_file_path(self.service_type))
+        self.parser_dictionay_file  = DictionaryFile(get_message_queue_serivce_outputs_file_path(self.service_type))
     
     # Generates callback with custom arguments - by this currying function 
     def publish_parsed_callback(self):
