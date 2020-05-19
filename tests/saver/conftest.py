@@ -18,9 +18,10 @@ _database_proccess = None
 
 def pytest_sessionstart(session):
     global _database_proccess
-    _database_proccess = multiprocessing.Process(target=run_database)
-    _database_proccess.start()
-    time.sleep(DEFAULT_INITIALIZATION_DURATION)
+    _database_proccess = 'sabich'
+    #_database_proccess = multiprocessing.Process(target=run_database)
+    #_database_proccess.start()
+    #time.sleep(DEFAULT_INITIALIZATION_DURATION)
     
 def pytest_sessionfinish(session, exitstatus):
     global _database_proccess
