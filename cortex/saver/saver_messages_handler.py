@@ -113,7 +113,7 @@ class SaverMessagesHandler:
                 hunger         = user_feelings.hunger,          \
                 thirst         = user_feelings.thirst,          \
                 exhaustion     = user_feelings.exhaustion,      \
-                happiness         = user_feelings.happiness,    \
+                happiness      = user_feelings.happiness,       \
                 )
         if creation_status:
             logger.info(f'user_feelings of snapshot {snapshot_uuid} added successfully!')

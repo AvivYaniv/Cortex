@@ -49,7 +49,7 @@ class ParserService:
             self.messages.get_message(                              \
                 MessageQueueMessagesTyeps.RAW_SNAPSHOT_MESSAGE).deserialize(incoming_snapshot_message)
         return raw_snapshot_message
-    def _set_context(self, raw_snapshot_message):
+    def _get_context(self, raw_snapshot_message):
         return ParserContext(raw_snapshot_message.user_info, raw_snapshot_message.snapshot_uuid, self.parser_type)    
     # Generates parse callback with custom arguments - by this currying function 
     def publish_parsed_callback(self):
@@ -60,7 +60,7 @@ class ParserService:
             except Exception as e:
                 logger.error(f'error deserializing raw snapshot message : {e}')
                 return                       
-            context                             = self._set_context(raw_snapshot_message)
+            context                             = self._get_context(raw_snapshot_message)
             export_result                       = self.parser.export_parse(context, raw_snapshot_message)
             if not export_result:
                 return
