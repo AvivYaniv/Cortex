@@ -3,7 +3,7 @@
 
 # Cortex
 
-Project for brain-comuter-interface, enabels to upload and view users telemetry data. 
+Cortex is brain-comuter-interface ultra flexibale and durable project, which enabels to upload and view users telemetry data. 
 <br/>See [full documentation](https://braincomputerinterface.readthedocs.io/en/latest/).
 
 Telemetry data currently contains snapshots of:
@@ -12,11 +12,31 @@ Telemetry data currently contains snapshots of:
 3. Color image: shows what the user sees.
 4. Depth image: shows 'heatmap' of user distance relatively to objects that are in front of the user.
 
+Cortex project is the final project of [Advanced System Design](https://advanced-system-design.com/) at Tel-Aviv Univeristy by [Dan Gittik](https://dan-gittik.com/).
+
 ## Table Of Contents
 
 1. Installation
 2. Architecture
-3. 
+3. Modules
+3.1. Client
+3.2. Server
+3.3. Parsers
+3.4. Savers
+3.5. API
+3.6. GUI
+3.7. CLI
+4. Frameworks
+4.1. MessageQueue
+4.2. DataBase
+5. Flexability and SOLIDness
+6. Tests
+6.1. Test tools
+7. Additional Information
+7.1. Scripts
+7.2. Docker
+7.2.1. Docker startup
+7.2.2. How to add new micro-service
 
 ## Installation
 
@@ -34,7 +54,7 @@ Telemetry data currently contains snapshots of:
     $ ./scripts/presequites.sh    
     ```
 
-2. Run the installation script and activate the virtual environment:
+3. Run the installation script and activate the virtual environment:
 
     ```sh
     $ ./scripts/install.sh
@@ -43,7 +63,7 @@ Telemetry data currently contains snapshots of:
     [Cortex] $ # you're good to go!
     ```
 
-3. Lastly, run the `run-pipeline.sh` script to create docker containers:
+4. Lastly, run the `run-pipeline.sh` script to create docker containers:
 
    ```sh
    [Cortex] $ ./scripts/run-pipeline.sh
@@ -52,7 +72,7 @@ Telemetry data currently contains snapshots of:
 NOTE! Creation of docker containers may take some time <br/>
 NOTE! During that proccess, micro-services that use the database and message-queue would try to connect to them, until they are available, errors seen during that period can be ignored.<br/>
 
-4. To check that everything is working as expected, run the tests:
+5. To check that everything is working as expected, run the tests:
 
 
     ```sh
@@ -64,15 +84,29 @@ NOTE! During that proccess, micro-services that use the database and message-que
 
 The `Cortex` project contains of client that communicates to server user's telemetry data, as matter of [lifelogging](https://en.wikipedia.org/wiki/Lifelog).
 
+The server passes the snapshot messages to a message-queue. <br/>
+Parser micro-services consume from the message-queue the raw snapshots and push to the message-queue the parsed results. <br/>
+
+@@@ TODO CONTINUE : ## 3. Modules
+@@@ TODO CONTINUE : ### 3.1. Client
+@@@ TODO CONTINUE : ### 3.2. Server
+@@@ TODO CONTINUE : ### 3.3. Parsers
+@@@ TODO CONTINUE : ### 3.4. Savers
+@@@ TODO CONTINUE : ### 3.5. API
+@@@ TODO CONTINUE : ### 3.6. GUI
+@@@ TODO CONTINUE : ### 3.7. CLI
+@@@ TODO CONTINUE : ## 4. Frameworks
+@@@ TODO CONTINUE : ### 4.1. MessageQueue
+@@@ TODO CONTINUE : ### 4.2. DataBase
 
 
-## Project flexability and [SOLIDness](https://en.wikipedia.org/wiki/SOLID)
+## Flexability and [SOLIDness](https://en.wikipedia.org/wiki/SOLID)
 
 The `cortex` project is built to be flexibale for modification and customizations.
 
 > "Make the easy things easy, and the hard things possible" ~ Larry Wall (Programming Perl, 2nd Edition (1996), by Larry Wall, Tom Christiansen and Randal Schwartz)
 
-## Server Personalization for Programmers
+## Server
 
 ## Adding parsers
 
@@ -140,25 +174,11 @@ class YourReader:
 		# Your code goes here
 ```
 
-## Project startup
+@@@ TODO CONTINUE : ## 6. Tests
+@@@ TODO CONTINUE : ### 6.1. Test tools
 
-NOTE! This part useful if you want to dwelve more or add new micro-services, otherwise it can be skipped. <br/>
-
-Project startup uses docker-compose to bring up micro-services. <br/>
-
-Upon `run-pipeline.sh` script execution, the following actions will take place:
-
-1. Previous docker containers and images are deleted.
-2. Micro-services containers are built according to `docker-compose.yml` based on `Dockerfile` configuration.
-2.1. Container image is created.
-2.2. Project files are copied to image.
-2.3. The `run_container.sh` script is executed, to create new container:
-2.3.1. Project requirements are installed on container.
-2.3.2. Container is booted according to `boot_container.py` script:
-2.3.2.1. Based on `RUN` environment variable value, micro-service is package located.
-2.3.2.2. Micro-service package's `boot_container.py` script is executed and runs it.
-
-## Useful Scripts
+## Additional Information
+### Scripts
 
 The `scripts` folder contains the following useful scripts:
 
@@ -173,3 +193,22 @@ The `scripts` folder contains the following useful scripts:
 9. `run-pipeline.sh` : To run project, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
 9. `stop-pipeline.sh` : To stop project containers.
 10. `wait-for-it.sh` : Mainly for internal usage, used by docker to wait for micro-service to be available on specific port.
+
+### Docker
+#### Docker startup
+
+Project startup uses docker-compose to bring up micro-services. <br/>
+
+Upon `run-pipeline.sh` script execution, the following actions will take place:
+
+1. Previous docker containers and images are deleted. <br/>
+2. Micro-services containers are built according to `docker-compose.yml` based on `Dockerfile` configuration. <br/>
+2.1. Container image is created. <br/>
+2.2. Project files are copied to image. <br/>
+2.3. The `run_container.sh` script is executed, to create new container: <br/>
+2.3.1. Project requirements are installed on container. <br/>
+2.3.2. Container is booted according to `boot_container.py` script: <br/>
+2.3.2.1. Based on `RUN` environment variable value, micro-service is package located. <br/>
+2.3.2.2. Micro-service package's `boot_container.py` script is executed and runs it. <br/>
+
+@@@ TODO CONTINUE : #### How to add new micro-service
