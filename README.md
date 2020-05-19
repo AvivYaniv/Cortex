@@ -3,8 +3,20 @@
 
 # Cortex
 
-Package for brain-comuter-interface, enabels to upload and view users thoughts. 
+Project for brain-comuter-interface, enabels to upload and view users telemetry data. 
 <br/>See [full documentation](https://braincomputerinterface.readthedocs.io/en/latest/).
+
+Telemetry data currently contains snapshots of:
+1. User feelings: consists of the following [hunger, thirst, exhaustion, happiness], and ranged between [-1,1].
+2. [Pose](https://en.wikipedia.org/wiki/Pose_(computer_vision)): this is a common computer-vision way to determine object's position (user) and orientation relative to some coordinate system, and consists of two vectors: [ Translation, Rotation ].
+3. Color image: shows what the user sees.
+4. Depth image: shows 'heatmap' of user distance relatively to objects that are in front of the user.
+
+## Table Of Contents
+
+1. Installation
+2. Architecture
+3. 
 
 ## Installation
 
@@ -48,108 +60,17 @@ NOTE! During that proccess, micro-services that use the database and message-que
     ...
     ```
 
-### Project startup
-
-NOTE! This part useful if you want to dwelve more or add new micro-services, otherwise it can be skipped. <br/>
-
-Project startup uses docker-compose to bring up micro-services. <br/>
-
-Upon `run-pipeline.sh` script execution, the following actions will take place:
-
-1. Previous docker containers and images are deleted.
-2. Micro-services containers are built according to `docker-compose.yml` based on `Dockerfile` configuration.
-2.1. Container image is created.
-2.2. Project files are copied to image.
-2.3. The `run_container.sh` script is executed, to create new container:
-2.3.1. Project requirements are installed on container.
-2.3.2. Container is booted according to `boot_container.py` script:
-2.3.2.1. Based on `RUN` environment variable value, micro-service is package located.
-2.3.2.2. Micro-service package's `boot_container.py` script is executed and runs it.
-
-@@@ TODO CONTINUE
-
-## Useful Scripts
-
-The `scripts` folder contains the following useful scripts:
-
-1. [ `client1.sh`, `client2.sh` ] : For client emulation as sanity-check.
-2. `docs.sh` : For automatic-documentation, so changes in documentation will take effect immideiatly.
-3. `dos2unix.sh` : To convert `.sh` files in the project to unix [end-of-line](https://en.wikipedia.org/wiki/Newline), for users of `Microsoft` oriented OSs.
-4. `install.sh` : For project installation, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
-5. `presequites.sh` : For project presequites installation, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
-6. `remove_containers.sh` : To clear all docker containers and images.
-7. `restore-pipeline.sh` : To bring up docker containers, after stopped (i.e. by `stop-pipeline.sh`).
-8. `run_container.sh` : This script is for internal usage, and used to run specific container by docker-compose.
-9. `run-pipeline.sh` : To run project, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
-9. `stop-pipeline.sh` : To stop project containers.
-10. `wait-for-it.sh` : Mainly for internal usage, used by docker to wait for micro-service to be available on specific port.
-
 ## Architecture
 
 The `Cortex` project contains of client that communicates to server user's telemetry data, as matter of [lifelogging](https://en.wikipedia.org/wiki/Lifelog).
 
-Telemetry data currently contains snapshots of:
-1. User feelings: consists of the following [hunger, thirst, exhaustion, happiness], and ranged between [-1,1].
-2. [Pose](https://en.wikipedia.org/wiki/Pose_(computer_vision)): this is a common computer-vision way to determine object's position (user) and orientation relative to some coordinate system, and consists of two vectors: [ Translation, Rotation ].
-3. Color image: shows what the user sees.
-4. Depth image: shows 'heatmap' of user distance relatively to objects that are in front of the user.
 
-@@@ TODO CONTINUE
 
-```sh
-$ python -m cortex
-Usage: cortex [OPTIONS] COMMAND [ARGS]...
+## Project flexability and [SOLIDness](https://en.wikipedia.org/wiki/SOLID)
 
-Options:
-  --version        Show the version and exit.
-  -q, --quiet
-  -t, --traceback
-  --help           Show this message and exit.
+The `cortex` project is built to be flexibale for modification and customizations.
 
-Commands:
-  run-server
-  run-webserver
-  upload-sample
-
-```
-
-All commands accept the `-q` or `--quiet` flag to suppress output, and the `-t`
-or `--traceback` flag to show the full traceback when an exception is raised
-(by default, only the error message is printed, and the program exits with a
-non-zero code).
-
-The CLI provides the `run-server` command:
-	This command starts a server to which sample files can be uploaded to with the `upload_sample` command
-	<br/> Usage: run-server [address] [data_dir]
-
-```sh
-$ python -m cortex run_server '127.0.0.1:8000' 'data'
-
-```
-
-The CLI further provides the `run-webserver` command:
-	This command starts a server to which shows users thoughts
-	<br/> Usage: run-webserver [address] [data_dir]
-
-```sh
-$ python -m cortex run_webserver '127.0.0.1:8000' 'data'
-
-```
-
-The CLI further provides the `upload-sample` command:
-	This command sends to the server user's sample file
-	File can be either zipped (*.gz) or raw (*.mind)
-	Versions suppored: binary or protobuf
-	<br/> Usage: upload-sample [address] [file] [version]
-
-```sh
-$ python -m cortex client_run '127.0.0.1:8000' 'sample.mind' 'protobuf'
-
-```
-
-## Advanced Personalization for Programmers
-
-The `cortex` package provides the ability to further personalized handling of files and parsers.
+> "Make the easy things easy, and the hard things possible" ~ Larry Wall (Programming Perl, 2nd Edition (1996), by Larry Wall, Tom Christiansen and Randal Schwartz)
 
 ## Server Personalization for Programmers
 
@@ -218,3 +139,37 @@ class YourReader:
 	def read_snapshot(self):
 		# Your code goes here
 ```
+
+## Project startup
+
+NOTE! This part useful if you want to dwelve more or add new micro-services, otherwise it can be skipped. <br/>
+
+Project startup uses docker-compose to bring up micro-services. <br/>
+
+Upon `run-pipeline.sh` script execution, the following actions will take place:
+
+1. Previous docker containers and images are deleted.
+2. Micro-services containers are built according to `docker-compose.yml` based on `Dockerfile` configuration.
+2.1. Container image is created.
+2.2. Project files are copied to image.
+2.3. The `run_container.sh` script is executed, to create new container:
+2.3.1. Project requirements are installed on container.
+2.3.2. Container is booted according to `boot_container.py` script:
+2.3.2.1. Based on `RUN` environment variable value, micro-service is package located.
+2.3.2.2. Micro-service package's `boot_container.py` script is executed and runs it.
+
+## Useful Scripts
+
+The `scripts` folder contains the following useful scripts:
+
+1. [ `client1.sh`, `client2.sh` ] : For client emulation as sanity-check.
+2. `docs.sh` : For automatic-documentation, so changes in documentation will take effect immideiatly.
+3. `dos2unix.sh` : To convert `.sh` files in the project to unix [end-of-line](https://en.wikipedia.org/wiki/Newline), for users of `Microsoft` oriented OSs.
+4. `install.sh` : For project installation, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
+5. `presequites.sh` : For project presequites installation, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
+6. `remove_containers.sh` : To clear all docker containers and images.
+7. `restore-pipeline.sh` : To bring up docker containers, after stopped (i.e. by `stop-pipeline.sh`).
+8. `run_container.sh` : This script is for internal usage, and used to run specific container by docker-compose.
+9. `run-pipeline.sh` : To run project, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
+9. `stop-pipeline.sh` : To stop project containers.
+10. `wait-for-it.sh` : Mainly for internal usage, used by docker to wait for micro-service to be available on specific port.
