@@ -2,5 +2,5 @@
 
 ( 
 	echo "Shutdown rabbitmq-server"
-	sudo systemctl disable rabbitmq-server	
+	invoke-rc.d rabbitmq-server stop	
 )
