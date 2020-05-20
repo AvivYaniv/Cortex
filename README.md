@@ -236,7 +236,7 @@ The API server questions the database and reflects the results. <br/>
 INFO! The API server results are in [JSON](https://en.wikipedia.org/wiki/JSON) format, but format can be costumized easily as described in [API Format](https://github.com/AvivYaniv/Cortex/blob/master/README.md#551-api-format) in this document. <br/>
 
 The API server utilities [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/). <br/>
-INFO! The API URLs format mentioned in API service easily support any other web-framework as described in [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/README.md#552-api-urls) in this document. <br/>
+INFO! The API URLs format mentioned in API service easily support any other web-framework URLs format as described in [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/README.md#552-api-urls) in this document. <br/>
 1. API:
     ```python
     >>> from cortex.api import run_api_server
@@ -702,7 +702,7 @@ EXAMPLE! Take a look at [mongodb_install.sh](https://github.com/AvivYaniv/Cortex
 #### 5.5.1. API Format
 The API server results are in [JSON](https://en.wikipedia.org/wiki/JSON) format, but format can be costumized easily. <br/>
 
-To change API results format (AKA [marshal](https://en.wikipedia.org/wiki/Marshalling_(computer_science))), take the following three easy and simple step: <br/>
+To change API results format (AKA [marshal](https://en.wikipedia.org/wiki/Marshalling_(computer_science))), take the following easy and simple step: <br/>
 Create a new class under the [Marshal](https://github.com/AvivYaniv/Cortex/tree/master/cortex/api/marshal) directory. To note a marshal class, end it with `Marshal` suffix.  <br/> 
 
 Marshal class must contain a `type` field and this would be the name for the marshal format.<br/>
@@ -714,13 +714,15 @@ EXAMPLE! Take a look at [JSON Marshal](https://github.com/AvivYaniv/Cortex/blob/
 
 <br/> 
 
-@@@ TODO CONTINUE :
 
 #### 5.5.2. API URLs
 The API server utilities [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/). <br/>
-INFO! The API URLs format mentioned in API service easily support any other web-framework as described in [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/README.md#552-api-urls) in this document. <br/>
 
-@@@ TODO CONTINUE :
+The API URLs format mentioned in API service easily support any other web-framework  URLs format. <br/>
+
+To get URLs in other costume format, call the `get_custom_api_url` function in [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/cortex/api/api_urls.py), with your costume `dictionary` as parameter which describes how to translate URLs components. <br/>
+
+EXAMPLE! Take a look at DICT_FLASK in [API Server](https://github.com/AvivYaniv/Cortex/blob/master/cortex/api/api_server.py), as well as  the DICT_ARGUNETS in [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/cortex/api/api_urls.py) which is used to python-format components in the URLs. <br/>
 
 ### 5.6. GUI
 @@@ TODO CONTINUE :
