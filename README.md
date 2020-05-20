@@ -4,7 +4,7 @@
 
 # Cortex
 
-Cortex is brain-comuter-interface *ultra **flexibale** and **durable*** project, which enabels to upload and view users telemetry data. 
+Cortex is an *ultra **flexibale** and **durable*** brain-comuter-interface project, which enabels to upload and view users telemetry data. 
 <br/>See [full documentation](https://braincomputerinterface.readthedocs.io/en/latest/).
 
 Telemetry data currently contains snapshots of:
