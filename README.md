@@ -37,7 +37,7 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 4.3. [Log](https://github.com/AvivYaniv/Cortex/blob/master/README.md#43-log) <br/>
 5. [Flexability and SOLIDness](https://github.com/AvivYaniv/Cortex/blob/master/README.md#5-flexability-and-solidness) <br/>
 5.1. Client <br/>
-5.1.1. File Readers <br/>
+5.1.1. File Readers and Writers <br/>
 5.1.2. Mind File Formats <br/>
 5.2. Parsers <br/>
 5.2.1. Adding Parser <br/>
@@ -450,10 +450,17 @@ The Cortex project is built to be flexibale for modification and customizations.
 > "Make the easy things easy, and the hard things possible" ~ Larry Wall (Programming Perl, 2nd Edition (1996), by Larry Wall, Tom Christiansen and Randal Schwartz)
 
 ### 5.1. Client
-@@@ TODO CONTINUE : 
 
-#### 5.1.1. File Readers
-@@@ TODO CONTINUE : 
+#### 5.1.1. File Readers and Writers
+A driver oriented framework facilitates reading from and writing to diffrent files, based on their extension. <br/>
+<br/>
+File Readers Drivers: <br/>
+To add new readers to [`FileReaderDriver`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/utils/files/file_reader_driver.py), simply add new entry to the `FILE_READER_DRIVERS ` dictionary, in which the key is the file extension and the value is the library for reading from file. <br/>
+ASSUMPTION! It is confidently assumed that the library contains the following methods: `open(file_path, <mode>)` to open file, `read(size)` for reading, and `close()` for closing file. <br/>
+<br/>
+To add new writers to [`FileWriterDriver`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/utils/files/file_writer_driver.py), simply add new entry to the `FILE_WRITER_DRIVERS ` dictionary, in which the key is the file extension and the value is the library for reading from file. <br/>
+
+ASSUMPTION! It is confidently assumed that the library contains the following methods: `open(file_path, <mode>)` to open file, `write(data)` for writing, and `close()` for closing file. <br/>
 
 #### 5.1.2. Mind File Formats
 @@@ TODO CONTINUE : 
