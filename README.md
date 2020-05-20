@@ -297,27 +297,28 @@ The CLI is available as `cortex.cli`. <br/>
 The CLI questions the API server and reflects the results. <br/>
 <br/>
 The CLI supports the following commands: <br/>
-1. <br/>
+<br/>
+1. 
 ```sh
 $ python -m cortex.cli get-users
 ```
 <br/>&emsp;Returns the list of all the supported users, including their IDs and names only. <br/>
-2. <br/>
+2. 
 ```sh
 $ python -m cortex.cli get-user <user-id>
 ```
 <br/>&emsp;Returns the specified user's details: ID, name, birthday and gender. <br/>
-3. <br/>
+3. 
 ```sh
 $ python -m cortex.cli get-snapshots <user-id>
 ```
 <br/>&emsp;Returns the list of the specified user's snapshot IDs and datetimes only. <br/>
-4.  <br/>
+4. 
 ```sh
 $ python -m cortex.cli get-snapshot <user-id> <snapshot-id>
 ```
 <br/>&emsp;Returns the specified snapshot's details: ID, datetime, and the available results' names only (e.g. pose). <br/>
-5. <br/>
+5. 
 ```sh
 $ python -m cortex.cli get-result <user-id> <snapshot-id> <result-name>
 ```
