@@ -182,16 +182,16 @@ INFO: Parsers can be added easily as decribed in [Adding Parsers](https://github
 <br/>
 The following parsers are available: <br/>
 1. Pose <br/>
-Collects the translation and the rotation of the user's head at a given timestamp, and publishes the result to a dedicated topic. <br/>
+&emsp;Collects the translation and the rotation of the user's head at a given timestamp, and publishes the result to a dedicated topic. <br/>
 2. Color Image <br/>
-Collects the color image of what the user was seeing at a given timestamp, and publishes the result to a dedicated topic. <br/>
+&emsp;Collects the color image of what the user was seeing at a given timestamp, and publishes the result to a dedicated topic. <br/>
 NOTE: the data itself is stored to disk, and only the metadata published. <br/>
 3. Depth Image <br/>
-Collects the depth image of what the user was seeing at a given timestamp, and publishes the result to a dedicated topic.<br/>
-A depth image is a width × height array of floats, where each float represents how far the nearest surface from the user was, in meters. So, if the user was looking at a chair, the depth of its outline would be its proximity to her (for example, 0.5 for half a meter), and the wall behind it would be farther (for example, 1.0 for one meter).
+&emsp;Collects the depth image of what the user was seeing at a given timestamp, and publishes the result to a dedicated topic.<br/>
+&emsp;A depth image is a width × height array of floats, where each float represents how far the nearest surface from the user was, in meters. So, if the user was looking at a chair, the depth of its outline would be its proximity to her (for example, 0.5 for half a meter), and the wall behind it would be farther (for example, 1.0 for one meter).
 NOTE: the data itself should be stored to disk, and only the metadata published.<br/>
 4. Feelings <br/>
-Collects the feelings the user was experiencing at any timestamp, and publishes the result to a dedicated topic. <br/>
+&emsp;Collects the feelings the user was experiencing at any timestamp, and publishes the result to a dedicated topic. <br/>
 <br/>
 
 ### 3.4. Savers
