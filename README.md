@@ -369,13 +369,27 @@ IMPORTANT! The [`MessageQueue`](https://github.com/AvivYaniv/Cortex/blob/master/
 
 3. MessageQueue Publishers: <br/>
 The MessageQueue Publisher can be run either: <br/>
-1. In a dedicated thread as [`MessageQueuePublisherThread`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/publisher/message_queue_publisher_thread.py) (to handle [IO Event Loop](https://en.wikipedia.org/wiki/Event_loop)). <br/>
+<br/>
+1. In a dedicated thread as [`MessageQueuePublisherThread`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/publisher/message_queue_publisher_thread.py) (to handle [IO Events Loop](https://en.wikipedia.org/wiki/Event_loop)). <br/>
 2. In the same thread as [`MessageQueuePublisher`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/publisher/message_queue_publisher.py). <br/>
+<br/>
 
 IMPORTANT! The MessageQueue Publisher activates, yet decoupled from, the concrete technology implementation; which is dynamically loaded based on the `message_queue_type` parameter and initialized based on a `MessageQueueContext` which is passed with the `message_queue_context` parameter. <br/>
 
 4. MessageQueue Consumers: <br/>
+The MessageQueue Consumer can be run either: <br/>
+<br/>
+1. In a dedicated thread as [`MessageQueueConsumerThread`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/consumer/Message_queue_consumer_thread.py) (to handle [IO Events Loop](https://en.wikipedia.org/wiki/Event_loop)). <br/>
+2. In the same thread as [`MessageQueueConsumer`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/consumer/message_queue_consumer.py). <br/>
+<br/>
+
+IMPORTANT! The MessageQueue Consumer activates, yet decoupled from, the concrete technology implementation; which is dynamically loaded based on the `message_queue_type` parameter and initialized based on a `MessageQueueContext` which is passed with the `message_queue_context` parameter. <br/>
+
 5. MessageQueue Runner: <br/>
+The MessageQueue Runner is the main component responsible of decoupling the MessageQueue Framework logic and implementation. <br/>
+As such, it contains the following methods which 
+
+@@@ TODO CONTINUE
 
 ### 4.2. DataBase
 @@@ TODO CONTINUE : 
