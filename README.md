@@ -573,10 +573,26 @@ You can parser as a micro-service, by adding it to the [docker-compose.yml](http
 <br/>
 
 ### 5.3. MessageQueue
-@@@ TODO CONTINUE : 
 
 #### 5.3.1. MessageQueue Context Configuration
-@@@ TODO CONTINUE :
+For the MessageQueue Framework, a dedicated dictionay-based file has been developed to configure ***any*** message-queue technology. <br/>
+
+To configure contexts for a new message-queue technology, take the following easy and simple step: <br/>
+Create in [MessageQueue Context](https://github.com/AvivYaniv/Cortex/tree/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context) directory, a dictionary-based file that starts with your message-queue technology name and ends with `_config.yaml`. <br/>
+
+The header must be `message_queue`, to note a messsage-queue configuration file. <br/>
+
+Header `message_queue` childrens are the services names. <br/>
+
+Services childrens can be either [ publishers, consumers] or any other names defined under [ transmitter, receiver ] in [ RECIVERS_CATEGORIES_NAMES, TRANSMITTERS_CATEGORIES_NAMES] in [`MessageQueueContextFactory`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/message_queue_context_factory.py), and from here you are free to add any information regquired to initialize and configure your [ transmitter, receiver ]. <br/>
+
+EXAMPLE! Take a look at [rabbitmq_config.yaml](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/rabbitmq_config.yaml). <br/>
+
+NOTE! To ensure configuration is as much useful as possible you can define in angle brackets fields that will be evaluated in runtime based on kwy-value arguments passed to [ `get_mq_category_contexts`, `get_mq_context` ] functions of [`MessageQueueContextFactory`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/message_queue_context_factory.py). <br/>
+
+To load message-queue context configuration, simply call either [ `get_mq_category_contexts`, `get_mq_context` ] functions of [`MessageQueueContextFactory`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/message_queue_context_factory.py). <br/>
+
+EXAMPLE! Take a look at [`ServerService`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/server/server_service.py), [`ParserService`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/parsers/parser_service.py), [`SaverService`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/saver/saver_service.py). <br/>
 
 #### 5.3.2. MessageQueue Driver
 @@@ TODO CONTINUE :
