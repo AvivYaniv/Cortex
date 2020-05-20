@@ -23,9 +23,8 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 3.2. Server <br/>
 3.3. Parsers <br/>
 3.4. Savers <br/>
-3.5. API <br/>
-3.6. GUI <br/>
-3.7. CLI <br/>
+3.5. GUI <br/>
+3.6. CLI <br/>
 4. Frameworks <br/>
 4.1. MessageQueue <br/>
 4.2. DataBase <br/>
@@ -170,22 +169,44 @@ The following parsers are available: <br/>
 Collects the translation and the rotation of the user's head at a given timestamp, and publishes the result to a dedicated topic. <br/>
 2. Color Image <br/>
 Collects the color image of what the user was seeing at a given timestamp, and publishes the result to a dedicated topic. <br/>
-Note: the data itself is stored to disk, and only the metadata published. <br/>
+NOTE: the data itself is stored to disk, and only the metadata published. <br/>
 3. Depth Image <br/>
 Collects the depth image of what the user was seeing at a given timestamp, and publishes the result to a dedicated topic.<br/>
 A depth image is a width × height array of floats, where each float represents how far the nearest surface from the user was, in meters. So, if the user was looking at a chair, the depth of its outline would be its proximity to her (for example, 0.5 for half a meter), and the wall behind it would be farther (for example, 1.0 for one meter).
-The best (2D) way to represent it is using matplotlib's heatmap.<br/>
-Note: the data itself should be stored to disk, and only the metadata published.<br/>
+NOTE: the data itself should be stored to disk, and only the metadata published.<br/>
 4. Feelings <br/>
 Collects the feelings the user was experiencing at any timestamp, and publishes the result to a dedicated topic. <br/>
 <br/>
 
-@@@ TODO CONTINUE
+### 3.4. Savers
+The saver is available as `cortex.saver`. <br/>
+Saver subscribes to all the relevant topics it is capable of consuming and saving to them to the database. <br/>
+1. API:
+    ```python
+    >>> from cortex.saver import Saver
+    >>> saver = Saver(database_url)
+    >>> data = …
+    >>> saver.save('pose', data)
+    ```
+    Which connects to a database, accepts a topic name and some data, as consumed from the message queue, and saves it to the database.
+2. CLI:
+    ```sh
+    $ python -m cortex.saver save                   \
+     -d/--database 'postgresql://127.0.0.1:5432'    \
+     'pose'                                         \
+     'pose.result' 
+    ```
+    Which accepts a topic name and a path to some raw data, as consumed from the message queue, and saves it to a database. This way of invocation runs the saver exactly once. <br/>
+    ```sh
+    $ python -m cortex.saver run-saver              \
+      'postgresql://127.0.0.1:5432'                 \
+      'rabbitmq://127.0.0.1:5672/' 
+    ```
+    Which runs the saver as a service, which works with a message queue indefinitely; the saver subscribes to all the relevant topics it is capable of consuming and saving them to the database. <br/>
+<br/>
 
-@@@ TODO CONTINUE : ### 3.4. Savers
-@@@ TODO CONTINUE : ### 3.5. API
-@@@ TODO CONTINUE : ### 3.6. GUI
-@@@ TODO CONTINUE : ### 3.7. CLI
+@@@ TODO CONTINUE : ### 3.5. GUI
+@@@ TODO CONTINUE : ### 3.6. CLI
 @@@ TODO CONTINUE : ## 4. Frameworks
 @@@ TODO CONTINUE : ### 4.1. MessageQueue
 @@@ TODO CONTINUE : ### 4.2. DataBase
