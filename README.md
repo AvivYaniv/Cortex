@@ -48,7 +48,7 @@ Savers pull from the message-queue the parsed results, in a load-balanced manner
 
 Project also provides a GUI server to which users can connect to view telemetry data.
 
-Other micro-services that are included are API to pull data from the database and CLI to run specific services.
+Other micro-services that are included are API to pull data from the database and CLI which reflects the API.
 
 ![alt text](https://github.com/AvivYaniv/Cortex/blob/master/about/Architecture/Architecture.png?raw=true)
 
