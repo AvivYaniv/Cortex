@@ -357,6 +357,8 @@ EXAMPLE: An example of RabbitMQ [message-queue context configuration file](https
 
 The `MessageQueueContext` object mandatorily holds information regerding it's role [ transmitter, receiver ]. <br/>
 
+INFO! MessageQueue Context configuration supports *any* dictionary-based file (i.e. YAML) and enabels to *dynamically set values in run-time*, for more information please see [MessageQueue Context Configuration](https://github.com/AvivYaniv/Cortex/blob/master/README.md#531-messagequeue-context-configuration). <br/> 
+
 2. MessageQueue Base Class: <br/>
 This class gets a message-queue contest and runs as a transmitter (i.e. Publisher) or a receiver (i.e. Consumer).
 
