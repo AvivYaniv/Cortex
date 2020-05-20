@@ -650,6 +650,18 @@ EXAMPLE! Take a look at [rabbitmq_install.sh](https://github.com/AvivYaniv/Corte
 
 <br/>
 
+#### 5.3.3. MessageQueue Messages
+A generic framework facilitates message-queue communication in easy and format-decoupled manner. <br/>
+
+Current message-queue communication format is [JSON](https://en.wikipedia.org/wiki/JSON)-based. <br/>
+
+Client-Server communication protocol format is being controlled in a *single* place (*yet can be changed for each couple of micro-services; [server-parser] or [parser-saver]*), based on default `messages_type` parameter resultion at [`MessageQueueMessages`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/messages/mq_messages.py). <br/>
+
+NOTE! To change message-queue communication implementation format, simply create a new folder in [PublisherConsumer Messages](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages) directory, named after the new message-queue communication implementation format, and create in in classes for all the messages types that are in the [PublisherConsumer Messages](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages) directory. <br/>
+
+EXAMPLE! Take a look at [JSON](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages/json). <br/>
+
+
 ### 5.4. DataBase
 
 #### 5.4.1. DataBase Driver
