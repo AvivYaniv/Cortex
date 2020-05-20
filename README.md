@@ -40,12 +40,15 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 5.1.2. Mind File Formats <br/>
 5.2. Parsers <br/>
 5.2.1. Adding Parser <br/>
-5.3. API <br/>
-5.3.1. API Format <br/>
-5.3.2. API URLs <br/>
-5.4. GUI <br/>
-5.4.1. Bar Charts <br/>
-5.4.2. Multiline Graphs <br/>
+5.3. MessageQueue <br/>
+5.3.1. MessageQueue Context Configuration <br/>
+5.3.2. MessageQueue Driver <br/>
+5.4. API <br/>
+5.4.1. API Format <br/>
+5.4.2. API URLs <br/>
+5.5. GUI <br/>
+5.5.1. Bar Charts <br/>
+5.5.2. Multiline Graphs <br/>
 6. Tests <br/>
 6.1. Test tools <br/>
 7. [Additional Information](https://github.com/AvivYaniv/Cortex/blob/master/README.md#7-additional-information) <br/>
@@ -346,11 +349,13 @@ MessageQueue Framework components: <br/>
 1. MessageQueue Context: <br/>
 The framework relies on the understanding that diffrent publisher-consumer implementations would require diffrent parameters for initialization and running configuration. <br/>
 
-The `MessageQueueContext` is an object that descibes all neccessary information to initialize and run an instance of either [ publisher, consumer ].
+The `MessageQueueContext` is an object that holds all neccessary information to initialize and run an instance of either [ publisher, consumer ].
 
 The `MessageQueueContext` is loaded based on a configuration-file that is written for a specific message-queue implementation (i.e. RabbitMQ).
 
 EXAMPLE: An example of RabbitMQ [message-queue context configuration file](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/context/rabbitmq_config.yaml). <br/>
+
+The `MessageQueueContext` object mandatorily holds information regerding it's role [ transmitter, receiver ]. <br/>
 
 2. MessageQueue Base Class: <br/>
 This class gets a message-queue contest and runs as a transmitter (i.e. Publisher) or a receiver (i.e. Consumer).
@@ -383,22 +388,31 @@ The Cortex project is built to be flexibale for modification and customizations.
 #### 5.2.1. Adding Parser
 @@@ TODO CONTINUE :
 
-### 5.3. API
+### 5.3. MessageQueue
 @@@ TODO CONTINUE : 
 
-#### 5.3.1. API Format
+#### 5.3.1. MessageQueue Context Configuration
 @@@ TODO CONTINUE :
 
-#### 5.3.2. API URLs
+#### 5.3.2. MessageQueue Driver
 @@@ TODO CONTINUE :
 
-### 5.4. GUI
+### 5.4. API
+@@@ TODO CONTINUE : 
+
+#### 5.4.1. API Format
 @@@ TODO CONTINUE :
 
-#### 5.4.1. Bar Charts
+#### 5.4.2. API URLs
 @@@ TODO CONTINUE :
 
-#### 5.4.2. Multiline Graphs
+### 5.5. GUI
+@@@ TODO CONTINUE :
+
+#### 5.5.1. Bar Charts
+@@@ TODO CONTINUE :
+
+#### 5.5.2. Multiline Graphs
 @@@ TODO CONTINUE :
 
 ## 6. Tests
