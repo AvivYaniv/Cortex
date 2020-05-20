@@ -55,6 +55,8 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 5.6.2. [Multiline Graphs](https://github.com/AvivYaniv/Cortex/blob/master/README.md#562-multiline-graphs) <br/>
 6. Tests <br/>
 6.1. Test tools <br/>
+6.1.1. Test Mind File Creator <br/>
+6.1.2. Saver Messages Sniffer <br/>
 7. [Additional Information](https://github.com/AvivYaniv/Cortex/blob/master/README.md#7-additional-information) <br/>
 7.1. [Scripts](https://github.com/AvivYaniv/Cortex/blob/master/README.md#71-scripts) <br/>
 7.2. [Docker](https://github.com/AvivYaniv/Cortex/blob/master/README.md#72-docker) <br/>
@@ -737,10 +739,18 @@ The GUI Multiline Graph is created using [D3.js](https://d3js.org/), and can be 
 EXAMPLE! Take a look at [multiline_graph.js](https://github.com/AvivYaniv/Cortex/blob/master/cortex/gui/gui_client/multiline_graph/multiline_graph.js) to view default options, as well at [VisualizationManager](https://github.com/AvivYaniv/Cortex/blob/master/cortex/gui/gui_client/js/visualization_manager.js) which passes overriding parameters. <br/>
 
 ## 6. Tests
-@@@ TODO CONTINUE :
+The Cortex project includes tests for the modules, which is built to be extensive and resilliant, and utilizes testing framework to reduce [boilerplate code](https://en.wikipedia.org/wiki/Boilerplate_code). <br/>
+Tests are integrated with [Travis CI](https://travis-ci.org/) and [CodeCov](https://codecov.io/). <br/>
 
 ### 6.1. Test tools
-@@@ TODO CONTINUE :
+To make testing proccess as efficient as possible, few [test tools](https://github.com/AvivYaniv/Cortex/tree/master/tests/_tools) have been developed. <br/>
+
+### 6.1.1. Test Mind File Creator
+The [main_create_test_mind_file.py](https://github.com/AvivYaniv/Cortex/blob/master/tests/_tools/main_create_test_mind_file.py) enables to easily create costume test mind files, based on other (bigger) mind file. <br/>
+In addition, created mind file can be manipulated according to flags specified in `SNAPSHOT_MANIPULATOR_FLAGS`. <br/>
+
+### 6.1.2. Saver Messages Sniffer
+The [main_saver_sniffer.py](https://github.com/AvivYaniv/Cortex/blob/master/tests/_tools/main_saver_sniffer.py) enables to easily sniff messages consumed by the saver from the message-queue. <br/>
 
 ## 7. Additional Information
 ### 7.1. Scripts
