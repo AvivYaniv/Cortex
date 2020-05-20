@@ -4,7 +4,7 @@
 
 # Cortex
 
-Cortex is brain-comuter-interface ultra flexibale and durable project, which enabels to upload and view users telemetry data. 
+Cortex is brain-comuter-interface *ultra **flexibale** and **durable*** project, which enabels to upload and view users telemetry data. 
 <br/>See [full documentation](https://braincomputerinterface.readthedocs.io/en/latest/).
 
 Telemetry data currently contains snapshots of:
@@ -353,14 +353,17 @@ The `MessageQueueContext` is an object that holds all neccessary information to 
 
 The `MessageQueueContext` is loaded based on a configuration-file that is written for a specific message-queue implementation (i.e. RabbitMQ).
 
-EXAMPLE: An example of RabbitMQ [message-queue context configuration file](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/context/rabbitmq_config.yaml). <br/>
-
 The `MessageQueueContext` object mandatorily holds information regerding it's role [ transmitter, receiver ]. <br/>
+
+EXAMPLE: An example of RabbitMQ [message-queue context configuration file](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/context/rabbitmq_config.yaml). <br/>
 
 INFO! MessageQueue Context configuration supports *any* dictionary-based file (i.e. YAML) and enabels to *dynamically set values in run-time*, for more information please see [MessageQueue Context Configuration](https://github.com/AvivYaniv/Cortex/blob/master/README.md#531-messagequeue-context-configuration). <br/> 
 
 2. MessageQueue Base Class: <br/>
-This class gets a message-queue contest and runs as a transmitter (i.e. Publisher) or a receiver (i.e. Consumer).
+This class gets a message-queue context and runs as a transmitter (i.e. Publisher) or a receiver (i.e. Consumer). <br/>
+Diffrent message-queue implementations do inherit from this class which takes care for the common logic for initalization and calls the specifics for implementation running as either [ transmitter, receiver ]. <br/>
+
+INFO! The [`MessageQueue`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/message_queue.py) is an abstract class and implementation should be provided to run specific message-queue technology (i.e. creating sub-class [`RabbitMQMessageQueue`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/rabbitmq_mq.py) for RabbitMQ). <br/>
 
 3. MessageQueue Publishers: <br/>
 4. MessageQueue Consumers: <br/>
