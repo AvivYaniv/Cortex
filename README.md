@@ -482,7 +482,7 @@ To note a reader class, end it with `Reader` suffix.
 ```python
 class YourReader:
 
-	version = 'your_reader_name'
+	version = 'your_format_name'
 
 	def __init__(self, file_path):
 		# Your code goes here
@@ -512,7 +512,7 @@ To note a writer class, end it with `Writer` suffix.
 ```python
 class YourWriter:
 
-	version = 'your_writer_name'
+	version = 'your_format_name'
 
 	def __init__(self, file_path):
 		# Your code goes here
@@ -528,10 +528,47 @@ EXAMPLE! Take a look at [`ProtobufMindWriter`](https://github.com/AvivYaniv/Cort
 
 ### 5.2. Parsers
 You can add costume parsers, thus parsing data from the raw snapshots. <br/>
+You can add new Parser with function or with dedicated class. <br/>
 <br/>
-To add new parser, take the following easy and simple steps: <br/>
-1. <br/>
-@@@ TODO CONTINUE : 
+To add new parser, by function (parser that dosen't require inner state), take the following easy and simple step:
+<br/>
+Create a new file containig parser function, in the [`Snapshots Parsers`](https://github.com/AvivYaniv/Cortex/tree/master/cortex/parsers/snapshot) directory. <br/>
+To note a parser function, end it with `_parser` suffix.
+<br/>
+i.e.
+```python
+def your_parser(snapshot):
+    # Your code goes here
+your_parser.field = 'your_parser_field_name'
+
+```
+
+EXAMPLE! Take a look at [`pose_parser`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/parsers/snapshot/pose_parser.py), and [`user_feelings_parser`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/parsers/snapshot/user_feelings_parser.py). <br/>
+
+<br/>
+To add new parser, by class (parser that do require inner state), take the following easy and simple step:
+<br/>
+Create a new file containig parser class, in the [`Snapshots Parsers`](https://github.com/AvivYaniv/Cortex/tree/master/cortex/parsers/snapshot) directory. <br/>
+Parser object will be created once and then on each snapshot the parse function will be called.
+To note a parser class, end it with `Parser` suffix, and add `parse` function.
+<br/>
+i.e.
+```python
+class YourParser:
+
+    field = 'your_parser_field_name'
+
+    def parse(self, snapshot):
+        # Your code goes here
+```
+
+EXAMPLE! Take a look at [`ColorImageParser`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/parsers/snapshot/color_image_parser.py), and [`DepthImageParser`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/parsers/snapshot/depth_image_parser.py). <br/>
+
+<br/>
+
+You can parser as a micro-service, by adding it to the [docker-compose.yml](https://github.com/AvivYaniv/Cortex/blob/master/docker-compose.yml) file, and defining the `RUN` environment variable to `PARSERS` and `PARSER` environment variable to `<your_parser_field_name>`.
+
+<br/>
 
 ### 5.3. MessageQueue
 @@@ TODO CONTINUE : 
