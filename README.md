@@ -40,7 +40,6 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 5.1.1. File Readers and Writers <br/>
 5.1.2. Mind File Formats <br/>
 5.2. Parsers <br/>
-5.2.1. Adding Parser <br/>
 5.3. MessageQueue <br/>
 5.3.1. MessageQueue Context Configuration <br/>
 5.3.2. MessageQueue Driver <br/>
@@ -465,20 +464,74 @@ ASSUMPTION! It is confidently assumed that the library contains the following me
 #### 5.1.2. Mind File Formats
 A driver oriented framework facilitates reading from and writing to diffrent mind file formats, based on the `version` parameter. <br/>
 <br/>
-To add new format, take the following steps: <br/>
+To add new format, take the following easy and simple steps: <br/>
 1. Add new version name to [`ReaderVersions`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/readers/reader_versions.py). <br/>
 2. Create new class that inherits from [`FileReaderBase`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/readers/file_reader.py), and implements the following methods: `read_user_information` and `read_snapshot`. <br/>
+
+Reader class must contain a `version` field and this would be the name for reading files according to this reader.
+
+Reader class must contain the following functions:
+`__init__`			: That recives the file path to be read	
+`read_user_information` 	: To read user information
+`read_snapshot` 		: To read snapshots
+
+The file will be opened, user information will be read and then the snapshots.
+
+To note a reader class, end it with `Reader` suffix.
+<br/>i.e.
+```python
+class YourReader:
+
+	version = 'your_reader_name'
+
+	def __init__(self, file_path):
+		# Your code goes here
+
+	def read_user_information(self):
+		# Your code goes here
+
+	def read_snapshot(self):
+		# Your code goes here
+```
+
 EXAMPLE! Take a look at [`ProtobufMindReader`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/readers/mind/protobuf_mind_reader.py), and [`BinaryMindReader`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/readers/mind/binary_mind_reader.py). <br/>
-2. Create new class that inherits from [`FileWriterBase`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/writers/file_writer.py), and implements the following methods: `write_user_information` and `write_snapshot`. <br/>
+
+3. Create new class that inherits from [`FileWriterBase`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/writers/file_writer.py), and implements the following methods: `write_user_information` and `write_snapshot`. <br/>
+
+Writer class must contain a `version` field and this would be the name for writing files according to this writer.
+
+Writer class must contain the following functions:
+`__init__`			: That recives the file path to be written	
+`write_user_information` 	: To write user information
+`write_snapshot` 		: To write snapshots
+
+The file will be opened, user information will be written and then the snapshots.
+
+To note a writer class, end it with `Writer` suffix.
+<br/>i.e.
+```python
+class YourWriter:
+
+	version = 'your_writer_name'
+
+	def __init__(self, file_path):
+		# Your code goes here
+
+	def write_user_information(self):
+		# Your code goes here
+
+	def write_snapshot(self):
+		# Your code goes here
+```
+
 EXAMPLE! Take a look at [`ProtobufMindWriter`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/writers/mind/protobuf_mind_writer.py), and [`BinaryMindWriter`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/writers/mind/binary_mind_writer.py). <br/>
 
-@@@ TODO CONTINUE : 
-
 ### 5.2. Parsers
-@@@ TODO CONTINUE :
-
-#### 5.2.1. Adding Parser
-@@@ TODO CONTINUE :
+You can add costume parsers, thus parsing data from the raw snapshots. <br/>
+<br/>
+To add new parser, take the following easy and simple steps: <br/>
+1. <br/>
+@@@ TODO CONTINUE : 
 
 ### 5.3. MessageQueue
 @@@ TODO CONTINUE : 
