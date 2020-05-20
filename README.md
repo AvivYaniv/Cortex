@@ -343,7 +343,7 @@ The MessageQueue Framework, composed of transmitters (i.e. Publisher) and receiv
 NOTE! The terms [ transmitter, receiver ] and [ publisher, consumer ] will be used interchangeably, yet the latter are concrete instances for the [ transmitter, receiver ] concep. <br/>
 
 The following UML diagram depicts the main components: <br/>
-@@@ TODO : LINK @@ <br/>
+![alt text](https://github.com/AvivYaniv/Cortex/blob/master/about/Design/MessageQueueDesign.png?raw=true) <br/>
 
 MessageQueue Framework components: <br/>
 1. MessageQueue Context: <br/>
@@ -387,9 +387,7 @@ IMPORTANT! The MessageQueue Consumer activates, yet decoupled from, the concrete
 
 5. MessageQueue Runner: <br/>
 The MessageQueue Runner is the main component responsible of decoupling the MessageQueue Framework logic and implementation. <br/>
-As such, it contains the following methods which 
-
-@@@ TODO CONTINUE
+As such, it contains [ installing-message-queue, running-message-queue, stopping-message-queue ] methods which dynamically load the concrete implementation at runtime, based on the `message_queue_type` parameter. <br/>
 
 ### 4.2. DataBase
 @@@ TODO CONTINUE : 
