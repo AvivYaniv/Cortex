@@ -36,23 +36,23 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 4.2. [DataBase](https://github.com/AvivYaniv/Cortex/blob/master/README.md#42-database) <br/>
 4.3. [Log](https://github.com/AvivYaniv/Cortex/blob/master/README.md#43-log) <br/>
 5. [Flexability and SOLIDness](https://github.com/AvivYaniv/Cortex/blob/master/README.md#5-flexability-and-solidness) <br/>
-5.1. Client <br/>
-5.1.1. File Readers and Writers <br/>
-5.1.2. Mind File Formats <br/>
-5.1.3. Client-Server Protocol <br/>
-5.2. Parsers <br/>
-5.3. MessageQueue <br/>
-5.3.1. MessageQueue Context Configuration <br/>
-5.3.2. MessageQueue Driver <br/>
-5.3.3. MessageQueue Messages <br/>
-5.4. DataBase <br/>
-5.4.1. DataBase Driver <br/>
-5.5. API <br/>
-5.5.1. API Format <br/>
-5.5.2. API URLs <br/>
-5.6. GUI <br/>
-5.6.1. Bar Charts <br/>
-5.6.2. Multiline Graphs <br/>
+5.1. [Client](https://github.com/AvivYaniv/Cortex/blob/master/README.md#51-client) <br/>
+5.1.1. [File Readers and Writers](https://github.com/AvivYaniv/Cortex/blob/master/README.md#511-file-readers-and-writers) <br/>
+5.1.2. [Mind File Formats](https://github.com/AvivYaniv/Cortex/blob/master/README.md#512-mind-file-formats) <br/>
+5.1.3. [Client-Server Protocol](https://github.com/AvivYaniv/Cortex/blob/master/README.md#513-client-server-protocol) <br/>
+5.2. [Parsers](https://github.com/AvivYaniv/Cortex/blob/master/README.md#52-parsers) <br/>
+5.3. [MessageQueue](https://github.com/AvivYaniv/Cortex/blob/master/README.md#53-messagequeue) <br/>
+5.3.1. [MessageQueue Context Configuration](https://github.com/AvivYaniv/Cortex/blob/master/README.md#531-messagequeue-context-configuration) <br/>
+5.3.2. [MessageQueue Driver](https://github.com/AvivYaniv/Cortex/blob/master/README.md#532-messagequeue-driver) <br/>
+5.3.3. [MessageQueue Messages](https://github.com/AvivYaniv/Cortex/blob/master/README.md#533-messagequeue-messages) <br/>
+5.4. [DataBase](https://github.com/AvivYaniv/Cortex/blob/master/README.md#54-database) <br/>
+5.4.1. [DataBase Driver](https://github.com/AvivYaniv/Cortex/blob/master/README.md#541-database-driver) <br/>
+5.5. [API](https://github.com/AvivYaniv/Cortex/blob/master/README.md#55-api) <br/>
+5.5.1. [API Format](https://github.com/AvivYaniv/Cortex/blob/master/README.md#551-api-format) <br/>
+5.5.2. [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/README.md#552-api-urls) <br/>
+5.6. [GUI](https://github.com/AvivYaniv/Cortex/blob/master/README.md#56-gui) <br/>
+5.6.1. [Bar Charts](https://github.com/AvivYaniv/Cortex/blob/master/README.md#561-bar-charts) <br/>
+5.6.2. [Multiline Graphs](https://github.com/AvivYaniv/Cortex/blob/master/README.md#562-multiline-graphs) <br/>
 6. Tests <br/>
 6.1. Test tools <br/>
 7. [Additional Information](https://github.com/AvivYaniv/Cortex/blob/master/README.md#7-additional-information) <br/>
