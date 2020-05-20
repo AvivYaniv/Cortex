@@ -544,7 +544,7 @@ Client-Server communication protocol format is being controlled in a *single* pl
 
 NOTE! To change protocol implementation format, simply create a new folder in [Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol) directory, named after the new protocol implementation format, and create in in classes for all the messages types that are in the [Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol) directory. <br/>
 
-EXAMPLE! Take a look at [Protobuf](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol/protobuf), and the obsolete [Native](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol/native). <br/>
+EXAMPLE! Take a look at [Protobuf Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol/protobuf), and the obsolete [Native Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol/native). <br/>
 
 <br/>
 
@@ -662,7 +662,7 @@ Client-Server communication protocol format is being controlled in a *single* pl
 
 NOTE! To change message-queue communication implementation format, simply create a new folder in [PublisherConsumer Messages](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages) directory, named after the new message-queue communication implementation format, and create in in classes for all the messages types that are in the [PublisherConsumer Messages](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages) directory. <br/>
 
-EXAMPLE! Take a look at [JSON](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages/json). <br/>
+EXAMPLE! Take a look at [JSON Messages](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages/json). <br/>
 
 
 ### 5.4. DataBase
@@ -700,9 +700,26 @@ EXAMPLE! Take a look at [mongodb_install.sh](https://github.com/AvivYaniv/Cortex
 ### 5.5. API
 
 #### 5.5.1. API Format
-The API server results
+The API server results are in [JSON](https://en.wikipedia.org/wiki/JSON) format, but format can be costumized easily. <br/>
+
+To change API results format (AKA [marshal](https://en.wikipedia.org/wiki/Marshalling_(computer_science))), take the following three easy and simple step: <br/>
+Create a new class under the [Marshal](https://github.com/AvivYaniv/Cortex/tree/master/cortex/api/marshal) directory. To note a marshal class, end it with `Marshal` suffix.  <br/> 
+
+Marshal class must contain a `type` field and this would be the name for the marshal format.<br/>
+
+Marshal class must contain the following function:<br/>
+`marshal`					: That gets a dictionary and returns it formatted according to `marshal` format. <br/>
+
+EXAMPLE! Take a look at [JSON Marshal](https://github.com/AvivYaniv/Cortex/blob/master/cortex/api/marshal/json_marshal.py). <br/>
+
+<br/> 
+
+@@@ TODO CONTINUE :
 
 #### 5.5.2. API URLs
+The API server utilities [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/). <br/>
+INFO! The API URLs format mentioned in API service easily support any other web-framework as described in [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/README.md#552-api-urls) in this document. <br/>
+
 @@@ TODO CONTINUE :
 
 ### 5.6. GUI
