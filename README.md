@@ -341,7 +341,7 @@ As stated above, generic framework that decouples the project from the selected 
 ### 4.2. DataBase
 @@@ TODO CONTINUE : 
 
-## Flexability and [SOLIDness](https://en.wikipedia.org/wiki/SOLID)
+## 5. Flexability and [SOLIDness](https://en.wikipedia.org/wiki/SOLID)
 
 The Cortex project is built to be flexibale for modification and customizations.
 
