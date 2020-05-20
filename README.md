@@ -338,8 +338,8 @@ As stated above, generic framework that decouples the project from the selected 
 
 @@@ TODO CONTINUE : 
 
-@@@ TODO CONTINUE : ### 4.2. DataBase
-
+### 4.2. DataBase
+@@@ TODO CONTINUE : 
 
 ## Flexability and [SOLIDness](https://en.wikipedia.org/wiki/SOLID)
 
@@ -347,23 +347,47 @@ The Cortex project is built to be flexibale for modification and customizations.
 
 > "Make the easy things easy, and the hard things possible" ~ Larry Wall (Programming Perl, 2nd Edition (1996), by Larry Wall, Tom Christiansen and Randal Schwartz)
 
-@@@ TODO CONTINUE : 5.1. Client
-@@@ TODO CONTINUE : 5.1.1. File Readers
-@@@ TODO CONTINUE : 5.1.2. Mind File Formats
-@@@ TODO CONTINUE : 5.2. Parsers
-@@@ TODO CONTINUE : 5.2.1. Adding Parser
-@@@ TODO CONTINUE : 5.3. API
-@@@ TODO CONTINUE : 5.3.1. API Format
-@@@ TODO CONTINUE : 5.3.2. API URLs
-@@@ TODO CONTINUE : 5.4. GUI
-@@@ TODO CONTINUE : 5.4.1. Bar Charts
-@@@ TODO CONTINUE : 5.4.2. Multiline Graphs
+### 5.1. Client
+@@@ TODO CONTINUE : 
 
-@@@ TODO CONTINUE : ## 6. Tests
-@@@ TODO CONTINUE : ### 6.1. Test tools
+#### 5.1.1. File Readers
+@@@ TODO CONTINUE : 
 
-## Additional Information
-### Scripts
+#### 5.1.2. Mind File Formats
+@@@ TODO CONTINUE : 
+
+### 5.2. Parsers
+@@@ TODO CONTINUE :
+
+#### 5.2.1. Adding Parser
+@@@ TODO CONTINUE :
+
+### 5.3. API
+@@@ TODO CONTINUE : 
+
+#### 5.3.1. API Format
+@@@ TODO CONTINUE :
+
+#### 5.3.2. API URLs
+@@@ TODO CONTINUE :
+
+### 5.4. GUI
+@@@ TODO CONTINUE :
+
+#### 5.4.1. Bar Charts
+@@@ TODO CONTINUE :
+
+#### 5.4.2. Multiline Graphs
+@@@ TODO CONTINUE :
+
+## 6. Tests
+@@@ TODO CONTINUE :
+
+### 6.1. Test tools
+@@@ TODO CONTINUE :
+
+## 7. Additional Information
+### 7.1. Scripts
 
 The `scripts` folder contains the following useful scripts:
 
@@ -379,8 +403,8 @@ The `scripts` folder contains the following useful scripts:
 9. `stop-pipeline.sh` : To stop project containers.
 10. `wait-for-it.sh` : Mainly for internal usage, used by docker to wait for micro-service to be available on specific port.
 
-### Docker
-#### Docker startup
+### 7.2. Docker
+#### 7.2.1. Docker startup
 
 Project startup uses docker-compose to bring up micro-services. <br/>
 
@@ -396,4 +420,6 @@ Upon `run-pipeline.sh` script execution, the following actions will take place:
 2.3.2.1. Based on `RUN` environment variable value, micro-service is package located. <br/>
 2.3.2.2. Micro-service package's `boot_container.py` script is executed and runs it. <br/>
 
-@@@ TODO CONTINUE : #### How to add new micro-service
+#### 7.2.2. How to add new micro-service
+
+@@@ TODO CONTINUE :
