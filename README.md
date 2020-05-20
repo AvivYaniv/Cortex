@@ -258,8 +258,6 @@ The API server supports the following RESTful API endpoints: <br/>
 GET /users/user-id/snapshots/snapshot-id/color-image/data <br/>
 <br/>
 
-@@@ TODO CONTINUE : 
-
 ### 3.6. GUI
 The GUI server is available as `cortex.gui`. <br/>
 The GUI consumes data from the API server and reflect it in a beautiful and user-friendly mannner. <br/>
@@ -294,9 +292,50 @@ Features: <br/>
     Which runs the GUI server, which consumes data from the API server. <br/>
 <br/>
 
-@@@ TODO CONTINUE : ### 3.7. CLI
-@@@ TODO CONTINUE : ## 4. Frameworks
-@@@ TODO CONTINUE : ### 4.1. MessageQueue
+### 3.7. CLI
+The CLI is available as `cortex.cli`. <br/>
+The CLI questions the API server and reflects the results. <br/>
+<br/>
+The CLI supports the following commands: <br/>
+1. <br/>
+    ```sh
+    $ python -m cortex.cli get-users
+    ```
+&emsp;Returns the list of all the supported users, including their IDs and names only. <br/>
+2. <br/>
+    ```sh
+    $ python -m cortex.cli get-user <user-id>
+    ```
+&emsp;Returns the specified user's details: ID, name, birthday and gender. <br/>
+3. <br/>
+    ```sh
+    $ python -m cortex.cli get-snapshots <user-id>
+    ```
+&emsp;Returns the list of the specified user's snapshot IDs and datetimes only. <br/>
+4.  <br/>
+    ```sh
+    $ python -m cortex.cli get-snapshot <user-id> <snapshot-id>
+    ```
+&emsp;Returns the specified snapshot's details: ID, datetime, and the available results' names only (e.g. pose). <br/>
+5. <br/>
+    ```sh
+    $ python -m cortex.cli get-result <user-id> <snapshot-id> <result-name>
+    ```
+&emsp;Returns the specified snapshot's result. Supports: [pose, color-image, depth-image, feelings].
+<br/>
+All commands should accept the -h/--host and -p/--port flags to configure the host and port, but default to the API's address. <br/>
+The get-result command should also accept the -s/--save flag that, if specified, receives a path, and saves the result's data to that path. <br/>
+<br/>
+
+## 4. Frameworks
+The Cortex project uses the following advanced yet simple-to-use frameworks:
+<br/>
+### 4.1. MessageQueue
+The Cortex project uses the [RabbitMQ](https://www.rabbitmq.com/) message-broker which implements the [Advanced Message Queuing Protocol (AMQP)](https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol). <br/>
+As stated above, generic framework that decouples the project from the selected message-queue technology, has been developed to support **ANY** technology in an easy way. <br/>
+
+@@@ TODO CONTINUE : 
+
 @@@ TODO CONTINUE : ### 4.2. DataBase
 
 
