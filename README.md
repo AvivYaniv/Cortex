@@ -342,7 +342,7 @@ The MessageQueue Framework, composed of transmitters (i.e. Publisher) and receiv
 
 NOTE! The terms [ transmitter, receiver ] and [ publisher, consumer ] will be used interchangeably, yet the latter are concrete instances for the [ transmitter, receiver ] concep. <br/>
 
-The following UML diagram depicts the main components: <br/>
+The following UML diagram depicts the replationships between the main components: <br/>
 ![alt text](https://github.com/AvivYaniv/Cortex/blob/master/about/Design/MessageQueueDesign.png?raw=true) <br/>
 
 MessageQueue Framework components: <br/>
@@ -398,6 +398,18 @@ The MessageQueue Runner is the main component responsible of decoupling the Mess
 As such, it contains [ installing-message-queue, running-message-queue, stopping-message-queue ] methods which dynamically load the concrete implementation at runtime, based on the `message_queue_type` parameter. <br/>
 
 ### 4.2. DataBase
+
+The Cortex project uses the [MongoDB](https://www.mongodb.com/) database which is a [NoSQL](https://en.wikipedia.org/wiki/NoSQL) database. <br/>
+As stated above, generic framework that decouples the project from the selected database technology, has been developed to support **ANY** database implementation in an easy way. <br/>
+
+The DataBase Framework is driver oriented. <br/>
+
+The following UML diagram depicts the replationships between the main components: <br/>
+![alt text](https://github.com/AvivYaniv/Cortex/blob/master/about/Design/DataBaseDesign.png?raw=true) <br/>
+
+DataBase Framework components: <br/>
+1. DataBase Abstact Base Class: <br/>
+
 @@@ TODO CONTINUE : 
 
 ## 5. Flexability and [SOLIDness](https://en.wikipedia.org/wiki/SOLID)
