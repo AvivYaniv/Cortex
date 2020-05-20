@@ -468,7 +468,7 @@ To add new format, take the following easy and simple steps: <br/>
 1. Add new version name to [`ReaderVersions`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/readers/reader_versions.py). <br/>
 2. Create new class that inherits from [`FileReaderBase`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/readers/file_reader.py), and implements the following methods: `read_user_information` and `read_snapshot`. <br/>
 
-<br/>
+
 Reader class must contain a `version` field and this would be the name for reading files according to this reader.<br/>
 
 Reader class must contain the following functions:<br/>
@@ -501,13 +501,14 @@ EXAMPLE! Take a look at [`ProtobufMindReader`](https://github.com/AvivYaniv/Cort
 
 3. Create new class that inherits from [`FileWriterBase`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/writers/file_writer.py), and implements the following methods: `write_user_information` and `write_snapshot`. <br/>
 
-Writer class must contain a `version` field and this would be the name for writing files according to this writer.
 
-Writer class must contain the following functions:
-`__init__`			: That recives the file path to be written	
-`write_user_information` 	: To write user information
-`write_snapshot` 		: To write snapshots
-
+Writer class must contain a `version` field and this would be the name for writing files according to this writer. <br/>
+<br/>
+Writer class must contain the following functions:<br/>
+`__init__`			: That recives the file path to be written <br/>
+`write_user_information` 	: To write user information <br/>
+`write_snapshot` 		: To write snapshots <br/>
+<br/>
 The file will be opened, user information will be written and then the snapshots.
 
 To note a writer class, end it with `Writer` suffix.
@@ -611,7 +612,7 @@ Create context configuration file, as described in [MessageQueue Context Configu
 &emsp; 2. 
 Create a new class that inherits from [`MessageQueue`](https://github.com/AvivYaniv/Cortex/blob/4d1e0d34ab49841f3ccdffb530a9157ae28bde7e/cortex/publisher_consumer/message_queue/message_queue.py). To note a message-queue class, end it with `MessageQueue` suffix. <br/>
 
-<br/>
+
 MessageQueue class must contain a `name` field and this would be the name for the message-queue technology.<br/>
 
 MessageQueue class must contain the following functions:<br/>
