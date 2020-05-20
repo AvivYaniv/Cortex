@@ -601,7 +601,7 @@ EXAMPLE! Take a look at [`ServerService`](https://github.com/AvivYaniv/Cortex/bl
 #### 5.3.2. MessageQueue Driver
 As stated above, you are free to change to ***any*** message-queue technology. <br/>
 
-To change for a new message-queue technology, take the following easy and simple steps: <br/>
+To change for a new message-queue technology, take the following three easy and simple steps: <br/>
 <br/>
 
 &emsp; 1. 
