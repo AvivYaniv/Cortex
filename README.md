@@ -275,10 +275,10 @@ Features: <br/>
     ```python
     >>> from cortex.gui import run_server
     >>> run_server(
-    ...     host 	= '127.0.0.1',
-    ...     port 	= 8080,
-    ...     api_host 	= '127.0.0.1',
-    ...     api_port 	= 5000,
+    ...     host        = '127.0.0.1',
+    ...     port        = 8080,
+    ...     api_host    = '127.0.0.1',
+    ...     api_port    = 5000,
     ... )
     ```
     Which runs the GUI server, which consumes data from the API server. <br/>
