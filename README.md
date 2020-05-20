@@ -246,17 +246,16 @@ INFO! The API server results are in [JSON](https://en.wikipedia.org/wiki/JSON) f
     ```
 <br/>
 The API server supports the following RESTful API endpoints: <br/>
-1. GET /users <br/>
+1. *GET /users <br/>*
 &emsp;Returns the list of all the supported users, including their IDs and names only. <br/>
-2. GET /users/user-id <br/>
+2. *GET /users/user-id <br/>*
 &emsp;Returns the specified user's details: ID, name, birthday and gender. <br/>
-3. GET /users/user-id/snapshots <br/>
+3. *GET /users/user-id/snapshots <br/>*
 &emsp;Returns the list of the specified user's snapshot IDs and datetimes only. <br/>
-4. GET /users/user-id/snapshots/snapshot-id <br/>
+4. *GET /users/user-id/snapshots/snapshot-id <br/>*
 &emsp;Returns the specified snapshot's details: ID, datetime, and the available results' names only (e.g. pose). <br/>
-5. GET /users/user-id/snapshots/snapshot-id/result-name <br/>
-&emsp;Returns the specified snapshot's result. Supports: [pose, color-image, depth-image, feelings], where anything that has large binary data should contain metadata only, with its data being available via some dedicated URL (that is mentioned in its metadata), like so:
-GET /users/user-id/snapshots/snapshot-id/color-image/data <br/>
+5. *GET /users/user-id/snapshots/snapshot-id/result-name <br/>*
+&emsp;Returns the specified snapshot's result. Supports: [pose, color-image, depth-image, feelings], where anything that has large binary data should contain metadata only, with its data being available via some dedicated URL (that is mentioned in its metadata), like so: *GET /users/user-id/snapshots/snapshot-id/color-image/data* <br/>
 <br/>
 
 ### 3.6. GUI
