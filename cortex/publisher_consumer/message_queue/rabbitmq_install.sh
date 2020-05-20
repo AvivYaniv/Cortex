@@ -38,8 +38,5 @@
 	fi
 	
 	echo "Start RabbitMQ management"
-	IS_DEBIAN='$(lsb_release -d | grep Debian)'
-	if [ "" = "${IS_DEBIAN}" ]; then		
-	    rabbitmq-plugins enable rabbitmq_management
-	fi
+	rabbitmq-plugins enable rabbitmq_management
 )
