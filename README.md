@@ -471,10 +471,10 @@ To add new format, take the following easy and simple steps: <br/>
 
 Reader class must contain a `version` field and this would be the name for reading files according to this reader.<br/>
 
-Reader class must contain the following functions:<br/>
-`__init__`			: That recives the file path to be read	<br/>
-`read_user_information` 	: To read user information<br/>
-`read_snapshot` 		: To read snapshots<br/>
+Reader class must contain the following functions: <br/>
+`__init__`			: That recives the file path to be read. <br/>
+`read_user_information` 	: To read user information. <br/>
+`read_snapshot` 		: To read snapshots. <br/>
 
 <br/>
 
@@ -504,10 +504,10 @@ EXAMPLE! Take a look at [`ProtobufMindReader`](https://github.com/AvivYaniv/Cort
 
 Writer class must contain a `version` field and this would be the name for writing files according to this writer. <br/>
 <br/>
-Writer class must contain the following functions:<br/>
-`__init__`			: That recives the file path to be written <br/>
-`write_user_information` 	: To write user information <br/>
-`write_snapshot` 		: To write snapshots <br/>
+Writer class must contain the following functions: <br/>
+`__init__`			: That recives the file path to be written. <br/>
+`write_user_information` 	: To write user information. <br/>
+`write_snapshot` 		: To write snapshots. <br/>
 <br/>
 The file will be opened, user information will be written and then the snapshots.
 
@@ -588,7 +588,7 @@ The header must be `message_queue`, to note a messsage-queue configuration file.
 
 Header `message_queue` childrens are the services names. <br/>
 
-Services childrens can be either [ publishers, consumers] or any other names defined under [ transmitter, receiver ] in [ RECIVERS_CATEGORIES_NAMES, TRANSMITTERS_CATEGORIES_NAMES] in [`MessageQueueContextFactory`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/message_queue_context_factory.py), and from here you are free to add any information required to initialize and configure your [ transmitter, receiver ]. <br/>
+Services childrens can be either [ publishers, consumers] or any other names defined under [ transmitter, receiver ] in [ RECIVERS_CATEGORIES_NAMES, TRANSMITTERS_CATEGORIES_NAMES] in [`MessageQueueContextFactory`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/message_queue_context_factory.py), and from here it is possible to add any information required to initialize and configure your [ transmitter, receiver ]. <br/>
 
 EXAMPLE! Take a look at [rabbitmq_config.yaml](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/rabbitmq_config.yaml). <br/>
 
@@ -599,7 +599,7 @@ To load message-queue context configuration, simply call either [ `get_mq_catego
 EXAMPLE! Take a look at [`ServerService`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/server/server_service.py), [`ParserService`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/parsers/parser_service.py), [`SaverService`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/saver/saver_service.py). <br/>
 
 #### 5.3.2. MessageQueue Driver
-As stated above, you are free to change to ***any*** message-queue technology. <br/>
+As stated above, it is possible to change to ***any*** message-queue technology. <br/>
 
 To change for a new message-queue technology, take the following three easy and simple steps: <br/>
 <br/>
@@ -610,7 +610,7 @@ Create context configuration file, as described in [MessageQueue Context Configu
 <br/>
 
 &emsp; 2. 
-Create a new class that inherits from [`MessageQueue`](https://github.com/AvivYaniv/Cortex/blob/4d1e0d34ab49841f3ccdffb530a9157ae28bde7e/cortex/publisher_consumer/message_queue/message_queue.py). To note a message-queue class, end it with `MessageQueue` suffix. <br/>
+Add to [MessageQueue](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/message_queue) directory, a new class that inherits from [`MessageQueue`](https://github.com/AvivYaniv/Cortex/blob/4d1e0d34ab49841f3ccdffb530a9157ae28bde7e/cortex/publisher_consumer/message_queue/message_queue.py). To note a message-queue class, end it with `MessageQueue` suffix. <br/>
 
 
 MessageQueue class must contain a `name` field and this would be the name for the message-queue technology.<br/>
@@ -618,12 +618,12 @@ MessageQueue class must contain a `name` field and this would be the name for th
 MessageQueue class must contain the following functions:<br/>
 `_default_hostname_resolution`			: That resolves default [ host, port ] parameters<br/>
 `_health_check` 				: To indicate if connection with the message-queue can be established (consequative attempts will be made till it is available)<br/>
-`_init_reciver` 				: To initialize a reciver, based on the `MessageQueue Context` parameter<br/>
-`_run_reciver` 					: To run a reciver<br/>
-`_run_transmitter` 				: To run a transmitter<br/>
-`_init_transmitter` 				: To initialize a transmitter, based on the `MessageQueue Context` parameter<br/>
-`_messege_queue_publish` 			: To publish messages<br/>
-`get_publish_function` 				: To return callback to message-queue publish function<br/>
+`_init_reciver` 				: To initialize a reciver, based on the `MessageQueue Context` member. <br/>
+`_run_reciver` 					: To run a reciver. <br/>
+`_run_transmitter` 				: To run a transmitter. <br/>
+`_init_transmitter` 				: To initialize a transmitter, based on the `MessageQueue Context` member. <br/>
+`_messege_queue_publish` 			: To publish messages. <br/>
+`get_publish_function` 				: To return callback to message-queue publish function. <br/>
 <br/>
 
 <br/>
@@ -636,10 +636,36 @@ EXAMPLE! Take a look at [rabbitmq_install.sh](https://github.com/AvivYaniv/Corte
 <br/>
 
 ### 5.4. DataBase
-@@@ TODO CONTINUE :
 
 #### 5.4.1. DataBase Driver
-@@@ TODO CONTINUE :
+As stated above, it is possible to change to ***any*** database technology. <br/>
+
+To change for a new message-queue technology, take the following three easy and simple steps: <br/>
+<br/>
+
+&emsp; 1. 
+Create a new class that inherits from [`_DataBaseDriver`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/database_driver.py). To note a database class, end it with `DataBase` suffix. <br/>
+
+DataBase class must contain a `name` field and this would be the name for the database technology.<br/>
+
+DataBase class must contain the following functions:<br/>
+`__init__`					: That initializes datase on specified [ host, port ] and sets logger. <br/>
+`_clear` 					: To clear database (drop all tables), used for tests-only. <br/>
+`_create` 					: To initialization of database, may include tables and triggers creation. <br/>
+`create_entity` 				: To create new entity, based on `entity_name` with it's fields initialized according to key-value arguments. <br/>
+`get_entity` 					: To retrive single entity, based on `entity_name` such as it's fields match to key-value arguments. <br/>
+`get_entities` 					: To retrive multiple entities, based on `entity_name` such as their fields match to key-value arguments. <br/>
+`get_entities_lazy` 				: To retrive multiple entities, in a lazy manner, based on `entity_name` such as their fields match to key-value arguments. <br/>
+`update_entity` 				: To update single entity, based on `entity_name`, based on it's ID [ `id_name`, `id_value` ], such as it's new fields values match to key-value arguments. <br/>
+`has_entity` 					: To indicate if entity of type `entity_name`, exists such as key-value arguments are matched. <br/>
+<br/>
+
+<br/>
+
+&emsp; 2. 
+Add to [DataBase](https://github.com/AvivYaniv/Cortex/tree/master/cortex/database) directory, scripts for database installation (with `_install.sh` suffix) and database shutdwon (with `_shutdown.sh` suffix), (shutdown script is used for testing only). <br/>
+
+EXAMPLE! Take a look at [mongodb_install.sh](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/mongodb_install.sh), and [mongodb_shutdown.sh](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/mongodb_shutdown.sh). <br/>
 
 ### 5.5. API
 @@@ TODO CONTINUE : 
