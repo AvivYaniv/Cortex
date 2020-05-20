@@ -342,7 +342,7 @@ As stated above, generic framework that decouples the project from the selected 
 
 The MessageQueue Framework, composed of transmitters (i.e. Publisher) and receivers (i.e. Consumer) and is configuration-based. <br/>
 
-NOTE! The terms [ transmitter, receiver ] and [ publisher, consumer ] will be used interchangeably, yet the latter are concrete instances for the [ transmitter, receiver ] concep. <br/>
+NOTE! The terms [ transmitter, receiver ] and [ publisher, consumer ] will be used interchangeably, yet the former are concrete instances for the [ publisher, consumer ] concept. <br/>
 
 The following UML diagram depicts the replationships between the main components: <br/>
 <p align="center">
@@ -392,7 +392,7 @@ The MessageQueue Consumer can be run either: <br/>
 <br/>
 
 &emsp; 1. 
-In a dedicated thread as [`MessageQueueConsumerThread`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/consumer/Message_queue_consumer_thread.py) (to handle [IO Events Loop](https://en.wikipedia.org/wiki/Event_loop)). <br/>
+In a dedicated thread as [`MessageQueueConsumerThread`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/consumer/Message_queue_consumer_thread.py) (to handle [IO Events Loop](https://en.wikipedia.org/wiki/Event_loop), or if more than one consumer is required). <br/>
 
 &emsp; 2. 
 In the same thread as [`MessageQueueConsumer`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/consumer/message_queue_consumer.py). <br/>
@@ -570,6 +570,8 @@ EXAMPLE! Take a look at [`ColorImageParser`](https://github.com/AvivYaniv/Cortex
 
 You can parser as a micro-service, by adding it to the [docker-compose.yml](https://github.com/AvivYaniv/Cortex/blob/master/docker-compose.yml) file, and defining the `RUN` environment variable to `PARSERS` and `PARSER` environment variable to `<your_parser_field_name>`.
 
+@@ TODO : LINK TO ADD NEW MICROSERVICE @@
+
 <br/>
 
 ### 5.3. MessageQueue
@@ -584,7 +586,7 @@ The header must be `message_queue`, to note a messsage-queue configuration file.
 
 Header `message_queue` childrens are the services names. <br/>
 
-Services childrens can be either [ publishers, consumers] or any other names defined under [ transmitter, receiver ] in [ RECIVERS_CATEGORIES_NAMES, TRANSMITTERS_CATEGORIES_NAMES] in [`MessageQueueContextFactory`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/message_queue_context_factory.py), and from here you are free to add any information regquired to initialize and configure your [ transmitter, receiver ]. <br/>
+Services childrens can be either [ publishers, consumers] or any other names defined under [ transmitter, receiver ] in [ RECIVERS_CATEGORIES_NAMES, TRANSMITTERS_CATEGORIES_NAMES] in [`MessageQueueContextFactory`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/message_queue_context_factory.py), and from here you are free to add any information required to initialize and configure your [ transmitter, receiver ]. <br/>
 
 EXAMPLE! Take a look at [rabbitmq_config.yaml](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/rabbitmq_config.yaml). <br/>
 
@@ -595,7 +597,31 @@ To load message-queue context configuration, simply call either [ `get_mq_catego
 EXAMPLE! Take a look at [`ServerService`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/server/server_service.py), [`ParserService`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/parsers/parser_service.py), [`SaverService`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/saver/saver_service.py). <br/>
 
 #### 5.3.2. MessageQueue Driver
-@@@ TODO CONTINUE :
+As stated above, you are free to change to ***any*** message-queue technology. <br/>
+
+To change for a new message-queue technology, take the following easy and simple steps: <br/>
+<br/>
+
+&emsp; 1. 
+Create context configuration file, as described in [MessageQueue Context Configuration](https://github.com/AvivYaniv/Cortex/blob/master/README.md#531-messagequeue-context-configuration) in this document. <br/>
+
+<br/>
+
+&emsp; 2. 
+Create a new class that inherits from [`MessageQueue`](https://github.com/AvivYaniv/Cortex/blob/4d1e0d34ab49841f3ccdffb530a9157ae28bde7e/cortex/publisher_consumer/message_queue/message_queue.py). To note a message-queue class, end it with `MessageQueue` suffix. <br/>
+
+MessageQueue class must contain a `name` field and this would be the name for the message-queue technology.
+
+MessageQueue class must contain the following functions:
+`_default_hostname_resolution`			: That resolves default [ host, port ] parameters
+`_health_check` 				: To indicate if connection with the message-queue can be established (consequative attempts will be made till it is available)
+`_init_reciver` 				: To initialize a reciver, based on the `MessageQueue Context` parameter
+`_run_reciver` 					: To run a reciver
+`_run_transmitter` 				: To run a transmitter
+`_init_transmitter` 				: To initialize a transmitter, based on the `MessageQueue Context` parameter
+`_messege_queue_publish` 			: To publish messages
+`get_publish_function` 				: To return callback to message-queue publish function
+<br/>
 
 ### 5.4. DataBase
 @@@ TODO CONTINUE :
