@@ -23,8 +23,9 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 3.2. Server <br/>
 3.3. Parsers <br/>
 3.4. Savers <br/>
-3.5. GUI <br/>
-3.6. CLI <br/>
+3.5. API <br/>
+3.6. GUI <br/>
+3.7. CLI <br/>
 4. Frameworks <br/>
 4.1. MessageQueue <br/>
 4.2. DataBase <br/>
@@ -205,9 +206,19 @@ Saver subscribes to all the relevant topics it is capable of consuming and savin
     Which runs the saver as a service, which works with a message queue indefinitely; the saver subscribes to all the relevant topics it is capable of consuming and saving them to the database. <br/>
 <br/>
 
-### 3.5. GUI
+@@@ TODO CONTINUE : ### 3.5. API
+
+### 3.6. GUI
 The GUI server is available as `cortex.gui`. <br/>
 The GUI consumes data from the API server and reflect it in a beautiful and user-friendly mannner. <br/>
+Pages:<br/>
+1. HomePage: allows to select user based on either [ user-name, user-id ].
+2. User Snapshots : displays selected users snapshots in an interactive manner.
+Features:<br/>
+1. Dark Mode. <br/>
+2. Dynamic and interactive snapshots : can move between snapshots hust by moving the mouse. <br/>
+🥚. Easter Egg : Follow the breadcrumbs hints, start from hovering the logo. <br/>
+<br/>
 1. API:
     ```python
     >>> from cortex.gui import run_server
@@ -218,26 +229,19 @@ The GUI consumes data from the API server and reflect it in a beautiful and user
     ...     api_port = 5000,
     ... )
     ```
-    Which runs the GUI server, which consumes data from the API server.
+    Which runs the GUI server, which consumes data from the API server. <br/>
 2. CLI:
     ```sh
-    $ python -m cortex.client upload-sample    \
     $ python -m cortex.gui run-server          \
      -h/--host '127.0.0.1'       	       \
      -p/--port 8080              	       \
      -H/--api-host '127.0.0.1'   	       \
      -P/--api-port 5000
     ```
-<br/>
-Issues & Actions:<br/>
-1. File not found : client will write error message to user, and then exit graciously. <br/>
-2. Communication error : client will exit graciously. <br/>
-3. Server is unavailable : client will retray to connect for few times, and then exit if failed to connect. <br/>
+    Which runs the GUI server, which consumes data from the API server. <br/>
 <br/>
 
-@@@ TODO CONTINUE
-
-@@@ TODO CONTINUE : ### 3.6. CLI
+@@@ TODO CONTINUE : ### 3.7. CLI
 @@@ TODO CONTINUE : ## 4. Frameworks
 @@@ TODO CONTINUE : ### 4.1. MessageQueue
 @@@ TODO CONTINUE : ### 4.2. DataBase
