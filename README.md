@@ -433,15 +433,15 @@ IMPORTANT! The [`__DataBaseDriver`](https://github.com/AvivYaniv/Cortex/blob/mas
 
 INFO! You can change to any other database technology, as described in @@ TODO : LINK @@
 
+3. DataBase Runner: <br/>
+The DataBase Runner is the main component responsible of decoupling the DataBase Framework logic and implementation. <br/>
+As such, it contains [ installing-databse-queue, running-databse-queue, stopping-databse-queue ] methods which dynamically load the concrete implementation at runtime, based on the `database_type` parameter. <br/>
+
 ### 4.3. Log
 
-@@@ TODO CONTINUE : 
-The Cortex project uses the [MongoDB](https://www.mongodb.com/) database which is a [NoSQL](https://en.wikipedia.org/wiki/NoSQL) database. <br/>
-As stated above, generic framework that decouples the project from the selected database technology, has been developed to support **ANY** database implementation in an easy way. <br/>
+The Cortex project uses the [ColorLog](https://github.com/borntyping/python-colorlog) logger. <br/>
 
-The DataBase Framework is driver oriented. <br/>
-
-@@@ TODO CONTINUE : 
+INFO! The logger configuration can be read from any dictionary-based file (i.e. YAML), using the [`_LoggerLoader`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/logger/logger_loader.py). <br/>
 
 ## 5. Flexability and [SOLIDness](https://en.wikipedia.org/wiki/SOLID)
 
