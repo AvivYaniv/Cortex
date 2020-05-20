@@ -147,7 +147,7 @@ Issues & Actions:<br/>
 ### 3.3. Parsers
 The parsers are available at `cortex.parsers`. <br/>
 Parsers are simple functions or classes, built on top of a platform (using decorators or aspect-oriented programming), and easily deployable as microservices consuming raw data from the queue, and producing parsed results to it. <br/>
-INFO: Parsers can be added easily as decribed in [Adding Parsers](https://github.com/AvivYaniv/Cortex#adding-Parsers)<br/>
+INFO: Parsers can be added easily as decribed in [Adding Parsers](https://github.com/AvivYaniv/Cortex#adding-Parsers) <br/>
 1. API:
     ```python
     >>> from cortex.parsers import run_parser
@@ -212,13 +212,14 @@ Saver subscribes to all the relevant topics it is capable of consuming and savin
 The GUI server is available as `cortex.gui`. <br/>
 The GUI consumes data from the API server and reflect it in a beautiful and user-friendly mannner. <br/>
 Pages:<br/>
-1. HomePage: allows to select user based on either [ user-name, user-id ].
-2. User Snapshots : displays selected users snapshots in an interactive manner.
-Features:<br/>
+1. HomePage: allows to select user based on either [ user-name, user-id ].  <br/>
+2. User Snapshots : displays selected users snapshots in an interactive manner.  <br/>
+Features: <br/>
 1. Dark Mode. <br/>
 2. Dynamic and interactive snapshots : can move between snapshots hust by moving the mouse. <br/>
 🥚. Easter Egg : Follow the breadcrumbs hints, start from hovering the logo. <br/>
-<br/>
+ <br/>
+ 
 1. API:
     ```python
     >>> from cortex.gui import run_server
