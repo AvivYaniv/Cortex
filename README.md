@@ -722,16 +722,19 @@ The API URLs format mentioned in API service easily support any other web-framew
 
 To get URLs in other costume format, call the `get_custom_api_url` function in [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/cortex/api/api_urls.py), with your costume `dictionary` as parameter which describes how to translate URLs components. <br/>
 
-EXAMPLE! Take a look at DICT_FLASK in [API Server](https://github.com/AvivYaniv/Cortex/blob/master/cortex/api/api_server.py), as well as  the DICT_ARGUNETS in [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/cortex/api/api_urls.py) which is used to python-format components in the URLs. <br/>
+EXAMPLE! Take a look at DICT_FLASK in [API Server](https://github.com/AvivYaniv/Cortex/blob/master/cortex/api/api_server.py), as well as the DICT_ARGUNETS in [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/cortex/api/api_urls.py) which is used to python-format components in the URLs. <br/>
 
 ### 5.6. GUI
-@@@ TODO CONTINUE :
 
 #### 5.6.1. Bar Charts
-@@@ TODO CONTINUE :
+The GUI Bar Charts are created using [Chart.js](https://www.chartjs.org/), and can be configured using `bar_options` parameter which is a dictionary of options for rendering. <br/>
+
+EXAMPLE! Take a look at [bar_chart.js](https://github.com/AvivYaniv/Cortex/blob/master/cortex/gui/gui_client/js/bar_chart.js) to view default options, as well at [VisualizationManager](https://github.com/AvivYaniv/Cortex/blob/master/cortex/gui/gui_client/js/visualization_manager.js) which passes overriding parameters. <br/>
 
 #### 5.6.2. Multiline Graphs
-@@@ TODO CONTINUE :
+The GUI Multiline Graph is created using [D3.js](https://d3js.org/), and can be configured using `dictConfiguration` parameter which is a dictionary of options for rendering. <br/>
+
+EXAMPLE! Take a look at [multiline_graph.js](https://github.com/AvivYaniv/Cortex/blob/master/cortex/gui/gui_client/multiline_graph/multiline_graph.js) to view default options, as well at [VisualizationManager](https://github.com/AvivYaniv/Cortex/blob/master/cortex/gui/gui_client/js/visualization_manager.js) which passes overriding parameters. <br/>
 
 ## 6. Tests
 @@@ TODO CONTINUE :
