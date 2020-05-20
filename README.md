@@ -39,10 +39,12 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 5.1. Client <br/>
 5.1.1. File Readers and Writers <br/>
 5.1.2. Mind File Formats <br/>
+5.1.3. Client-Server Protocol <br/>
 5.2. Parsers <br/>
 5.3. MessageQueue <br/>
 5.3.1. MessageQueue Context Configuration <br/>
 5.3.2. MessageQueue Driver <br/>
+5.3.3. MessageQueue Messages <br/>
 5.4. DataBase <br/>
 5.4.1. DataBase Driver <br/>
 5.5. API <br/>
@@ -529,6 +531,19 @@ class YourWriter:
 ```
 
 EXAMPLE! Take a look at [`ProtobufMindWriter`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/writers/mind/protobuf_mind_writer.py), and [`BinaryMindWriter`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/writers/mind/binary_mind_writer.py). <br/>
+
+#### 5.1.3. Client-Server Protocol
+A generic framework facilitates client-server communication in easy and format-decoupled manner. <br/>
+
+Current protocol format is [protobuf](https://developers.google.com/protocol-buffers)-based, and easily extensible and modifyable based on the [protocol.proto](https://github.com/AvivYaniv/Cortex/blob/master/cortex/protobuf/protos/protocol.proto) file definition. <br/>
+
+Client-Server communication protocol format is being controlled in a *single* place, based on default `protocol_type` parameter resultion at [`Protocol`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/protocol/protocol.py). <br/>
+
+NOTE! To change protocol implementation format, simply create a new folder in [Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol) directory, named after the new protocol implementation format, and create in in classes for all the messages types that are in the [Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol) directory. <br/>
+
+EXAMPLE! Take a look at [Protobuf](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol/protobuf), and the obsolete [Native](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol/native). <br/>
+
+<br/>
 
 ### 5.2. Parsers
 You can add costume parsers, thus parsing data from the raw snapshots. <br/>
