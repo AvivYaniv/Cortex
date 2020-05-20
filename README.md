@@ -762,7 +762,7 @@ The `scripts` folder contains the following useful scripts:
 ### 7.2. Docker
 #### 7.2.1. Docker startup
 
-Project startup uses docker-compose to bring up micro-services. <br/>
+Project startup uses [Docker-Compose](https://docs.docker.com/compose/) to bring up micro-services. <br/>
 
 Upon `run-pipeline.sh` script execution, the following actions will take place:
 
@@ -778,4 +778,19 @@ Upon `run-pipeline.sh` script execution, the following actions will take place:
 
 #### 7.2.2. How to add new micro-service
 
-@@@ TODO CONTINUE :
+As stated in [Docker startup](https://github.com/AvivYaniv/Cortex/blob/master/README.md#721-docker-startup) in this document, micro-services startup is based on [Docker-Compose](https://docs.docker.com/compose/). <br/>
+
+To add a new micro-service, take the following two easy and simple steps: <br/>
+<br/>
+
+&emsp; 1. 
+Create a new package under [`cortex`](https://github.com/AvivYaniv/Cortex/tree/master/cortex) directory, and `boot_container.py` script to bring up the new micro-service logic to be up and running. <br/>
+
+<br/>
+
+&emsp; 2. 
+Add service to the [docker-compose.yml](https://github.com/AvivYaniv/Cortex/blob/master/docker-compose.yml): with the environment variable `RUN` value as the name of the micro-service package. <br/>
+
+<br/>
+
+
