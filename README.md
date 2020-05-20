@@ -536,23 +536,24 @@ Create a new file containig parser function, in the [`Snapshots Parsers`](https:
 To note a parser function, end it with `_parser` suffix.
 <br/>
 i.e.
+
 ```python
 def your_parser(snapshot):
     # Your code goes here
 your_parser.field = 'your_parser_field_name'
 
 ```
+<br/>
 
 EXAMPLE! Take a look at [`pose_parser`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/parsers/snapshot/pose_parser.py), and [`user_feelings_parser`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/parsers/snapshot/user_feelings_parser.py). <br/>
 
-<br/>
-To add new parser, by class (parser that do require inner state), take the following easy and simple step:
-<br/>
+To add new parser, by class (parser that do require inner state), take the following easy and simple step: <br/>
 Create a new file containig parser class, in the [`Snapshots Parsers`](https://github.com/AvivYaniv/Cortex/tree/master/cortex/parsers/snapshot) directory. <br/>
 Parser object will be created once and then on each snapshot the parse function will be called.
 To note a parser class, end it with `Parser` suffix, and add `parse` function.
 <br/>
 i.e.
+
 ```python
 class YourParser:
 
@@ -561,6 +562,7 @@ class YourParser:
     def parse(self, snapshot):
         # Your code goes here
 ```
+<br/>
 
 EXAMPLE! Take a look at [`ColorImageParser`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/parsers/snapshot/color_image_parser.py), and [`DepthImageParser`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/parsers/snapshot/depth_image_parser.py). <br/>
 
