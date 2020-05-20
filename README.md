@@ -298,29 +298,29 @@ The CLI questions the API server and reflects the results. <br/>
 <br/>
 The CLI supports the following commands: <br/>
 1. <br/>
-    ```sh
-    $ python -m cortex.cli get-users
-    ```
+```sh
+$ python -m cortex.cli get-users
+```
 <br/>&emsp;Returns the list of all the supported users, including their IDs and names only. <br/>
 2. <br/>
-    ```sh
-    $ python -m cortex.cli get-user <user-id>
-    ```
+```sh
+$ python -m cortex.cli get-user <user-id>
+```
 <br/>&emsp;Returns the specified user's details: ID, name, birthday and gender. <br/>
 3. <br/>
-    ```sh
-    $ python -m cortex.cli get-snapshots <user-id>
-    ```
+```sh
+$ python -m cortex.cli get-snapshots <user-id>
+```
 <br/>&emsp;Returns the list of the specified user's snapshot IDs and datetimes only. <br/>
 4.  <br/>
-    ```sh
-    $ python -m cortex.cli get-snapshot <user-id> <snapshot-id>
-    ```
+```sh
+$ python -m cortex.cli get-snapshot <user-id> <snapshot-id>
+```
 <br/>&emsp;Returns the specified snapshot's details: ID, datetime, and the available results' names only (e.g. pose). <br/>
 5. <br/>
-    ```sh
-    $ python -m cortex.cli get-result <user-id> <snapshot-id> <result-name>
-    ```
+```sh
+$ python -m cortex.cli get-result <user-id> <snapshot-id> <result-name>
+```
 <br/>&emsp;Returns the specified snapshot's result. Supports: [pose, color-image, depth-image, feelings].
 <br/>
 All commands should accept the -h/--host and -p/--port flags to configure the host and port, but default to the API's address. <br/>
