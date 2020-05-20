@@ -34,7 +34,7 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 4. [Frameworks](https://github.com/AvivYaniv/Cortex/blob/master/README.md#4-frameworks) <br/>
 4.1. [MessageQueue](https://github.com/AvivYaniv/Cortex/blob/master/README.md#41-messagequeue) <br/>
 4.2. [DataBase](https://github.com/AvivYaniv/Cortex/blob/master/README.md#42-database) <br/>
-5. [Flexability and SOLIDness](https://github.com/AvivYaniv/Cortex/blob/master/README.md#flexability-and-solidness) <br/>
+5. [Flexability and SOLIDness](https://github.com/AvivYaniv/Cortex/blob/master/README.md#5-flexability-and-solidness) <br/>
 5.1. Client <br/>
 5.1.1. File Readers <br/>
 5.1.2. Mind File Formats <br/>
@@ -48,11 +48,11 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 5.4.2. Multiline Graphs <br/>
 6. Tests <br/>
 6.1. Test tools <br/>
-7. [Additional Information](https://github.com/AvivYaniv/Cortex/blob/master/README.md#additional-information) <br/>
-7.1. [Scripts](https://github.com/AvivYaniv/Cortex/blob/master/README.md#scripts) <br/>
-7.2. [Docker](https://github.com/AvivYaniv/Cortex/blob/master/README.md#docker) <br/>
-7.2.1. [Docker startup](https://github.com/AvivYaniv/Cortex/blob/master/README.md#docker-startup) <br/>
-7.2.2. How to add new micro-service <br/>
+7. [Additional Information](https://github.com/AvivYaniv/Cortex/blob/master/README.md#7-additional-information) <br/>
+7.1. [Scripts](https://github.com/AvivYaniv/Cortex/blob/master/README.md#71-scripts) <br/>
+7.2. [Docker](https://github.com/AvivYaniv/Cortex/blob/master/README.md#72-docker) <br/>
+7.2.1. [Docker startup](https://github.com/AvivYaniv/Cortex/blob/master/README.md#721-docker-startup) <br/>
+7.2.2. [How to add new micro-service](https://github.com/AvivYaniv/Cortex/blob/master/README.md#722-how-to-add-new-micro-service) <br/>
 
 ## Architecture
 
