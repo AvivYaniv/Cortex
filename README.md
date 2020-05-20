@@ -14,6 +14,8 @@ Telemetry data currently contains snapshots of:
 
 Cortex project is the final project of [Advanced System Design](https://advanced-system-design.com/) at Tel-Aviv Univeristy by [Dan Gittik](https://dan-gittik.com/).
 
+![alt text](https://github.com/AvivYaniv/Cortex/blob/master/about/Demo/CortexDemo.gif?raw=true)
+
 ## Table Of Contents
 
 1. Architecture <br/>
