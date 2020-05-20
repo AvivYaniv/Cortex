@@ -20,20 +20,20 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 
 ## Table Of Contents
 
-1. Architecture <br/>
-2. Installation <br/>
-3. Modules <br/>
-3.1. Client <br/>
-3.2. Server <br/>
-3.3. Parsers <br/>
-3.4. Savers <br/>
-3.5. API <br/>
-3.6. GUI <br/>
-3.7. CLI <br/>
-4. Frameworks <br/>
-4.1. MessageQueue <br/>
-4.2. DataBase <br/>
-5. Flexability and SOLIDness <br/>
+1. [Architecture](https://github.com/AvivYaniv/Cortex/blob/master/README.md#architecture) <br/>
+2. [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) <br/>
+3. [Modules](https://github.com/AvivYaniv/Cortex/blob/master/README.md#3-modules) <br/>
+3.1. [Client](https://github.com/AvivYaniv/Cortex/blob/master/README.md#31-client) <br/>
+3.2. [Server](https://github.com/AvivYaniv/Cortex/blob/master/README.md#32-server) <br/>
+3.3. [Parsers](https://github.com/AvivYaniv/Cortex/blob/master/README.md#33-parsers) <br/>
+3.4. [Savers](https://github.com/AvivYaniv/Cortex/blob/master/README.md#34-savers) <br/>
+3.5. [API](https://github.com/AvivYaniv/Cortex/blob/master/README.md#35-api) <br/>
+3.6. [GUI](https://github.com/AvivYaniv/Cortex/blob/master/README.md#36-gui) <br/>
+3.7. [CLI](https://github.com/AvivYaniv/Cortex/blob/master/README.md#37-cli) <br/>
+4. [Frameworks](https://github.com/AvivYaniv/Cortex/blob/master/README.md#4-frameworks) <br/>
+4.1. [MessageQueue](https://github.com/AvivYaniv/Cortex/blob/master/README.md#41-messagequeue) <br/>
+4.2. [DataBase](https://github.com/AvivYaniv/Cortex/blob/master/README.md#42-database) <br/>
+5. [Flexability and SOLIDness](https://github.com/AvivYaniv/Cortex/blob/master/README.md#flexability-and-solidness) <br/>
 5.1. Client <br/>
 5.1.1. File Readers <br/>
 5.1.2. Mind File Formats <br/>
@@ -47,10 +47,10 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 5.4.2. Multiline Graphs <br/>
 6. Tests <br/>
 6.1. Test tools <br/>
-7. Additional Information <br/>
-7.1. Scripts <br/>
-7.2. Docker <br/>
-7.2.1. Docker startup <br/>
+7. [Additional Information](https://github.com/AvivYaniv/Cortex/blob/master/README.md#additional-information) <br/>
+7.1. [Scripts](https://github.com/AvivYaniv/Cortex/blob/master/README.md#scripts) <br/>
+7.2. [Docker](https://github.com/AvivYaniv/Cortex/blob/master/README.md#docker) <br/>
+7.2.1. [Docker startup](https://github.com/AvivYaniv/Cortex/blob/master/README.md#docker-startup) <br/>
 7.2.2. How to add new micro-service <br/>
 
 ## Architecture
