@@ -4,7 +4,7 @@
 
 # Cortex
 
-Cortex is brain-comuter-interface ultra flexibale and durable project, which enabels to upload and view users telemetry data. 
+Cortex is brain-comuter-interface *ultra **flexibale** and **durable*** project, which enabels to upload and view users telemetry data. 
 <br/>See [full documentation](https://braincomputerinterface.readthedocs.io/en/latest/).
 
 Telemetry data currently contains snapshots of:
@@ -353,18 +353,43 @@ The `MessageQueueContext` is an object that holds all neccessary information to 
 
 The `MessageQueueContext` is loaded based on a configuration-file that is written for a specific message-queue implementation (i.e. RabbitMQ).
 
-EXAMPLE: An example of RabbitMQ [message-queue context configuration file](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/context/rabbitmq_config.yaml). <br/>
-
 The `MessageQueueContext` object mandatorily holds information regerding it's role [ transmitter, receiver ]. <br/>
+
+EXAMPLE: An example of RabbitMQ [message-queue context configuration file](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/context/rabbitmq_config.yaml). <br/>
 
 INFO! MessageQueue Context configuration supports *any* dictionary-based file (i.e. YAML) and enabels to *dynamically set values in run-time*, for more information please see [MessageQueue Context Configuration](https://github.com/AvivYaniv/Cortex/blob/master/README.md#531-messagequeue-context-configuration). <br/> 
 
-2. MessageQueue Base Class: <br/>
-This class gets a message-queue contest and runs as a transmitter (i.e. Publisher) or a receiver (i.e. Consumer).
+INFO! MessageQueue Context should be created with the [`MessageQueueContextFactory`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/context/message_queue_context_factory.py), which loads the concrete MessageQueue Context configuration file based it's sole `message_queue_type` initialization parameter. <br/>
+
+2. MessageQueue Abstract Base Class: <br/>
+This class gets a message-queue context and runs as a transmitter (i.e. Publisher) or a receiver (i.e. Consumer). <br/>
+Diffrent message-queue implementations do inherit from this abstract class which takes care for the common logic for initalization and calls the specifics for implementation running as either [ transmitter, receiver ]. <br/>
+
+IMPORTANT! The [`MessageQueue`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/message_queue.py) is an abstract class and implementation should be provided to run specific message-queue technology (i.e. creating sub-class [`RabbitMQMessageQueue`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/rabbitmq_mq.py) for RabbitMQ). <br/>
 
 3. MessageQueue Publishers: <br/>
+The MessageQueue Publisher can be run either: <br/>
+<br/>
+1. In a dedicated thread as [`MessageQueuePublisherThread`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/publisher/message_queue_publisher_thread.py) (to handle [IO Events Loop](https://en.wikipedia.org/wiki/Event_loop)). <br/>
+2. In the same thread as [`MessageQueuePublisher`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/publisher/message_queue_publisher.py). <br/>
+<br/>
+
+IMPORTANT! The MessageQueue Publisher activates, yet decoupled from, the concrete technology implementation; which is dynamically loaded based on the `message_queue_type` parameter and initialized based on a `MessageQueueContext` which is passed with the `message_queue_context` parameter. <br/>
+
 4. MessageQueue Consumers: <br/>
+The MessageQueue Consumer can be run either: <br/>
+<br/>
+1. In a dedicated thread as [`MessageQueueConsumerThread`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/consumer/Message_queue_consumer_thread.py) (to handle [IO Events Loop](https://en.wikipedia.org/wiki/Event_loop)). <br/>
+2. In the same thread as [`MessageQueueConsumer`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/consumer/message_queue_consumer.py). <br/>
+<br/>
+
+IMPORTANT! The MessageQueue Consumer activates, yet decoupled from, the concrete technology implementation; which is dynamically loaded based on the `message_queue_type` parameter and initialized based on a `MessageQueueContext` which is passed with the `message_queue_context` parameter. <br/>
+
 5. MessageQueue Runner: <br/>
+The MessageQueue Runner is the main component responsible of decoupling the MessageQueue Framework logic and implementation. <br/>
+As such, it contains the following methods which 
+
+@@@ TODO CONTINUE
 
 ### 4.2. DataBase
 @@@ TODO CONTINUE : 
