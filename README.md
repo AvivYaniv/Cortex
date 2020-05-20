@@ -34,6 +34,7 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 4. [Frameworks](https://github.com/AvivYaniv/Cortex/blob/master/README.md#4-frameworks) <br/>
 4.1. [MessageQueue](https://github.com/AvivYaniv/Cortex/blob/master/README.md#41-messagequeue) <br/>
 4.2. [DataBase](https://github.com/AvivYaniv/Cortex/blob/master/README.md#42-database) <br/>
+4.3. [Log](https://github.com/AvivYaniv/Cortex/blob/master/README.md#43-log) <br/>
 5. [Flexability and SOLIDness](https://github.com/AvivYaniv/Cortex/blob/master/README.md#5-flexability-and-solidness) <br/>
 5.1. Client <br/>
 5.1.1. File Readers <br/>
@@ -43,12 +44,14 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 5.3. MessageQueue <br/>
 5.3.1. MessageQueue Context Configuration <br/>
 5.3.2. MessageQueue Driver <br/>
-5.4. API <br/>
-5.4.1. API Format <br/>
-5.4.2. API URLs <br/>
-5.5. GUI <br/>
-5.5.1. Bar Charts <br/>
-5.5.2. Multiline Graphs <br/>
+5.4. DataBase <br/>
+5.4.1. DataBase Driver <br/>
+5.5. API <br/>
+5.5.1. API Format <br/>
+5.5.2. API URLs <br/>
+5.6. GUI <br/>
+5.6.1. Bar Charts <br/>
+5.6.2. Multiline Graphs <br/>
 6. Tests <br/>
 6.1. Test tools <br/>
 7. [Additional Information](https://github.com/AvivYaniv/Cortex/blob/master/README.md#7-additional-information) <br/>
@@ -370,6 +373,8 @@ Diffrent message-queue implementations do inherit from this abstract class which
 
 IMPORTANT! The [`MessageQueue`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/message_queue.py) is an abstract class and implementation should be provided to run specific message-queue technology (i.e. creating sub-class [`RabbitMQMessageQueue`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/rabbitmq_mq.py) for RabbitMQ). <br/>
 
+INFO! You can change to any other message-queue technology, as decsribed in @@ TODO : LINK @@
+
 3. MessageQueue Publishers: <br/>
 The MessageQueue Publisher can be run either: <br/>
 <br/>
@@ -415,6 +420,26 @@ The following UML diagram depicts the replationships between the main components
 
 DataBase Framework components: <br/>
 1. DataBase Abstact Base Class: <br/>
+ This abstract class gets `database_type` and runs client that communicates with it. <br/>
+Diffrent database implementations do inherit from this abstract class which takes care for the common logic for initalization and calls the specifics for implementation. <br/>
+
+IMPORTANT! The [`_DataBaseBase`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/database_base.py) is an abstract class and implementation should be provided to run project database (i.e. creating sub-class [`_DataBaseCortex`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/database_cortex.py) for Cortex Project). <br/>
+
+2. DataBase Driver: <br/>
+ This abstract class gets `database_type` and runs client that communicates with it. <br/>
+Diffrent database implementations do inherit from this abstract class which takes care for the common logic for initalization and calls the specifics for implementation. <br/>
+
+IMPORTANT! The [`__DataBaseDriver`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/database_driver.py) is an abstract class and implementation should be provided to run specific database technology (i.e. creating sub-class [`MongoDBDataBase`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/mongodb_db.py) for MongoDB). <br/>
+
+INFO! You can change to any other database technology, as described in @@ TODO : LINK @@
+
+### 4.3. Log
+
+@@@ TODO CONTINUE : 
+The Cortex project uses the [MongoDB](https://www.mongodb.com/) database which is a [NoSQL](https://en.wikipedia.org/wiki/NoSQL) database. <br/>
+As stated above, generic framework that decouples the project from the selected database technology, has been developed to support **ANY** database implementation in an easy way. <br/>
+
+The DataBase Framework is driver oriented. <br/>
 
 @@@ TODO CONTINUE : 
 
@@ -448,22 +473,28 @@ The Cortex project is built to be flexibale for modification and customizations.
 #### 5.3.2. MessageQueue Driver
 @@@ TODO CONTINUE :
 
-### 5.4. API
+### 5.4. DataBase
+@@@ TODO CONTINUE :
+
+#### 5.4.1. DataBase Driver
+@@@ TODO CONTINUE :
+
+### 5.5. API
 @@@ TODO CONTINUE : 
 
-#### 5.4.1. API Format
+#### 5.5.1. API Format
 @@@ TODO CONTINUE :
 
-#### 5.4.2. API URLs
+#### 5.5.2. API URLs
 @@@ TODO CONTINUE :
 
-### 5.5. GUI
+### 5.6. GUI
 @@@ TODO CONTINUE :
 
-#### 5.5.1. Bar Charts
+#### 5.6.1. Bar Charts
 @@@ TODO CONTINUE :
 
-#### 5.5.2. Multiline Graphs
+#### 5.6.2. Multiline Graphs
 @@@ TODO CONTINUE :
 
 ## 6. Tests
