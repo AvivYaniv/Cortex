@@ -334,9 +334,31 @@ The Cortex project uses the following advanced yet simple-to-use frameworks:
 <br/>
 ### 4.1. MessageQueue
 The Cortex project uses the [RabbitMQ](https://www.rabbitmq.com/) message-broker which implements the [Advanced Message Queuing Protocol (AMQP)](https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol). <br/>
-As stated above, generic framework that decouples the project from the selected message-queue technology, has been developed to support **ANY** technology in an easy way. <br/>
+As stated above, generic framework that decouples the project from the selected message-queue technology, has been developed to support **ANY** publisher-consumer implementation in an easy way. <br/>
 
-@@@ TODO CONTINUE : 
+The MessageQueue Framework, composed of transmitters (i.e. Publisher) and receivers (i.e. Consumer) and is configuration-based. <br/>
+
+NOTE! The terms [ transmitter, receiver ] and [ publisher, consumer ] will be used interchangeably, yet the latter are concrete instances for the [ transmitter, receiver ] concep. <br/>
+
+The following UML diagram depicts the main components: <br/>
+@@@ TODO : LINK @@ <br/>
+
+MessageQueue Framework components: <br/>
+1. MessageQueue Context: <br/>
+The framework relies on the understanding that diffrent publisher-consumer implementations would require diffrent parameters for initialization and running configuration. <br/>
+
+The `MessageQueueContext` is an object that descibes all neccessary information to initialize and run an instance of either [ publisher, consumer ].
+
+The `MessageQueueContext` is loaded based on a configuration-file that is written for a specific message-queue implementation (i.e. RabbitMQ).
+
+EXAMPLE: An example of RabbitMQ [message-queue context configuration file](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/context/rabbitmq_config.yaml). <br/>
+
+2. MessageQueue Base Class: <br/>
+This class gets a message-queue contest and runs as a transmitter (i.e. Publisher) or a receiver (i.e. Consumer).
+
+3. MessageQueue Publishers: <br/>
+4. MessageQueue Consumers: <br/>
+5. MessageQueue Runner: <br/>
 
 ### 4.2. DataBase
 @@@ TODO CONTINUE : 
