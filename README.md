@@ -468,16 +468,19 @@ To add new format, take the following easy and simple steps: <br/>
 1. Add new version name to [`ReaderVersions`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/readers/reader_versions.py). <br/>
 2. Create new class that inherits from [`FileReaderBase`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/readers/file_reader.py), and implements the following methods: `read_user_information` and `read_snapshot`. <br/>
 
-Reader class must contain a `version` field and this would be the name for reading files according to this reader.
+<br/>
+Reader class must contain a `version` field and this would be the name for reading files according to this reader.<br/>
 
-Reader class must contain the following functions:
-`__init__`			: That recives the file path to be read	
-`read_user_information` 	: To read user information
-`read_snapshot` 		: To read snapshots
+Reader class must contain the following functions:<br/>
+`__init__`			: That recives the file path to be read	<br/>
+`read_user_information` 	: To read user information<br/>
+`read_snapshot` 		: To read snapshots<br/>
 
-The file will be opened, user information will be read and then the snapshots.
+<br/>
 
-To note a reader class, end it with `Reader` suffix.
+The file will be opened, user information will be read and then the snapshots.<br/>
+
+To note a reader class, end it with `Reader` suffix.<br/>
 <br/>i.e.
 ```python
 class YourReader:
@@ -568,9 +571,7 @@ EXAMPLE! Take a look at [`ColorImageParser`](https://github.com/AvivYaniv/Cortex
 
 <br/>
 
-You can parser as a micro-service, by adding it to the [docker-compose.yml](https://github.com/AvivYaniv/Cortex/blob/master/docker-compose.yml) file, and defining the `RUN` environment variable to `PARSERS` and `PARSER` environment variable to `<your_parser_field_name>`.
-
-@@ TODO : LINK TO ADD NEW MICROSERVICE @@
+You can parser as a micro-service, by adding it to the [docker-compose.yml](https://github.com/AvivYaniv/Cortex/blob/master/docker-compose.yml) file, and defining the `RUN` environment variable to `PARSERS` and `PARSER` environment variable to `<your_parser_field_name>`. For more information please refer [How to add new micro-service](https://github.com/AvivYaniv/Cortex/blob/master/README.md#722-how-to-add-new-micro-service) in this document. <br/>
 
 <br/>
 
@@ -610,17 +611,18 @@ Create context configuration file, as described in [MessageQueue Context Configu
 &emsp; 2. 
 Create a new class that inherits from [`MessageQueue`](https://github.com/AvivYaniv/Cortex/blob/4d1e0d34ab49841f3ccdffb530a9157ae28bde7e/cortex/publisher_consumer/message_queue/message_queue.py). To note a message-queue class, end it with `MessageQueue` suffix. <br/>
 
-MessageQueue class must contain a `name` field and this would be the name for the message-queue technology.
+<br/>
+MessageQueue class must contain a `name` field and this would be the name for the message-queue technology.<br/>
 
-MessageQueue class must contain the following functions:
-`_default_hostname_resolution`			: That resolves default [ host, port ] parameters
-`_health_check` 				: To indicate if connection with the message-queue can be established (consequative attempts will be made till it is available)
-`_init_reciver` 				: To initialize a reciver, based on the `MessageQueue Context` parameter
-`_run_reciver` 					: To run a reciver
-`_run_transmitter` 				: To run a transmitter
-`_init_transmitter` 				: To initialize a transmitter, based on the `MessageQueue Context` parameter
-`_messege_queue_publish` 			: To publish messages
-`get_publish_function` 				: To return callback to message-queue publish function
+MessageQueue class must contain the following functions:<br/>
+`_default_hostname_resolution`			: That resolves default [ host, port ] parameters<br/>
+`_health_check` 				: To indicate if connection with the message-queue can be established (consequative attempts will be made till it is available)<br/>
+`_init_reciver` 				: To initialize a reciver, based on the `MessageQueue Context` parameter<br/>
+`_run_reciver` 					: To run a reciver<br/>
+`_run_transmitter` 				: To run a transmitter<br/>
+`_init_transmitter` 				: To initialize a transmitter, based on the `MessageQueue Context` parameter<br/>
+`_messege_queue_publish` 			: To publish messages<br/>
+`get_publish_function` 				: To return callback to message-queue publish function<br/>
 <br/>
 
 ### 5.4. DataBase
