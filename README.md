@@ -10,7 +10,7 @@ Telemetry data currently contains snapshots of:
 1. User feelings: consists of the following [hunger, thirst, exhaustion, happiness], and ranged between [-1,1].
 2. [Pose](https://en.wikipedia.org/wiki/Pose_(computer_vision)): a computer-vision concept to determine object's position (user) and orientation relative to some coordinate system, and consists of two vectors: [ Translation, Rotation ].
 3. Color image: shows what the user sees.
-4. Depth image: shows 'heatmap' of user distance relatively to objects that are in front of the user.
+4. Depth image: shows 'heatmap' of how far the nearest surface from the user was.
 
 Cortex project is the final project of [Advanced System Design](https://advanced-system-design.com/) at Tel-Aviv Univeristy by [Dan Gittik](https://dan-gittik.com/).
 
@@ -97,7 +97,7 @@ NOTE! During that proccess, micro-services that use the database and message-que
 ## 3. Modules
 ### 3.1. Client
 The client is available as `cortex.client`. <br/>
-Client used to upload a `mind` file to server, which is a presentation of telemetry snapshots <br/>
+Client used to upload a `mind` file to server, which is a presentation of telemetry snapshots. <br/>
 1. API:
     ```python
     >>> from cortex.client import upload_sample
@@ -106,21 +106,82 @@ Client used to upload a `mind` file to server, which is a presentation of teleme
     ```
 2. CLI:
     ```sh
-    $ python -m cortex.client upload-sample \
-      -h/--host '127.0.0.1'             \
-      -p/--port 8000                    \
+    $ python -m cortex.client upload-sample    \
+      -h/--host '127.0.0.1'                    \
+      -p/--port 8000                           \
       'snapshot.mind.gz'
 	…
     ```
 <br/>
 Issues & Actions:<br/>
-1. File not found : client will write error message to user. <br/>
+1. File not found : client will write error message to user, and then exit graciously. <br/>
 2. Communication error : client will exit graciously. <br/>
 3. Server is unavailable : client will retray to connect for few times, and then exit if failed to connect. <br/>
 <br/>
 
-@@@ TODO CONTINUE : ### 3.2. Server
-@@@ TODO CONTINUE : ### 3.3. Parsers
+### 3.2. Server
+The server is available as `cortex.server`. <br/>
+The server accepts clients connection, receive the uploaded `mind` file and publish them to its message queue. <br/>
+1. API:
+    ```python
+	>>> from cortex.server import run_server
+	>>> def print_message(message):
+	...     print(message)
+	>>> run_server(host='127.0.0.1', port=8000, publish=print_message)
+	… # listen on host:port and pass received messages to publish
+    ```
+2. CLI:
+    ```sh
+	python -m cortex.server run-server    \
+	 -h/--host '127.0.0.1'                \
+	 -p/--port 8000                       \
+	 'rabbitmq://127.0.0.1:5672/'
+    ```
+<br/>
+Issues & Actions:<br/>
+1. Multiple clients uploat at the same time : server will handle all clients requests. <br/>
+2. Communication error : server client's handler will stop graciously, no other clients (present or future) are effected. <br/>
+3. Server accepts snapshhots that already have been accepted : server would detect the duplicate upload, and not publish any of the snapshots that have already been handled. <br/>
+<br/>
+
+### 3.3. Parsers
+The parsers are available at `cortex.parsers`. <br/>
+Parsers are simple functions or classes, built on top of a platform (using decorators or aspect-oriented programming), and easily deployable as microservices consuming raw data from the queue, and producing parsed results to it. <br/>
+INFO: Parsers can be added easily as decribed in [Adding Parsers](https://github.com/AvivYaniv/Cortex#adding-Parsers)<br/>
+1. API:
+    ```python
+    >>> from cortex.parsers import run_parser
+    >>> data = … 
+    >>> result = run_parser('pose', data)
+    ```
+    Which accepts a parser name and some raw data, as consumed from the message queue, and returns the result, as published to the message queue.
+2. CLI:
+    ```sh
+    $ python -m cortex.parsers parse 'pose' 'snapshot.raw' > 'pose.result'
+    ```
+    Which accepts a parser name and a path to some raw data, as consumed from the message queue, and prints the result, as published to the message queue (optionally redirecting it to a file). This way of invocation runs the parser exactly once. <br/>
+    ```sh
+    $ python -m cortex.parsers run-parser 'pose' 'rabbitmq://127.0.0.1:5672/'
+    ```
+    Which runs the parser as a service, which works with a message queue indefinitely. <br/>
+<br/>
+The following parsers are available: <br/>
+1. Pose <br/>
+Collects the translation and the rotation of the user's head at a given timestamp, and publishes the result to a dedicated topic. <br/>
+2. Color Image <br/>
+Collects the color image of what the user was seeing at a given timestamp, and publishes the result to a dedicated topic. <br/>
+Note: the data itself is stored to disk, and only the metadata published. <br/>
+3. Depth Image <br/>
+Collects the depth image of what the user was seeing at a given timestamp, and publishes the result to a dedicated topic.<br/>
+A depth image is a width × height array of floats, where each float represents how far the nearest surface from the user was, in meters. So, if the user was looking at a chair, the depth of its outline would be its proximity to her (for example, 0.5 for half a meter), and the wall behind it would be farther (for example, 1.0 for one meter).
+The best (2D) way to represent it is using matplotlib's heatmap.<br/>
+Note: the data itself should be stored to disk, and only the metadata published.<br/>
+4. Feelings <br/>
+Collects the feelings the user was experiencing at any timestamp, and publishes the result to a dedicated topic. <br/>
+<br/>
+
+@@@ TODO CONTINUE
+
 @@@ TODO CONTINUE : ### 3.4. Savers
 @@@ TODO CONTINUE : ### 3.5. API
 @@@ TODO CONTINUE : ### 3.6. GUI
@@ -138,7 +199,7 @@ The `cortex` project is built to be flexibale for modification and customization
 
 ## Server
 
-## Adding parsers
+## Adding Parsers
 
 By adding parser you can manipulate and save in the snapshot recived on the server.
 To add parser, all you have to do is to create a file under the `parsers` sub-package with parser function or class.
@@ -172,7 +233,7 @@ class YourParser:
 
 ## Client Personalization for Programmers
 
-## Adding readers
+## Adding Readers
 
 By adding reader you can add files that serialize user information and snapshot, in your prefered manner.
 To add parser, all you have to do is to create a file under the `readers` sub-package with reader class.
@@ -231,7 +292,7 @@ Project startup uses docker-compose to bring up micro-services. <br/>
 
 Upon `run-pipeline.sh` script execution, the following actions will take place:
 
-1. Previous docker containers and images are deleted. <br/>
+1. ~Previous docker containers and images are deleted.~ (Uncomment in script to activate) <br/>
 2. Micro-services containers are built according to `docker-compose.yml` based on `Dockerfile` configuration. <br/>
 2.1. Container image is created. <br/>
 2.2. Project files are copied to image. <br/>
