@@ -791,6 +791,8 @@ Create a new package under [`cortex`](https://github.com/AvivYaniv/Cortex/tree/m
 &emsp; 2. 
 Add service to the [docker-compose.yml](https://github.com/AvivYaniv/Cortex/blob/master/docker-compose.yml): with the environment variable `RUN` value as the name of the micro-service package. <br/>
 
+EXAMPLE! Take a look at [API](https://github.com/AvivYaniv/Cortex/tree/master/cortex/api), [CLI](https://github.com/AvivYaniv/Cortex/tree/master/cortex/cli), [Client](https://github.com/AvivYaniv/Cortex/tree/master/cortex/client), [Database](https://github.com/AvivYaniv/Cortex/tree/master/cortex/database), [Pasres](https://github.com/AvivYaniv/Cortex/tree/master/cortex/parsers), [PublisherConsumer](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer), [Saver](https://github.com/AvivYaniv/Cortex/tree/master/cortex/saver), [Server](https://github.com/AvivYaniv/Cortex/tree/master/cortex/server). <br/>
+
 <br/>
 
 
