@@ -30,6 +30,17 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 4.1. MessageQueue <br/>
 4.2. DataBase <br/>
 5. Flexability and SOLIDness <br/>
+5.1. Client <br/>
+5.1.1. File Readers <br/>
+5.1.2. Mind File Formats <br/>
+5.2. Parsers <br/>
+5.2.1. Adding Parser <br/>
+5.3. API <br/>
+5.3.1. API Format <br/>
+5.3.2. API URLs <br/>
+5.4. GUI <br/>
+5.4.1. Bar Charts <br/>
+5.4.2. Multiline Graphs <br/>
 6. Tests <br/>
 6.1. Test tools <br/>
 7. Additional Information <br/>
@@ -48,7 +59,7 @@ Savers pull from the message-queue the parsed results, in a load-balanced manner
 
 Project also provides a GUI server to which users can connect to view telemetry data.
 
-Other micro-services that are included are API to pull data from the database and CLI to run specific services.
+Other micro-services that are included are API to pull data from the database and CLI which reflects the API.
 
 ![alt text](https://github.com/AvivYaniv/Cortex/blob/master/about/Architecture/Architecture.png?raw=true)
 
@@ -146,8 +157,8 @@ Issues & Actions:<br/>
 
 ### 3.3. Parsers
 The parsers are available at `cortex.parsers`. <br/>
-Parsers are simple functions or classes, built on top of a platform (using decorators or aspect-oriented programming), and easily deployable as microservices consuming raw data from the queue, and producing parsed results to it. <br/>
-INFO: Parsers can be added easily as decribed in [Adding Parsers](https://github.com/AvivYaniv/Cortex#adding-Parsers)<br/>
+Parsers are simple functions or classes, built on top of a platform (using aspect-oriented programming), and easily deployable as microservices consuming raw data from the queue, and producing parsed results to it. <br/>
+INFO: Parsers can be added easily as decribed in [Adding Parsers](https://github.com/AvivYaniv/Cortex#adding-Parsers) <br/>
 1. API:
     ```python
     >>> from cortex.parsers import run_parser
@@ -170,21 +181,115 @@ The following parsers are available: <br/>
 Collects the translation and the rotation of the user's head at a given timestamp, and publishes the result to a dedicated topic. <br/>
 2. Color Image <br/>
 Collects the color image of what the user was seeing at a given timestamp, and publishes the result to a dedicated topic. <br/>
-Note: the data itself is stored to disk, and only the metadata published. <br/>
+NOTE: the data itself is stored to disk, and only the metadata published. <br/>
 3. Depth Image <br/>
 Collects the depth image of what the user was seeing at a given timestamp, and publishes the result to a dedicated topic.<br/>
 A depth image is a width × height array of floats, where each float represents how far the nearest surface from the user was, in meters. So, if the user was looking at a chair, the depth of its outline would be its proximity to her (for example, 0.5 for half a meter), and the wall behind it would be farther (for example, 1.0 for one meter).
-The best (2D) way to represent it is using matplotlib's heatmap.<br/>
-Note: the data itself should be stored to disk, and only the metadata published.<br/>
+NOTE: the data itself should be stored to disk, and only the metadata published.<br/>
 4. Feelings <br/>
 Collects the feelings the user was experiencing at any timestamp, and publishes the result to a dedicated topic. <br/>
 <br/>
 
-@@@ TODO CONTINUE
+### 3.4. Savers
+The saver is available as `cortex.saver`. <br/>
+Saver subscribes to all the relevant topics it is capable of consuming and saving to them to the database. <br/>
+1. API:
+    ```python
+    >>> from cortex.saver import Saver
+    >>> saver = Saver(database_url)
+    >>> data = …
+    >>> saver.save('pose', data)
+    ```
+    Which connects to a database, accepts a topic name and some data, as consumed from the message queue, and saves it to the database.
+2. CLI:
+    ```sh
+    $ python -m cortex.saver save                   \
+     -d/--database 'postgresql://127.0.0.1:5432'    \
+     'pose'                                         \
+     'pose.result' 
+    ```
+    Which accepts a topic name and a path to some raw data, as consumed from the message queue, and saves it to a database. This way of invocation runs the saver exactly once. <br/>
+    ```sh
+    $ python -m cortex.saver run-saver              \
+      'postgresql://127.0.0.1:5432'                 \
+      'rabbitmq://127.0.0.1:5672/' 
+    ```
+    Which runs the saver as a service, which works with a message queue indefinitely; the saver subscribes to all the relevant topics it is capable of consuming and saving them to the database. <br/>
+<br/>
 
-@@@ TODO CONTINUE : ### 3.4. Savers
-@@@ TODO CONTINUE : ### 3.5. API
-@@@ TODO CONTINUE : ### 3.6. GUI
+### 3.5. API
+The API is available as `cortex.api`. <br/>
+The API server questions the database and reflects the results. <br/>
+The API server utilities [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/). <br/>
+INFO! The API server results are in [JSON](https://en.wikipedia.org/wiki/JSON) format, but format can be costumized easily as described in @@@ TODO LINK @@@ <br/>
+1. API:
+    ```python
+    >>> from cortex.api import run_api_server
+    >>> run_api_server(
+    ...     host 		= '127.0.0.1',
+    ...     port 		= 5000,
+    ...     database_url 	= 'postgresql://127.0.0.1:5432',
+    ... )
+    … # listen on host:port and serve data from database_url
+    ```
+2. CLI:
+    ```sh
+    $ python -m cortex.api run-server    \
+     -h/--host '127.0.0.1'               \
+     -p/--port 5000                      \
+     -d/--database 'postgresql://127.0.0.1:5432'
+    ```
+<br/>
+The API server supports the following RESTful API endpoints: <br/>
+1. GET /users <br/>
+&emsp;Returns the list of all the supported users, including their IDs and names only. <br/>
+2. GET /users/user-id <br/>
+&emsp;Returns the specified user's details: ID, name, birthday and gender. <br/>
+3. GET /users/user-id/snapshots <br/>
+&emsp;Returns the list of the specified user's snapshot IDs and datetimes only. <br/>
+4. GET /users/user-id/snapshots/snapshot-id <br/>
+&emsp;Returns the specified snapshot's details: ID, datetime, and the available results' names only (e.g. pose). <br/>
+5. GET /users/user-id/snapshots/snapshot-id/result-name <br/>
+&emsp;Returns the specified snapshot's result. Supports: [pose, color-image, depth-image, feelings], where anything that has large binary data should contain metadata only, with its data being available via some dedicated URL (that is mentioned in its metadata), like so:
+GET /users/user-id/snapshots/snapshot-id/color-image/data <br/>
+<br/>
+
+@@@ TODO CONTINUE : 
+
+### 3.6. GUI
+The GUI server is available as `cortex.gui`. <br/>
+The GUI consumes data from the API server and reflect it in a beautiful and user-friendly mannner. <br/>
+Pages:<br/>
+1. HomePage: allows to select user based on either [ user-name, user-id ].  <br/>
+2. User Snapshots : displays selected users snapshots in an interactive manner.  <br/>
+Features: <br/>
+1. Dark Mode. <br/>
+2. Dynamic and interactive snapshots : you can move between snapshots just by moving the mouse. <br/>
+:egg: Easter Egg : Follow the breadcrumbs hints, start from hovering the logo. <br/>
+ <br/>
+ 
+1. API:
+    ```python
+    >>> from cortex.gui import run_server
+    >>> run_server(
+    ...     host 	= '127.0.0.1',
+    ...     port 	= 8080,
+    ...     api_host 	= '127.0.0.1',
+    ...     api_port 	= 5000,
+    ... )
+    ```
+    Which runs the GUI server, which consumes data from the API server. <br/>
+2. CLI:
+    ```sh
+    $ python -m cortex.gui run-server          \
+     -h/--host '127.0.0.1'       	       \
+     -p/--port 8080              	       \
+     -H/--api-host '127.0.0.1'   	       \
+     -P/--api-port 5000
+    ```
+    Which runs the GUI server, which consumes data from the API server. <br/>
+<br/>
+
 @@@ TODO CONTINUE : ### 3.7. CLI
 @@@ TODO CONTINUE : ## 4. Frameworks
 @@@ TODO CONTINUE : ### 4.1. MessageQueue
@@ -193,77 +298,21 @@ Collects the feelings the user was experiencing at any timestamp, and publishes 
 
 ## Flexability and [SOLIDness](https://en.wikipedia.org/wiki/SOLID)
 
-The `cortex` project is built to be flexibale for modification and customizations.
+The Cortex project is built to be flexibale for modification and customizations.
 
 > "Make the easy things easy, and the hard things possible" ~ Larry Wall (Programming Perl, 2nd Edition (1996), by Larry Wall, Tom Christiansen and Randal Schwartz)
 
-## Server
-
-## Adding Parsers
-
-By adding parser you can manipulate and save in the snapshot recived on the server.
-To add parser, all you have to do is to create a file under the `parsers` sub-package with parser function or class.
-
-You can note the client that your parser works on specific field, so client would know about it in `Config` message.
-
-Parser function:
-Parser function is used for parsing data that does not require a state.
-To note a parser function, end it with `_parser` suffix.
-<br/>i.e.
-```python
-def your_parser(context, snapshot):
-    # Your code goes here
-my_parser.field = 'your_parser_field_name'
-
-```
-
-Parser class:
-Parser class is used for parsing data that requires a state.
-Parser object will be created once and then on each snapshot the parse function will be called.
-To note a parser class, end it with `Parser` suffix, and add `parse` function.
-<br/>i.e.
-```python
-class YourParser:
-
-    field = 'your_parser_field_name'
-
-    def parse(self, context, snapshot):
-        # Your code goes here
-```
-
-## Client Personalization for Programmers
-
-## Adding Readers
-
-By adding reader you can add files that serialize user information and snapshot, in your prefered manner.
-To add parser, all you have to do is to create a file under the `readers` sub-package with reader class.
-
-Reader class:
-Reader class must contain a `version` field and this would be the name for reading files according to this reader.
-
-Reader class must contain the following functions:
-`__init__`					: That recives the file path to be read	
-`read_user_information` 	: To read user information
-`read_snapshot` 			: To read snapshots
-
-The file will be opened, user information will be read and then the snapshots.
-
-To note a reader class, end it with `Reader` suffix.
-<br/>i.e.
-```python
-class YourReader:
-
-	version = 'your_reader_name'
-
-	def __init__(self, file_path):
-		# Your code goes here
-
-	def read_user_information(self):
-		# Your code goes here
-
-	def read_snapshot(self):
-		# Your code goes here
-```
+@@@ TODO CONTINUE : 5.1. Client
+@@@ TODO CONTINUE : 5.1.1. File Readers
+@@@ TODO CONTINUE : 5.1.2. Mind File Formats
+@@@ TODO CONTINUE : 5.2. Parsers
+@@@ TODO CONTINUE : 5.2.1. Adding Parser
+@@@ TODO CONTINUE : 5.3. API
+@@@ TODO CONTINUE : 5.3.1. API Format
+@@@ TODO CONTINUE : 5.3.2. API URLs
+@@@ TODO CONTINUE : 5.4. GUI
+@@@ TODO CONTINUE : 5.4.1. Bar Charts
+@@@ TODO CONTINUE : 5.4.2. Multiline Graphs
 
 @@@ TODO CONTINUE : ## 6. Tests
 @@@ TODO CONTINUE : ### 6.1. Test tools
