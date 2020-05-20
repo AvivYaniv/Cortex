@@ -205,7 +205,38 @@ Saver subscribes to all the relevant topics it is capable of consuming and savin
     Which runs the saver as a service, which works with a message queue indefinitely; the saver subscribes to all the relevant topics it is capable of consuming and saving them to the database. <br/>
 <br/>
 
-@@@ TODO CONTINUE : ### 3.5. GUI
+### 3.5. GUI
+The GUI server is available as `cortex.gui`. <br/>
+The GUI consumes data from the API server and reflect it in a beautiful and user-friendly mannner. <br/>
+1. API:
+    ```python
+    >>> from cortex.gui import run_server
+    >>> run_server(
+    ...     host = '127.0.0.1',
+    ...     port = 8080,
+    ...     api_host = '127.0.0.1',
+    ...     api_port = 5000,
+    ... )
+    ```
+    Which runs the GUI server, which consumes data from the API server.
+2. CLI:
+    ```sh
+    $ python -m cortex.client upload-sample    \
+    $ python -m cortex.gui run-server          \
+     -h/--host '127.0.0.1'       	       \
+     -p/--port 8080              	       \
+     -H/--api-host '127.0.0.1'   	       \
+     -P/--api-port 5000
+    ```
+<br/>
+Issues & Actions:<br/>
+1. File not found : client will write error message to user, and then exit graciously. <br/>
+2. Communication error : client will exit graciously. <br/>
+3. Server is unavailable : client will retray to connect for few times, and then exit if failed to connect. <br/>
+<br/>
+
+@@@ TODO CONTINUE
+
 @@@ TODO CONTINUE : ### 3.6. CLI
 @@@ TODO CONTINUE : ## 4. Frameworks
 @@@ TODO CONTINUE : ### 4.1. MessageQueue
