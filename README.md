@@ -231,9 +231,12 @@ Saver subscribes to all the relevant topics it is capable of consuming and savin
 
 ### 3.5. API
 The API is available as `cortex.api`. <br/>
+
 The API server questions the database and reflects the results. <br/>
+INFO! The API server results are in [JSON](https://en.wikipedia.org/wiki/JSON) format, but format can be costumized easily as described in [API Format](https://github.com/AvivYaniv/Cortex/blob/master/README.md#551-api-format) in this document. <br/>
+
 The API server utilities [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/). <br/>
-INFO! The API server results are in [JSON](https://en.wikipedia.org/wiki/JSON) format, but format can be costumized easily as described in @@@ TODO LINK @@@ <br/>
+INFO! The API URLs format mentioned in API service easily support any other web-framework as described in [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/README.md#552-api-urls) in this document. <br/>
 1. API:
     ```python
     >>> from cortex.api import run_api_server
@@ -374,7 +377,7 @@ Diffrent message-queue implementations do inherit from this abstract class which
 
 IMPORTANT! The [`MessageQueue`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/message_queue.py) is an abstract class and implementation should be provided to run specific message-queue technology (i.e. creating sub-class [`RabbitMQMessageQueue`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/rabbitmq_mq.py) for RabbitMQ). <br/>
 
-INFO! You can change to any other message-queue technology, as decsribed in @@ TODO : LINK @@
+INFO! You can change to any other message-queue technology, as described in [MessageQueue Driver](https://github.com/AvivYaniv/Cortex/blob/master/README.md#532-messagequeue-driver) in this document.
 
 3. MessageQueue Publishers: <br/>
 The MessageQueue Publisher can be run either: <br/>
@@ -432,7 +435,7 @@ Diffrent database implementations do inherit from this abstract class which take
 
 IMPORTANT! The [`__DataBaseDriver`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/database_driver.py) is an abstract class and implementation should be provided to run specific database technology (i.e. creating sub-class [`MongoDBDataBase`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/mongodb_db.py) for MongoDB). <br/>
 
-INFO! You can change to any other database technology, as described in @@ TODO : LINK @@
+INFO! You can change to any other database technology, as described in [DataBase Driver](https://github.com/AvivYaniv/Cortex/blob/master/README.md#541-database-driver) in this document.
 
 3. DataBase Runner: <br/>
 The DataBase Runner is the main component responsible of decoupling the DataBase Framework logic and implementation. <br/>
@@ -695,10 +698,9 @@ Add to [DataBase](https://github.com/AvivYaniv/Cortex/tree/master/cortex/databas
 EXAMPLE! Take a look at [mongodb_install.sh](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/mongodb_install.sh), and [mongodb_shutdown.sh](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/mongodb_shutdown.sh). <br/>
 
 ### 5.5. API
-@@@ TODO CONTINUE : 
 
 #### 5.5.1. API Format
-@@@ TODO CONTINUE :
+The API server results
 
 #### 5.5.2. API URLs
 @@@ TODO CONTINUE :
