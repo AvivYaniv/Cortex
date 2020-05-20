@@ -626,6 +626,15 @@ MessageQueue class must contain the following functions:<br/>
 `get_publish_function` 				: To return callback to message-queue publish function<br/>
 <br/>
 
+<br/>
+
+&emsp; 3. 
+Add to [MessageQueue](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/message_queue) directory, scripts for message-queue installation (with `_install.sh` suffix) and message-queue shutdwon (with `_shutdown.sh` suffix), (shutdown script is used for testing only). <br/>
+
+EXAMPLE! Take a look at [rabbitmq_install.sh](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/rabbitmq_install.sh), and [rabbitmq_shutdown.sh](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/rabbitmq_shutdown.sh). <br/>
+
+<br/>
+
 ### 5.4. DataBase
 @@@ TODO CONTINUE :
 
