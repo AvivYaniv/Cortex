@@ -286,9 +286,9 @@ Features: <br/>
 2. CLI:
     ```sh
     $ python -m cortex.gui run-server          \
-     -h/--host '127.0.0.1'       	       \
-     -p/--port 8080              	       \
-     -H/--api-host '127.0.0.1'   	       \
+     -h/--host '127.0.0.1'                     \
+     -p/--port 8080                            \
+     -H/--api-host '127.0.0.1'                 \
      -P/--api-port 5000
     ```
     Which runs the GUI server, which consumes data from the API server. <br/>
