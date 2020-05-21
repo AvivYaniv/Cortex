@@ -311,7 +311,7 @@ var multiline_graph = function (graph_raw_data, dictConfiguration) {
       // mouse moving over canvas
       var mouse = d3.mouse(this);
 
-      // TODO : callback function to further investigate
+      // If mouse moving callback function defined
       if (dictConfiguration.hasOwnProperty("mouse_moving_callback")) 
       {
             var xPosition = new Date(xScale.invert(mouse[0]));
