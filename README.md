@@ -4,7 +4,7 @@
 
 # Cortex
 
-Cortex is an *ultra **flexibale** and **durable*** brain-comuter-interface project, which enabels to upload and view users telemetry data. 
+Cortex is an *ultra [**flexibale**](https://github.com/AvivYaniv/Cortex/blob/master/README.md#5-flexability-and-solidness) and **durable*** [brain-comuter-interface](https://en.wikipedia.org/wiki/Brain%E2%80%93computer_interface) project, which enabels to upload and view users telemetry data. 
 <br/>See [full documentation](https://braincomputerinterface.readthedocs.io/en/latest/).
 
 Telemetry data currently contains snapshots of:
@@ -13,7 +13,7 @@ Telemetry data currently contains snapshots of:
 3. Color image: shows what the user sees.
 4. Depth image: shows 'heatmap' of how far the nearest surface from the user was.
 
-Cortex project is the final project of [Advanced System Design](https://advanced-system-design.com/) at Tel-Aviv Univeristy by [Dan Gittik](https://dan-gittik.com/).
+Cortex project is the final project of [Advanced System Design](https://advanced-system-design.com/) course at Tel-Aviv University by [Dan Gittik](https://dan-gittik.com/).
 
 <p align="center">
     <img src="https://github.com/AvivYaniv/Cortex/blob/master/about/Demo/CortexDemo.gif?raw=true"/>
@@ -65,13 +65,13 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 
 ## Architecture
 
-The Cortex project contains of client that communicates to server user's telemetry data, as matter of [lifelogging](https://en.wikipedia.org/wiki/Lifelog).
+The Cortex project contains of client that communicates to server user's telemetry data, as a matter of [lifelogging](https://en.wikipedia.org/wiki/Lifelog).
 
 The server passes the snapshot messages to a message-queue. <br/>
 Parser micro-services consume from the message-queue the raw snapshots and push to the message-queue the parsed results. <br/>
 Savers pull from the message-queue the parsed results, in a load-balanced manner, and save them to the database.
 
-Project also provides a GUI server to which users can connect to view telemetry data.
+The project also provides a GUI server to which users can connect to view telemetry data.
 
 Other micro-services that are included are API to pull data from the database and CLI which reflects the API.
 
@@ -108,8 +108,8 @@ Other micro-services that are included are API to pull data from the database an
    [Cortex] $ ./scripts/run-pipeline.sh
    ```
 
-NOTE! Creation of docker containers may take some time <br/>
-NOTE! During that proccess, micro-services that use the database and message-queue would try to connect to them, until they are available, errors seen during that period can be ignored.<br/>
+NOTE! Creation of Docker containers may take some time <br/>
+NOTE! During that process, micro-services that use the database and message-queue would try to connect to them, until they are available, errors seen during that period can be ignored.<br/>
 
 5. To check that everything is working as expected, run the tests:
 
@@ -164,9 +164,9 @@ The server accepts clients connection, receive the uploaded `mind` file and publ
     ```
 <br/>
 Issues & Actions:<br/>
-1. Multiple clients uploat at the same time : server will handle all clients requests. <br/>
-2. Communication error : server client's handler will stop graciously, no other clients (present or future) are effected. <br/>
-3. Server accepts snapshhots that already have been accepted : server would detect the duplicate upload, and not publish any of the snapshots that have already been handled. <br/>
+1. Multiple clients upload at the same time: the server will handle all clients requests. <br/>
+2. Communication error: The server client's handler will stop graciously, no other clients (present or future) are effected. <br/>
+3. Server accepts snapshots that already have been accepted: server would detect the duplicate upload, and not publish any of the snapshots that have already been handled. <br/>
 <br/>
 
 ### 3.3. Parsers
@@ -235,7 +235,7 @@ Saver subscribes to all the relevant topics it is capable of consuming and savin
 The API is available as `cortex.api`. <br/>
 
 The API server questions the database and reflects the results. <br/>
-INFO! The API server results are in [JSON](https://en.wikipedia.org/wiki/JSON) format, but format can be costumized easily as described in [API Format](https://github.com/AvivYaniv/Cortex/blob/master/README.md#551-api-format) in this document. <br/>
+INFO! The API server results are in [JSON](https://en.wikipedia.org/wiki/JSON) format, but the format can be customized easily as described in [API Format](https://github.com/AvivYaniv/Cortex/blob/master/README.md#551-api-format) in this document. <br/>
 
 The API server utilities [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/). <br/>
 INFO! The API URLs format mentioned in API service easily support any other web-framework URLs format as described in [API URLs](https://github.com/AvivYaniv/Cortex/blob/master/README.md#552-api-urls) in this document. <br/>
@@ -345,7 +345,7 @@ The Cortex project uses the following advanced yet simple-to-use frameworks:
 <br/>
 ### 4.1. MessageQueue
 The Cortex project uses the [RabbitMQ](https://www.rabbitmq.com/) message-broker which implements the [Advanced Message Queuing Protocol (AMQP)](https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol). <br/>
-As stated above, generic framework that decouples the project from the selected message-queue technology, has been developed to support **ANY** publisher-consumer implementation in an easy way. <br/>
+As stated above, a generic framework that decouples the project from the selected message-queue technology, has been developed to support **ANY** publisher-consumer implementation in an easy way. <br/>
 
 The MessageQueue Framework, composed of transmitters (i.e. Publisher) and receivers (i.e. Consumer) and is configuration-based. <br/>
 
@@ -361,7 +361,7 @@ MessageQueue Framework components: <br/>
 1. MessageQueue Context: <br/>
 The framework relies on the understanding that diffrent publisher-consumer implementations would require diffrent parameters for initialization and running configuration. <br/>
 
-The `MessageQueueContext` is an object that holds all neccessary information to initialize and run an instance of either [ publisher, consumer ].
+The `MessageQueueContext` is an object that holds all necessary information to initialize and run an instance of either [ publisher, consumer ].
 
 The `MessageQueueContext` is loaded based on a configuration-file that is written for a specific message-queue implementation (i.e. RabbitMQ).
 
@@ -375,7 +375,7 @@ INFO! MessageQueue Context should be created with the [`MessageQueueContextFacto
 
 2. MessageQueue Abstract Base Class: <br/>
 This class gets a message-queue context and runs as a transmitter (i.e. Publisher) or a receiver (i.e. Consumer). <br/>
-Diffrent message-queue implementations do inherit from this abstract class which takes care for the common logic for initalization and calls the specifics for implementation running as either [ transmitter, receiver ]. <br/>
+Different message-queue implementations do inherit from this abstract class which takes care of the common logic for initialization and calls the specifics for implementation running as either [ transmitter, receiver ]. <br/>
 
 IMPORTANT! The [`MessageQueue`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/message_queue.py) is an abstract class and implementation should be provided to run specific message-queue technology (i.e. creating sub-class [`RabbitMQMessageQueue`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/message_queue/rabbitmq_mq.py) for RabbitMQ). <br/>
 
@@ -414,9 +414,9 @@ As such, it contains [ installing-message-queue, running-message-queue, stopping
 ### 4.2. DataBase
 
 The Cortex project uses the [MongoDB](https://www.mongodb.com/) database which is a [NoSQL](https://en.wikipedia.org/wiki/NoSQL) database. <br/>
-As stated above, generic framework that decouples the project from the selected database technology, has been developed to support **ANY** database implementation in an easy way. <br/>
+As stated above, a generic framework that decouples the project from the selected database technology, has been developed to support **ANY** database implementation in an easy way. <br/>
 
-The DataBase Framework is driver oriented. <br/>
+The DataBase Framework is driver-oriented. <br/>
 
 The following UML diagram depicts the replationships between the main components: <br/>
 <p align="center">
@@ -432,8 +432,8 @@ Diffrent database implementations do inherit from this abstract class which take
 IMPORTANT! The [`_DataBaseBase`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/database_base.py) is an abstract class and implementation should be provided to run project database (i.e. creating sub-class [`_DataBaseCortex`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/database_cortex.py) for Cortex Project). <br/>
 
 2. DataBase Driver: <br/>
- This abstract class gets `database_type` and runs client that communicates with it. <br/>
-Diffrent database implementations do inherit from this abstract class which takes care for the common logic for initalization and calls the specifics for implementation. <br/>
+ This abstract class gets `database_type` and runs the client that communicates with it. <br/>
+Different database implementations do inherit from this abstract class which takes care of the common logic for initialization and calls the specifics for implementation. <br/>
 
 IMPORTANT! The [`__DataBaseDriver`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/database_driver.py) is an abstract class and implementation should be provided to run specific database technology (i.e. creating sub-class [`MongoDBDataBase`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/database/mongodb_db.py) for MongoDB). <br/>
 
@@ -451,9 +451,9 @@ INFO! The logger configuration can be read from any dictionary-based file (i.e. 
 
 ## 5. Flexability and [SOLIDness](https://en.wikipedia.org/wiki/SOLID)
 
-The Cortex project is built to be flexibale for modification and customizations.
+The Cortex project is built to be flexible for modification and customizations.
 
-> "Make the easy things easy, and the hard things possible" ~ Larry Wall (Programming Perl, 2nd Edition (1996), by Larry Wall, Tom Christiansen and Randal Schwartz)
+> "Make the easy things easy, and the hard things possible" ~ Larry Wall (Programming Perl, 2nd Edition (1996), by Larry Wall, Tom Christiansen, and Randal Schwartz)
 
 ### 5.1. Client
 
@@ -464,12 +464,12 @@ File Readers Drivers: <br/>
 To add new readers to [`FileReaderDriver`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/utils/files/file_reader_driver.py), simply add new entry to the `FILE_READER_DRIVERS ` dictionary, in which the key is the file extension and the value is the library for reading from file. <br/>
 ASSUMPTION! It is confidently assumed that the library contains the following methods: `open(file_path, <mode>)` to open file, `read(size)` for reading, and `close()` for closing file. <br/>
 <br/>
-To add new writers to [`FileWriterDriver`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/utils/files/file_writer_driver.py), simply add new entry to the `FILE_WRITER_DRIVERS ` dictionary, in which the key is the file extension and the value is the library for reading from file. <br/>
+To add new writers to [`FileWriterDriver`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/utils/files/file_writer_driver.py), simply add a new entry to the `FILE_WRITER_DRIVERS ` dictionary, in which the key is the file extension and the value is the library for reading from file. <br/>
 
 ASSUMPTION! It is confidently assumed that the library contains the following methods: `open(file_path, <mode>)` to open file, `write(data)` for writing, and `close()` for closing file. <br/>
 
 #### 5.1.2. Mind File Formats
-A driver oriented framework facilitates reading from and writing to diffrent mind file formats, based on the `version` parameter. <br/>
+A driver-oriented framework facilitates reading from and writing to different mind file formats, based on the `version` parameter. <br/>
 <br/>
 To add new format, take the following easy and simple steps: <br/>
 1. Add new version name to [`ReaderVersions`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/readers/reader_versions.py). <br/>
@@ -538,13 +538,13 @@ class YourWriter:
 EXAMPLE! Take a look at [`ProtobufMindWriter`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/writers/mind/protobuf_mind_writer.py), and [`BinaryMindWriter`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/writers/mind/binary_mind_writer.py). <br/>
 
 #### 5.1.3. Client-Server Protocol
-A generic framework facilitates client-server communication in easy and format-decoupled manner. <br/>
+A generic framework facilitates client-server communication in an easy and format-decoupled manner. <br/>
 
 Current protocol format is [protobuf](https://developers.google.com/protocol-buffers)-based, and easily extensible and modifyable based on the [protocol.proto](https://github.com/AvivYaniv/Cortex/blob/master/cortex/protobuf/protos/protocol.proto) file definition. <br/>
 
 Client-Server communication protocol format is being controlled in a *single* place, based on default `protocol_type` parameter resultion at [`Protocol`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/protocol/protocol.py). <br/>
 
-NOTE! To change protocol implementation format, simply create a new folder in [Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol) directory, named after the new protocol implementation format, and create in in classes for all the messages types that are in the [Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol) directory. <br/>
+NOTE! To change protocol implementation format, simply create a new folder in [Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol) directory, named after the new protocol implementation format, and create in it classes for all the messages types that are in the [Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol) directory. <br/>
 
 EXAMPLE! Take a look at [Protobuf Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol/protobuf), and the obsolete [Native Protocol](https://github.com/AvivYaniv/Cortex/tree/master/cortex/protocol/native). <br/>
 
@@ -552,9 +552,9 @@ EXAMPLE! Take a look at [Protobuf Protocol](https://github.com/AvivYaniv/Cortex/
 
 ### 5.2. Parsers
 You can add costume parsers, thus parsing data from the raw snapshots. <br/>
-You can add new Parser with function or with dedicated class. <br/>
+You can add new Parser with function or with a dedicated class. <br/>
 <br/>
-To add new parser, by function (parser that dosen't require inner state), take the following easy and simple step:
+To add new parser, by function (parser that doesn't require inner state), take the following easy and simple step:
 <br/>
 Create a new file containig parser function, in the [`Snapshots Parsers`](https://github.com/AvivYaniv/Cortex/tree/master/cortex/parsers/snapshot) directory. <br/>
 To note a parser function, end it with `_parser` suffix.
@@ -572,7 +572,7 @@ your_parser.field = 'your_parser_field_name'
 EXAMPLE! Take a look at [`pose_parser`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/parsers/snapshot/pose_parser.py), and [`user_feelings_parser`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/parsers/snapshot/user_feelings_parser.py). <br/>
 
 To add new parser, by class (parser that do require inner state), take the following easy and simple step: <br/>
-Create a new file containig parser class, in the [`Snapshots Parsers`](https://github.com/AvivYaniv/Cortex/tree/master/cortex/parsers/snapshot) directory. <br/>
+Create a new file containing a parser class, in the [`Snapshots Parsers`](https://github.com/AvivYaniv/Cortex/tree/master/cortex/parsers/snapshot) directory. <br/>
 Parser object will be created once and then on each snapshot the parse function will be called.
 To note a parser class, end it with `Parser` suffix, and add `parse` function.
 <br/>
@@ -599,16 +599,16 @@ You can parser as a micro-service, by adding it to the [docker-compose.yml](http
 ### 5.3. MessageQueue
 
 #### 5.3.1. MessageQueue Context Configuration
-For the MessageQueue Framework, a dedicated dictionay-based file has been developed to configure ***any*** message-queue technology. <br/>
+For the MessageQueue Framework, a dedicated dictionary-based file has been developed to configure ***any*** message-queue technology. <br/>
 
 To configure contexts for a new message-queue technology, take the following easy and simple step: <br/>
 Create in [MessageQueue Context](https://github.com/AvivYaniv/Cortex/tree/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context) directory, a dictionary-based file that starts with your message-queue technology name and ends with `_config.yaml`. <br/>
 
-The header must be `message_queue`, to note a messsage-queue configuration file. <br/>
+The header must be `message_queue`, to note a message-queue configuration file. <br/>
 
 Header `message_queue` childrens are the services names. <br/>
 
-Services childrens can be either [ publishers, consumers] or any other names defined under [ transmitter, receiver ] in [ RECIVERS_CATEGORIES_NAMES, TRANSMITTERS_CATEGORIES_NAMES] in [`MessageQueueContextFactory`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/message_queue_context_factory.py), and from here it is possible to add any information required to initialize and configure your [ transmitter, receiver ]. <br/>
+Services children can be either [ publishers, consumers] or any other names defined under [ transmitter, receiver ] in [ RECIVERS_CATEGORIES_NAMES, TRANSMITTERS_CATEGORIES_NAMES] in [`MessageQueueContextFactory`](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/message_queue_context_factory.py), and from here it is possible to add any information required to initialize and configure your [ transmitter, receiver ]. <br/>
 
 EXAMPLE! Take a look at [rabbitmq_config.yaml](https://github.com/AvivYaniv/Cortex/blob/c12b3e9b6f648bc701381b2a7a399bae0bed3971/cortex/publisher_consumer/message_queue/context/rabbitmq_config.yaml). <br/>
 
@@ -656,13 +656,13 @@ EXAMPLE! Take a look at [rabbitmq_install.sh](https://github.com/AvivYaniv/Corte
 <br/>
 
 #### 5.3.3. MessageQueue Messages
-A generic framework facilitates message-queue communication in easy and format-decoupled manner. <br/>
+A generic framework facilitates message-queue communication in an easy and format-decoupled manner. <br/>
 
 Current message-queue communication format is [JSON](https://en.wikipedia.org/wiki/JSON)-based. <br/>
 
 Client-Server communication protocol format is being controlled in a *single* place (*yet can be changed for each couple of micro-services; [server-parser] or [parser-saver]*), based on default `messages_type` parameter resultion at [`MessageQueueMessages`](https://github.com/AvivYaniv/Cortex/blob/master/cortex/publisher_consumer/messages/mq_messages.py). <br/>
 
-NOTE! To change message-queue communication implementation format, simply create a new folder in [PublisherConsumer Messages](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages) directory, named after the new message-queue communication implementation format, and create in in classes for all the messages types that are in the [PublisherConsumer Messages](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages) directory. <br/>
+NOTE! To change the message-queue communication implementation format, simply create a new folder in [PublisherConsumer Messages](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages) directory, named after the new message-queue communication implementation format, and create in it classes for all the messages types that are in the [PublisherConsumer Messages](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages) directory. <br/>
 
 EXAMPLE! Take a look at [JSON Messages](https://github.com/AvivYaniv/Cortex/tree/master/cortex/publisher_consumer/messages/json). <br/>
 
@@ -702,7 +702,7 @@ EXAMPLE! Take a look at [mongodb_install.sh](https://github.com/AvivYaniv/Cortex
 ### 5.5. API
 
 #### 5.5.1. API Format
-The API server results are in [JSON](https://en.wikipedia.org/wiki/JSON) format, but format can be costumized easily. <br/>
+The API server results are in [JSON](https://en.wikipedia.org/wiki/JSON) format, but the format can be customized easily. <br/>
 
 To change API results format (AKA [marshal](https://en.wikipedia.org/wiki/Marshalling_(computer_science))), take the following easy and simple step: <br/>
 Create a new class under the [Marshal](https://github.com/AvivYaniv/Cortex/tree/master/cortex/api/marshal) directory. To note a marshal class, end it with `Marshal` suffix.  <br/> 
@@ -743,11 +743,11 @@ The Cortex project includes tests for the modules, which is built to be extensiv
 Tests are integrated with [Travis CI](https://travis-ci.org/) and [CodeCov](https://codecov.io/). <br/>
 
 ### 6.1. Test tools
-To make testing proccess as efficient as possible, few [test tools](https://github.com/AvivYaniv/Cortex/tree/master/tests/_tools) have been developed. <br/>
+To make the testing process as efficient as possible, few [test tools](https://github.com/AvivYaniv/Cortex/tree/master/tests/_tools) have been developed. <br/>
 
 ### 6.1.1. Test Mind File Creator
 The [main_create_test_mind_file.py](https://github.com/AvivYaniv/Cortex/blob/master/tests/_tools/main_create_test_mind_file.py) enables to easily create costume test mind files, based on other (bigger) mind file. <br/>
-In addition, created mind file can be manipulated according to flags specified in `SNAPSHOT_MANIPULATOR_FLAGS`. <br/>
+Besides, created mind files can be manipulated according to flags specified in `SNAPSHOT_MANIPULATOR_FLAGS`. <br/>
 
 ### 6.1.2. Saver Messages Sniffer
 The [main_saver_sniffer.py](https://github.com/AvivYaniv/Cortex/blob/master/tests/_tools/main_saver_sniffer.py) enables to easily sniff messages consumed by the saver from the message-queue. <br/>
@@ -761,13 +761,13 @@ The `scripts` folder contains the following useful scripts:
 2. `docs.sh` : For automatic-documentation, so changes in documentation will take effect immideiatly.
 3. `dos2unix.sh` : To convert `.sh` files in the project to unix [end-of-line](https://en.wikipedia.org/wiki/Newline), for users of `Microsoft` oriented OSs.
 4. `install.sh` : For project installation, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
-5. `presequites.sh` : For project presequites installation, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
+5. `prerequisites.sh` : For project prerequisites installation, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
 6. `remove_containers.sh` : To clear all docker containers and images.
 7. `restore-pipeline.sh` : To bring up docker containers, after stopped (i.e. by `stop-pipeline.sh`).
-8. `run_container.sh` : This script is for internal usage, and used to run specific container by docker-compose.
+8. `run_container.sh` : This script is for internal usage, and used to run a specific container by docker-compose.
 9. `run-pipeline.sh` : To run project, as covered in the [Installation](https://github.com/AvivYaniv/Cortex/blob/master/README.md#installation) chapter in this document.
 9. `stop-pipeline.sh` : To stop project containers.
-10. `wait-for-it.sh` : Mainly for internal usage, used by docker to wait for micro-service to be available on specific port.
+10. `wait-for-it.sh` : Mainly for internal usage, used by docker to wait for micro-service to be available on a specific port.
 
 ### 7.2. Docker
 #### 7.2.1. Docker startup
@@ -776,7 +776,7 @@ Project startup uses [Docker-Compose](https://docs.docker.com/compose/) to bring
 
 Upon `run-pipeline.sh` script execution, the following actions will take place:
 
-1. ~Previous docker containers and images are deleted.~ (Uncomment in script to activate) <br/>
+1. ~Previous Docker containers and images are deleted.~ (Uncomment in script to activate) <br/>
 2. Micro-services containers are built according to `docker-compose.yml` based on `Dockerfile` configuration. <br/>
 2.1. Container image is created. <br/>
 2.2. Project files are copied to image. <br/>
