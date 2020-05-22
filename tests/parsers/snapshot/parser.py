@@ -1,5 +1,5 @@
 
-from cortex.parsers.snapshot.parser import Parser
+from cortex.parsers.snapshot.parser_handler import ParserHandler
 
 from tests.test_constants import get_raw_snapshot_file_path
 from tests.test_constants import get_raw_snapshot_result_path
@@ -12,7 +12,7 @@ def parse(parser_type, raw_snapshot_path):
     and prints the result, as published to the message queue 
     (optionally redirecting it to a file).
     """
-    parser          = Parser(parser_type)
+    parser          = ParserHandler(parser_type)
     result, _       = parser.parse_raw_snapshot_file(raw_snapshot_path)
     return result
 
