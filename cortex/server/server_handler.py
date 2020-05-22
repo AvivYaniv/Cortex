@@ -7,8 +7,6 @@ from cortex.utils.hash import get_data_hash
 
 from cortex.utils import ConstantPathes
 
-from cortex.entities import UserInfo
-
 import threading
 
 import logging
@@ -104,14 +102,17 @@ class ServerHandler(threading.Thread):
             self._is_valid_connection = False
     @staticmethod
     def get_user_snapshots_path(user_id):
-        return ServerHandler._get_save_path(ConstantPathes.get_snapshots_path(), user_id)    
+        return ServerHandler._get_save_path(ConstantPathes.get_snapshots_path(), user_id)   
     # Saves snapshot
-    def _save_snapshot(self, snapshot_uuid, snapshot_message_bytes):
+    def _get_snapshot_save_path(self, snapshot_uuid):
         snapshot_path   =                                                               \
             ServerHandler._get_save_path(                                               \
                 ServerHandler.get_user_snapshots_path(self.context.user_info.user_id),  \
                 snapshot_uuid,                                                          \
                 SNAPSHOT_FILE_NAME)
+        return snapshot_path
+    def _save_snapshot(self, snapshot_uuid, snapshot_message_bytes):
+        snapshot_path   = self._get_snapshot_save_path(snapshot_uuid)
         # Deduping snapshots (to avoid multiple saving and handling of existing snapshots) 
         if self.files_handler.is_file_exists(snapshot_path):
             return None        

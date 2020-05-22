@@ -1,6 +1,15 @@
 
 import os, shutil
 
+def create_folder_path(folder_path):
+    try:
+        os.stat(folder_path)
+    except:
+        os.makedirs(folder_path)
+
+def create_files_folder_path(file_path):
+    create_folder_path(os.path.dirname(file_path))
+
 def count_folders_subfolders(folder):
     return len([root for root in os.listdir(folder)])
 

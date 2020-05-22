@@ -23,6 +23,8 @@ DEFAULT_PORT            =    '8000'
 class ServerService:
     lock                = threading.Lock()
     
+    SERVICE_TYPE        = 'server'
+    
     # Constructor Section
     def __init__(self, host='', port='', publish=None, message_queue_type=None, message_queue_host=None, message_queue_port=None):
         # Default parameter resolution

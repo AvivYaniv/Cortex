@@ -5,7 +5,7 @@ from cortex.publisher_consumer.message_queue import MessageQueuePublisherThread
 from cortex.publisher_consumer.message_queue import MessageQueueConsumer 
 from cortex.publisher_consumer.message_queue.context.message_queue_context_factory import MessageQueueContextFactory
 
-from cortex.parsers.snapshot import Parser
+from cortex.parsers.snapshot import ParserHandler
 
 import logging
 from cortex.logger import _LoggerLoader
@@ -35,8 +35,8 @@ class ParserService:
     def __init__(self, parser_type, message_queue_type=None, message_queue_host=None, message_queue_port=None):
         self.parser_type        = parser_type
         self.parser_name        = ParserService.get_parser_name(parser_type)
-        self.parser             = Parser(parser_type)
-        self.initialized        = self.parser.initialized
+        self.parser_handler     = ParserHandler(parser_type)
+        self.initialized        = self.parser_handler.initialized
         # Message Queue
         self.message_queue_type = message_queue_type
         self.message_queue_host = message_queue_host
@@ -50,32 +50,39 @@ class ParserService:
                 MessageQueueMessagesTyeps.RAW_SNAPSHOT_MESSAGE).deserialize(incoming_snapshot_message)
         return raw_snapshot_message
     def _get_context(self, raw_snapshot_message):
-        return ParserContext(raw_snapshot_message.user_info, raw_snapshot_message.snapshot_uuid, self.parser_type)    
+        return ParserContext(raw_snapshot_message.user_info, raw_snapshot_message.snapshot_uuid, self.parser_type)
+    # Parse Message Section
+    def parse_message(self, incoming_snapshot_message):
+        try:
+            raw_snapshot_message            = self.desrialize_raw_snapshot_message(incoming_snapshot_message)
+        except Exception as e:
+            logger.error(f'error deserializing raw snapshot message : {e}')
+            return None                       
+        context                             = self._get_context(raw_snapshot_message)
+        export_result                       = self.parser_handler.export_parse(context, raw_snapshot_message)
+        if not export_result:
+            logger.info(f'{self.parser_name} Failed to Parse message')
+            return None
+        is_uri, result, snapshot            = export_result
+        parsed_snapshot_message             =                       \
+            self.messages.get_message(                              \
+                MessageQueueMessagesTyeps.PARSED_SNAPSHOT_MESSAGE)( \
+                    context.user_info,                              \
+                    context.snapshot_uuid,                          \
+                    snapshot.timestamp,                             \
+                    self.parser_type,                               \
+                    result,                                         \
+                    is_uri)
+        logger.info(f'{self.parser_name} Parsed message')
+        return parsed_snapshot_message    
     # Generates parse callback with custom arguments - by this currying function 
     def publish_parsed_callback(self):
         def parse_and_publish(incoming_snapshot_message):
             logger.info(f'{self.parser_name} Received message')
-            try:
-                raw_snapshot_message            = self.desrialize_raw_snapshot_message(incoming_snapshot_message)
-            except Exception as e:
-                logger.error(f'error deserializing raw snapshot message : {e}')
-                return                       
-            context                             = self._get_context(raw_snapshot_message)
-            export_result                       = self.parser.export_parse(context, raw_snapshot_message)
-            if not export_result:
-                return
-            is_uri, result, snapshot            = export_result
-            parsed_snapshot_message             =                       \
-                self.messages.get_message(                              \
-                    MessageQueueMessagesTyeps.PARSED_SNAPSHOT_MESSAGE)( \
-                        context.user_info,                              \
-                        context.snapshot_uuid,                          \
-                        snapshot.timestamp,                             \
-                        self.parser_type,                               \
-                        result,                                         \
-                        is_uri)
-            self.publish_function(parsed_snapshot_message.serialize(), publisher_name=self.parser_name)
-            logger.info(f'{self.parser_name} Parsed message')
+            parsed_snapshot_message             = self.parse_message(incoming_snapshot_message)
+            if parsed_snapshot_message:
+                self.publish_function(parsed_snapshot_message.serialize(), publisher_name=self.parser_name)
+                logger.info(f'{self.parser_name} Sent message')
         return parse_and_publish
     # Core Logic Method Section
     def run(self):

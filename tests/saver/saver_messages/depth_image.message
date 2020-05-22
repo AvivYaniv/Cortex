@@ -1,1 +1,0 @@
-{"user_info": {"user_id": 42, "username": "Dan Gittik", "birth_date": 699746400, "gender": "m"}, "snapshot_uuid": "36915ba1087f4949a70cb913c0d9679f3b0ff1c1", "snapshot_timestamp": 1575446887412, "field": "depth_image", "result": "/home/user/Cortex/tests/_integration/services/data/snapshots/42/36915ba1087f4949a70cb913c0d9679f3b0ff1c1/depth_image.png", "is_uri": true}

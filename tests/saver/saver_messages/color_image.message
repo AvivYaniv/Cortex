@@ -1,1 +1,0 @@
-{"user_info": {"user_id": 42, "username": "Dan Gittik", "birth_date": 699746400, "gender": "m"}, "snapshot_uuid": "a24674c24d8a0f4dcad2a5aa64596ef9b8fc6751", "snapshot_timestamp": 1575446887541, "field": "color_image", "result": "/home/user/Cortex/tests/_integration/services/data/snapshots/42/a24674c24d8a0f4dcad2a5aa64596ef9b8fc6751/color_image.png", "is_uri": true}

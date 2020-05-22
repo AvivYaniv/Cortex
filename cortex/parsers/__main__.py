@@ -3,8 +3,9 @@ import sys
 import click
 
 import cortex.parsers
-from cortex.parsers.snapshot.parser import Parser
+
 from cortex.parsers.parser import run_parser
+from cortex.parsers.parser import MessageParser
 
 import logging
 from cortex.logger import _LoggerLoader
@@ -21,15 +22,15 @@ def main():
 
 @main.command()
 @click.argument('parser_type', type=str)
-@click.argument('raw_snapshot_path', type=str)
-def parse(parser_type, raw_snapshot_path):
+@click.argument('raw_snapshot_message_path', type=str)
+def parse(parser_type, raw_snapshot_message_path):
     """
     Accepts a parser name and a path to some raw data, 
     and prints the result, as published to the message queue 
     (optionally redirecting it to a file).
     """
-    parser          = Parser(parser_type)
-    result, _       = parser.parse(raw_snapshot_path)
+    message_parser  = MessageParser(parser_type)
+    result          = message_parser.parse_message(raw_snapshot_message_path)
     return result
 
 @main.command()

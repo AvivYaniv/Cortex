@@ -1,0 +1,1 @@
+{"user_info": {"user_id": 42, "username": "Dan Gittik", "birth_date": 699746400, "gender": "m"}, "snapshot_uuid": "36915ba1087f4949a70cb913c0d9679f3b0ff1c1", "snapshot_timestamp": 1575446887412, "field": "user_feelings", "result": "{\"hunger\": 0.0010000000474974513, \"thirst\": 0.003000000026077032, \"exhaustion\": 0.0020000000949949026, \"happiness\": 0.0}", "is_uri": false}

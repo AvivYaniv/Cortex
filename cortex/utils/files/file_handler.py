@@ -6,6 +6,8 @@ import pathlib
 from pathlib import Path
 from pathlib import PurePath
 
+from cortex.utils.folder import create_files_folder_path
+
 class _FileHandler:
     _lock           = threading.Lock()
     _shared_state   = {}
@@ -37,6 +39,13 @@ class _FileHandler:
         with open(file_path, mode) as f:
             content = f.read() 
         return content
+    
+    @staticmethod
+    def safe_read_file(file_path, mode=None):
+        try:        
+            return ( True, _FileHandler.read_file(file_path, mode) )
+        except Exception as e:
+            return (False, f'Error reading file {file_path} : {e}' )
        
     @staticmethod
     def create_path(path):
@@ -52,6 +61,7 @@ class _FileHandler:
         is_written  = False
         if not data:            
             return is_written
+        create_files_folder_path(file_path)
         self._lock.acquire()
         try:
             _FileHandler.create_path(file_path)

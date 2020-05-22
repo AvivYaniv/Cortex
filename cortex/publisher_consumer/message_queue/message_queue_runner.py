@@ -9,7 +9,6 @@ from cortex.publisher_consumer.message_queue.rabbitmq_mq import RabbitMQMessageQ
 
 import logging
 from cortex.logger import _LoggerLoader
-from docutils.languages import ca
 
 # Log loading
 logger_loader             = _LoggerLoader()

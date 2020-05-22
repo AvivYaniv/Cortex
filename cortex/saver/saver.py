@@ -16,7 +16,9 @@ class Saver:
         return self.saver_service.saver_messges_handler._database
     
     def save(self, message_path):
-        message = _FileHandler.read_file(message_path)
+        result, message = _FileHandler.safe_read_file(message_path)
+        if not result:
+            return message
         return self.saver_service.handle_message(message)
 
 def run_saver(db_url=None, mq_url=None):
