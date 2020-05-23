@@ -1,1 +1,1 @@
-{"user_info": {"user_id": 42, "username": "Dan Gittik", "birth_date": 699746400, "gender": "m"}, "snapshot_uuid": "0e087c254b86b85e9d181beef6f8ce260ba51be2", "raw_snapshot_path": "/home/user/Cortex/tests/_snapshot/snapshot.raw"}
+{"user_info": {"user_id": 42, "username": "Dan Gittik", "birth_date": 699746400, "gender": "m"}, "snapshot_uuid": "0e087c254b86b85e9d181beef6f8ce260ba51be2", "raw_snapshot_path": "tests/_snapshot/snapshot.raw"}

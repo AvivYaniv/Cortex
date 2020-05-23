@@ -7,6 +7,7 @@ from cortex.server.server_service import ServerService
 from cortex.parsers.parser_service import ParserService
 from cortex.saver.saver_service import SaverService
 
+from tests.test_constants import PARSER_TYPES
 from tests.test_constants import get_message_queue_mesages_file_path
 from cortex.utils.files.file_handler import _FileHandler
 
@@ -24,15 +25,6 @@ def run_parser_handling_of_server_message_test(parser_type):
     parser_output_message_expectd           = _FileHandler.read_file(parser_output_message_expectd_file_path)
     assert parser_output_message_expectd == parser_output_message_actual, f'Parser {parser_type} output message mismatch'
 
-def test_handling_of_server_message_parser_user_feelings():
-    run_parser_handling_of_server_message_test('user_feelings')
-
-def test_handling_of_server_message_parser_pose():
-    run_parser_handling_of_server_message_test('pose')
-
-def test_handling_of_server_message_parser_color_image():
-    run_parser_handling_of_server_message_test('color_image')
-
-def test_handling_of_server_message_parser_depth_image():
-    run_parser_handling_of_server_message_test('depth_image')
-    
+def test_handling_of_server_message_parsers():
+    for parser_type in PARSER_TYPES:
+        run_parser_handling_of_server_message_test(parser_type)
