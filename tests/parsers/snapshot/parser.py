@@ -13,7 +13,7 @@ def parse(parser_type, raw_snapshot_path):
     (optionally redirecting it to a file).
     """
     parser          = ParserHandler(parser_type)
-    result, _       = parser.parse_raw_snapshot_file(raw_snapshot_path)
+    result, _, _    = parser.parse_raw_snapshot_file(raw_snapshot_path)
     return result
 
 def parse_test_raw_snapshot(parser_type):

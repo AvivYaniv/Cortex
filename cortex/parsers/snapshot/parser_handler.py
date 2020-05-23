@@ -45,12 +45,15 @@ class ParserHandler:
     
     def parse_raw_snapshot_file(self, raw_snapshot_path):
         try:
-            snapshot    = self.read_raw_snapshot(raw_snapshot_path)
+            snapshot        = self.read_raw_snapshot(raw_snapshot_path)
         except Exception as e:
             logger.error(f'error reading snapshot file {raw_snapshot_path} : {e}')
             return None
-        result          = self.parse_snapshot(snapshot)
-        return (result, snapshot)
+        parse_result        = self.parse_snapshot(snapshot)
+        if not parse_result:
+            return None
+        result, metadata    = parse_result
+        return (result, snapshot, metadata)
     
     def save_parsed(self, context, result):
         file_path = self._file_handler.get_path(context, self._parser_extension)
@@ -58,19 +61,19 @@ class ParserHandler:
         return file_path
         
     def export_parse(self, context, raw_snapshot_message):
-        is_uri              = False
-        parse_result        = self.parse_raw_snapshot_file(raw_snapshot_message.raw_snapshot_path)
+        is_uri                      = False
+        parse_result                = self.parse_raw_snapshot_file(raw_snapshot_message.raw_snapshot_path)
         # If error reading snapshot
         if not parse_result:
             return None
-        result, snapshot    = parse_result
+        result, snapshot, metadata  = parse_result
         # If error parsing snapshot
         if not result:
             return None    
         if self._is_save_required:
-            result          = self.save_parsed(context, result)
-            is_uri          = True
-        return (is_uri, result, snapshot)
+            result                  = self.save_parsed(context, result)
+            is_uri                  = True
+        return (is_uri, result, snapshot, metadata)
 
     def _set_parser_function(self, parser_type):
         self._parser_object     = None

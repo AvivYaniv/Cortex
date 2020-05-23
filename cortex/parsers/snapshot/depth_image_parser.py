@@ -17,7 +17,8 @@ class DepthImageParser:
         warnings.filterwarnings('ignore', category=PendingDeprecationWarning)
         image               = np.mat(snapshot.depth_image.data)
         warnings.filterwarnings('default', category=PendingDeprecationWarning)
-        image               = image.reshape(snapshot.depth_image.width, snapshot.depth_image.height)
+        size                = snapshot.depth_image.width, snapshot.depth_image.height
+        image               = image.reshape(size)
         plt.imshow(image, cmap='hot')
         plt.axis('off')
         plt.gca().set_axis_off()
@@ -27,5 +28,5 @@ class DepthImageParser:
         plt.gca().yaxis.set_major_locator(plt.NullLocator())
         image_byte_array    = io.BytesIO()
         plt.savefig(image_byte_array, format='PNG')        
-        return image_byte_array.getvalue()
+        return (image_byte_array.getvalue(), size)
     

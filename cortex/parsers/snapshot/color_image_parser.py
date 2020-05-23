@@ -13,5 +13,5 @@ class ColorImageParser:
         image               = PIL.frombytes('RGB', size, bytes(snapshot.color_image.data))
         image_byte_array    = io.BytesIO()
         image.save(image_byte_array, format='PNG')
-        return image_byte_array.getvalue()
+        return (image_byte_array.getvalue(), size)
     

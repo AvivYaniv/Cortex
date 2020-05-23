@@ -63,7 +63,7 @@ class ParserService:
         if not export_result:
             logger.info(f'{self.parser_name} Failed to Parse message')
             return None
-        is_uri, result, snapshot            = export_result
+        is_uri, result, snapshot, metadata  = export_result
         parsed_snapshot_message             =                       \
             self.messages.get_message(                              \
                 MessageQueueMessagesTyeps.PARSED_SNAPSHOT_MESSAGE)( \
@@ -72,7 +72,8 @@ class ParserService:
                     snapshot.timestamp,                             \
                     self.parser_type,                               \
                     result,                                         \
-                    is_uri)
+                    is_uri,                                         \
+                    metadata)
         logger.info(f'{self.parser_name} Parsed message')
         return parsed_snapshot_message    
     # Generates parse callback with custom arguments - by this currying function 

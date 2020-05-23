@@ -1,6 +1,4 @@
 
-import cortex.utils.image as image_utils
-
 from cortex.database.database_cortex import _DataBaseCortex
 
 from cortex.utils.consts import expand_file_path_relative_to_project_root
@@ -47,14 +45,15 @@ class SaverMessagesHandler:
         snapshot_uuid           = parsed_snapshot_message.snapshot_uuid
         result                  = parsed_snapshot_message.result
         is_uri                  = parsed_snapshot_message.is_uri
-        self.save_parsed(field, snapshot_uuid, result, is_uri)
+        metadata                = parsed_snapshot_message.metadata
+        self.save_parsed(field, snapshot_uuid, result, is_uri, metadata)
         return snapshot_uuid
     # Save Methods
-    def save_parsed(self, field, snapshot_uuid, result, is_uri):
+    def save_parsed(self, field, snapshot_uuid, result, is_uri, metadata):
         if field not in self.SAVE_METHODS.keys():
             logger.error(f'saving field {field} is unknown')
             return
-        self.SAVE_METHODS[field](snapshot_uuid, result, is_uri)
+        self.SAVE_METHODS[field](snapshot_uuid, result, is_uri, metadata)
     # User Saving Method
     def save_user(self, user_info):
         if self._database.has_user(user_id=user_info.user_id):
@@ -89,7 +88,7 @@ class SaverMessagesHandler:
         else:
             logger.error(f'failed to add snapshot {snapshot_uuid}')    
     # Fields Saving Methods
-    def save_parsed_pose(self, snapshot_uuid, result, is_uri):
+    def save_parsed_pose(self, snapshot_uuid, result, is_uri, metadata):
         snapshot_uuid   = snapshot_uuid
         pose            = json_to_object(result)
         creation_status =                                       \
@@ -107,7 +106,7 @@ class SaverMessagesHandler:
             logger.info(f'pose of snapshot {snapshot_uuid} added successfully!')
         else:
             logger.error(f'failed to add pose of snapshot {snapshot_uuid}')
-    def save_user_feelings(self, snapshot_uuid, result, is_uri):
+    def save_user_feelings(self, snapshot_uuid, result, is_uri, metadata):
         snapshot_uuid   = snapshot_uuid
         user_feelings   = json_to_object(result)
         creation_status =                                       \
@@ -122,13 +121,10 @@ class SaverMessagesHandler:
             logger.info(f'user_feelings of snapshot {snapshot_uuid} added successfully!')
         else:
             logger.error(f'failed to add user_feelings of snapshot {snapshot_uuid}')
-    @staticmethod
-    def get_image_metadata(uri):
-        return image_utils.get_image_metadata_by_uri(uri)     
-    def save_color_image(self, snapshot_uuid, result, is_uri):
+    def save_color_image(self, snapshot_uuid, result, is_uri, metadata):
         snapshot_uuid   = snapshot_uuid
         uri             = expand_file_path_relative_to_project_root(result)
-        width, height   = SaverMessagesHandler.get_image_metadata(uri)
+        width, height   = metadata
         creation_status =                                       \
             self._database.create_color_image(                  \
                 snapshot_uuid  = snapshot_uuid,                 \
@@ -140,10 +136,10 @@ class SaverMessagesHandler:
             logger.info(f'color_image of snapshot {snapshot_uuid} added successfully!')
         else:
             logger.error(f'failed to add color_image of snapshot {snapshot_uuid}')    
-    def save_depth_image(self, snapshot_uuid, result, is_uri):
+    def save_depth_image(self, snapshot_uuid, result, is_uri, metadata):
         snapshot_uuid   = snapshot_uuid
         uri             = expand_file_path_relative_to_project_root(result)
-        width, height   = SaverMessagesHandler.get_image_metadata(uri)
+        width, height   = metadata
         creation_status =                                       \
             self._database.create_depth_image(                  \
                 snapshot_uuid  = snapshot_uuid,                 \
