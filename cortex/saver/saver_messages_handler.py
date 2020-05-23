@@ -3,6 +3,8 @@ import cortex.utils.image as image_utils
 
 from cortex.database.database_cortex import _DataBaseCortex
 
+from cortex.utils.consts import expand_file_path_relative_to_project_root
+
 from cortex.publisher_consumer.messages import MessageQueueMessages, MessageQueueMessagesTyeps
 
 import logging
@@ -122,10 +124,10 @@ class SaverMessagesHandler:
             logger.error(f'failed to add user_feelings of snapshot {snapshot_uuid}')
     @staticmethod
     def get_image_metadata(uri):
-        return image_utils.get_image_metadata_by_uri(uri)        
+        return image_utils.get_image_metadata_by_uri(uri)     
     def save_color_image(self, snapshot_uuid, result, is_uri):
         snapshot_uuid   = snapshot_uuid
-        uri             = result
+        uri             = expand_file_path_relative_to_project_root(result)
         width, height   = SaverMessagesHandler.get_image_metadata(uri)
         creation_status =                                       \
             self._database.create_color_image(                  \
@@ -140,7 +142,7 @@ class SaverMessagesHandler:
             logger.error(f'failed to add color_image of snapshot {snapshot_uuid}')    
     def save_depth_image(self, snapshot_uuid, result, is_uri):
         snapshot_uuid   = snapshot_uuid
-        uri             = result
+        uri             = expand_file_path_relative_to_project_root(result)
         width, height   = SaverMessagesHandler.get_image_metadata(uri)
         creation_status =                                       \
             self._database.create_depth_image(                  \

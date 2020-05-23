@@ -10,7 +10,6 @@ class ParserFileHandler:
         self.file_handler   = _FileHandler()
         
     def get_path(self, context, extension=''):
-        # TODO DEBUG RESTORE ***ABSOLUTE***
         file_path   =                                   \
             _FileHandler.to_safe_file_path(             \
                 ConstantPathes.get_snapshots_path(),    \

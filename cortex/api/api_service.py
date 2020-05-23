@@ -106,5 +106,3 @@ class APIService:
             uri                                     =   result['uri']
             return uri
         return APIService.EMPTY_RESULT 
-    
-       
