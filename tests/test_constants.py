@@ -98,11 +98,17 @@ def get_user_test_file_path(test_user_number):
     return str(pathlib.Path(project_root(), EXAMPLE_FILE_PATH_FORMAT % test_user_number))
 
 # Raw Snapshot
+def get_raw_snapshot_folder_relative_path():
+    return str(pathlib.Path(TESTS_FOLDER, RAW_SNAPSHOT_FOLDER))
+
 def get_raw_snapshot_folder_path():
-    return str(pathlib.Path(project_root(), TESTS_FOLDER, RAW_SNAPSHOT_FOLDER))
+    return str(pathlib.Path(project_root(), get_raw_snapshot_folder_relative_path()))
 
 def get_raw_snapshot_file_path():
     return str(pathlib.Path(get_raw_snapshot_folder_path(), RAW_SNAPSHOT_FILE_NAME))
+
+def get_raw_snapshot_file_relative_path():
+    return str(pathlib.Path(get_raw_snapshot_folder_relative_path(), RAW_SNAPSHOT_FILE_NAME))
 
 # Parser Snapshot Results
 def get_snapshot_result_file_name(parser_type):

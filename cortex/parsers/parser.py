@@ -15,7 +15,7 @@ class MessageParser:
         result, message = _FileHandler.safe_read_file(message_path)
         if not result:
             return message
-        return self.parser_service.parse_message(message)
+        return self.parser_service.parse_message(message).serialize()
 
 def run_parser(parser_type, mq_url=None):
     """Starts a parser of the given type and publishes parsed output to message-queue"""  

@@ -7,7 +7,7 @@ from cortex.server.server_handler import ServerHandler
 
 import cortex.utils.consts
 
-from tests.test_constants import get_raw_snapshot_folder_path
+from tests.test_constants import get_raw_snapshot_folder_path, get_raw_snapshot_folder_relative_path
 
 from cortex.utils import change_direcoty_to_project_root
 
@@ -20,7 +20,7 @@ def run_server_at_root_directory(host, port):
 
 def _get_snapshot_save_path(self, snapshot_uuid):
     return cortex.server.server_handler.ServerHandler._get_save_path(  \
-                get_raw_snapshot_folder_path(),                        \
+                get_raw_snapshot_folder_relative_path(),               \
                 cortex.server.server_handler.SNAPSHOT_FILE_NAME) 
     
 def patch_server_save_file_path():    

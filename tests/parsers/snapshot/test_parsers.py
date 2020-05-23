@@ -17,7 +17,7 @@ def run_parser_handling_of_server_message_test(parser_type):
                                                 ServerService.SERVICE_TYPE,         \
                                                 ParserService.SERVICE_TYPE,         \
                                                 reciver_identifier=parser_type)
-    parser_output_message_actual            = message_parser.parse_message(parser_input_message_file_path).serialize()
+    parser_output_message_actual            = message_parser.parse_message(parser_input_message_file_path)
     parser_output_message_expectd_file_path = get_message_queue_mesages_file_path(  \
                                                 ParserService.SERVICE_TYPE,         \
                                                 SaverService.SERVICE_TYPE,         \
