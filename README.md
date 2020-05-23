@@ -56,7 +56,7 @@ Cortex project is the final project of [Advanced System Design](https://advanced
 6. [Tests](https://github.com/AvivYaniv/Cortex/blob/master/README.md#6-tests) <br/>
 6.1. [Test tools](https://github.com/AvivYaniv/Cortex/blob/master/README.md#61-test-tools) <br/>
 6.1.1. [Test Mind File Creator](https://github.com/AvivYaniv/Cortex/blob/master/README.md#611-test-mind-file-creator) <br/>
-6.1.2. [Saver Messages Sniffer](https://github.com/AvivYaniv/Cortex/blob/master/README.md#612-saver-messages-sniffer) <br/>
+6.1.2. [Parser Messages Sniffer](https://github.com/AvivYaniv/Cortex/blob/master/README.md#612-parser-messages-sniffer) <br/>
 7. [Additional Information](https://github.com/AvivYaniv/Cortex/blob/master/README.md#7-additional-information) <br/>
 7.1. [Scripts](https://github.com/AvivYaniv/Cortex/blob/master/README.md#71-scripts) <br/>
 7.2. [Docker](https://github.com/AvivYaniv/Cortex/blob/master/README.md#72-docker) <br/>
