@@ -15,7 +15,7 @@ import multiprocessing
 
 from tests.test_constants import DEFAULT_INITIALIZATION_DURATION
 from tests.test_constants import DEFAULT_SHUTDOWN_DURATION
-from tests.test_constants import CI_CD_TEST_ENVIRONMENT
+from tests.test_constants import is_on_ci_environment
 
 import tests.saver.pytest_shared as pytest_shared 
 pytest_shared.init_shared_variables()
@@ -27,7 +27,7 @@ def pytest_sessionstart(session):
     pytest_shared.shared_dictionary['database_proccess'] = database_proccess 
     
 def pytest_sessionfinish(session, exitstatus):
-    if CI_CD_TEST_ENVIRONMENT not in os.environ:
+    if not is_on_ci_environment():
         pytest_shared.shared_dictionary['database_proccess'].kill()
         database_shutdown_proccess = multiprocessing.Process(target=stop_database)
         database_shutdown_proccess.start()

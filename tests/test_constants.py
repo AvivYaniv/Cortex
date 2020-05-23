@@ -1,4 +1,6 @@
 
+import os
+
 import pathlib
 from inspect import getsourcefile
 from os.path import abspath
@@ -48,6 +50,9 @@ PARSER_RESULT_FILE_EXTENSTION           =   '.result'
 # Integration Folder
 INTEGRATION_FOLDER                      =   '_integration'
 
+# API Results Folder
+API_RESULTS_FOLDER                      =   'results'
+
 # Publisher Consumer Folder
 PUBLISHER_CONSUMER_FOLDER               =   'publisher_consumer'
 
@@ -90,6 +95,9 @@ DEFAULT_SHUTDOWN_DURATION               =   5
 
 # CI/CD
 CI_CD_TEST_ENVIRONMENT                  =   'TRAVIS'
+
+def is_on_ci_environment():
+    return CI_CD_TEST_ENVIRONMENT in os.environ
 
 def project_root():
     return str(pathlib.Path(abspath(getsourcefile(lambda:0))).parent.parent)
@@ -151,3 +159,7 @@ def get_message_queue_mesages_file_path(                                    \
                                         ), 
                             file_suffix + MESSAGE_QUEUE_MESSAGE_EXTENSTION))
 
+
+def get_api_results_folder(user_id):
+    return str(pathlib.Path(project_root(), TESTS_FOLDER, INTEGRATION_FOLDER, API_RESULTS_FOLDER, INTEGRATION_FOLDER))
+    

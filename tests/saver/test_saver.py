@@ -9,21 +9,6 @@ from cortex.parsers.parser_service import ParserService
 
 from tests.test_constants import get_message_queue_mesages_file_path
 
-import functools
-
-def patch_get_image_metadata_by_uri():
-    def decorator(function):
-        def patched_get_image_metadata_by_uri(_):
-            return 100, 100
-        @functools.wraps(function)
-        def wrapper(*args, **kwargs):
-            import cortex.saver.saver_messages_handler            
-            cortex.saver.saver_messages_handler.image_utils.get_image_metadata_by_uri = patched_get_image_metadata_by_uri
-            result = function(*args, **kwargs)
-            return result
-        return wrapper
-    return decorator
-
 @pytest.fixture
 def saver_service():
     saver       = Saver()
@@ -47,11 +32,9 @@ def test_saver_parser_message_user_feelings(saver_service):
 def test_saver_parser_message_pose(saver_service):
     run_saver_handling_of_parser_message_test(saver_service, 'pose')
 
-@patch_get_image_metadata_by_uri()
 def test_saver_parser_message_color_image(saver_service):
     run_saver_handling_of_parser_message_test(saver_service, 'color_image')
     
-@patch_get_image_metadata_by_uri()
 def test_saver_parser_message_depth_image(saver_service):
     run_saver_handling_of_parser_message_test(saver_service, 'depth_image')
     
