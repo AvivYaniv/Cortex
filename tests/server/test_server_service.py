@@ -26,6 +26,40 @@ from tests.test_constants import SERVER_TEST_HOST, SERVER_SNAPSHOT_MAX_DURATION_
 from tests._test_setup.services import run_client_service
 from tests._test_setup import delete_server_user_folder_before_and_after
 
+from tests.test_constants import PARSER_TYPES
+from tests.test_constants import get_message_queue_mesages_file_path
+from cortex.utils.files.file_handler import _FileHandler
+
+from cortex.server.server_service import ServerService
+from cortex.parsers.parser_service import ParserService
+
+import sys
+
+def run_server_creation_of_snapshot_message_test():
+    # Creating shared-memory value to count sent snapshots
+    client_sent_snapshots_counter = Value('i', 0)
+    def run_server_service():
+        def snapshot_publish(message):
+            server_output_message_expectd_file_path = get_message_queue_mesages_file_path(  \
+                                                        ServerService.SERVICE_TYPE,         \
+                                                        ParserService.SERVICE_TYPE,         \
+                                                        sender_identifier=PARSER_TYPES[0])  
+            server_output_message_expectd           = _FileHandler.read_file(server_output_message_expectd_file_path)
+            assert server_output_message_expectd == message, f'Server snapshot message mismatch'
+            sys.exit()         
+        run_server(SERVER_TEST_HOST, DEFAULT_PORT, publish=snapshot_publish)
+    # Spawn process for server thread
+    server_proccess = multiprocessing.Process(target=run_server_service)
+    server_proccess.start()    
+    # Spawn process for client thread and kill it upon finishing
+    client_proccess = multiprocessing.Process(target=run_client_service, args=[client_sent_snapshots_counter])
+    client_proccess.start()
+    client_proccess.join()
+    client_proccess.kill()    
+    # Wait for server to handle messages and kill it
+    server_proccess.join(SERVER_SNAPSHOT_MAX_DURATION_HANDLING * client_sent_snapshots_counter.value)
+    server_proccess.kill()   
+
 @delete_server_user_folder_before_and_after()
 def test_server_service():
     # Creating shared-memory value to count sent snapshots
