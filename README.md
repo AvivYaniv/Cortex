@@ -740,7 +740,11 @@ EXAMPLE! Take a look at [multiline_graph.js](https://github.com/AvivYaniv/Cortex
 
 ## 6. Tests
 The Cortex project includes tests for the modules, which is built to be extensive and resilliant, and utilizes testing framework to reduce [boilerplate code](https://en.wikipedia.org/wiki/Boilerplate_code). <br/>
-Tests are integrated with [Travis CI](https://travis-ci.org/) and [CodeCov](https://codecov.io/). <br/>
+Tests are integrated with [Travis CI](https://travis-ci.org/) for [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration) and [CodeCov](https://codecov.io/) for [code coverage](https://en.wikipedia.org/wiki/Code_coverage) tracking. <br/>
+
+Testing package includes [integration testing](https://en.wikipedia.org/wiki/Integration_testing) that is achived by the synergetic combination of testing of [message-queue validity](https://github.com/AvivYaniv/Cortex/blob/master/tests/publisher_consumer/test_message_queue_configuration.py) and micro-services messages production and handling correctness, thus enabling to detect faults in either of these. <br/>
+
+Micro-services testing includes black-box testing, that would remain valid in case of inner-implementation changes. <br/>
 
 ### 6.1. Test tools
 To make the testing process as efficient as possible, few [test tools](https://github.com/AvivYaniv/Cortex/tree/master/tests/_tools) have been developed. <br/>
@@ -749,8 +753,8 @@ To make the testing process as efficient as possible, few [test tools](https://g
 The [main_create_test_mind_file.py](https://github.com/AvivYaniv/Cortex/blob/master/tests/_tools/main_create_test_mind_file.py) enables to easily create costume test mind files, based on other (bigger) mind file. <br/>
 Besides, created mind files can be manipulated according to flags specified in `SNAPSHOT_MANIPULATOR_FLAGS`. <br/>
 
-### 6.1.2. Saver Messages Sniffer
-The [main_saver_sniffer.py](https://github.com/AvivYaniv/Cortex/blob/master/tests/_tools/main_saver_sniffer.py) enables to easily sniff messages consumed by the saver from the message-queue. <br/>
+### 6.1.2. Parser Messages Sniffer
+The [main_parser_sniffer.py](https://github.com/AvivYaniv/Cortex/blob/master/tests/_tools/main_parserer_sniffer.py) enables to easily sniff messages consumed fron and produced to message-queue. <br/>
 
 ## 7. Additional Information
 ### 7.1. Scripts
