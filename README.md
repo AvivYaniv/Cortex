@@ -553,6 +553,7 @@ EXAMPLE! Take a look at [Protobuf Protocol](https://github.com/AvivYaniv/Cortex/
 ### 5.2. Parsers
 You can add costume parsers, thus parsing data from the raw snapshots. <br/>
 You can add new Parser with function or with a dedicated class. <br/>
+Parsers return parsing result and metadata (usefult for files, (i.e. images, videos) leave empty string otherwise). <br/>
 <br/>
 To add new parser, by function (parser that doesn't require inner state), take the following easy and simple step:
 <br/>
@@ -564,6 +565,7 @@ i.e.
 ```python
 def your_parser(snapshot):
     # Your code goes here
+    # Return (<parsed_result>, <metadata>)
 your_parser.field = 'your_parser_field_name'
 
 ```
@@ -585,6 +587,7 @@ class YourParser:
 
     def parse(self, snapshot):
         # Your code goes here
+	# Return (<parsed_result>, <metadata>)
 ```
 <br/>
 
