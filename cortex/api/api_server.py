@@ -84,7 +84,7 @@ def run_api(host=None, port=None, database_type=None, database_host=None, databa
     """Starts an API server of which users and snapshots can be retrived"""
     # Parse server address
     api_server_host                         = host      if host else DEFAULT_API_HOST
-    api_server_port                         = int(host  if host else DEFAULT_API_PORT)    
+    api_server_port                         = int(port  if port else DEFAULT_API_PORT)    
     global api_service
     api_service = APIService(database_type, database_host, database_port)
     app.run(api_server_host, api_server_port)
