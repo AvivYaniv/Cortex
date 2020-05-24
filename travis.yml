@@ -1,5 +1,7 @@
 services: mongodb
 before_script:
   - sudo /etc/init.d/mongod start
+  # Change time zone to Israel/Jerusalem
   - echo 'Asia/Jerusalem' | sudo tee /etc/timezone
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
+  - sudo ntpdate ntp.ubuntu.com
