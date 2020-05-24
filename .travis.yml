@@ -3,6 +3,9 @@ python:
   - "3.8"
 install:
   - pip install -r requirements.txt
+env:
+  global:
+    - RABBITMQ_NODE_IP_ADDRESS="0.0.0.0"
 script:
   - pytest --cov-report term --cov=cortex
 services:
