@@ -28,6 +28,8 @@ def get_test_user(number):
 SERVER_SNAPSHOT_MAX_DURATION_HANDLING   =   2
 
 # Hosts
+DB_TEST_HOST                            =   '0.0.0.0'
+API_TEST_HOST                           =   '0.0.0.0'
 SERVER_TEST_HOST                        =   '0.0.0.0'
 MESSAGE_QUEUE_TEST_HOST                 =   '0.0.0.0'
 

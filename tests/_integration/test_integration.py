@@ -23,7 +23,8 @@ from cortex.publisher_consumer.messages import MessageQueueMessages, MessageQueu
 from cortex.utils.folder import count_folders_subfolders
 
 from tests.test_constants import get_test_user
-from tests.test_constants import SERVER_TEST_HOST, SERVER_SNAPSHOT_MAX_DURATION_HANDLING
+from tests.test_constants import API_TEST_HOST, SERVER_TEST_HOST, MESSAGE_QUEUE_TEST_HOST, DB_TEST_HOST
+from tests.test_constants import SERVER_SNAPSHOT_MAX_DURATION_HANDLING
 
 from tests._test_setup.services import run_client_service
 from tests._test_setup import delete_server_user_folder_before_and_after
@@ -66,23 +67,33 @@ def run_proceess(run_function):
     time.sleep(DEFAULT_INITIALIZATION_DURATION)
     return proccess
 
-def run_api_proceess():
-    return run_proceess(run_api)
-
-def run_parser_proceess(parser_type):
-    parser_proccess = multiprocessing.Process(target=run_parser_service, args=[parser_type])
-    parser_proccess.start()
-    time.sleep(DEFAULT_INITIALIZATION_DURATION)
-    return parser_proccess
-    
-def run_saver_proceess():
-    return run_proceess(run_saver_service)
-
 def run_database_proceess():
     return run_proceess(run_database)
 
 def run_messagequeue_proceess():
     return run_proceess(install_message_queue)
+
+def run_api_proceess():
+    def run_api_test_host():
+        run_api(host=API_TEST_HOST, database_host=DB_TEST_HOST)
+    api_proccess = multiprocessing.Process(target=run_api_test_host)
+    api_proccess.start()
+    time.sleep(DEFAULT_INITIALIZATION_DURATION)
+    return api_proccess
+    
+def run_parser_proceess(parser_type):
+    parser_proccess = multiprocessing.Process(target=run_parser_service, args=[parser_type, None, MESSAGE_QUEUE_TEST_HOST])
+    parser_proccess.start()
+    time.sleep(DEFAULT_INITIALIZATION_DURATION)
+    return parser_proccess
+    
+def run_saver_proceess():
+    def run_saver_test_host():
+        run_saver_service(database_host=DB_TEST_HOST, message_queue_host=MESSAGE_QUEUE_TEST_HOST)
+    saver_proccess = multiprocessing.Process(target=run_saver_test_host)
+    saver_proccess.start()
+    time.sleep(DEFAULT_INITIALIZATION_DURATION)
+    return saver_proccess
 
 def assert_integration_success(user_id):
     user_id                     = str(user_id)
