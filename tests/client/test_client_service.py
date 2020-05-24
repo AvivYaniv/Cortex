@@ -42,11 +42,11 @@ def test_client_service(client_service):
     # Upload to server
     client_service.upload_sample(get_user_test_file_path(get_test_user(1).ID), DEFAULT_FILE_VERSION)
     # Wait for server to handle messages and kill it
-    server_proccess.join(SERVER_SNAPSHOT_MAX_DURATION_HANDLING * client_service.total_snapshots_uploaded)
+    server_proccess.join(SERVER_SNAPSHOT_MAX_DURATION_HANDLING * client_service._total_snapshots_uploaded)
     server_proccess.kill()
     # Ensure snapshots have been published
     assert 0 < test_server_snapshot_published_counter.value
-    assert client_service.total_snapshots_uploaded == test_server_snapshot_published_counter.value
+    assert client_service._total_snapshots_uploaded == test_server_snapshot_published_counter.value
 
 @delete_server_user_folder_before_and_after()
 def test_client_service_as_server_startup_delayed(client_service):
