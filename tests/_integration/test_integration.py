@@ -14,7 +14,7 @@ import pytest
 from cortex.client.client_service import ClientService
 from cortex.client.client_service import DEFAULT_PORT
 
-from cortex.server import run_server
+from cortex.server.server_service import run_server_service
 
 from cortex.server.server_handler import ServerHandler
 
@@ -124,7 +124,7 @@ def test_integration():
     # Creating shared-memory value to get sent user id
     client_sent_user_id             = Value('i', 0)
     def run_server_service():
-        run_server(SERVER_TEST_HOST, DEFAULT_PORT)
+        run_server_service(host=SERVER_TEST_HOST, port=DEFAULT_PORT, message_queue_host=MESSAGE_QUEUE_TEST_HOST)
     # Spawn process for server thread
     server_proccess = multiprocessing.Process(target=run_server_service)
     server_proccess.start()    
