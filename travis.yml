@@ -1,8 +1,8 @@
 services: mongodb
+install: skip
 before_install:
   - export TZ="Asia/Jerusalem"
   - date
-install: skip
 before_script:
   # Start DataBase
   - sudo /etc/init.d/mongod start
