@@ -3,8 +3,13 @@ before_install:
   - export TZ="Asia/Jerusalem"
   - date
 before_script:
+  # Start DataBase
   - sudo /etc/init.d/mongod start
   # Change time zone to Israel/Jerusalem
   - echo 'Asia/Jerusalem' | sudo tee /etc/timezone
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
   - sudo ntpdate ntp.ubuntu.com
+  # Workaround imp module warning
+  - python -c 'import os, virtualenv; virtualenv.install_distutils(os.environ["VIRTUAL_ENV"])'
+script:
+  - python -W error::DeprecationWarning -c 'import distutils'
