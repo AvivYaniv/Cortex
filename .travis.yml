@@ -8,6 +8,9 @@ env:
     - RABBITMQ_NODE_IP_ADDRESS="0.0.0.0"
 script:
   - pytest --cov-report term --cov=cortex
+addons:
+  packages:
+    - rabbitmq-server
 services:
   - mongodb
   - rabbitmq
