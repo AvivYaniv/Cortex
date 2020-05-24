@@ -1,6 +1,6 @@
 services: mongodb
 before_install:
-  - export TZ=Asia/Jerusalem
+  - export TZ="Asia/Jerusalem"
   - date
 before_script:
   - sudo /etc/init.d/mongod start
