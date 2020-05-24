@@ -33,7 +33,7 @@ class ClientService:
     def __init__(self, host='', port=''):
         """Sends to the server user's sample file"""
         # Default parameter resolution
-        self.total_snapshots_uploaded   = 0
+        self._total_snapshots_uploaded  = 0
         self.server_ip_str              = host if host else DEFAULT_HOST
         self.server_port_int            = int(port if port else DEFAULT_PORT)
     # Methods Section
@@ -51,7 +51,7 @@ class ClientService:
         try:
             self.connection.send_message(message.serialize())            
             if ProtocolMessagesTyeps.SNAPSHOT_MESSAGE == message_type:
-                self.total_snapshots_uploaded   += 1
+                self._total_snapshots_uploaded   += 1
         except Exception as e:                
             logger.error(f'error while sending message type {message_type} : {e}')            
             self._is_valid_connection = False            
@@ -92,6 +92,7 @@ class ClientService:
                 self.connection      =      connection
                 # Sending hello message
                 user_information     =      sample_reader.user_information
+                self._user_id        =      user_information.user_id
                 self.send_message(ProtocolMessagesTyeps.HELLO_MESSAGE, user_information)
                 if not self._is_valid_connection:
                     return

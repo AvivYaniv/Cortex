@@ -52,6 +52,7 @@ INTEGRATION_FOLDER                      =   '_integration'
 
 # API Results Folder
 API_RESULTS_FOLDER                      =   'results'
+API_RESULTS_EXTENSTION                  =   '.api_results'
 
 # Publisher Consumer Folder
 PUBLISHER_CONSUMER_FOLDER               =   'publisher_consumer'
@@ -92,6 +93,7 @@ DEFAULT_PROCCESS_DURATION               =   1
 DEFAULT_JOIN_DURATION                   =   2
 DEFAULT_INITIALIZATION_DURATION         =   5
 DEFAULT_SHUTDOWN_DURATION               =   5
+DEFAULT_END_TO_END_DURATION             =   5
 
 # CI/CD
 CI_CD_TEST_ENVIRONMENT                  =   'TRAVIS'
@@ -159,7 +161,6 @@ def get_message_queue_mesages_file_path(                                    \
                                         ), 
                             file_suffix + MESSAGE_QUEUE_MESSAGE_EXTENSTION))
 
-
-def get_api_results_folder(user_id):
-    return str(pathlib.Path(project_root(), TESTS_FOLDER, INTEGRATION_FOLDER, API_RESULTS_FOLDER, INTEGRATION_FOLDER))
+def get_api_results_file_path(user_id):
+    return str(pathlib.Path(project_root(), TESTS_FOLDER, INTEGRATION_FOLDER, API_RESULTS_FOLDER, f'{user_id}{API_RESULTS_EXTENSTION}'))
     

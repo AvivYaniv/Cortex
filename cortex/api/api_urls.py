@@ -12,17 +12,17 @@ API_VERSION                                 =           'v1.0'
 API_PREFIX                                  =           f'/api/{API_VERSION}/'
 
 # API URLs
-API_URL_FORMAT_GET_ALL_USERS                =           f'users'                                                           
-API_URL_FORMAT_GET_USER                     =           f'users/%user_id%'                                                 
+API_URL_FORMAT_GET_ALL_USERS                =           'users'                                                           
+API_URL_FORMAT_GET_USER                     =           'users/%user_id%'                                                 
 # Snapshot API Section
-API_URL_FORMAT_GET_ALL_USER_SNAPSHOTS       =           f'users/%user_id%/snapshots'                          
-API_URL_FORMAT_GET_USER_SNAPSHOT            =           f'users/%user_id%/snapshots/%snapshot_uuid%'     
+API_URL_FORMAT_GET_ALL_USER_SNAPSHOTS       =           'users/%user_id%/snapshots'                          
+API_URL_FORMAT_GET_USER_SNAPSHOT            =           'users/%user_id%/snapshots/%snapshot_uuid%'     
 # Result API Section
-API_URL_FORMAT_GET_RESULT                   =           f'users/%user_id%/snapshots/%snapshot_uuid%/%result_name%'
-API_URL_FORMAT_GET_RESULT_DATA              =           f'users/%user_id%/snapshots/%snapshot_uuid%/%result_name%/data'
+API_URL_FORMAT_GET_RESULT                   =           'users/%user_id%/snapshots/%snapshot_uuid%/%result_name%'
+API_URL_FORMAT_GET_RESULT_DATA              =           'users/%user_id%/snapshots/%snapshot_uuid%/%result_name%/data'
 # Snapshot results API Section
-API_URL_FORMAT_GET_SNAPSHOT_RESULTS         =           f'users/%user_id%/snapshots/%snapshot_uuid%/results'
-API_URL_FORMAT_GET_ALL_USER_RESULTS         =           f'users/%user_id%/results'
+API_URL_FORMAT_GET_SNAPSHOT_RESULTS         =           'users/%user_id%/snapshots/%snapshot_uuid%/results'
+API_URL_FORMAT_GET_ALL_USER_RESULTS         =           'users/%user_id%/results'
 
 # Embedding Dictionaries Section
 DICT_ARGUNETS = {                                               \
