@@ -123,10 +123,10 @@ def test_integration():
     client_sent_snapshots_counter   = Value('i', 0)
     # Creating shared-memory value to get sent user id
     client_sent_user_id             = Value('i', 0)
-    def run_server_service():
+    def run_server_process():
         run_server_service(host=SERVER_TEST_HOST, port=DEFAULT_PORT, message_queue_host=MESSAGE_QUEUE_TEST_HOST)
     # Spawn process for server thread
-    server_proccess = multiprocessing.Process(target=run_server_service)
+    server_proccess = multiprocessing.Process(target=run_server_process)
     server_proccess.start()    
     # Spawn process for client thread and kill it upon finishing
     client_proccess = multiprocessing.Process(target=run_client_service, args=[client_sent_snapshots_counter, None, client_sent_user_id])
