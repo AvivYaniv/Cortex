@@ -108,10 +108,10 @@ def assert_integration_success(user_id):
 @change_direcoty_to_project_root()
 def test_integration():
     micro_services_proceess = []
+    # Running MessageQueue
+    micro_services_proceess.append(run_messagequeue_proceess())    
     # If not on CI - Travis already configured to have database and message-queue
     if not is_on_ci_environment():
-        # Running MessageQueue
-        micro_services_proceess.append(run_messagequeue_proceess())    
         # Running DataBase
         micro_services_proceess.append(run_database_proceess())
     # Running saver process
