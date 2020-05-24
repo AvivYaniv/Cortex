@@ -9,8 +9,9 @@ env:
 script:
   - pytest --cov-report term --cov=cortex
 addons:
-  packages:
-    - rabbitmq-server
+  apt:
+    packages:
+      - rabbitmq-server
 services:
   - mongodb
   - rabbitmq
