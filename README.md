@@ -745,7 +745,8 @@ EXAMPLE! Take a look at [multiline_graph.js](https://github.com/AvivYaniv/Cortex
 The Cortex project includes tests for the modules, which is built to be extensive and resilliant, and utilizes testing framework to reduce [boilerplate code](https://en.wikipedia.org/wiki/Boilerplate_code). <br/>
 Tests are integrated with [Travis CI](https://travis-ci.org/) for [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration) and [CodeCov](https://codecov.io/) for [code coverage](https://en.wikipedia.org/wiki/Code_coverage) tracking. <br/>
 
-Testing package includes [integration testing](https://en.wikipedia.org/wiki/Integration_testing) that is achived by the synergetic combination of testing of [message-queue validity](https://github.com/AvivYaniv/Cortex/blob/master/tests/publisher_consumer/test_message_queue_configuration.py) and micro-services messages production and handling correctness, thus enabling to detect faults in either of these. <br/>
+Testing package includes [integration testing](https://en.wikipedia.org/wiki/Integration_testing) which tests validity and correctness end-to-end from upload to API results.
+Besides, integration testing is achived - in another way - by the synergetic combination of testing of [message-queue validity](https://github.com/AvivYaniv/Cortex/blob/master/tests/publisher_consumer/test_message_queue_configuration.py) and micro-services messages production and handling correctness, thus enabling to detect faults in either of these. <br/>
 
 Micro-services testing includes black-box testing, that would remain valid in case of inner-implementation changes. <br/>
 
