@@ -38,6 +38,8 @@ from cortex.saver.saver_service import SaverService
 
 from tests.test_constants import get_api_results_file_path
 
+from tests.test_constants import is_on_ci_environment
+
 from tests.test_constants import PARSER_TYPES
 from tests.test_constants import DEFAULT_END_TO_END_DURATION
 from tests.test_constants import DEFAULT_INITIALIZATION_DURATION
@@ -93,10 +95,12 @@ def assert_integration_success(user_id):
 @change_direcoty_to_project_root()
 def test_integration():
     micro_services_proceess = []
-    # Running MessageQueue
-    micro_services_proceess.append(run_messagequeue_proceess())    
-    # Running DataBase
-    micro_services_proceess.append(run_database_proceess())
+    # If not on CI - Travis already configured to have database and message-queue
+    if not is_on_ci_environment():
+        # Running MessageQueue
+        micro_services_proceess.append(run_messagequeue_proceess())    
+        # Running DataBase
+        micro_services_proceess.append(run_database_proceess())
     # Running saver process
     micro_services_proceess.append(run_saver_proceess())
     # Running parsers
