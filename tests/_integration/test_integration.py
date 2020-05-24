@@ -54,6 +54,7 @@ from cortex.api.api_urls import DEFAULT_API_HOSTNAME
 
 from cortex.api.api_server import run_api
 
+from cortex.api.api_urls import DEFAULT_API_PORT
 
 from cortex.utils import change_direcoty_to_project_root
 
@@ -99,10 +100,11 @@ def assert_integration_success(user_id):
     user_id                     = str(user_id)
     api_results_file_path       = get_api_results_file_path(user_id)
     user_api_results_expected   = _FileHandler.read_file(api_results_file_path)
-    api_url                     = get_custom_api_url(API_URL_FORMAT_GET_ALL_USER_RESULTS, { '%user_id%' : user_id }, host=DEFAULT_API_HOSTNAME)
+    api_url                     = get_custom_api_url(API_URL_FORMAT_GET_ALL_USER_RESULTS, { '%user_id%' : user_id }, host=f'http://{API_TEST_HOST}:{DEFAULT_API_PORT}')
     user_api_results_actual     = requests.get(api_url).text
     assert user_api_results_expected == user_api_results_actual
-
+    
+@delete_server_user_folder_before_and_after()
 @change_direcoty_to_project_root()
 def test_integration():
     micro_services_proceess = []
