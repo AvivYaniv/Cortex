@@ -212,9 +212,9 @@ Saver subscribes to all the relevant topics it is capable of consuming and savin
     >>> from cortex.saver import Saver
     >>> saver = Saver(database_url)
     >>> data = …
-    >>> saver.save('pose', data)
+    >>> saver.save(data)
     ```
-    Which connects to a database, accepts a topic name and some data, as consumed from the message queue, and saves it to the database.
+    Which connects to a database, accepts data, as consumed from the message queue, and saves it to the database.
 2. CLI:
     ```sh
     $ python -m cortex.saver save                   \
