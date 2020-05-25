@@ -3,7 +3,7 @@ Cortex Client Reference
 
 The client is available as ``cortex.client``. 
 
-Client used to upload a
+Client used to upload an
 ``mind`` file to server, which is a presentation of telemetry snapshots.
 
 
