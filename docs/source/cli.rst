@@ -1,56 +1,60 @@
-Brain Computer Interface CLI Reference
+Cortex CLI Reference
 ======================================
 
-The `Cortex` package provides a command-line interface:
+The CLI is available as ``cortex.cli``. 
 
-.. code:: bash
+The CLI questions the API server
+and reflects the results.
 
-    $ python -m cortex
-    ...
+The CLI supports the following commands: 
 
-The top-level options include:
+1.
 
-- ``-q``, ``--quiet``
+.. code:: sh
 
-    This option suppresses the output.
+    $ python -m cortex.cli get-users
 
-- ``-t``, ``--traceback``
+Returns the list of all the supported users, including their IDs and
+names only.
 
-    This option shows the full traceback when an exception is raised (by
-    default, only the error message is printed, and the program exits with a
-    non-zero code).
+2.
 
-To see its version, run:
+.. code:: sh
 
-.. code:: bash
+    $ python -m cortex.cli get-user <user-id>
 
-    $ python -m cortex --version
-    Cortex, version 0.1.0
-    ...
-    
-The CLI provides the `run-server` command:
-	This command starts a server to which thoughts can be uploaded to with the `upload_thought` command
-	<br/>Usage: run-server [address] [data_dir]
+Returns the specified user's details: ID, name, birthday and gender.
 
-.. code:: bash
+3.
 
-	    $ python -m cortex run-server '127.0.0.1:8000' 'data'
-    ...
+.. code:: sh
 
-The CLI further provides the `run-webserver` command:
-	This command starts a server to which shows users thoughts
-	<br/>Usage: run-webserver [address] [data_dir]
+    $ python -m cortex.cli get-snapshots <user-id>
 
-.. code:: bash
+Returns the list of the specified user's snapshot IDs and datetimes only.
 
-    $ python -m cortex run-webserver '127.0.0.1:8000' 'data'
-    ...
+4.
 
-The CLI further provides the `upload-thought` command:
-	This command sends to the server user's thought
-	<br/>Usage: upload-thought [address] [user_id] [thought]
+.. code:: sh
 
-.. code:: bash
+    $ python -m cortex.cli get-snapshot <user-id> <snapshot-id>
 
-    $ python -m cortex run-webserver '127.0.0.1:8000' 123 'sabich'
-    ...
+Returns the specified snapshot's details: ID, datetime, and the
+available results' names only (e.g. pose).
+
+
+5.
+
+.. code:: sh
+
+    $ python -m cortex.cli get-result <user-id> <snapshot-id> <result-name>
+
+ Returns the specified snapshot's result. Supports: [pose, color-image,
+depth-image, feelings]. 
+
+
+All commands should accept the -h/--host and
+-p/--port flags to configure the host and port, but default to the API's
+address. The get-result command should also accept the -s/--save flag
+that, if specified, receives a path, and saves the result's data to that
+path.
