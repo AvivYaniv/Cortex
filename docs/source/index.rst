@@ -17,7 +17,7 @@ Welcome to Cortex's documentation!
    Parsers
    Saver
    API
-   gui
+   GUI
    CLI
 
 
