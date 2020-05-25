@@ -10,8 +10,15 @@ Welcome to Cortex's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   api
-   cli
+
+
+   Client
+   Server
+   Parsers
+   Saver
+   API
+   gui
+   CLI
 
 
 
