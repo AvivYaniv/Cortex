@@ -122,7 +122,7 @@ NOTE! During that process, micro-services that use the database and message-queu
 ## 3. Modules
 ### 3.1. Client
 The client is available as `cortex.client`. <br/>
-Client used to upload a `mind` file to server, which is a presentation of telemetry snapshots. <br/>
+Client used to upload an `mind` file to server, which is a presentation of telemetry snapshots. <br/>
 1. API:
     ```python
     >>> from cortex.client import upload_sample
