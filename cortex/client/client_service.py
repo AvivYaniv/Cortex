@@ -31,7 +31,12 @@ protocol = Protocol()
 class ClientService:
     # Constructor Section
     def __init__(self, host='', port=''):
-        """Sends to the server user's sample file"""
+        """
+        Initializes a client service.
+    
+        :param host: The server host, if empty - default will be selected.
+        :param host: The server port, if empty - default will be selected.            
+        """
         # Default parameter resolution
         self._total_snapshots_uploaded  = 0
         self.server_ip_str              = host if host else DEFAULT_HOST
@@ -40,13 +45,32 @@ class ClientService:
     # Output messages
     @staticmethod
     def get_file_not_found_message(file_path):
+        """
+        Returns formatted file not found message.
+    
+        :param file_path: The file not found path, to be formatted in message.    
+        """
         return FILE_NOT_FOUND_MESSAGE_FORMAT % ( file_path )
     # Message Creation
     @staticmethod
     def create_message(message_type, *args, **kwargs):
+        """
+        Creates a message, of `client-server protocol <https://github.com/AvivYaniv/Cortex/blob/master/README.md#513-client-server-protocol>`_.
+    
+        :param message_type: The message type, according to the protocol.
+        :param args: Arguments to create message.
+        :param kwargs: Key-value arguments to create message.            
+        """
         return protocol.get_message(message_type)(*args, **kwargs)
     
     def send_message(self, message_type, *args, **kwargs):
+        """
+        Sends a message to server.
+    
+        :param message_type: The message type to send, from `client-server protocol <https://github.com/AvivYaniv/Cortex/blob/master/README.md#513-client-server-protocol>`_ messages.
+        :param args: Arguments to create message.
+        :param kwargs: Key-value arguments to create message.        
+        """
         message = ClientService.create_message(message_type, *args, **kwargs)
         try:
             self.connection.send_message(message.serialize())            
@@ -58,6 +82,11 @@ class ClientService:
  
     # Receives configuration message from server
     def receive_message(self, message_type):
+        """
+        Receives a message from server.
+    
+        :param message_type: The message type to receive, from `client-server protocol <https://github.com/AvivYaniv/Cortex/blob/master/README.md#513-client-server-protocol>`_ messages.              
+        """
         try:
             message_bytes               = self.connection.receive_message()
         except Exception as e:
@@ -74,6 +103,12 @@ class ClientService:
     
     # Uploads a mind file to server    
     def upload_sample(self, file_path='', version=''):
+        """
+        Uplads a `mind` file to server.
+    
+        :param file_path: The `mind` file path to be uploaded.
+        :param version: The `mind` file `version <https://github.com/AvivYaniv/Cortex/blob/master/README.md#512-mind-file-formats>`_.              
+        """
         file_path       = file_path if file_path else DEFAULT_FILE_PATH
         version         = version if version else DEFAULT_FILE_VERSION
         # Logging initialization
