@@ -62,8 +62,12 @@ be stored to disk, and only the metadata published.
  Collects the feelings the user was experiencing at any timestamp, and
 publishes the result to a dedicated topic.
 
-Functions:
+API Functions:
 
 .. function:: run_parser(<parser_type>, data)
 
     Which accepts a parser name and a path to some raw data, as consumed from the message queue, and prints the result, as published to the message queue (optionally redirecting it to a file). This way of invocation runs the parser exactly once.
+
+Parser Service: 
+
+.. autoclass:: cortex.parsers.parser_service.ParserService

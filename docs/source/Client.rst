@@ -39,11 +39,13 @@ exit graciously.
 connect for few times, and then exit if failed to connect.
 
 
-Functions:
+API Functions:
 
 .. function:: upload_sample(host='127.0.0.1', port=8000, path='sample.mind.gz')
 
     Uploads an `mind` file to the specified server.
+
+
 Client Service: 
 
 .. autoclass:: cortex.client.client_service.ClientService

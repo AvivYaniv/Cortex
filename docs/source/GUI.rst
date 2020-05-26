@@ -22,3 +22,8 @@ Pages:
 
 
 🥚 Easter Egg : Follow the breadcrumbs hints, start from hovering the logo.
+	
+	
+GUI Server: 
+
+.. automodule:: cortex.gui.gui_server

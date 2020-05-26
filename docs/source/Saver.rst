@@ -45,8 +45,13 @@ indefinitely; the saver subscribes to all the relevant topics it is
 capable of consuming and saving them to the database.
 
 
-Functions:
+API Functions:
 
 .. function:: Saver.save(data)
 
     Which connects to a database, accepts data, as consumed from the message queue, and saves it to the database.
+	
+	
+Saver Service: 
+
+.. autoclass:: cortex.saver.saver_service.SaverService

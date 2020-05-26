@@ -44,9 +44,13 @@ any of the snapshots that have already been handled.
 
 
 
-Functions:
+API Functions:
 
 .. function:: run_server(host='127.0.0.1', port=8000, publish=print_message)
 
     Listen on host:port and pass received messages to publish.
+
+Server Service: 
+
+.. autoclass:: cortex.server.server_service.ServerService
 

@@ -25,6 +25,12 @@ logger_loader.load_log_config()
 app     = Flask(__name__, static_url_path='', static_folder=GUI_CLIENT_FOLDER, template_folder=GUI_CLIENT_FOLDER)
 
 def read_client_file(fname, folder=GUI_CLIENT_FOLDER):
+    """
+    Reads a file content to be sent to client.
+
+    :param fname: File name to be read.
+    :param folder: Folder to which file belongs to, if not specified - default will be selected.
+    """
     file_path = Path(folder, fname)
     file_exists = Path(file_path).is_file()
     if not file_exists:
@@ -35,6 +41,9 @@ def read_client_file(fname, folder=GUI_CLIENT_FOLDER):
     return file_content
 
 def gui_serever():
+    """
+    Handles requests to GUI server using Flask.    
+    """
     def embed_data_in_page(page, **kwargs):
         embedded_page = page
         for key, value in kwargs.items():
