@@ -104,6 +104,9 @@ def gui_serever():
         embedded_snapshots  = embed_data_in_snapshots(raw_snapshots, user_id)
         return embedded_snapshots, 200        
 
+def run_server(host='', port='', api_host='', api_port=''):
+    run_gui_server(host, port, api_host, api_port)
+    
 def run_gui_server(host='', port='', api_host='', api_port=''):
     """Starts an GUI server of which users and snapshots can be served to client side in convenient way"""
     gui_serever()
