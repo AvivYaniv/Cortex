@@ -231,6 +231,8 @@ Saver subscribes to all the relevant topics it is capable of consuming and savin
     Which runs the saver as a service, which works with a message queue indefinitely; the saver subscribes to all the relevant topics it is capable of consuming and saving them to the database. <br/>
 <br/>
 
+You can add saver as a micro-service, by adding it to the [docker-compose.yml](https://github.com/AvivYaniv/Cortex/blob/master/docker-compose.yml) file, by creating a new entry of saver. For more information please refer [How to add new micro-service](https://github.com/AvivYaniv/Cortex/blob/master/README.md#722-how-to-add-new-micro-service) in this document. <br/>
+
 ### 3.5. API
 The API is available as `cortex.api`. <br/>
 
@@ -595,7 +597,7 @@ EXAMPLE! Take a look at [`ColorImageParser`](https://github.com/AvivYaniv/Cortex
 
 <br/>
 
-You can parser as a micro-service, by adding it to the [docker-compose.yml](https://github.com/AvivYaniv/Cortex/blob/master/docker-compose.yml) file, and defining the `RUN` environment variable to `PARSERS` and `PARSER` environment variable to `<your_parser_field_name>`. For more information please refer [How to add new micro-service](https://github.com/AvivYaniv/Cortex/blob/master/README.md#722-how-to-add-new-micro-service) in this document. <br/>
+You can add a parser as a micro-service, by adding it to the [docker-compose.yml](https://github.com/AvivYaniv/Cortex/blob/master/docker-compose.yml) file, and defining the `RUN` environment variable to `PARSERS` and `PARSER` environment variable to `<your_parser_field_name>`. You can configure saver to handle new parser results easily, by adding an appropriate entry in the docker-compose configuration file. For more information please refer [How to add new micro-service](https://github.com/AvivYaniv/Cortex/blob/master/README.md#722-how-to-add-new-micro-service) in this document. <br/>
 
 <br/>
 
