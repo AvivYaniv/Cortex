@@ -1,7 +1,7 @@
 
 import pytest
 
-from cortex.parsers.parser import MessageParser
+from cortex.parsers.message_parser import MessageParser
 
 from cortex.server.server_service import ServerService
 from cortex.parsers.parser_service import ParserService

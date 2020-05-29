@@ -5,7 +5,7 @@ import click
 import cortex.parsers
 
 from cortex.parsers.parser import run_parser
-from cortex.parsers.parser import MessageParser
+from cortex.parsers.message_parser import MessageParser
 
 import logging
 from cortex.logger import _LoggerLoader

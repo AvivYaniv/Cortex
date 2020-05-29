@@ -15,11 +15,18 @@ class Saver:
     def get_database(self):
         return self.saver_service.saver_messges_handler._database
     
+    def save_message(self, message_data):
+        return self.saver_service.handle_message(message_data)
+    
     def save(self, message_path):
         result, message = _FileHandler.safe_read_file(message_path)
         if not result:
             return message
-        return self.saver_service.handle_message(message)
+        return self.save_message(message)
+
+def save(message):
+    saver = Saver()
+    return saver.save(message)
 
 def run_saver(db_url=None, mq_url=None):
     """Starts a saver to which snapshots can be uploaded with `upload_sample`"""  

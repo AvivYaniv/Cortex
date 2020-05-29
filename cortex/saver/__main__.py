@@ -21,12 +21,12 @@ def main():
 @main.command()
 @click.option('-d', '--database', default='')
 @click.argument('message', type=str)
-def saver(db_url, message):
+def saver(database, message):
     """
     Invokes saver to save a message as retrieved from a message queue
     """
-    saver = cortex.saver.saver.Saver(db_url)
-    saver.save(message)
+    saver = cortex.saver.saver.Saver(database)
+    return saver.save(message)
 
 @main.command()
 @click.option('-d', '--database', default='')
