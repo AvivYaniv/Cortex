@@ -57,6 +57,10 @@ services:
     # Path of Dockerfile
     build: 
       context: .
+      
+    # IMPORTANT! Image not specified to ensure generics and light weightness;
+    # to make sure only one place is controlling database type - 
+    # it's being installed based on installtion file configured by environment variable
 
     # Container can access to the 'localhost' of the computer.
     network_mode: host
