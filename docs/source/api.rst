@@ -29,7 +29,7 @@ URLs <https://github.com/AvivYaniv/Cortex/blob/master/README.md#552-api-urls>`_.
 
 1. API:
 
-.. code-block::
+::
 
   >>> from cortex.api import run_api_server
   >>> run_api_server(
@@ -41,7 +41,7 @@ URLs <https://github.com/AvivYaniv/Cortex/blob/master/README.md#552-api-urls>`_.
 
 2. CLI:
 
-.. code-block::
+::
 
   $ python -m cortex.api run-server             \
   	-h/--host '127.0.0.1'                   \

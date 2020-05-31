@@ -9,7 +9,7 @@ message queue.
 
 1. API:
 
-.. code-block::
+::
 
   
   >>> from cortex.server import run_server     
@@ -21,7 +21,7 @@ message queue.
 
 2. CLI:
 
-.. code-block::
+::
 
   $ python -m cortex.server run-server    \
   -h/--host '127.0.0.1'                   \

@@ -12,7 +12,7 @@ INFO: Parsers can be added easily as decribed in `Adding Parsers <https://github
 
 1. API:
 
-.. code-block::
+::
 
   >>> from cortex.parsers import run_parser     
   >>> data = …      
@@ -24,13 +24,13 @@ queue.
 
 2. CLI:
 
-.. code-block::
+::
 
   $ python -m cortex.parsers parse 'pose' 'snapshot.raw' > 'pose.result' 
 
 Which accepts a parser name and a path to some raw data, as consumed from the message queue, and prints the result, as published to the message queue (optionally redirecting it to a file). This way of invocation runs the parser exactly once.
 
-.. code-block::
+::
 
   $ python -m cortex.parsers run-parser 'pose' 'rabbitmq://127.0.0.1:5672/'
 

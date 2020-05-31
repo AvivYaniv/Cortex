@@ -9,7 +9,7 @@ Saver subscribes to all the relevant topics it is capable of consuming and savin
 
 1. API:
 
-.. code-block::
+::
 
   >>> from cortex.saver import Saver     
   >>> saver = Saver(database_url)     
@@ -22,7 +22,7 @@ Which connects to a database, accepts data, as consumed from the message queue, 
 
 2. CLI:
 
-.. code-block::
+::
 
   $ python -m cortex.saver save                   \
   -d/--database 'postgresql://127.0.0.1:5432'     \
@@ -33,7 +33,7 @@ Which accepts a topic name and a path to some raw data, as consumed from
 the message queue, and saves it to a database. This way of invocation
 runs the saver exactly once.
 
-.. code-block::
+::
 
   $ python -m cortex.saver run-saver              \
   'postgresql://127.0.0.1:5432'                   \

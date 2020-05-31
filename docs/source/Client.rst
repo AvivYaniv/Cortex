@@ -9,7 +9,7 @@ Client used to upload an
 
 1. API:
 
-.. code-block::
+::
 
   >>> from cortex.client import upload_sample     
   >>> upload_sample(host='127.0.0.1', port=8000, path='sample.mind.gz')     
@@ -18,7 +18,7 @@ Client used to upload an
 
 2. CLI:
 
-.. code-block::
+::
 
   $ python -m cortex.client upload-sample    \
   -h/--host '127.0.0.1'                      \
