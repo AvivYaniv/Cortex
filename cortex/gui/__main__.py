@@ -4,7 +4,7 @@ import click
 
 import cortex.gui
 
-from cortex.gui.gui_server import run_gui_server  
+from cortex.gui.gui_server import run_server  
 
 import logging
 from cortex.logger import _LoggerLoader
@@ -29,7 +29,7 @@ def run_server(host, port, api_host, api_port):
     """
     Runs GUI server
     """
-    run_gui_server(host, port, api_host, api_port)
+    run_server(host, port, api_host, api_port)
 
 if __name__ == '__main__':
     try:
