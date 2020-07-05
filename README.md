@@ -1,3 +1,4 @@
+![HitCount](http://hits.dwyl.com/AvivYaniv/Cortex.svg)
 ![build status](https://api.travis-ci.com/AvivYaniv/Cortex.svg?branch=master)
 ![coverage](https://codecov.io/gh/AvivYaniv/Cortex/branch/master/graph/badge.svg)
 ![docs](https://readthedocs.org/projects/braincomputerinterface/badge/?version=latest)
