@@ -1,7 +1,8 @@
-![HitCount](http://hits.dwyl.com/AvivYaniv/Cortex.svg)
+![visitors](https://visitor-badge.glitch.me/badge?page_id=AvivYaniv.Cortex.issue.1) <br/>
 ![build status](https://api.travis-ci.com/AvivYaniv/Cortex.svg?branch=master)
 ![coverage](https://codecov.io/gh/AvivYaniv/Cortex/branch/master/graph/badge.svg)
 ![docs](https://readthedocs.org/projects/braincomputerinterface/badge/?version=latest)
+[![HitCount](http://hits.dwyl.com/AvivYaniv/Cortex.svg)](http://hits.dwyl.com/AvivYaniv/Cortex) <br/>
 
 # Cortex
 
